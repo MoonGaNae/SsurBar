@@ -126,7 +126,7 @@ https://lab.ssafy.com/s05-final/S05P31F005/-/tree/master/docs/%EB%A9%98%ED%86%A0
 <br><br>
 
 ### 📢 팀 소개
-![image](/uploads/7ef0aaf897ebc7c31eac2cae7091721a/image.png)
+![image](/uploads/77f563d7f0e551b1078d479663820ffc/image.png)
 [🔗 노션 링크](https://www.notion.so/7ca9c079a57c44acb4a2926fd1ea218b)
 
 <br><br>
