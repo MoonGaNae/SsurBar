@@ -24,6 +24,7 @@
    - [📑 목업](#-목업)
    - [📑 기능명세서](#-기능명세서)
    - [📑 스토리보드](#-스토리보드)
+   - [📑 멘토링](#-멘토링)
    - [📑 팀 소개](#-팀-소개)
      <br>
 <br><br>
@@ -107,6 +108,9 @@ https://www.figma.com/file/K6bO4JZOLAtoZkXMrfGnvI/%EA%B8%B0%EC%97%85%EC%97%B0%EA
 https://www.figma.com/file/A3bdz10b9lIgVysqhM6w07/%EC%82%B0%EC%B1%85?node-id=112%3A445
 <br><br>
 
+### 🙌 멘토링
+https://lab.ssafy.com/s05-final/S05P31F005/-/tree/master/docs/%EB%A9%98%ED%86%A0%EB%A7%81
+<br><br>
 
 ### 📢 팀 소개
 ![image](/uploads/7ef0aaf897ebc7c31eac2cae7091721a/image.png)
