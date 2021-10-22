@@ -84,31 +84,44 @@
 <br><br>
 
 ### 💎 기능명세서
+
+![image](/uploads/d41601b5e31513dd76196101dc468239/image.png)
+
 https://docs.google.com/spreadsheets/d/1EWhW19g2spP30Q2yUSbq1GYBjWtOHhR2NHKgYrmg_Yk/edit#gid=0
 
 <br><br>
 
 ### 📖 와이어프레임
+
+![image](/uploads/f3445d1c9c257ee95c316f404c5ce56f/image.png)
+
 https://www.figma.com/file/K6bO4JZOLAtoZkXMrfGnvI/%EA%B8%B0%EC%97%85%EC%97%B0%EA%B3%84?node-id=0%3A1
 
 <br><br>
 
 ### 📌 ERD Diagram
+
 ![image](/uploads/35682ee09500fb45003f92485c07495e/image.png)
+
 https://www.erdcloud.com/d/pWYeAFyPAHfEf5vTu
 
 <br><br>
 
 
 ### 🎨 목업
+
+![image](/uploads/c8c21da3f4c2ce471175d5547f6a91e7/image.png)
+
 https://www.figma.com/file/K6bO4JZOLAtoZkXMrfGnvI/%EA%B8%B0%EC%97%85%EC%97%B0%EA%B3%84?node-id=3%3A2
 <br><br>
 
 ### 🎬 스토리보드
-https://www.figma.com/file/A3bdz10b9lIgVysqhM6w07/%EC%82%B0%EC%B1%85?node-id=112%3A445
+
+https://lab.ssafy.com/s05-final/S05P31F005/-/blob/master/docs/Storyboard/%EC%8A%A4%ED%86%A0%EB%A6%AC%EB%B3%B4%EB%93%9C.pdf
 <br><br>
 
 ### 🙌 멘토링
+
 https://lab.ssafy.com/s05-final/S05P31F005/-/tree/master/docs/%EB%A9%98%ED%86%A0%EB%A7%81
 <br><br>
 
