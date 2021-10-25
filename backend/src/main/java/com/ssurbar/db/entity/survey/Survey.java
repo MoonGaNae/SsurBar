@@ -17,7 +17,7 @@ import java.util.List;
 public class Survey implements Serializable {
 
     @Id
-    private String serveyId;
+    private String surveyId;
 
     private Date creationTime;
 

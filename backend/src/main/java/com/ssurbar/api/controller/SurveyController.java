@@ -1,10 +1,12 @@
 package com.ssurbar.api.controller;
 
+import com.ssurbar.api.service.SurveyService;
 import com.ssurbar.common.model.response.BaseResponseBody;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +23,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/survey")
 public class SurveyController {
 
+    @Autowired
+    SurveyService surveyService;
+
     @PostMapping()
     @ApiOperation(value = "설문 생성", notes = "새로운 설문지를 생성한다.")
     @ApiResponses({
@@ -30,6 +35,7 @@ public class SurveyController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<BaseResponseBody> createNewSurvey(){
+
         return null;
     }
 
