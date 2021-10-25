@@ -52,4 +52,6 @@ public class User extends BaseEntity {
         this.joinDate = LocalDateTime.now();
     }
 
+    //사용자의 가입을 승인했을 때 메소드
+
 }
