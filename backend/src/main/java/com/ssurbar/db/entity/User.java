@@ -4,7 +4,7 @@ package com.ssurbar.db.entity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -19,6 +19,7 @@ import java.util.Random;
 @NoArgsConstructor
 public class User extends BaseEntity {
 
+
     private String password;
     private String email;
 
@@ -31,14 +32,11 @@ public class User extends BaseEntity {
     @Column(name="employee_number")
     private LocalDateTime joinDate;
 
-    @Id
-    private Long id;
-
     @Builder
-    public User(String password, String email, String userType){
+    public User(String password, String email, String employeeNumber, String userType){
         int leftLimit = 48; // numeral '0'
         int rightLimit = 122; // letter 'z'
-        int targetStringLength = 10;
+        int targetStringLength = 13;
         Random random = new Random();
 
         String generatedString = random.ints(leftLimit,rightLimit + 1)
@@ -46,10 +44,10 @@ public class User extends BaseEntity {
                 .limit(targetStringLength)
                 .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
                 .toString();
-
+        this.id = generatedString;
         this.password = password;
         this.email = email;
-        this.employeeNumber = generatedString;
+        this.employeeNumber = employeeNumber;
         this.userType = userType;
         this.joinDate = LocalDateTime.now();
     }

@@ -2,7 +2,6 @@ package com.ssurbar.db.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
 
 import javax.persistence.*;
 
@@ -14,6 +13,5 @@ import javax.persistence.*;
 @MappedSuperclass
 public class BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id = null;
+    String id = null;
 }
