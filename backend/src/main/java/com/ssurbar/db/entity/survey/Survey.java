@@ -28,5 +28,7 @@ public class Survey implements Serializable {
     @OneToMany(mappedBy = "servey")
     private List<QuestionAnswer> questionAnswers = new ArrayList<>();
 
+    @OneToMany(mappedBy = "servey")
+    private List<SurveyTarget> surveyTargets = new ArrayList<>();
 
 }
