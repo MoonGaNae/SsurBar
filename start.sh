@@ -1,1 +1,1 @@
-vi test.txt
+touch test.txt
