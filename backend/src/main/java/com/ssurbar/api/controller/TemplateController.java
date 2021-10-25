@@ -39,7 +39,7 @@ public class TemplateController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<BaseResponseBody> createQuestions(@PathVariable("templateId") String id){
+    public ResponseEntity<BaseResponseBody> createQuestions(@PathVariable("templateId") String templateId){
         return null;
     }
 
@@ -51,7 +51,7 @@ public class TemplateController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<BaseResponseBody> createFilters(@PathVariable("templateId") String id){
+    public ResponseEntity<BaseResponseBody> createFilters(@PathVariable("templateId") String templateId){
         return null;
     }
 
