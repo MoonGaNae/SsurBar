@@ -22,6 +22,11 @@ public class BaseResponseBody {
         this.statusCode = statusCode;
     }
 
+    public BaseResponseBody(String messgae){
+        this.message = message;
+    }
+
+
     public BaseResponseBody(Integer statusCode, String message){
         this.statusCode = statusCode;
         this.message = message;
