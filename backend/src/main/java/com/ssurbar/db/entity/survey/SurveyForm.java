@@ -2,6 +2,7 @@ package com.ssurbar.db.entity.survey;
 
 import com.ssurbar.db.entity.survey.Survey;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Entity
 @Builder
+@NoArgsConstructor
 public class SurveyForm implements Serializable {
 
     @Id
