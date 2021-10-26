@@ -21,7 +21,7 @@ public class BaseResponseBody {
     public BaseResponseBody(String messgae){
         this.message = message;
     }
-    
+
     public static BaseResponseBody of(String message) {
         BaseResponseBody body = new BaseResponseBody();
         body.message = message;

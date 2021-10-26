@@ -1,10 +1,11 @@
 package com.ssurbar.api.controller;
 
+import com.ssurbar.api.request.ResponsePostReq;
+import com.ssurbar.api.service.ResponseService;
 import com.ssurbar.common.model.response.BaseResponseBody;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/response")
 public class ResponseController {
 
+    @Autowired
+    ResponseService responseService;
+
     @PostMapping()
     @ApiOperation(value = "응답 저장", notes = "설문에 대한 응답자의 답변을 저장한다.")
     @ApiResponses({
@@ -29,7 +33,9 @@ public class ResponseController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<BaseResponseBody> saveAnswer(){
-        return null;
+    public ResponseEntity<? extends BaseResponseBody> saveAnswer(
+            @RequestBody @ApiParam(value="사용자 응답", required = true) ResponsePostReq responsePostReq){
+        responseService.saveAnswer(responsePostReq);
+        return ResponseEntity.status(200).body(BaseResponseBody.of("사용자 응답이 정상적으로 저장되었습니다."));
     }
 }

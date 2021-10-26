@@ -1,6 +1,8 @@
 package com.ssurbar.db.entity.answer;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -11,7 +13,10 @@ import java.util.List;
 
 @Entity
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class FilterData implements Serializable {
+
     @Id
     private String filterDataId;
     private String response;
