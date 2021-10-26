@@ -1,6 +1,6 @@
 package com.ssurbar.db.entity.survey;
 
-import java.io.Serializable;
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -15,16 +15,13 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class FilterQuestion implements Serializable {
-
-    @Id
-    private String filterQuestionId;
-
-    private String title;
-    private String content;
-    private Integer questionNum;
-
+public class SurveyResponseLog {
+	@Id
+	private String surveyResponseLogId;
+	
+	private LocalDateTime responseTime;
+	
     @ManyToOne
-    @JoinColumn(name = "survey_form_id")
-    private SurveyForm surveyForm;
+    @JoinColumn(name = "survey_target_id")
+	private SurveyTarget sruveyTarget;
 }

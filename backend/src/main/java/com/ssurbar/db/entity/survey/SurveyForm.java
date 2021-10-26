@@ -1,19 +1,21 @@
 package com.ssurbar.db.entity.survey;
 
-import com.ssurbar.db.entity.survey.Survey;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+
 @Entity
 @Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class SurveyForm implements Serializable {
 
     @Id

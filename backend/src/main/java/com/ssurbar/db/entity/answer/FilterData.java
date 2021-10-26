@@ -1,15 +1,20 @@
 package com.ssurbar.db.entity.answer;
 
-import lombok.Builder;
-
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
+@Getter
+@Setter
 @Builder
 public class FilterData implements Serializable {
     @Id

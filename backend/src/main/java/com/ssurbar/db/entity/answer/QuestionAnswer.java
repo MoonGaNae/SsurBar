@@ -1,16 +1,22 @@
 package com.ssurbar.db.entity.answer;
 
-import com.ssurbar.db.entity.survey.Question;
-import com.ssurbar.db.entity.survey.Survey;
-import lombok.Builder;
+import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import java.io.Serializable;
+
+import com.ssurbar.db.entity.survey.Question;
+import com.ssurbar.db.entity.survey.Survey;
+
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 @Builder
 public class QuestionAnswer implements Serializable {
     @Id

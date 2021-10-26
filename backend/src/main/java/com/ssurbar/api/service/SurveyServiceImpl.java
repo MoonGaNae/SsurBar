@@ -5,17 +5,28 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ssurbar.api.request.SurveyCountGetReq;
 import com.ssurbar.api.request.SurveyCreatePostReq;
 import com.ssurbar.common.util.RandomIdUtil;
 import com.ssurbar.db.entity.survey.Survey;
 import com.ssurbar.db.entity.survey.SurveyForm;
+import com.ssurbar.db.entity.survey.SurveyResponseLog;
+import com.ssurbar.db.entity.survey.SurveyTarget;
 import com.ssurbar.db.repository.survey.SurveyRepository;
+import com.ssurbar.db.repository.survey.SurveyResponseLogRepository;
+import com.ssurbar.db.repository.survey.SurveyTargetRepository;
 
 @Service("surveyService")
 public class SurveyServiceImpl implements SurveyService {
 
     @Autowired
     SurveyRepository surveyRepository;
+    
+    @Autowired
+    SurveyTargetRepository surveyTargetRepository;
+    
+    @Autowired
+    SurveyResponseLogRepository surveyResponseLogRepository;
     
     @Autowired
     RandomIdUtil randomIdUtil;
@@ -64,6 +75,28 @@ public class SurveyServiceImpl implements SurveyService {
 		List<Survey> list = surveyRepository.findAll();
 		
 		return list;
+	}
+
+	@Override
+	public int getSurveyResponseCount(String surveyId) {
+		Survey survey = Survey.builder().surveyId(surveyId).build();
+		
+		SurveyTarget surveyTarget = surveyTargetRepository.findBySurveyId(survey);
+		
+		List<SurveyResponseLog> list = surveyResponseLogRepository.findAllBySurveyTargetId(surveyTarget);
+		
+		return list.size();
+	}
+
+	@Override
+	public List<Survey> getMySurveyList(String accessToken) {
+//		String myId = "";
+//		
+//		User user = User.builder().
+//		
+//		List<Survey> list = surveyRepository.findAllByUserId();
+//		
+		return null;
 	}
 
 }
