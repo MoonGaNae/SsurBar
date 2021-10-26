@@ -3,10 +3,13 @@ package com.ssurbar.api.service;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.ssurbar.api.request.ResponsePostReq;
+import com.ssurbar.common.util.RandomIdUtil;
 import com.ssurbar.db.entity.answer.FilterData;
 import com.ssurbar.db.entity.answer.QuestionAnswer;
-import com.ssurbar.db.repository.FilterDataRepository;
-import com.ssurbar.db.repository.QuestionAnswerRepository;
+import com.ssurbar.db.repository.answer.FilterDataRepository;
+import com.ssurbar.db.repository.answer.QuestionAnswerRepository;
+import com.ssurbar.db.repository.survey.QuestionRepository;
+import com.ssurbar.db.repository.survey.SurveyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,19 +24,49 @@ public class ResponseServiceImpl implements ResponseService {
     @Autowired
     QuestionAnswerRepository questionAnswerRepository;
 
+    @Autowired
+    QuestionRepository questionRepository;
+
+    @Autowired
+    SurveyRepository surveyRepository;
+
+    @Autowired
+    RandomIdUtil randomIdUtil;
+
     /* 사용자의 응답을 수집하여 DB에 저장하기 */
     @Override
     public void saveAnswer(ResponsePostReq responsePostReq) {
         String surveyId = responsePostReq.getSurveyId();
         String filterAnswer = responsePostReq.getFilterAnswer();
         List<String> answerList = responsePostReq.getAnswerList();
+        JsonParser jsonParser = new JsonParser();
 
         filterAnswer = responsePostReq.getFilterAnswer();
         answerList = responsePostReq.getAnswerList();
 
-//        FilterData filterData = FilterData.builder().
-//        QuestionAnswer questionAnswer = QuestionAnswer.builder().
-//        questionAnswerRepository.save();
+        FilterData filterData = FilterData.builder()
+                .filterDataId(randomIdUtil.makeRandomId(13))
+                .response(filterAnswer).build();
+
+        for ( String content : answerList ) {
+
+            /**
+             * answer의 형태
+             * { "questionId": String,
+             *  "answer": JSON }
+             */
+
+            JsonElement element = jsonParser.parse(content);
+            String questionId = element.getAsJsonObject().get("questionId").getAsString();
+            String answer = element.getAsJsonObject().get("answer").getAsString();
+
+//            QuestionAnswer questionAnswer = QuestionAnswer.builder()
+//                    .questionAnswerId(randomIdUtil.makeRandomId(13))
+//                    .question(questionRepository.findQuestionByQuestionId(element.getAsJsonObject().get("questionId").getAsString()).get())
+//
+
+        }
+
     }
 
 }

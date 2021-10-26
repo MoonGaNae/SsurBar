@@ -19,6 +19,7 @@ import java.util.Random;
 @NoArgsConstructor
 @AllArgsConstructor
 public class QuestionAnswer implements Serializable {
+
     @Id
     private String questionAnswerId;
     private String response;
