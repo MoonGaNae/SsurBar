@@ -18,10 +18,10 @@ import lombok.NoArgsConstructor;
 public class SurveyResponseLog {
 	@Id
 	private String surveyResponseLogId;
-	
+
 	private LocalDateTime responseTime;
-	
-    @ManyToOne
-    @JoinColumn(name = "survey_target_id")
+
+	@ManyToOne
+	@JoinColumn(name = "survey_target_id")
 	private SurveyTarget surveyTarget;
 }

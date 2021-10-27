@@ -10,14 +10,13 @@ import javax.persistence.ManyToOne;
 import com.ssurbar.survey.db.entity.survey.Question;
 import com.ssurbar.survey.db.entity.survey.Survey;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Getter
-@Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class QuestionAnswer implements Serializable {
     @Id
     private String questionAnswerId;
