@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 @Builder
 public class SurveyListRes extends BaseResponseBody{
-	List<SurveyAnswer> surveyAnswerList;
+	List<SurveyInfo> surveyList;
 	
 
 }
