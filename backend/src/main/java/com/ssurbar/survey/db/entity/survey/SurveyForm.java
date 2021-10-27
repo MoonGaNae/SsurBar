@@ -10,10 +10,12 @@ import javax.persistence.OneToMany;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Builder
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class SurveyForm implements Serializable {
@@ -23,7 +25,7 @@ public class SurveyForm implements Serializable {
 
     private String title;
 
-    private String desc;
+    private String description;
 
     @OneToMany(mappedBy = "surveyForm")
     private List<Survey> surveys = new ArrayList<>();

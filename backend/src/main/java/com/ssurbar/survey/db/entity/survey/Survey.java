@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import com.ssurbar.survey.db.entity.answer.QuestionAnswer;
 
@@ -41,7 +42,8 @@ public class Survey implements Serializable {
     @OneToMany(mappedBy = "survey")
     private List<QuestionAnswer> questionAnswers = new ArrayList<>();
 
-    @OneToMany(mappedBy = "survey")
-    private List<SurveyTarget> surveyTargets = new ArrayList<>();
+    @OneToOne
+    @JoinColumn(name = "survey_target_id")
+    private SurveyTarget surveyTarget;
 
 }
