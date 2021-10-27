@@ -17,6 +17,8 @@ import com.ssurbar.survey.api.request.SurveyCreatePostReq;
 import com.ssurbar.survey.api.response.SurveyAnswer;
 import com.ssurbar.survey.api.response.SurveyAnswerRes;
 import com.ssurbar.survey.api.response.SurveyCountRes;
+import com.ssurbar.survey.api.response.SurveyInfo;
+import com.ssurbar.survey.api.response.SurveyListRes;
 import com.ssurbar.survey.api.service.AnswerService;
 import com.ssurbar.survey.api.service.SurveyService;
 import com.ssurbar.survey.common.model.response.BaseResponseBody;
@@ -53,9 +55,9 @@ public class SurveyController {
     })
     public ResponseEntity<BaseResponseBody> createNewSurvey(SurveyCreatePostReq surveyCreatePostReq){
     	
-    	Survey survey = surveyService.createNewSurvey(surveyCreatePostReq);
+    	boolean isSuccess = surveyService.createNewSurvey(surveyCreatePostReq);
     	
-    	if(survey == null) {
+    	if(!isSuccess) {
     		return ResponseEntity.status(401).body(BaseResponseBody.of("실패"));
     	}
     	
@@ -71,14 +73,16 @@ public class SurveyController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<? extends BaseResponseBody> getAllSurveyList(){
+    	List<SurveyInfo> surveyList = surveyService.getAllSurveyList();
     	
-    	List<Survey> survey = surveyService.getAllSurveyList();
-    	
-    	if(survey == null) {
+    	if(surveyList == null) {
     		return ResponseEntity.status(401).body(BaseResponseBody.of("없음"));
     	}
     	
-        return ResponseEntity.status(200).body(BaseResponseBody.of("성공"));
+    	SurveyListRes res = SurveyListRes.builder().surveyList(surveyList).build();
+    	res.setMessage("성공");
+    	
+        return ResponseEntity.status(200).body(res);
     }
     
 //    @GetMapping()
