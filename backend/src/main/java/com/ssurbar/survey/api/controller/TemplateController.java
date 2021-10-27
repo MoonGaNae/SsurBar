@@ -1,18 +1,14 @@
 package com.ssurbar.survey.api.controller;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
+import com.ssurbar.survey.api.request.TemplatePostReq;
+import com.ssurbar.survey.api.response.TemplatePostRes;
+import com.ssurbar.survey.api.service.TemplateService;
 import com.ssurbar.survey.common.model.response.BaseResponseBody;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 설문지 서식 관련 API 요청 처리를 위한 컨트롤러 정의.
@@ -24,6 +20,9 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/api/v1/template")
 public class TemplateController {
 
+    @Autowired
+    TemplateService templateService;
+
     @PostMapping()
     @ApiOperation(value = "서식 생성", notes = "새로운 설문 서식지를 생성한다.")
     @ApiResponses({
@@ -32,8 +31,18 @@ public class TemplateController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<BaseResponseBody> createNewTemplate(){
-        return null;
+    public ResponseEntity<? extends BaseResponseBody> createNewTemplate(@RequestBody @ApiParam(value="설문 서식생성", required = true) TemplatePostReq templatePostReq){
+
+        String templateId = templateService.createNewTemplate(templatePostReq);
+
+
+        if(templateId == null){
+            return ResponseEntity.status(500).body(BaseResponseBody.of("서버오류"));
+        }
+
+        TemplatePostRes res = TemplatePostRes.builder().templateId(templateId).build();
+        res.setMessage("성공");
+        return ResponseEntity.status(201).body(res);
     }
 
 
