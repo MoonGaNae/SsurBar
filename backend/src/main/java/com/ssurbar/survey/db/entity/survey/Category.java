@@ -25,8 +25,8 @@ public class Category implements Serializable {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "survey_form_id")
-    private SurveyForm surveyForm;
+    @JoinColumn(name = "template_id")
+    private Template template;
 
     @OneToMany(mappedBy = "category")
     private List<Question> questions = new ArrayList<>();

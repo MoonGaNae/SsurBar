@@ -1,23 +1,13 @@
 package com.ssurbar.survey.db.entity.survey;
 
+import com.ssurbar.survey.db.entity.answer.QuestionAnswer;
+import lombok.*;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-
-import com.ssurbar.survey.db.entity.answer.QuestionAnswer;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Builder
@@ -35,8 +25,8 @@ public class Survey implements Serializable {
     private Date endTime;
 
     @ManyToOne
-    @JoinColumn(name = "survey_form_id")
-    private SurveyForm surveyForm;
+    @JoinColumn(name = "template_id")
+    private Template template;
 
     @OneToMany(mappedBy = "survey")
     private List<QuestionAnswer> questionAnswers = new ArrayList<>();

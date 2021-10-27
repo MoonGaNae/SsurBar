@@ -14,7 +14,7 @@ import lombok.Setter;
 @ApiModel("SurveyCreatePostReq")
 public class SurveyCreatePostReq {
 	@ApiModelProperty(name="surveyFormId", example="")	
-	private String surveyFormId;
+	private String templateId;
 	@ApiModelProperty(name="creationTime", example="")
 	private Date creationTime;
 	@ApiModelProperty(name="endTime", example="")
