@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -53,7 +54,7 @@ public class SurveyController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<BaseResponseBody> createNewSurvey(SurveyCreatePostReq surveyCreatePostReq){
+    public ResponseEntity<BaseResponseBody> createNewSurvey(@RequestBody SurveyCreatePostReq surveyCreatePostReq){
     	
     	boolean isSuccess = surveyService.createNewSurvey(surveyCreatePostReq);
     	
