@@ -9,12 +9,14 @@ import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
 public class FilterQuestion implements Serializable {
 
     @Id
@@ -25,6 +27,6 @@ public class FilterQuestion implements Serializable {
     private Integer questionNum;
 
     @ManyToOne
-    @JoinColumn(name = "survey_form_id")
-    private SurveyForm surveyForm;
+    @JoinColumn(name = "template_id")
+    private Template template;
 }

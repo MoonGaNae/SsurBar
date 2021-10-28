@@ -16,7 +16,6 @@ import lombok.Setter;
 @Entity
 @Builder
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Question implements Serializable {
@@ -33,8 +32,8 @@ public class Question implements Serializable {
     private Integer questionNum;
 
     @ManyToOne
-    @JoinColumn(name = "survey_form_id")
-    private SurveyForm surveyForm;
+    @JoinColumn(name = "template_id")
+    private Template template;
 
     @ManyToOne
     @JoinColumn(name = "category_id")

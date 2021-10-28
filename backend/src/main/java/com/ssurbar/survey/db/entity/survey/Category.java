@@ -12,12 +12,14 @@ import javax.persistence.OneToMany;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
 public class Category implements Serializable {
 
     @Id
@@ -25,8 +27,8 @@ public class Category implements Serializable {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "survey_form_id")
-    private SurveyForm surveyForm;
+    @JoinColumn(name = "template_id")
+    private Template template;
 
     @OneToMany(mappedBy = "category")
     private List<Question> questions = new ArrayList<>();

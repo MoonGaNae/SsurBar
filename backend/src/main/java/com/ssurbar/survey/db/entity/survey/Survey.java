@@ -1,5 +1,9 @@
 package com.ssurbar.survey.db.entity.survey;
 
+import com.ssurbar.survey.db.entity.answer.QuestionAnswer;
+import lombok.*;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -36,8 +40,8 @@ public class Survey implements Serializable {
     private String resultUrl;
 
     @ManyToOne
-    @JoinColumn(name = "survey_form_id")
-    private SurveyForm surveyForm;
+    @JoinColumn(name = "template_id")
+    private Template template;
 
     @OneToMany(mappedBy = "survey", cascade = CascadeType.ALL)
     private List<QuestionAnswer> questionAnswers = new ArrayList<>();
