@@ -1,12 +1,12 @@
 package com.ssurbar.survey.db.entity.survey;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
+import com.ssurbar.survey.db.entity.answer.QuestionAnswer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,6 +26,8 @@ public class Question implements Serializable {
     private String title;
     private String questionType;
     private String content;
+    
+    @Column(columnDefinition = "TINYINT(1)")
     private Boolean isEssential;
     private Integer questionNum;
 
@@ -36,4 +38,7 @@ public class Question implements Serializable {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+    private List<QuestionAnswer> questionAnswers = new ArrayList<>();
 }

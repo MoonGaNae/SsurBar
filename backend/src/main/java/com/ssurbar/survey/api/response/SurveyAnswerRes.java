@@ -12,7 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-@ApiModel("SurveyCountRes")
+@ApiModel("SurveyAnswerRes")
 public class SurveyAnswerRes extends BaseResponseBody {
 	List<SurveyAnswer> surveyAnswerList;
 }

@@ -9,6 +9,4 @@ import com.ssurbar.survey.db.entity.survey.SurveyTarget;
 @Repository
 public interface SurveyTargetRepository extends JpaRepository<SurveyTarget, String>{
 
-	SurveyTarget findBySurvey(Survey survey);
-
 }

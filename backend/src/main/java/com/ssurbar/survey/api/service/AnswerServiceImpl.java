@@ -3,6 +3,7 @@ package com.ssurbar.survey.api.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ssurbar.survey.db.repository.answer.QuestionAnswerRepository;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -15,7 +16,6 @@ import com.ssurbar.survey.api.response.SurveyAnswer;
 import com.ssurbar.survey.db.entity.answer.FilterData;
 import com.ssurbar.survey.db.entity.answer.QuestionAnswer;
 import com.ssurbar.survey.db.entity.survey.Survey;
-import com.ssurbar.survey.db.repository.survey.QuestionAnswerRepository;
 
 @Service("answerService")
 public class AnswerServiceImpl implements AnswerService{
@@ -41,6 +41,10 @@ public class AnswerServiceImpl implements AnswerService{
 			
 			try {
 				JSONObject jsonObj =  (JSONObject) jsonParse.parse(filterRes);
+				
+				int size = jsonObj.size();
+				int count = 0;
+				
 				boolean isCorrect = true;
 				
 				for (FilterDataReq filterDataReq : filterDataList) {
@@ -51,9 +55,14 @@ public class AnswerServiceImpl implements AnswerService{
 						isCorrect = false;
 						break;
 					}
+					
+					count++;
 				}
 				
-				if(isCorrect)	surveyAnswerList.add(SurveyAnswer.builder().questionId(questionAnswer.getQuestion().getQuestionId()).response(questionAnswer.getResponse()).build());
+				if(isCorrect && count == size)	surveyAnswerList.add(SurveyAnswer.builder()
+						.questionId(questionAnswer.getQuestion().getQuestionId())
+						.response(questionAnswer.getResponse())
+						.build());
 				
 			} catch (ParseException e) {
 				e.printStackTrace();
