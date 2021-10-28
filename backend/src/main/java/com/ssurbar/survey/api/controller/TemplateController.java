@@ -1,8 +1,10 @@
 package com.ssurbar.survey.api.controller;
 
 
+import com.ssurbar.survey.api.request.TemplateFilterListPostReq;
 import com.ssurbar.survey.api.request.TemplatePostReq;
 import com.ssurbar.survey.api.request.TemplateQuestionListPostReq;
+import com.ssurbar.survey.api.response.TemplateFilterListPostRes;
 import com.ssurbar.survey.api.response.TemplatePostRes;
 import com.ssurbar.survey.api.response.TemplateQuestionListPostRes;
 import com.ssurbar.survey.api.service.TemplateService;
@@ -85,8 +87,18 @@ public class TemplateController {
             @ApiResponse(code = 404, message = "사용자 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<BaseResponseBody> createFilters(@PathVariable("templateId") String templateId){
-        return null;
+    public ResponseEntity<? extends BaseResponseBody> createFilters(
+            @PathVariable("templateId") String templateId,
+            @RequestBody @ApiParam(value="설문 서식 필터생성", required = true)TemplateFilterListPostReq templateFilterListPostReq
+            ){
+        List<String> idList = templateService.createNewFilters(templateId, templateFilterListPostReq);
+
+        if(idList.size() == 0){
+            return ResponseEntity.status(500).body(BaseResponseBody.of("서버오류"));
+        }
+
+        TemplateFilterListPostRes res = TemplateFilterListPostRes.builder().filterQuestionList(idList).build();
+        return ResponseEntity.status(201).body(res);
     }
 
 }
