@@ -9,12 +9,14 @@ import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
 public class FilterQuestion implements Serializable {
 
     @Id

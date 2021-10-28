@@ -1,13 +1,16 @@
 package com.ssurbar.survey.api.service;
 
 import com.google.gson.Gson;
+import com.ssurbar.survey.api.request.TemplateFilterListPostReq;
 import com.ssurbar.survey.api.request.TemplatePostReq;
 import com.ssurbar.survey.api.request.TemplateQuestionListPostReq;
 import com.ssurbar.survey.common.util.RandomIdUtil;
 import com.ssurbar.survey.db.entity.survey.Category;
+import com.ssurbar.survey.db.entity.survey.FilterQuestion;
 import com.ssurbar.survey.db.entity.survey.Question;
 import com.ssurbar.survey.db.entity.survey.Template;
 import com.ssurbar.survey.db.repository.survey.CategoryRepository;
+import com.ssurbar.survey.db.repository.survey.FilterQuestionRepository;
 import com.ssurbar.survey.db.repository.survey.QuestionRepository;
 import com.ssurbar.survey.db.repository.survey.TemplateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @Service
-class TemplateServiceImpl implements TemplateService{
+public class TemplateServiceImpl implements TemplateService{
 
     @Autowired
     RandomIdUtil randomIdUtil;
@@ -31,6 +34,9 @@ class TemplateServiceImpl implements TemplateService{
 
     @Autowired
     CategoryRepository categoryRepository;
+
+    @Autowired
+    FilterQuestionRepository filterQuestionRepository;
 
     /* 새로운 설문서식 생성 */
     @Override
@@ -96,8 +102,6 @@ class TemplateServiceImpl implements TemplateService{
 
         questionSaveList = questionRepository.saveAll(questionSaveList);
 
-        if(questionSaveList == null) return null;
-
         List<String> idList = new ArrayList<>();
         for(Question question : questionSaveList){
             idList.add(question.getQuestionId());
@@ -107,7 +111,32 @@ class TemplateServiceImpl implements TemplateService{
     }
 
     @Override
-    public void createNewFilters() {
+    public List<String> createNewFilters(String templateId, TemplateFilterListPostReq templateFilterListPostReq) {
+        Template template = templateRepository.getById(templateId);
 
+        Gson gson = new Gson();
+
+        List<FilterQuestion> filterSaveList = new ArrayList<>();
+        for(String filterJson : templateFilterListPostReq.getFilterQuestionList()){
+            TemplateFilterListPostReq.FilterDto filterDto = gson.fromJson(filterJson, TemplateFilterListPostReq.FilterDto.class);
+
+            String filterId = randomIdUtil.makeRandomId(13);
+            filterSaveList.add(FilterQuestion.builder()
+                            .filterQuestionId(filterId)
+                            .questionNum(filterDto.getNumber())
+                            .title(filterDto.getTitle())
+                            .content(filterDto.getContent())
+                            .template(template)
+                    .build());
+        }
+
+        filterSaveList = filterQuestionRepository.saveAll(filterSaveList);
+
+        List<String> idList = new ArrayList<>();
+        for(FilterQuestion filter : filterSaveList){
+            idList.add(filter.getFilterQuestionId());
+        }
+
+        return idList;
     }
 }
