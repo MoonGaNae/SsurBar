@@ -1,6 +1,7 @@
 package com.ssurbar.survey.db.repository.survey;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -15,8 +16,5 @@ public interface SurveyRepository extends JpaRepository<Survey, String> {
 
 	List<Survey> findAllBySurveyForm(SurveyForm surveyForm);
 	
-//	List<Survey> findAllByUserId(User user);
-
-//	SurveyTarget findBySurveyId(Survey survey);
-
+	Optional<Survey> findBySurveyId(String surveyId);
 }
