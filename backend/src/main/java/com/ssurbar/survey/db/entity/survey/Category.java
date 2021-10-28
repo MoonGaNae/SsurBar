@@ -12,12 +12,14 @@ import javax.persistence.OneToMany;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
 public class Category implements Serializable {
 
     @Id
