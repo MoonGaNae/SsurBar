@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.ssurbar.survey.db.entity.Team;
 import com.ssurbar.survey.db.entity.answer.QuestionAnswer;
 
 import lombok.AllArgsConstructor;
@@ -29,6 +30,10 @@ public class Survey implements Serializable {
     private Date creationTime;
 
     private Date endTime;
+    
+    private String responseUrl;
+    
+    private String resultUrl;
 
     @ManyToOne
     @JoinColumn(name = "survey_form_id")
@@ -36,8 +41,8 @@ public class Survey implements Serializable {
 
     @OneToMany(mappedBy = "survey", cascade = CascadeType.ALL)
     private List<QuestionAnswer> questionAnswers = new ArrayList<>();
-
-    @OneToMany(mappedBy = "survey" , cascade = CascadeType.ALL)
-    private List<SurveyTarget> surveyTargets = new ArrayList<>();
-
+    
+    @ManyToOne
+    @JoinColumn(name = "team_id")
+    private Team team;
 }

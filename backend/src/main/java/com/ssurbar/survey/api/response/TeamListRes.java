@@ -11,8 +11,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class SurveyListRes extends BaseResponseBody{
-	List<SurveyInfo> surveyList;
-	
-
+public class TeamListRes extends BaseResponseBody{
+	private List<TeamInfo> teamList;
 }

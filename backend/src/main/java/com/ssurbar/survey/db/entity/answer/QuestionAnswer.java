@@ -1,6 +1,7 @@
 package com.ssurbar.survey.db.entity.answer;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -9,6 +10,7 @@ import javax.persistence.ManyToOne;
 
 import com.ssurbar.survey.db.entity.survey.Question;
 import com.ssurbar.survey.db.entity.survey.Survey;
+import com.ssurbar.survey.db.entity.survey.SurveyForm;
 
 import lombok.*;
 

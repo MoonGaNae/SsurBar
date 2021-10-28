@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.ssurbar.survey.db.entity.Team;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -20,8 +22,8 @@ public class SurveyResponseLog {
 	private String surveyResponseLogId;
 
 	private LocalDateTime responseTime;
-
-	@ManyToOne
-	@JoinColumn(name = "survey_target_id")
-	private SurveyTarget surveyTarget;
+	
+    @ManyToOne
+    @JoinColumn(name = "survey_id")
+	private Survey survey;
 }

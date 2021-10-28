@@ -27,6 +27,8 @@ public class Question implements Serializable {
     private String title;
     private String questionType;
     private String content;
+    
+    @Column(columnDefinition = "TINYINT(1)")
     private Boolean isEssential;
     private Integer questionNum;
 
