@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 import com.ssurbar.survey.api.request.ResponsePostReq;
+import com.ssurbar.survey.api.response.SurveyAnswer;
 import com.ssurbar.survey.common.util.RandomIdUtil;
 import com.ssurbar.survey.db.entity.answer.FilterData;
 import com.ssurbar.survey.db.entity.answer.QuestionAnswer;
@@ -38,18 +39,12 @@ public class ResponseServiceImpl implements ResponseService {
 
     /* 사용자의 응답을 수집하여 DB에 저장하기 */
     @Override
-    public List<QuestionAnswer> saveAnswer(ResponsePostReq responsePostReq) {
+    public List<SurveyAnswer> saveAnswer(ResponsePostReq responsePostReq) {
         String surveyId = responsePostReq.getSurveyId();
         String filterAnswer = responsePostReq.getFilterAnswer();
         List<String> answerList = responsePostReq.getAnswerList();
         JsonParser jsonParser = new JsonParser();
-        List<QuestionAnswer> list = new ArrayList<>();
-
-        System.out.println(responsePostReq.getAnswerList());
-        System.out.println(filterAnswer);
-
-        //filterAnswer = responsePostReq.getFilterAnswer();
-        //answerList = responsePostReq.getAnswerList();
+        List<SurveyAnswer> list = new ArrayList<>();
 
         FilterData filterData = FilterData.builder()
                 .filterDataId(randomIdUtil.makeRandomId(13))
@@ -70,22 +65,24 @@ public class ResponseServiceImpl implements ResponseService {
             JsonElement element = jsonParser.parse(content);
             String questionId = element.getAsJsonObject().get("questionId").getAsString();
             String answer = element.getAsJsonObject().get("answer").getAsString();
-            // test
-            Question q = new Question();
-
 
             QuestionAnswer questionAnswer = QuestionAnswer.builder()
                     .questionAnswerId(randomIdUtil.makeRandomId(13))
-                    //.question(questionRepository.findQuestionByQuestionId(questionId).get())
-                    .question(q)
+                    .question(questionRepository.findQuestionByQuestionId(questionId).get())
                     .response(answer)
-                    .filterData(filterData)
+                    .filterData(filterDataRepository.findFilterDataByFilterDataId(filterData.getFilterDataId()).get())
                     .survey(surveyRepository.findBySurveyId(surveyId).get())
                     .build();
 
-            System.out.println(questionAnswer.getResponse());
             questionAnswerRepository.save(questionAnswer);
-            list.add(questionAnswer);
+            SurveyAnswer surveyAnswer = SurveyAnswer.builder()
+                    .questionId(questionAnswer.getQuestion().getQuestionId())
+                    .filterResponse(questionAnswer.getFilterData().getResponse())
+                    .response(questionAnswer.getResponse())
+                    .build();
+
+            list.add(surveyAnswer);
+
         }
 
         return list;
