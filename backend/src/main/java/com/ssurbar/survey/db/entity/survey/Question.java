@@ -2,6 +2,7 @@ package com.ssurbar.survey.db.entity.survey;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -27,6 +28,8 @@ public class Question implements Serializable {
     private String title;
     private String questionType;
     private String content;
+    
+    @Column(columnDefinition = "TINYINT(1)")
     private Boolean isEssential;
     private Integer questionNum;
 
