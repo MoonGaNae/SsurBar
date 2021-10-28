@@ -23,7 +23,7 @@ public class SurveyForm implements Serializable {
 
     private String title;
 
-    private String desc;
+    private String description;
 
     @OneToMany(mappedBy = "surveyForm")
     private List<Survey> surveys = new ArrayList<>();
