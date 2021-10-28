@@ -54,8 +54,7 @@ public class ResponseServiceImpl implements ResponseService {
         filterDataRepository.save(filterData);
 
         for ( String content : answerList ) {
-            System.out.println(100);
-
+            
             /**
              * answer의 형태
              * { "questionId": String,
