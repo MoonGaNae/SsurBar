@@ -122,14 +122,14 @@ public class SurveyController {
 	  }
 	  
 	  @GetMapping("/{surveyId}/answer")
-	  @ApiOperation(value = "설문 응답 수 불러오기", notes = "해당 설문에 응답한 횟수를 불러온다.")
+	  @ApiOperation(value = "설문 응답 목록 불러오기", notes = "선택한 설문에 응답한 목록을 불러온다.")
 	  @ApiResponses({
 	          @ApiResponse(code = 200, message = "성공"),
 	          @ApiResponse(code = 401, message = "인증 실패"),
 	          @ApiResponse(code = 404, message = "사용자 없음"),
 	          @ApiResponse(code = 500, message = "서버 오류")
 	  })
-	  public ResponseEntity<? extends BaseResponseBody> getSurveyReponseCount(@PathVariable String surveyId
+	  public ResponseEntity<? extends BaseResponseBody> getSurveyAnswerList(@PathVariable String surveyId
 			  , @ModelAttribute SurveyAnswerListGetReq surveyAnswerListGetReq)
 	  {
 		  List<SurveyAnswer> surveyAnswerList = answerService.getSurveyAnswerList(surveyId, surveyAnswerListGetReq);

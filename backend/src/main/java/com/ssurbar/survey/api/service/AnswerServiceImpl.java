@@ -41,6 +41,10 @@ public class AnswerServiceImpl implements AnswerService{
 			
 			try {
 				JSONObject jsonObj =  (JSONObject) jsonParse.parse(filterRes);
+				
+				int size = jsonObj.size();
+				int count = 0;
+				
 				boolean isCorrect = true;
 				
 				for (FilterDataReq filterDataReq : filterDataList) {
@@ -51,9 +55,14 @@ public class AnswerServiceImpl implements AnswerService{
 						isCorrect = false;
 						break;
 					}
+					
+					count++;
 				}
 				
-				if(isCorrect)	surveyAnswerList.add(SurveyAnswer.builder().questionId(questionAnswer.getQuestion().getQuestionId()).response(questionAnswer.getResponse()).build());
+				if(isCorrect && count == size)	surveyAnswerList.add(SurveyAnswer.builder()
+						.questionId(questionAnswer.getQuestion().getQuestionId())
+						.response(questionAnswer.getResponse())
+						.build());
 				
 			} catch (ParseException e) {
 				e.printStackTrace();
