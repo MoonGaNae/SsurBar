@@ -18,12 +18,12 @@ import com.ssurbar.survey.api.request.SurveyCreatePostReq;
 import com.ssurbar.survey.api.response.SurveyAnswer;
 import com.ssurbar.survey.api.response.SurveyAnswerRes;
 import com.ssurbar.survey.api.response.SurveyCountRes;
+import com.ssurbar.survey.api.response.SurveyDetailRes;
 import com.ssurbar.survey.api.response.SurveyInfo;
 import com.ssurbar.survey.api.response.SurveyListRes;
 import com.ssurbar.survey.api.service.AnswerService;
 import com.ssurbar.survey.api.service.SurveyService;
 import com.ssurbar.survey.common.model.response.BaseResponseBody;
-import com.ssurbar.survey.db.entity.survey.Survey;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -105,7 +105,7 @@ public class SurveyController {
 //        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "성공"));
 //    }
     
-	  @GetMapping("/{surveyId}")
+	  @GetMapping("/{surveyId}/response/cnt")
 	  @ApiOperation(value = "설문 응답 수 불러오기", notes = "해당 설문에 응답한 횟수를 불러온다.")
 	  @ApiResponses({
 	          @ApiResponse(code = 200, message = "성공"),
@@ -140,5 +140,20 @@ public class SurveyController {
 		  
 	      return ResponseEntity.status(200).body(res);
 	  }
-
+	  
+	  @GetMapping("/{surveyId}")
+	  @ApiOperation(value = "설문 상제 정보 불러오기", notes = "선택한 설문에 대한 상세정보를 불러온다.")
+	  @ApiResponses({
+	          @ApiResponse(code = 200, message = "성공"),
+	          @ApiResponse(code = 401, message = "인증 실패"),
+	          @ApiResponse(code = 404, message = "사용자 없음"),
+	          @ApiResponse(code = 500, message = "서버 오류")
+	  })
+	  public ResponseEntity<? extends BaseResponseBody> getSurveyDetail(@PathVariable String surveyId)
+	  {
+		  SurveyDetailRes res = surveyService.getSurveyDetailInfo(surveyId);
+		  res.setMessage("성공");
+		  
+	      return ResponseEntity.status(200).body(res);
+	  }
 }

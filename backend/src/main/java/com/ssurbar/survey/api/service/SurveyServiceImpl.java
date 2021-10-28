@@ -7,13 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ssurbar.survey.api.request.SurveyCreatePostReq;
+import com.ssurbar.survey.api.response.SurveyDetailRes;
 import com.ssurbar.survey.api.response.SurveyInfo;
 import com.ssurbar.survey.common.util.LinkUtil;
 import com.ssurbar.survey.common.util.RandomIdUtil;
 import com.ssurbar.survey.db.entity.Team;
 import com.ssurbar.survey.db.entity.survey.Survey;
-import com.ssurbar.survey.db.entity.survey.Template;
 import com.ssurbar.survey.db.entity.survey.SurveyResponseLog;
+import com.ssurbar.survey.db.entity.survey.Template;
 import com.ssurbar.survey.db.repository.survey.SurveyRepository;
 import com.ssurbar.survey.db.repository.survey.SurveyResponseLogRepository;
 import com.ssurbar.survey.db.repository.survey.SurveyTargetRepository;
@@ -131,6 +132,26 @@ public class SurveyServiceImpl implements SurveyService {
 //		List<Survey> list = surveyRepository.findAllByUserId();
 //		
 		return null;
+	}
+
+	@Override
+	public SurveyDetailRes getSurveyDetailInfo(String surveyId) {
+		Survey survey = surveyRepository.findById(surveyId).orElse(null);
+		
+		if(survey == null)	return null;
+		
+		SurveyDetailRes surveyDetailRes = SurveyDetailRes.builder()
+				.surveyId(survey.getSurveyId())
+				.templateId(survey.getTemplate().getTemplateId())
+				.creationTime(survey.getCreationTime())
+				.endTime(survey.getEndTime())
+				.responseUrl(survey.getResponseUrl())
+				.resultUrl(survey.getResultUrl())
+				.teamId(survey.getTeam().getTeamId())
+				.teamName(survey.getTeam().getName())
+				.build();
+
+		return surveyDetailRes;
 	}
 
 }
