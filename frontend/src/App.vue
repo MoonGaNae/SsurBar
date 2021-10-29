@@ -1,16 +1,20 @@
 <template>
-  <Sidebar id="sidebar">
+   <div>
+    <Sidebar/>
+   </div>
 </template>
 
 <script>
-import Sidebar from "@/components/common/Sidebar"
+import Sidebar from "@/components/common/Sidebar.vue"
+
 export default {
    name: "App",
 
-   compoents:{
-      Sidebar,
-   },  
-}
+   components: {
+      Sidebar
+   }  
+}  
+
 </script>
 
 <style>
