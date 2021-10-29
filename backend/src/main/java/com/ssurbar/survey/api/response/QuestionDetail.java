@@ -1,5 +1,6 @@
 package com.ssurbar.survey.api.response;
 
+import com.ssurbar.survey.db.entity.Code;
 import com.ssurbar.survey.db.entity.survey.Category;
 import com.ssurbar.survey.db.entity.survey.Question;
 import lombok.Builder;
@@ -23,12 +24,12 @@ public class QuestionDetail {
 
     public static QuestionDetail of(Question question){
         Category category = question.getCategory();
-
+        Code questionType = question.getQuestionType();
         return QuestionDetail.builder()
                 .questionId(question.getQuestionId())
                 .title(question.getTitle())
                 .content(question.getContent())
-                .questionType(question.getQuestionType())
+                .questionType(questionType.getCode())
                 .isEssential(question.getIsEssential())
                 .questionNum(question.getQuestionNum())
                 .categoryId(category.getCategoryId())

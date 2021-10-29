@@ -6,10 +6,12 @@ import com.ssurbar.survey.api.request.TemplatePostReq;
 import com.ssurbar.survey.api.request.TemplateQuestionListPostReq;
 import com.ssurbar.survey.api.response.QuestionDetail;
 import com.ssurbar.survey.common.util.RandomIdUtil;
+import com.ssurbar.survey.db.entity.Code;
 import com.ssurbar.survey.db.entity.survey.Category;
 import com.ssurbar.survey.db.entity.survey.FilterQuestion;
 import com.ssurbar.survey.db.entity.survey.Question;
 import com.ssurbar.survey.db.entity.survey.Template;
+import com.ssurbar.survey.db.repository.CodeRepository;
 import com.ssurbar.survey.db.repository.survey.CategoryRepository;
 import com.ssurbar.survey.db.repository.survey.FilterQuestionRepository;
 import com.ssurbar.survey.db.repository.survey.QuestionRepository;
@@ -40,6 +42,9 @@ public class TemplateServiceImpl implements TemplateService{
 
     @Autowired
     FilterQuestionRepository filterQuestionRepository;
+
+    @Autowired
+    CodeRepository codeRepository;
 
     /* 새로운 설문서식 생성 */
     @Override
@@ -90,6 +95,10 @@ public class TemplateServiceImpl implements TemplateService{
 
             // 문항의 카테고리
             Category category = categoryMap.get(questionDto.getCategoryName());
+
+            // 문항 타입
+            Code questionType = codeRepository.getById(questionDto.getQuestionType());
+
             String questionId = randomIdUtil.makeRandomId(13);
             questionSaveList.add(Question.builder()
                             .questionId(questionId)
@@ -98,7 +107,7 @@ public class TemplateServiceImpl implements TemplateService{
                             .content(questionDto.getContent())
                             .isEssential(questionDto.getIsEssential())
                             .questionNum(questionDto.getNumber())
-                            .questionType(questionDto.getQuestionType())
+                            .questionType(questionType)
                             .title(questionDto.getTitle())
                     .build());
         }
