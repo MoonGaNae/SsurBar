@@ -47,16 +47,18 @@ public class AnswerServiceImpl implements AnswerService{
 				
 				boolean isCorrect = true;
 				
-				for (FilterDataReq filterDataReq : filterDataList) {
-					String filterKind = filterDataReq.getFilterKind();
-					String filterValue = filterDataReq.getFilterValue();
-					
-					if(!filterValue.equals(jsonObj.get(filterKind))) {
-						isCorrect = false;
-						break;
+				if(filterDataList != null) {
+					for (FilterDataReq filterDataReq : filterDataList) {
+						String filterKind = filterDataReq.getFilterKind();
+						String filterValue = filterDataReq.getFilterValue();
+						
+						if(!filterValue.equals(jsonObj.get(filterKind))) {
+							isCorrect = false;
+							break;
+						}
+						
+						count++;
 					}
-					
-					count++;
 				}
 				
 				if(isCorrect && count == size)	surveyAnswerList.add(SurveyAnswer.builder()

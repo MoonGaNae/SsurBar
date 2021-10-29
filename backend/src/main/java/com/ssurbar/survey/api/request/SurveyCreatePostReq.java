@@ -31,6 +31,6 @@ public class SurveyCreatePostReq {
 	@ApiModelProperty(name="endTime", example="")
 	private Date endTime;
 	
-	@ApiModelProperty(name="teamIdList", example="")
-	private List<String> teamIdList;
+	@ApiModelProperty(name="teamId", example="")
+	private String teamId;
 }
