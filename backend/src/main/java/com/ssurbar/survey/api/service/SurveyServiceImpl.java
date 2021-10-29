@@ -1,24 +1,23 @@
 package com.ssurbar.survey.api.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
+import com.google.gson.Gson;
 import com.ssurbar.survey.api.request.SurveyCreatePostReq;
+import com.ssurbar.survey.api.request.SurveyFilterListPostReq;
 import com.ssurbar.survey.api.response.SurveyDetailRes;
 import com.ssurbar.survey.api.response.SurveyInfo;
 import com.ssurbar.survey.common.util.LinkUtil;
 import com.ssurbar.survey.common.util.RandomIdUtil;
 import com.ssurbar.survey.db.entity.Team;
+import com.ssurbar.survey.db.entity.survey.FilterQuestion;
 import com.ssurbar.survey.db.entity.survey.Survey;
 import com.ssurbar.survey.db.entity.survey.SurveyResponseLog;
 import com.ssurbar.survey.db.entity.survey.Template;
-import com.ssurbar.survey.db.repository.survey.SurveyRepository;
-import com.ssurbar.survey.db.repository.survey.SurveyResponseLogRepository;
-import com.ssurbar.survey.db.repository.survey.SurveyTargetRepository;
-import com.ssurbar.survey.db.repository.survey.TeamRepository;
+import com.ssurbar.survey.db.repository.survey.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service("surveyService")
 public class SurveyServiceImpl implements SurveyService {
@@ -40,6 +39,9 @@ public class SurveyServiceImpl implements SurveyService {
     
     @Autowired
     LinkUtil linkUtil;
+
+	@Autowired
+	FilterQuestionRepository filterQuestionRepository;
 
     /* 새로운 설문지 생성 */
     @Override
@@ -152,4 +154,36 @@ public class SurveyServiceImpl implements SurveyService {
 		return surveyDetailRes;
 	}
 
+	@Override
+	public List<String> createNewFilters(String surveyId, SurveyFilterListPostReq surveyFilterListPostReq) {
+		Survey survey = surveyRepository.getById(surveyId);
+
+		Gson gson = new Gson();
+
+		// 필터문항 추출및 Entity로 변환
+		List<FilterQuestion> filterSaveList = new ArrayList<>();
+		for(String filterJson : surveyFilterListPostReq.getFilterQuestionList()){
+			SurveyFilterListPostReq.FilterDto filterDto = gson.fromJson(filterJson, SurveyFilterListPostReq.FilterDto.class);
+
+			String filterId = randomIdUtil.makeRandomId(13);
+			filterSaveList.add(FilterQuestion.builder()
+					.filterQuestionId(filterId)
+					.questionNum(filterDto.getNumber())
+					.title(filterDto.getTitle())
+					.content(filterDto.getContent())
+					.survey(survey)
+					.build());
+		}
+
+		// 필터문항 저장
+		filterSaveList = filterQuestionRepository.saveAll(filterSaveList);
+
+		// 필터문항 키들 반환
+		List<String> idList = new ArrayList<>();
+		for(FilterQuestion filter : filterSaveList){
+			idList.add(filter.getFilterQuestionId());
+		}
+
+		return idList;
+	}
 }

@@ -2,6 +2,9 @@ package com.ssurbar.survey.api.controller;
 
 import java.util.List;
 
+import com.ssurbar.survey.api.request.SurveyFilterListPostReq;
+import com.ssurbar.survey.api.response.*;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,20 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssurbar.survey.api.request.SurveyAnswerListGetReq;
 import com.ssurbar.survey.api.request.SurveyCreatePostReq;
-import com.ssurbar.survey.api.response.SurveyAnswer;
-import com.ssurbar.survey.api.response.SurveyAnswerRes;
-import com.ssurbar.survey.api.response.SurveyCountRes;
-import com.ssurbar.survey.api.response.SurveyDetailRes;
-import com.ssurbar.survey.api.response.SurveyInfo;
-import com.ssurbar.survey.api.response.SurveyListRes;
 import com.ssurbar.survey.api.service.AnswerService;
 import com.ssurbar.survey.api.service.SurveyService;
 import com.ssurbar.survey.common.model.response.BaseResponseBody;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 
 /**
  * 설문지 내용 관련 API 요청 처리를 위한 컨트롤러 정의.
@@ -156,4 +148,27 @@ public class SurveyController {
 		  
 	      return ResponseEntity.status(200).body(res);
 	  }
+
+	@PostMapping("/{surveyId}/filters")
+	@ApiOperation(value = "설문 필터 생성", notes = "새로운 설문의 필터를 생성해서 저장한다")
+	@ApiResponses({
+			@ApiResponse(code = 201, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "설문 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<? extends BaseResponseBody> createFilters(
+			@PathVariable("surveyId") String surveyId,
+			@RequestBody @ApiParam(value="설문 필터생성", required = true) SurveyFilterListPostReq surveyFilterListPostReq
+	){
+		List<String> idList = surveyService.createNewFilters(surveyId, surveyFilterListPostReq);
+
+		if(idList.size() == 0){
+			return ResponseEntity.status(500).body(BaseResponseBody.of("서버오류"));
+		}
+
+		SurveyFilterListPostRes res = SurveyFilterListPostRes.builder().filterQuestionList(idList).build();
+		return ResponseEntity.status(201).body(res);
+	}
+
 }
