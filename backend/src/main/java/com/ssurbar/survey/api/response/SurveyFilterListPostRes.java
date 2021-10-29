@@ -10,6 +10,6 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-public class TemplateFilterListPostRes extends BaseResponseBody {
+public class SurveyFilterListPostRes extends BaseResponseBody {
     private List<String> filterQuestionList;
 }

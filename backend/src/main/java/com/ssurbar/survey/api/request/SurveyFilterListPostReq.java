@@ -9,7 +9,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TemplateFilterListPostReq {
+public class SurveyFilterListPostReq {
     private List<String> filterQuestionList;
 
     @Getter
