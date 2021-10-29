@@ -14,4 +14,7 @@ public interface SurveyRepository extends JpaRepository<Survey, String> {
 	List<Survey> findAllByTemplate(Template template);
 
 	Optional<Survey> findBySurveyId(String surveyId);
+
+	Optional<Survey> findSurveyByResponseUrl(String linkCode);
+	Optional<Survey> findSurveyByResultUrl(String linkCode);
 }

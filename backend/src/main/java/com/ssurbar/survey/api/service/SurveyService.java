@@ -3,8 +3,10 @@ package com.ssurbar.survey.api.service;
 import java.util.List;
 
 import com.ssurbar.survey.api.request.SurveyCreatePostReq;
+import com.ssurbar.survey.api.request.SurveyDecodeLinkGetReq;
 import com.ssurbar.survey.api.request.SurveyFilterListPostReq;
 import com.ssurbar.survey.api.response.FilterQuestionDetail;
+import com.ssurbar.survey.api.response.SurveyDecodeLinkGetRes;
 import com.ssurbar.survey.api.response.SurveyDetailRes;
 import com.ssurbar.survey.api.response.SurveyInfo;
 
@@ -25,4 +27,6 @@ public interface SurveyService {
 
 	// 설문 필터 목록 가져오기
 	List<FilterQuestionDetail> getFilters(String surveyId);
+
+    SurveyDecodeLinkGetRes decodeLink(SurveyDecodeLinkGetReq surveyDecodeLinkGetReq);
 }
