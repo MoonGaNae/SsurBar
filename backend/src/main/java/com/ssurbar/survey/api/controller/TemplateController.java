@@ -4,9 +4,7 @@ package com.ssurbar.survey.api.controller;
 import com.ssurbar.survey.api.request.TemplateFilterListPostReq;
 import com.ssurbar.survey.api.request.TemplatePostReq;
 import com.ssurbar.survey.api.request.TemplateQuestionListPostReq;
-import com.ssurbar.survey.api.response.TemplateFilterListPostRes;
-import com.ssurbar.survey.api.response.TemplatePostRes;
-import com.ssurbar.survey.api.response.TemplateQuestionListPostRes;
+import com.ssurbar.survey.api.response.*;
 import com.ssurbar.survey.api.service.TemplateService;
 import com.ssurbar.survey.common.model.response.BaseResponseBody;
 import io.swagger.annotations.*;
@@ -82,9 +80,9 @@ public class TemplateController {
     @PostMapping("/{templateId}/filters")
     @ApiOperation(value = "서식 필터 생성", notes = "새로운 서식의 필터를 생성해서 저장한다")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 201, message = "성공"),
             @ApiResponse(code = 401, message = "인증 실패"),
-            @ApiResponse(code = 404, message = "사용자 없음"),
+            @ApiResponse(code = 404, message = "서식 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<? extends BaseResponseBody> createFilters(
@@ -99,6 +97,26 @@ public class TemplateController {
 
         TemplateFilterListPostRes res = TemplateFilterListPostRes.builder().filterQuestionList(idList).build();
         return ResponseEntity.status(201).body(res);
+    }
+
+    @GetMapping("/{templateId}/questions")
+    @ApiOperation(value = "서식 문항 조회", notes="서식에 속한 문항들을 조회한다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 404, message = "사용자 없음"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<? extends BaseResponseBody> getQuestions(
+            @PathVariable("templateId") String templateId
+    ){
+        List<QuestionDetail> questionList = templateService.getQuestions(templateId);
+
+        if(questionList == null || questionList.size()==0){
+            return ResponseEntity.status(404).body(BaseResponseBody.of("서식 없음"));
+        }
+
+        return ResponseEntity.status(200).body(TemplateQuestionListGetRes.builder().questionList(questionList).build());
     }
 
 }

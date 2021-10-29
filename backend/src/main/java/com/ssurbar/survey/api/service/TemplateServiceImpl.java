@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.ssurbar.survey.api.request.TemplateFilterListPostReq;
 import com.ssurbar.survey.api.request.TemplatePostReq;
 import com.ssurbar.survey.api.request.TemplateQuestionListPostReq;
+import com.ssurbar.survey.api.response.QuestionDetail;
 import com.ssurbar.survey.common.util.RandomIdUtil;
 import com.ssurbar.survey.db.entity.survey.Category;
 import com.ssurbar.survey.db.entity.survey.FilterQuestion;
@@ -19,6 +20,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TemplateServiceImpl implements TemplateService{
@@ -138,5 +141,17 @@ public class TemplateServiceImpl implements TemplateService{
         }
 
         return idList;
+    }
+
+    @Override
+    public List<QuestionDetail> getQuestions(String templateId) {
+        Optional<Template> templateOpt = templateRepository.getTemplateByTemplateId(templateId);
+
+        if(!templateOpt.isPresent()) return null;
+        Template template = templateOpt.get();
+
+        List<Question> questions = template.getQuestions();
+
+        return questions.stream().map(QuestionDetail::of).collect(Collectors.toList());
     }
 }

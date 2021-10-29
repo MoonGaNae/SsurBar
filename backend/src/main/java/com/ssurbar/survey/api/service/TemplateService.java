@@ -3,6 +3,7 @@ package com.ssurbar.survey.api.service;
 import com.ssurbar.survey.api.request.TemplateFilterListPostReq;
 import com.ssurbar.survey.api.request.TemplateQuestionListPostReq;
 import com.ssurbar.survey.api.request.TemplatePostReq;
+import com.ssurbar.survey.api.response.QuestionDetail;
 
 import java.util.List;
 
@@ -15,4 +16,5 @@ public interface TemplateService {
     List<String> createNewFilters(String templateId, TemplateFilterListPostReq templateFilterListPostReq);
 
 
+    List<QuestionDetail> getQuestions(String templateId);
 }
