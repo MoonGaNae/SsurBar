@@ -46,49 +46,47 @@ public class SurveyServiceImpl implements SurveyService {
     public boolean createNewSurvey(SurveyCreatePostReq surveyCreatePostReq) {
     	Template template = Template.builder().templateId(surveyCreatePostReq.getTemplateId()).build();
     	
-    	List<Team> teamList = teamRepository.findAllById(surveyCreatePostReq.getTeamIdList());
+    	Team team = teamRepository.findById(surveyCreatePostReq.getTeamId()).orElse(null);
     	
     	
     	List<Survey> surveyList = surveyRepository.findAllByTemplate(template);
 
-		for (Team team : teamList) {
-			/*------------------ survey 데이터 생성 및 저장 시작  -----------------------*/
-			String surveyId = randomIdUtil.makeRandomId(13);
+		/*------------------ survey 데이터 생성 및 저장 시작  -----------------------*/
+		String surveyId = randomIdUtil.makeRandomId(13);
 
-			boolean isSurveyIdExist = false;
+		boolean isSurveyIdExist = false;
 
-			while(true) {
-				for (Survey survey : surveyList) {
-					if(survey.getSurveyId().equals(surveyId)) {
-						isSurveyIdExist = true;
-						break;
-					}
-				}
-
-				if(!isSurveyIdExist) {
+		while(true) {
+			for (Survey survey : surveyList) {
+				if(survey.getSurveyId().equals(surveyId)) {
+					isSurveyIdExist = true;
 					break;
 				}
-
-				surveyId = randomIdUtil.makeRandomId(13);
-				isSurveyIdExist = false;
 			}
 
-			String responseUrl = linkUtil.makeUrl(surveyId, "response");
-			String resultUrl = linkUtil.makeUrl(surveyId, "result");
+			if(!isSurveyIdExist) {
+				break;
+			}
 
-			Survey savedSurvey = surveyRepository.save(Survey.builder()
-					.surveyId(surveyId)
-					.template(template)
-					.creationTime(surveyCreatePostReq.getCreationTime())
-					.endTime(surveyCreatePostReq.getEndTime())
-					.team(team)
-					.responseUrl(responseUrl)
-					.resultUrl(resultUrl)
-					.build());
-
-			surveyList.add(savedSurvey);
-			/*------------------ survey 데이터 생성 및 저장 끝  -----------------------*/
+			surveyId = randomIdUtil.makeRandomId(13);
+			isSurveyIdExist = false;
 		}
+
+		String responseUrl = linkUtil.makeUrl(surveyId, "response");
+		String resultUrl = linkUtil.makeUrl(surveyId, "result");
+
+		Survey savedSurvey = surveyRepository.save(Survey.builder()
+				.surveyId(surveyId)
+				.template(template)
+				.creationTime(surveyCreatePostReq.getCreationTime())
+				.endTime(surveyCreatePostReq.getEndTime())
+				.team(team)
+				.responseUrl(responseUrl)
+				.resultUrl(resultUrl)
+				.build());
+
+		surveyList.add(savedSurvey);
+		/*------------------ survey 데이터 생성 및 저장 끝  -----------------------*/
 
 		return true;
 
