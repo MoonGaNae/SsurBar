@@ -49,4 +49,7 @@ public class Survey implements Serializable {
     @ManyToOne
     @JoinColumn(name = "team_id")
     private Team team;
+
+    @OneToMany(mappedBy = "survey", cascade = CascadeType.ALL)
+    private List<FilterQuestion> filterQuestions = new ArrayList<>();
 }
