@@ -3,6 +3,7 @@ package com.ssurbar.survey.api.service;
 import com.google.gson.Gson;
 import com.ssurbar.survey.api.request.SurveyCreatePostReq;
 import com.ssurbar.survey.api.request.SurveyFilterListPostReq;
+import com.ssurbar.survey.api.response.FilterQuestionDetail;
 import com.ssurbar.survey.api.response.SurveyDetailRes;
 import com.ssurbar.survey.api.response.SurveyInfo;
 import com.ssurbar.survey.common.util.LinkUtil;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service("surveyService")
 public class SurveyServiceImpl implements SurveyService {
@@ -185,5 +187,17 @@ public class SurveyServiceImpl implements SurveyService {
 		}
 
 		return idList;
+	}
+
+	@Override
+	public List<FilterQuestionDetail> getFilters(String surveyId) {
+
+		Survey survey = surveyRepository.findById(surveyId).orElse(null);
+
+		if(survey == null) return null;
+
+		List<FilterQuestion> filterQuestions = survey.getFilterQuestions();
+
+		return filterQuestions.stream().map(FilterQuestionDetail::of).collect(Collectors.toList());
 	}
 }
