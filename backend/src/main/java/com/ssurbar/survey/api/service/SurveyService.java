@@ -3,6 +3,8 @@ package com.ssurbar.survey.api.service;
 import java.util.List;
 
 import com.ssurbar.survey.api.request.SurveyCreatePostReq;
+import com.ssurbar.survey.api.request.SurveyFilterListPostReq;
+import com.ssurbar.survey.api.response.FilterQuestionDetail;
 import com.ssurbar.survey.api.response.SurveyDetailRes;
 import com.ssurbar.survey.api.response.SurveyInfo;
 
@@ -17,4 +19,10 @@ public interface SurveyService {
 	int getSurveyResponseCount(String surveyId);
 
 	SurveyDetailRes getSurveyDetailInfo(String surveyId);
+
+	// 설문에 대한 필터 생성
+	List<String> createNewFilters(String surveyId, SurveyFilterListPostReq surveyFilterListPostReq);
+
+	// 설문 필터 목록 가져오기
+	List<FilterQuestionDetail> getFilters(String surveyId);
 }

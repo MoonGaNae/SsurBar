@@ -1,7 +1,6 @@
 package com.ssurbar.survey.api.controller;
 
 
-import com.ssurbar.survey.api.request.TemplateFilterListPostReq;
 import com.ssurbar.survey.api.request.TemplatePostReq;
 import com.ssurbar.survey.api.request.TemplateQuestionListPostReq;
 import com.ssurbar.survey.api.response.*;
@@ -74,28 +73,6 @@ public class TemplateController {
         }
 
         TemplateQuestionListPostRes res = TemplateQuestionListPostRes.builder().questionList(idList).build();
-        return ResponseEntity.status(201).body(res);
-    }
-
-    @PostMapping("/{templateId}/filters")
-    @ApiOperation(value = "서식 필터 생성", notes = "새로운 서식의 필터를 생성해서 저장한다")
-    @ApiResponses({
-            @ApiResponse(code = 201, message = "성공"),
-            @ApiResponse(code = 401, message = "인증 실패"),
-            @ApiResponse(code = 404, message = "서식 없음"),
-            @ApiResponse(code = 500, message = "서버 오류")
-    })
-    public ResponseEntity<? extends BaseResponseBody> createFilters(
-            @PathVariable("templateId") String templateId,
-            @RequestBody @ApiParam(value="설문 서식 필터생성", required = true)TemplateFilterListPostReq templateFilterListPostReq
-            ){
-        List<String> idList = templateService.createNewFilters(templateId, templateFilterListPostReq);
-
-        if(idList.size() == 0){
-            return ResponseEntity.status(500).body(BaseResponseBody.of("서버오류"));
-        }
-
-        TemplateFilterListPostRes res = TemplateFilterListPostRes.builder().filterQuestionList(idList).build();
         return ResponseEntity.status(201).body(res);
     }
 
