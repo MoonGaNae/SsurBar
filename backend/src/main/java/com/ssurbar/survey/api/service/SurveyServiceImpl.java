@@ -2,8 +2,10 @@ package com.ssurbar.survey.api.service;
 
 import com.google.gson.Gson;
 import com.ssurbar.survey.api.request.SurveyCreatePostReq;
+import com.ssurbar.survey.api.request.SurveyDecodeLinkGetReq;
 import com.ssurbar.survey.api.request.SurveyFilterListPostReq;
 import com.ssurbar.survey.api.response.FilterQuestionDetail;
+import com.ssurbar.survey.api.response.SurveyDecodeLinkGetRes;
 import com.ssurbar.survey.api.response.SurveyDetailRes;
 import com.ssurbar.survey.api.response.SurveyInfo;
 import com.ssurbar.survey.common.util.LinkUtil;
@@ -199,5 +201,28 @@ public class SurveyServiceImpl implements SurveyService {
 		List<FilterQuestion> filterQuestions = survey.getFilterQuestions();
 
 		return filterQuestions.stream().map(FilterQuestionDetail::of).collect(Collectors.toList());
+	}
+
+	@Override
+	public SurveyDecodeLinkGetRes decodeLink(SurveyDecodeLinkGetReq surveyDecodeLinkGetReq) {
+
+		String linkCode= surveyDecodeLinkGetReq.getLinkCode();
+		String type = surveyDecodeLinkGetReq.getType();
+
+		Survey survey = null;
+
+		// type 별로 url 조회 다르게 answer or result
+		if(type.equals("answer")){
+			survey = surveyRepository.findSurveyByResponseUrl(linkCode).orElse(null);
+		}else if(type.equals("result")){
+			survey = surveyRepository.findSurveyByResultUrl(linkCode).orElse(null);
+		}
+
+		if(survey == null) return null;
+
+		return SurveyDecodeLinkGetRes.builder()
+				.surveyId(survey.getSurveyId())
+				.templateId(survey.getTemplate().getTemplateId())
+				.build();
 	}
 }

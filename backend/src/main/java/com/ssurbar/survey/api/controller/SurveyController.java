@@ -2,19 +2,13 @@ package com.ssurbar.survey.api.controller;
 
 import java.util.List;
 
+import com.ssurbar.survey.api.request.SurveyDecodeLinkGetReq;
 import com.ssurbar.survey.api.request.SurveyFilterListPostReq;
 import com.ssurbar.survey.api.response.*;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.ssurbar.survey.api.request.SurveyAnswerListGetReq;
 import com.ssurbar.survey.api.request.SurveyCreatePostReq;
@@ -187,6 +181,25 @@ public class SurveyController {
 		if(filterQuestionDetails == null) return ResponseEntity.status(404).body(BaseResponseBody.of("설문 없음"));
 
 		return ResponseEntity.status(200).body(SurveyFilterListGetRes.builder().filterQuestionList(filterQuestionDetails).build());
+	}
+
+	@GetMapping("/decode-link")
+	@ApiOperation(value = "링크코드에 해당하는 설문, 서식 조회", notes = "해당 링크에 해당하는 설문, 서식의 Id를 조회한다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "설문 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<? extends BaseResponseBody> decodeLink(
+			@ApiParam(value="링크 조회", required = true)SurveyDecodeLinkGetReq surveyDecodeLinkGetReq
+	){
+
+		SurveyDecodeLinkGetRes res = surveyService.decodeLink(surveyDecodeLinkGetReq);
+
+		if(res == null) return ResponseEntity.status(404).body(BaseResponseBody.of("설문 없음"));
+
+		return ResponseEntity.status(200).body(res);
 	}
 
 }
