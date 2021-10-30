@@ -1,30 +1,30 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-// 설문 제작 
-import Editform from "../views/Editform.vue";
-// 설문 문항 편집
-import Createform from "../views/Createform.vue";
-import Form from "@/views/Res/SurveyForm.vue"
+import Home from "../views/Home.vue";
+import Form from "../views/Res/SurveyForm.vue"
 
 Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/Editform",
-    name: "Editform",
-    component: Editform,
+    path: "/",
+    name: "Home",
+    component: Home,
   },
   {
-    path: "/Createform",
-    name: "Createform",
-    component: Createform,
+    path: "/about",
+    name: "About",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/About.vue"),
   },
   {
     path: "/form",
     name: "Form",
     component: Form,
   },
-  
 ];
 
 const router = new VueRouter({
@@ -34,6 +34,7 @@ const router = new VueRouter({
 });
 
 export default router;
+
 
 
 

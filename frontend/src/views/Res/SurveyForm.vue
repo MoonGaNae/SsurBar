@@ -1,7 +1,7 @@
 <template>
   <div class = "surveyWrapper">
     <div class="surveyForm">
-        <el-tag type="danger" effect="plain">1일남음</el-tag>
+        <el-tag type="danger" effect="plain" style="border-radius:50px;">1일남음</el-tag>
         <div class="surveyDes">
             <h1 class="title">업무 만족도 조사</h1>
             <h5 class="date">2021.10.25~2021.10.28</h5>
@@ -130,30 +130,49 @@
 </template>
 
 <script>
+import axios from "@/utils/axios.js";
+
   export default {
     data () {
       return {
         form:{
             category: [],
         },
-        radio: '1'
+        radio: '1',
+        templateId : '1234657891234'
       };
     },
     methods:{
-                submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          this.register(this.form);
-        } else {
-          return false;
+        submitForm(formName) {
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                this.register(this.form);
+                } else {
+                return false;
+                }
+            });
+        },
+        getFilterList(templateId){
+            axios.get("template/" + templateId + "/questions").then((res)=>{
+                console.log(res)
+            })
+        },
+        register(data){
+            console.log(data);
+        },
+        surveyFilters() {
+            console.log(1);
+        },
+        surveyQuestions(){
+            console.log(1);
         }
-      });
-    },
-    register(data){
-        console.log(data);
-      }
 
-    }
+    },
+    created() {
+        this.getFilterList(this.templateId);
+    },
+
+    
   }
 </script>
 
@@ -162,9 +181,7 @@
 .surveyWrapper{
     background-color: navy;
 }
-.surveyDes{
-    margin-top: 0.5em;
-}
+
 .surveyDes h1{
     font-weight:800;
 }
