@@ -1,7 +1,7 @@
 <template>
   <div class = "surveyWrapper">
     <div class="surveyForm">
-        <el-tag type="danger" effect="plain">1일남음</el-tag>
+        <el-tag type="danger" effect="plain" style="border-radius:50px;">1일남음</el-tag>
         <div class="surveyDes">
             <h1 class="title">업무 만족도 조사</h1>
             <h5 class="date">2021.10.25~2021.10.28</h5>
@@ -11,47 +11,61 @@
         <div class="surveyContent">
             <el-form ref="form" :model="form">
                 <el-collapse v-model="activeNames" @change="handleChange">
-                    <el-collapse-item title="Consistency" name="1">
+                    <el-collapse-item title="Filters" name="1">
                         <el-form-item>
-                            <el-radio-group v-model="form.category">
-                                <div class="surveytitle">
-                                    본인의 직위를 선택해주세요
-                                </div>
-                                <el-radio label="Option A" style="display: block; margin-top:1.5em;"></el-radio>
-                                <el-radio label="Option B" style="display: block; margin-top:1.5em;"></el-radio>
-                                <el-radio label="Option C" style="display: block; margin-top:1.5em;"></el-radio>
-                                <el-radio label="Option D" style="display: block; margin-top:1.5em;"></el-radio>
-                            </el-radio-group>
+                            <div class="surveytitle" v-for="(item, idx) in filters" :key="idx">
+                                {{item.questionNum}}. {{item.title}}
+                                <br>
+                                <el-radio-group v-model="form.category">
+                                    <div class="surveytitle" v-for="(example, idx) in filterexample[item.questionNum-1]" :key="idx">
+                                        <el-radio :label="example" style="display: block; margin-top:1.5em;"></el-radio>
+                                    </div>                        
+                                </el-radio-group>
+                            </div> 
                         </el-form-item>
                     </el-collapse-item>
+                    <el-collapse-item v-for="(item, idx) in questions" :key="idx" :title="item.categoryName">
+                            <el-form-item>
+                                <div class="surveytitle">
+                                    {{item.questionNum}}. {{item.title}}
+                                    <br>
+                                    <el-radio-group v-model="form.category">
+                                        <div class="surveytitle" v-for="(example, idx) in questionexample[item.questionNum-1]" :key="idx">
+                                            <el-radio :label="example" style="display: block; margin-top:1.5em;"></el-radio>
+                                        </div>
+                                    </el-radio-group>
+                                </div> 
+                            </el-form-item>
+                        </el-collapse-item>
 
-                    <el-collapse-item title="Feedback" name="2">
+                    <!-- <el-collapse-item title="Feedback" name="2">
                         <el-form-item>
-                            <el-radio-group v-model="form.category">
-                                <div class="surveytitle">
-                                    본인의 직위를 선택해주세요
-                                </div>
-                                <el-radio label="Option A" style="display: block; margin-top:1.5em;"></el-radio>
-                                <el-radio label="Option B" style="display: block; margin-top:1.5em;"></el-radio>
-                                <el-radio label="Option C" style="display: block; margin-top:1.5em;"></el-radio>
-                                <el-radio label="Option D" style="display: block; margin-top:1.5em;"></el-radio>
-                            </el-radio-group>
+                            <div class="surveytitle" v-for="(item, idx) in questions" :key="idx">
+                                {{item.questionNum}}. {{item.title}}
+                                <br>
+                                <el-radio-group v-model="form.category">
+                                    <div class="surveytitle" v-for="(example, idx) in questionexample[item.questionNum-1]" :key="idx">
+                                        <el-radio :label="example" style="display: block; margin-top:1.5em;"></el-radio>
+                                    </div>
+                                </el-radio-group>
+                            </div> 
                         </el-form-item>
-                    </el-collapse-item>
+                    </el-collapse-item> -->
 
-                    <el-collapse-item title="Efficiency" name="3">
+
+                    <!-- <el-collapse-item title="Efficiency" name="3">
                         <el-form-item>
-                            <el-radio-group v-model="form.category">
-                                <div class="surveytitle">
-                                    본인의 직위를 선택해주세요
-                                </div>
-                                <el-radio label="Option A" style="display: block; margin-top:1.5em;"></el-radio>
-                                <el-radio label="Option B" style="display: block; margin-top:1.5em;"></el-radio>
-                                <el-radio label="Option C" style="display: block; margin-top:1.5em;"></el-radio>
-                                <el-radio label="Option D" style="display: block; margin-top:1.5em;"></el-radio>
-                            </el-radio-group>
+                            <div class="surveytitle" v-for="(item, idx) in filters" :key="idx">
+                                {{item.questionNum}}. {{item.title}}
+                                <br>
+                                <el-radio-group v-model="form.category">
+                                    <div class="surveytitle" v-for="(example, idx) in filterexample[item.questionNum-1]" :key="idx">
+                                        <el-radio :label="example" style="display: block; margin-top:1.5em;"></el-radio>
+                                    </div>                        
+                                </el-radio-group>
+                            </div> 
                         </el-form-item>
-                    </el-collapse-item>
+                    </el-collapse-item> -->
                 </el-collapse>
 
                 <div class="button">
@@ -66,61 +80,6 @@
                 
 
             </el-form>
-
-            <!-- <hr>
-            <div class="category">
-                <el-collapse v-model="activeNames" @change="handleChange">
-                    <el-collapse-item title="Consistency" name="1">
-                        <div class="surveytitle">
-                            본인의 직위를 선택해주세요
-                        </div>
-                        <div class="answer">
-                            <el-radio v-model="radio" label="1" style="display: block; margin-top:1.5em;">Option A</el-radio>
-                            <el-radio v-model="radio" label="2" style="display: block; margin-top:1.5em;">Option B</el-radio>
-                            <el-radio v-model="radio" label="3" style="display: block; margin-top:1.5em;">Option C</el-radio>
-                            <el-radio v-model="radio" label="4" style="display: block; margin-top:1.5em;">Option D</el-radio>
-                            <el-radio v-model="radio" label="5" style="display: block; margin-top:1.5em;">Option E</el-radio>
-                        </div>
-                    </el-collapse-item>
-                    <el-collapse-item title="Feedback" name="2">
-                        <div class="surveytitle">
-                            본인의 나이를 선택해주세요
-                        </div>
-                        <div class="answer">
-                            <el-radio v-model="radio" label="1" style="display: block; margin-top:1.5em;">Option A</el-radio>
-                            <el-radio v-model="radio" label="2" style="display: block; margin-top:1.5em;">Option B</el-radio>
-                            <el-radio v-model="radio" label="3" style="display: block; margin-top:1.5em;">Option C</el-radio>
-                            <el-radio v-model="radio" label="4" style="display: block; margin-top:1.5em;">Option D</el-radio>
-                            <el-radio v-model="radio" label="5" style="display: block; margin-top:1.5em;">Option E</el-radio>
-                        </div>
-                    </el-collapse-item>
-                    <el-collapse-item title="Efficiency" name="3">
-                        <div class="surveytitle">
-                            본인의 직위를 선택해주세요
-                        </div>
-                        <div class="answer">
-                            <el-radio v-model="radio" label="1" style="display: block; margin-top:1.5em;">Option A</el-radio>
-                            <el-radio v-model="radio" label="2" style="display: block; margin-top:1.5em;">Option B</el-radio>
-                            <el-radio v-model="radio" label="3" style="display: block; margin-top:1.5em;">Option C</el-radio>
-                            <el-radio v-model="radio" label="4" style="display: block; margin-top:1.5em;">Option D</el-radio>
-                            <el-radio v-model="radio" label="5" style="display: block; margin-top:1.5em;">Option E</el-radio>
-                        </div>
-                    </el-collapse-item>
-                    <el-collapse-item title="Controllability" name="4">
-                        <div class="surveytitle">
-                            원하는 선택지를 골라주세요
-                        </div>
-                        <div class="answer">
-                            <el-radio v-model="radio" label="1" style="display: block; margin-top:1.5em;">Option A</el-radio>
-                            <el-radio v-model="radio" label="2" style="display: block; margin-top:1.5em;">Option B</el-radio>
-                            <el-radio v-model="radio" label="3" style="display: block; margin-top:1.5em;">Option C</el-radio>
-                            <el-radio v-model="radio" label="4" style="display: block; margin-top:1.5em;">Option D</el-radio>
-                            <el-radio v-model="radio" label="5" style="display: block; margin-top:1.5em;">Option E</el-radio>
-                        </div>
-                    </el-collapse-item>
-                </el-collapse>
-                
-            </div> -->
         </div>
         <div style="text-align:center;">
             <img class="logo" src="@/assets/smalllogo.png" />
@@ -130,30 +89,83 @@
 </template>
 
 <script>
+import axios from "@/utils/axios.js";
+
   export default {
     data () {
       return {
         form:{
-            category: [],
+            
         },
-        radio: '1'
+        radio: '1',
+        templateId : '1234657891234',
+        surveyId: 'rm15zxga9lsRp',
+        category: [],
+        filters: [],
+        questions:[],
+        filterexample: [],
+        questionexample: []
       };
     },
     methods:{
-                submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          this.register(this.form);
-        } else {
-          return false;
-        }
-      });
-    },
-    register(data){
-        console.log(data);
-      }
+        submitForm(formName) {
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                this.register(this.form);
+                } else {
+                return false;
+                }
+            });
+        },
+        getFilterList(surveyId){
+            axios.get("survey/" + surveyId + "/filters").then((res)=>{
+                this.filters = res.data.filterQuestionList;
+  
+                var contents = new Array();
+                var contentAnswers = new Array();
 
-    }
+                for(var i=0; i<this.filters.length; i++){
+                    contents[i] = this.filters[i].content
+                    contentAnswers[i] = JSON.parse(contents[i])
+                }
+                this.filterexample = contentAnswers;
+            })
+        },
+        getQuestionList(templateId){
+            axios.get("template/" + templateId + "/questions").then((res)=>{
+                console.log(res)
+                this.questions = res.data.questionList;
+                this.category = res.data.questionList.categoryId;
+
+                var contents = new Array();
+                var contentAnswers = new Array();
+
+                for(var i=0; i<this.questions.length; i++){
+                    contents[i] = this.questions[i].content
+                    contentAnswers[i] = JSON.parse(contents[i])
+                }
+                this.questionexample = contentAnswers;
+
+            })
+        },
+        register(data){
+            console.log(data);
+        },
+        surveyFilters() {
+            console.log(1);
+        },
+        surveyQuestions(){
+            console.log(1);
+        }
+
+    },
+    // 동기적으로 호출 
+    created() {
+        this.getQuestionList(this.templateId);
+        this.getFilterList(this.surveyId);
+    },
+
+    
   }
 </script>
 
@@ -162,9 +174,7 @@
 .surveyWrapper{
     background-color: navy;
 }
-.surveyDes{
-    margin-top: 0.5em;
-}
+
 .surveyDes h1{
     font-weight:800;
 }

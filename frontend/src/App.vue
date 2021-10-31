@@ -1,18 +1,25 @@
 <template>
-  <Sidebar id="sidebar"></Sidebar>
+   <div>
+      <Sidebar v-if="$route.name != 'Form' "/>
+      <router-view></router-view>
+   </div>
 </template>
 
 <script>
-import Sidebar from "@/components/common/Sidebar"
+import Sidebar from "@/components/common/Sidebar.vue"
+
+
 export default {
    name: "App",
 
-   compoents:{
-      Sidebar,
-   },  
-}
+   components: {
+      Sidebar
+   },
+}  
+
 </script>
 
 <style>
-
+ @import './assets/style/main.css';
 </style>
+

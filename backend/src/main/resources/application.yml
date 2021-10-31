@@ -16,3 +16,4 @@ spring:
     
 spa:
   default-file: /dist/index.html
+server:max-http-header-size: 400000
