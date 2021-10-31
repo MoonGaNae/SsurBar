@@ -16,7 +16,7 @@ public class BaseResponseBody {
 
     public BaseResponseBody() {}
 
-    public BaseResponseBody(String messgae){
+    public BaseResponseBody(String message){
         this.message = message;
     }
     

@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.ssurbar.survey.db.entity.Code;
 import com.ssurbar.survey.db.entity.answer.QuestionAnswer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,7 +25,7 @@ public class Question implements Serializable {
     private String questionId;
 
     private String title;
-    private String questionType;
+//    private String questionType;
     private String content;
     
     @Column(columnDefinition = "TINYINT(1)")
@@ -41,4 +42,8 @@ public class Question implements Serializable {
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private List<QuestionAnswer> questionAnswers = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "question_type")
+    private Code questionType;
 }

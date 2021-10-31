@@ -3,7 +3,6 @@ package com.ssurbar.survey.api.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ssurbar.survey.db.repository.answer.QuestionAnswerRepository;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -16,6 +15,7 @@ import com.ssurbar.survey.api.response.SurveyAnswer;
 import com.ssurbar.survey.db.entity.answer.FilterData;
 import com.ssurbar.survey.db.entity.answer.QuestionAnswer;
 import com.ssurbar.survey.db.entity.survey.Survey;
+import com.ssurbar.survey.db.repository.answer.QuestionAnswerRepository;
 
 @Service("answerService")
 public class AnswerServiceImpl implements AnswerService{
@@ -47,16 +47,18 @@ public class AnswerServiceImpl implements AnswerService{
 				
 				boolean isCorrect = true;
 				
-				for (FilterDataReq filterDataReq : filterDataList) {
-					String filterKind = filterDataReq.getFilterKind();
-					String filterValue = filterDataReq.getFilterValue();
-					
-					if(!filterValue.equals(jsonObj.get(filterKind))) {
-						isCorrect = false;
-						break;
+				if(filterDataList != null) {
+					for (FilterDataReq filterDataReq : filterDataList) {
+						String filterKind = filterDataReq.getFilterKind();
+						String filterValue = filterDataReq.getFilterValue();
+						
+						if(!filterValue.equals(jsonObj.get(filterKind))) {
+							isCorrect = false;
+							break;
+						}
+						
+						count++;
 					}
-					
-					count++;
 				}
 				
 				if(isCorrect && count == size)	surveyAnswerList.add(SurveyAnswer.builder()

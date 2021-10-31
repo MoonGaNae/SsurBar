@@ -2,33 +2,19 @@ package com.ssurbar.survey.api.controller;
 
 import java.util.List;
 
+import com.ssurbar.survey.api.request.SurveyDecodeLinkGetReq;
+import com.ssurbar.survey.api.request.SurveyFilterListPostReq;
+import com.ssurbar.survey.api.response.*;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.ssurbar.survey.api.request.SurveyAnswerListGetReq;
 import com.ssurbar.survey.api.request.SurveyCreatePostReq;
-import com.ssurbar.survey.api.response.SurveyAnswer;
-import com.ssurbar.survey.api.response.SurveyAnswerRes;
-import com.ssurbar.survey.api.response.SurveyCountRes;
-import com.ssurbar.survey.api.response.SurveyInfo;
-import com.ssurbar.survey.api.response.SurveyListRes;
 import com.ssurbar.survey.api.service.AnswerService;
 import com.ssurbar.survey.api.service.SurveyService;
 import com.ssurbar.survey.common.model.response.BaseResponseBody;
-import com.ssurbar.survey.db.entity.survey.Survey;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 
 /**
  * 설문지 내용 관련 API 요청 처리를 위한 컨트롤러 정의.
@@ -105,7 +91,7 @@ public class SurveyController {
 //        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "성공"));
 //    }
     
-	  @GetMapping("/{surveyId}")
+	  @GetMapping("/{surveyId}/response/cnt")
 	  @ApiOperation(value = "설문 응답 수 불러오기", notes = "해당 설문에 응답한 횟수를 불러온다.")
 	  @ApiResponses({
 	          @ApiResponse(code = 200, message = "성공"),
@@ -140,5 +126,80 @@ public class SurveyController {
 		  
 	      return ResponseEntity.status(200).body(res);
 	  }
+	  
+	  @GetMapping("/{surveyId}")
+	  @ApiOperation(value = "설문 상제 정보 불러오기", notes = "선택한 설문에 대한 상세정보를 불러온다.")
+	  @ApiResponses({
+	          @ApiResponse(code = 200, message = "성공"),
+	          @ApiResponse(code = 401, message = "인증 실패"),
+	          @ApiResponse(code = 404, message = "사용자 없음"),
+	          @ApiResponse(code = 500, message = "서버 오류")
+	  })
+	  public ResponseEntity<? extends BaseResponseBody> getSurveyDetail(@PathVariable String surveyId)
+	  {
+		  SurveyDetailRes res = surveyService.getSurveyDetailInfo(surveyId);
+		  res.setMessage("성공");
+		  
+	      return ResponseEntity.status(200).body(res);
+	  }
+
+	@PostMapping("/{surveyId}/filters")
+	@ApiOperation(value = "설문 필터 생성", notes = "새로운 설문의 필터를 생성해서 저장한다")
+	@ApiResponses({
+			@ApiResponse(code = 201, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "설문 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<? extends BaseResponseBody> createFilters(
+			@PathVariable("surveyId") String surveyId,
+			@RequestBody @ApiParam(value="설문 필터생성", required = true) SurveyFilterListPostReq surveyFilterListPostReq
+	){
+		List<String> idList = surveyService.createNewFilters(surveyId, surveyFilterListPostReq);
+
+		if(idList.size() == 0){
+			return ResponseEntity.status(500).body(BaseResponseBody.of("서버오류"));
+		}
+
+		SurveyFilterListPostRes res = SurveyFilterListPostRes.builder().filterQuestionList(idList).build();
+		return ResponseEntity.status(201).body(res);
+	}
+
+	@GetMapping("/{surveyId}/filters")
+	@ApiOperation(value = "설문 필터 조회", notes = "해당 설문의 필터항목들을 조회한다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "설문 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<? extends BaseResponseBody> getFilters(
+			@PathVariable("surveyId") String surveyId
+	){
+		List<FilterQuestionDetail> filterQuestionDetails = surveyService.getFilters(surveyId);
+
+		if(filterQuestionDetails == null) return ResponseEntity.status(404).body(BaseResponseBody.of("설문 없음"));
+
+		return ResponseEntity.status(200).body(SurveyFilterListGetRes.builder().filterQuestionList(filterQuestionDetails).build());
+	}
+
+	@GetMapping("/decode-link")
+	@ApiOperation(value = "링크코드에 해당하는 설문, 서식 조회", notes = "해당 링크에 해당하는 설문, 서식의 Id를 조회한다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "설문 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<? extends BaseResponseBody> decodeLink(
+			@ApiParam(value="링크 조회", required = true)SurveyDecodeLinkGetReq surveyDecodeLinkGetReq
+	){
+
+		SurveyDecodeLinkGetRes res = surveyService.decodeLink(surveyDecodeLinkGetReq);
+
+		if(res == null) return ResponseEntity.status(404).body(BaseResponseBody.of("설문 없음"));
+
+		return ResponseEntity.status(200).body(res);
+	}
 
 }

@@ -1,14 +1,17 @@
 package com.ssurbar.survey.api.service;
 
 import com.google.gson.Gson;
-import com.ssurbar.survey.api.request.TemplateFilterListPostReq;
+import com.ssurbar.survey.api.request.SurveyFilterListPostReq;
 import com.ssurbar.survey.api.request.TemplatePostReq;
 import com.ssurbar.survey.api.request.TemplateQuestionListPostReq;
+import com.ssurbar.survey.api.response.QuestionDetail;
 import com.ssurbar.survey.common.util.RandomIdUtil;
+import com.ssurbar.survey.db.entity.Code;
 import com.ssurbar.survey.db.entity.survey.Category;
 import com.ssurbar.survey.db.entity.survey.FilterQuestion;
 import com.ssurbar.survey.db.entity.survey.Question;
 import com.ssurbar.survey.db.entity.survey.Template;
+import com.ssurbar.survey.db.repository.CodeRepository;
 import com.ssurbar.survey.db.repository.survey.CategoryRepository;
 import com.ssurbar.survey.db.repository.survey.FilterQuestionRepository;
 import com.ssurbar.survey.db.repository.survey.QuestionRepository;
@@ -19,6 +22,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TemplateServiceImpl implements TemplateService{
@@ -36,7 +41,7 @@ public class TemplateServiceImpl implements TemplateService{
     CategoryRepository categoryRepository;
 
     @Autowired
-    FilterQuestionRepository filterQuestionRepository;
+    CodeRepository codeRepository;
 
     /* 새로운 설문서식 생성 */
     @Override
@@ -87,6 +92,10 @@ public class TemplateServiceImpl implements TemplateService{
 
             // 문항의 카테고리
             Category category = categoryMap.get(questionDto.getCategoryName());
+
+            // 문항 타입
+            Code questionType = codeRepository.getById(questionDto.getQuestionType());
+
             String questionId = randomIdUtil.makeRandomId(13);
             questionSaveList.add(Question.builder()
                             .questionId(questionId)
@@ -95,7 +104,7 @@ public class TemplateServiceImpl implements TemplateService{
                             .content(questionDto.getContent())
                             .isEssential(questionDto.getIsEssential())
                             .questionNum(questionDto.getNumber())
-                            .questionType(questionDto.getQuestionType())
+                            .questionType(questionType)
                             .title(questionDto.getTitle())
                     .build());
         }
@@ -111,32 +120,14 @@ public class TemplateServiceImpl implements TemplateService{
     }
 
     @Override
-    public List<String> createNewFilters(String templateId, TemplateFilterListPostReq templateFilterListPostReq) {
-        Template template = templateRepository.getById(templateId);
+    public List<QuestionDetail> getQuestions(String templateId) {
+        Optional<Template> templateOpt = templateRepository.getTemplateByTemplateId(templateId);
 
-        Gson gson = new Gson();
+        if(!templateOpt.isPresent()) return null;
+        Template template = templateOpt.get();
 
-        List<FilterQuestion> filterSaveList = new ArrayList<>();
-        for(String filterJson : templateFilterListPostReq.getFilterQuestionList()){
-            TemplateFilterListPostReq.FilterDto filterDto = gson.fromJson(filterJson, TemplateFilterListPostReq.FilterDto.class);
+        List<Question> questions = template.getQuestions();
 
-            String filterId = randomIdUtil.makeRandomId(13);
-            filterSaveList.add(FilterQuestion.builder()
-                            .filterQuestionId(filterId)
-                            .questionNum(filterDto.getNumber())
-                            .title(filterDto.getTitle())
-                            .content(filterDto.getContent())
-                            .template(template)
-                    .build());
-        }
-
-        filterSaveList = filterQuestionRepository.saveAll(filterSaveList);
-
-        List<String> idList = new ArrayList<>();
-        for(FilterQuestion filter : filterSaveList){
-            idList.add(filter.getFilterQuestionId());
-        }
-
-        return idList;
+        return questions.stream().map(QuestionDetail::of).collect(Collectors.toList());
     }
 }

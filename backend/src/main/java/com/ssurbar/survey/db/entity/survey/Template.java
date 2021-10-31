@@ -29,4 +29,7 @@ public class Template implements Serializable {
 
     @OneToMany(mappedBy = "template")
     private List<Survey> surveys = new ArrayList<>();
+
+    @OneToMany(mappedBy = "template")
+    private List<Question> questions = new ArrayList<>();
 }
