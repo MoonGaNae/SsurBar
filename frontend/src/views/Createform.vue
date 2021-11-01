@@ -1,7 +1,7 @@
 <template>
   <div id="wrapper">
     <div style="background-color: rgb(5, 25, 58); height: 100vh">
-      <div>네브바같은 느낌으로다가</div>
+      <div>1</div>
       <div
         style="
           background-position: center;
@@ -29,7 +29,12 @@
           <h3 style="d-flex; text-align:center; font-size:2.5rem">
             설문 대상
             <div class="form-checkbox form-checkbox-inline" style="d-flex; text-align:center;">
-              <label class="form-checkbox-label" v-for="(team, teamIdx) in teamList" :key="teamIdx">
+              <select name="team" v-model="targetTeamId">
+                <option v-for="(team, teamIdx) in teamList" :key="teamIdx" :value="team.teamId">
+                  {{ team.teamName }}
+                </option>
+              </select>
+              <!-- <label class="form-checkbox-label" v-for="(team, teamIdx) in teamList" :key="teamIdx">
                 <input
                   v-model="targetTeams"
                   name="rap"
@@ -39,50 +44,8 @@
                 />
                 <i class="form-checkbox-button"></i>
                 <span style="font-size: 2rem">{{ team.teamName }}</span>
-              </label>
-              <!-- <label class="form-checkbox-label">
-            <input v-model="targetTeams" name="rap" class="form-checkbox-field" type="checkbox" />
-            <i class="form-checkbox-button"></i>
-            <span style="font-size: 2rem">인사팀</span>
-          </label>
-          <label class="form-checkbox-label">
-            <input v-model="targetTeams" name="pop" class="form-checkbox-field" type="checkbox" />
-            <i class="form-checkbox-button"></i>
-            <span style="font-size: 2rem">개발팀</span>
-          </label>
-          <label class="form-checkbox-label">
-            <input v-model="targetTeams" name="rock" class="form-checkbox-field" type="checkbox" />
-            <i class="form-checkbox-button"></i>
-            <span style="font-size: 2rem">기획팀</span>
-          </label>
-          <label class="form-checkbox-label">
-            <input v-model="targetTeams" name="metal" class="form-checkbox-field" type="checkbox" />
-            <i class="form-checkbox-button"></i>
-            <span style="font-size: 2rem">보안팀</span>
-          </label>
-          <label class="form-checkbox-label">
-            <input v-model="targetTeams" name="r_b" class="form-checkbox-field" type="checkbox" />
-            <i class="form-checkbox-button"></i>
-            <span style="font-size: 2rem">재경팀</span>
-          </label> -->
+              </label> -->
             </div>
-            <!-- <div class="form-checkbox form-checkbox-inline" style="d-flex; text-align:center;">
-          <label class="form-checkbox-label">
-            <input v-model="targetTeams" name="rap" class="form-checkbox-field" type="checkbox" />
-            <i class="form-checkbox-button"></i>
-            <span style="font-size: 2rem">총무팀</span>
-          </label>
-          <label class="form-checkbox-label">
-            <input v-model="targetTeams" name="pop" class="form-checkbox-field" type="checkbox" />
-            <i class="form-checkbox-button"></i>
-            <span style="font-size: 2rem">마케팅팀</span>
-          </label>
-          <label class="form-checkbox-label">
-            <input v-model="targetTeams" name="rock" class="form-checkbox-field" type="checkbox" />
-            <i class="form-checkbox-button"></i>
-            <span style="font-size: 2rem">타회사</span>
-          </label>
-        </div> -->
           </h3>
           <div style="d-flex; text-align:center">
             <h3 style="font-size: 2.5rem">설문 기간</h3>
@@ -123,7 +86,7 @@ export default {
     return {
       description: "",
       surveyTitle: "",
-      targetTeams: [],
+      targetTeamId: "",
       endDate: "",
       teamList: [],
     };
@@ -132,7 +95,7 @@ export default {
     nextPage() {
       console.log(this.description);
       console.log(this.surveyTitle);
-      console.log(this.targetTeams);
+      console.log(this.targetTeamId);
       console.log(this.endDate);
     },
     getTeamList() {
