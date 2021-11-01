@@ -1,6 +1,9 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+// import Vue from "vue";
+// import VueRouter from "vue-router";
+// // 설문 제작 
+// import Editform from "../views/Editform.vue";
+// // 설문 문항 편집
+// import Createform from "../views/Createform.vue";
 
 import QuestionEdit from "@/views/question/QuestionEdit.vue";
 
@@ -27,10 +30,10 @@ const routes = [
   },
 ];
 
-const router = new VueRouter({
-  mode: "history",
-  base: process.env.BASE_URL,
-  routes,
-});
+// const router = new VueRouter({
+//   mode: "history",
+//   base: process.env.BASE_URL,
+//   routes,
+// });
 
-export default router;
+// export default router;
