@@ -1,11 +1,14 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
+// // 설문 제작
 // // 설문 제작
 // import Editform from "../views/Editform.vue";
 // // 설문 문항 편집
 import Createform from "@/views/Createform.vue";
 
 import QuestionEdit from "@/views/question/QuestionEdit.vue";
+import Vue from "vue";
+import VueRouter from "vue-router";
+// import Home from "../views/Home.vue";
+import Form from "../views/Res/SurveyForm.vue";
 
 Vue.use(VueRouter);
 
@@ -32,6 +35,11 @@ const routes = [
     path: "/form/createform",
     name: "FromCreateion",
     component: Createform,
+  },
+  {
+    path: "/form",
+    name: "Form",
+    component: Form,
   },
 ];
 

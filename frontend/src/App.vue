@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Sidebar id="sidebar" />
+    <Sidebar v-if="$route.name != 'Form'" id="sidebar" />
     <RouterView id="router" :key="$route.fullPath" />
   </div>
 </template>
@@ -25,4 +25,5 @@ export default {
 #router {
   width: 100%;
 }
+@import "./assets/style/main.css";
 </style>
