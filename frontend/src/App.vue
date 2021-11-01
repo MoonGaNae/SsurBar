@@ -1,25 +1,29 @@
 <template>
-   <div>
-      <Sidebar v-if="$route.name != 'Form' "/>
-      <router-view></router-view>
-   </div>
+  <div id="app">
+    <Sidebar v-if="$route.name != 'Form'" id="sidebar" />
+    <RouterView id="router" :key="$route.fullPath" />
+  </div>
 </template>
 
 <script>
-import Sidebar from "@/components/common/Sidebar.vue"
-
+import Sidebar from "@/components/common/Sidebar.vue";
 
 export default {
-   name: "App",
+  name: "App",
 
-   components: {
-      Sidebar
-   },
-}  
-
+  components: {
+    Sidebar,
+  },
+};
 </script>
 
 <style>
- @import './assets/style/main.css';
-</style>
+#app {
+  display: flex;
+}
 
+#router {
+  width: 100%;
+}
+@import "./assets/style/main.css";
+</style>
