@@ -79,8 +79,8 @@
             </div>
           </div>
           <div class="category-warning" v-text="categoryInputWarning"></div>
-          <br />
-          <div class="category-list">
+          
+          <div class="category-list ">
             <div
               class="category-div"
               v-for="(category, categoryIndex) in categoryList"
@@ -98,14 +98,14 @@
                     </div>
                   </div>
                   <div class="category-delete-div">
-                    <!-- <div class="category-delete-btn-div"> -->
+                    
                     <button
                       class="category-delete-btn rounded-corner-button red-button el-button--danger"
                       @click="deleteCategory(categoryIndex)"
                     >
                       카테고리 삭제
                     </button>
-                    <!-- </div> -->
+                  
                   </div>
                 </div>
                 <div class="question-list" v-if="category.isSelected">
@@ -155,10 +155,6 @@
                         >
                           <i class="el-icon-minus"></i>
                         </button>
-
-                        <!-- <button class="round-button" @click="testClick(question.choiceList)">
-                          test
-                        </button> -->
                       </div>
                       <div class="choice-add-button-div">
                         <button
@@ -168,12 +164,6 @@
                           보기 추가
                         </button>
                       </div>
-                      <!-- <button
-                        class="choice-add-button"
-                        @click="deleteQuestion(category.questionList, questionIndex)"
-                      >
-                        문제 삭제
-                      </button> -->
                     </div>
                   </div>
                   <button
@@ -184,45 +174,7 @@
                   </button>
                 </div>
               </div>
-              <!-- <div class="category-delete-btn-div">
-                <button
-                  class="category-delete-btn rounded-corner-button red-button el-button--danger"
-                  @click="deleteCategory(categoryIndex)"
-                >
-                  카테고리 삭제
-                </button>
-              </div> -->
-            </div>
-            <!-- <div>
-              <h3 class="category-title" style="d-flex; text-align:left; font-size:2.5rem">
-                카테고리1
-              </h3>
-              <div class="question-list">
-                <div class="question">
-                  <h4 class="question-title" style="d-flex; text-align:left; font-size:2rem">
-                    Q1. 귀하의 직무 만족도는 얼마입니까?
-                  </h4>
-                  <div class="answer-choices-list">
-                    <div class="choice">1. 매우 만족<button class="round-button">-</button></div>
-                    <div class="choice">2. 보통<button class="round-button">-</button></div>
-                    <div class="choice">3. 매우 불만족<button class="round-button">-</button></div>
-                  </div>
-                  <button class="choice-add-button">보기 추가</button>
-                </div>
-                <div class="question">
-                  <h4 class="question-title" style="d-flex; text-align:left; font-size:2rem">
-                    Q2. 귀하의 급여에 만족합니까?
-                  </h4>
-                  <div class="answer-choices-list">
-                    <div class="choice">1. 매우 불만족<button class="round-button">-</button></div>
-                    <div class="choice">2. 불만족<button class="round-button">-</button></div>
-                    <div class="choice">3. 조금 불만족<button class="round-button">-</button></div>
-                  </div>
-                  <button class="choice-add-button">보기 추가</button>
-                </div>
-                <button class="question-add-button">문제 추가</button>
-              </div>
-            </div> -->
+            </div>         
           </div>
         </div>
       </div>

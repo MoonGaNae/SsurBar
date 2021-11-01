@@ -20,7 +20,7 @@
       </ul>
     </div>
     <div style="background-color: rgb(5, 25, 58); height: 100vh">
-      <br>
+      <div>네브바같은 느낌으로다가</div>
       <div
         style="
           background-position: center;
@@ -28,7 +28,7 @@
           margin-top: 3%;
           margin-left: 4%;
           margin-right: 4%;
-          height: 100vh;
+          height: 90vh;
           border-radius: 60px 60px 0% 0%;
         "
       >
@@ -42,109 +42,141 @@
               Next
             </button>
           </div>
-
           <hr style="width: 100%" />
           <div class="sub-title-div">
             <div>
               <h3 style="d-flex; text-align:left; font-size:2.5rem">업무 만족도 조사</h3>
             </div>
-            <div class="sub-title-div-buttons">
-              <input
-                class="el-input__inner"
-                type="text"
-                v-model="categoryInput"
-                v-if="categoryInputState"
-              />
-              <button
-                @click="addCategory()"
-                v-if="categoryInputState"
-                class="rounded-corner-button white-button category-input-btn"
-              >
-                입력 완료
-              </button>
-              <button
-                v-if="categoryInputState"
-                @click="cancelCategoryAdd()"
-                class="rounded-corner-button white-button category-cancel-btn"
-              >
-                취소
-              </button>
-              
-              
-              <!-- <button class="rounded-corner-button while-button">질문 은행</button> -->
-            </div>
-          </div>
-
-          <div class="category-warning" v-text="categoryInputWarning"></div>
-          <br>
-
-          <div class="d-flex flex-row ">
-            <div>
-              <div class="category-list">
-                <div
-                  class="category-div"
-                  v-for="(category, categoryIndex) in categoryList"
-                  :key="categoryIndex"
+              <div class="sub-title-div-buttons">
+                <input
+                  class="el-input__inner"
+                  type="text"
+                  v-model="categoryInput"
+                  v-if="categoryInputState"
+                />
+                <button
+                  @click="addCategory()"
+                  v-if="categoryInputState"
+                  class="rounded-corner-button white-button category-input-btn"
                 >
-                  <div class="category" :id="'category' + categoryIndex">
-                    
-                    
-                      <div
-                        class="question el-card box-card is-always-shadow"
-                        v-for="(question, questionIndex) in category.questionList"
-                        :key="questionIndex"
-                      >
-                        
-                        <h4 class="question-title" style="d-flex; text-align:left; font-size:2rem">
-                         필터 목록
-                        </h4>
-                        <div class="answer-choices-list">
-                          <div
-                            class="choice"
-                            v-for="(choice, choiceIndex) in question.choiceList"
-                            :key="choiceIndex"
-                          >
-                            <div>
-                              
-                              <input
-                                type="text"
-                                class="el-input__inner"
-                                v-model="
-                                  categoryList[categoryIndex].questionList[questionIndex].choiceList[
-                                    choiceIndex
-                                  ]
-                                "
-                              />
-                            </div>
-                            <button
-                              class="el-button el-button--danger is-circle el-button--mini"
-                              @click="deleteChoice(question.choiceList, choiceIndex)"
-                            >
-                              <i class="el-icon-minus"></i>
-                            </button>
-
-                            <!-- <button class="round-button" @click="testClick(question.choiceList)">
-                              test
-                            </button> -->
-                          </div>
-                          <div class="choice-add-button-div">
-                            <button
-                              class="rounded-corner-button green-button"
-                              @click="addChoice(question.choiceList)"
-                            >
-                              필터 추가
-                            </button>
-                          </div>
-                          
-                        </div>
-                      </div>
-                  </div>             
-                </div>
+                  입력 완료
+                </button>
+                <button
+                  v-if="categoryInputState"
+                  @click="cancelCategoryAdd()"
+                  class="rounded-corner-button white-button category-cancel-btn"
+                >
+                  취소
+                </button>
+                <button
+                  class="rounded-corner-button white-button category-add-btn"
+                  @click="categoryInputState = true"
+                  v-if="!categoryInputState"
+                >
+                  필터 추가
+                </button>
+                <!-- <button class="rounded-corner-button while-button">질문 은행</button> -->
               </div>
             </div>
             
-            
+          <div class="category-warning" v-text="categoryInputWarning"></div>
+          <br>
+          
 
+            <div class="category-list ">
+              <div
+                class="category-div  "
+                v-for="(category, categoryIndex) in categoryList"
+                :key="categoryIndex"
+                style="width:70vw"
+              >
+                <div class="category  d-flex  justify-content-between" :id="'category' + categoryIndex" @click="clickCategory(category)">
+                  <div class="category-title-div " style="width: 20%" >
+                    <div class="category-title ">
+                      <div style="d-flex; text-align:left; font-size:2.5rem">
+                        {{ category.title }}
+                      </div>
+                      <div class="category-arrow">
+                        <i v-if="category.isSelected" class="el-icon-arrow-right"></i>
+                        <i v-else class="el-icon-arrow-left"></i>
+                      </div>
+                      <div class="category-delete-div">
+                        <!-- <div class="category-delete-btn-div"> -->
+                        <button
+                          class="el-button el-button--danger "
+                          style="width:100vw"
+                          @click="deleteCategory(categoryIndex)"            
+                        >
+                          <i class="el-icon-minus"></i>
+                        </button>
+                        <!-- </div> -->
+                      </div>
+                    </div>
+                  </div>
+                  <div class="question-list" v-if="category.isSelected">
+                    <div
+                      class="question el-card box-card is-always-shadow"
+                      v-for="(question, questionIndex) in category.questionList"
+                      :key="questionIndex"
+                    >
+                      <div class="question-delete-btn-div">
+                        
+                      </div>
+                      <h4 class="question-title" style="d-flex; text-align:left; font-size:2rem">
+                        {{ category.title }}
+                        
+                      </h4>
+                      <div class="answer-choices-list">
+                        <div
+                          class="choice"
+                          v-for="(choice, choiceIndex) in question.choiceList"
+                          :key="choiceIndex"
+                        >
+                          <div>
+                            
+                            <input
+                              type="text"
+                              class="el-input__inner"
+                              v-model="
+                                categoryList[categoryIndex].questionList[questionIndex].choiceList[
+                                  choiceIndex
+                                ]
+                              "
+                            />
+                          </div>
+                          <button
+                            class="el-button el-button--danger is-circle el-button--mini"
+                            @click="deleteChoice(question.choiceList, choiceIndex)"
+                          >
+                            <i class="el-icon-minus"></i>
+                          </button>
+
+                          <!-- <button class="round-button" @click="testClick(question.choiceList)">
+                            test
+                          </button> -->
+                        </div>
+                        <div class="choice-add-button-div">
+                          <button
+                            class="rounded-corner-button green-button"
+                            @click="addChoice(question.choiceList)"
+                          >
+                            보기 추가
+                          </button>
+                          
+                        </div>
+                          
+                        
+                      </div>
+                    
+                  
+                    </div>
+                    
+                  </div>
+                            
+              </div>
+            </div>
+            
+          
           </div>
         </div>
       </div>
@@ -166,12 +198,23 @@ export default {
       questionList: [],
       categoryList: [
         {
+          title: "직무",
           isSelected: false,
           questionList: [
             {
-              choiceList: ["직무"],
-            },
-            
+              
+              choiceList: ["개발팀", "영업팀", "보안팀"],
+            },         
+          ],
+        },
+        {
+          title: "성별",
+          isSelected: false,
+          questionList: [
+            {
+              
+              choiceList: ["여성", "남성"],
+            },         
           ],
         },
       ],
@@ -218,7 +261,7 @@ export default {
       }
 
       if (isExist) {
-        this.categoryInputWarning = "이미 존재하는 카테고리입니다";
+        this.categoryInputWarning = "이미 존재하는 필터링입니다";
       } else {
         this.categoryList.push(category);
         this.categoryInput = "";
@@ -515,6 +558,7 @@ export default {
 }
 
 .question-list {
+  width: 70%;
   padding-top: 2%;
   padding-right: 0;
 }
@@ -625,7 +669,8 @@ export default {
   background-color: white;
   justify-content: space-between;
   /* padding-left: 2%; */
-  width: 100%;
+  width: 50%;
+  
   /* border-radius: 12px;
   border-color: #9cbbff;
   border-style: solid;
@@ -639,10 +684,9 @@ export default {
 .category-title {
   display: flex;
   width: 85%;
+  height: 8vh;
   justify-content: space-between;
   align-items: center;
-  border-color: #9cbbff;
-  border-style: solid;
   color: #9cbbff;
   border-radius: 12px;
 }
@@ -673,7 +717,7 @@ button:hover {
 }
 
 .category-div {
-  width: 100%;
+  width: 50%;
   display: flex;
   justify-content: space-between;
   margin-bottom: 2%;
@@ -728,6 +772,7 @@ button:hover {
 
 .category-delete-btn {
   height: 100%;
+
 }
 
 .category-delete-div {
