@@ -12,7 +12,7 @@ import com.ssurbar.survey.api.response.SurveyInfo;
 
 public interface SurveyService {
     // 새로운 설문지 생성
-	boolean createNewSurvey(SurveyCreatePostReq surveyCreatePostReq);
+	String createNewSurvey(SurveyCreatePostReq surveyCreatePostReq);
 
 	List<SurveyInfo> getAllSurveyList();
 
