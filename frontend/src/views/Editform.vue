@@ -20,7 +20,7 @@
       </ul>
     </div>
     <div style="background-color: rgb(5, 25, 58); height: 100vh">
-      <br />
+      <div>네브바같은 느낌으로다가</div>
       <div
         style="
           background-position: center;
@@ -182,11 +182,8 @@
               
             </div>
             </div>
-<<<<<<< HEAD
             
           
-=======
->>>>>>> 106b0fe3ddeee2af42e1a406e1a6e5f12946f1c6
           </div>
         </div>
       </div>
@@ -327,7 +324,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .nav-pills > li > a {
   border-radius: 0;
 }

@@ -294,7 +294,10 @@ export default {
 };
 </script>
 
-<style>
+
+
+
+<style scoped>
 .nav-pills > li > a {
   border-radius: 0;
 }
