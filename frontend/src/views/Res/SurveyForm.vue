@@ -9,59 +9,51 @@
         </div>
         <hr>
         <div class="surveyContent">
-            <el-form ref="form" :model="form">
+            <el-form ref="form" v-model="form">
                 <el-collapse v-model="activeNames" @change="handleChange">
+
+
                     <el-collapse-item title="Filters" name="1">
                         <el-form-item>
                             <div class="surveytitle" v-for="(item, idx) in filters" :key="idx">
                                 {{item.questionNum}}. {{item.title}}
                                 <br>
-                                <el-radio-group v-model="form.category">
-                                    <div class="surveytitle" v-for="(example, idx) in filterexample[item.questionNum-1]" :key="idx">
+                                <el-radio-group v-model="form.filterRes[idx]">
+                                    <div class="surveytitle" v-for="(example, exampleIdx) in filterExample[item.questionNum-1]" :key="exampleIdx">
                                         <el-radio :label="example" style="display: block; margin-top:1.5em;"></el-radio>
                                     </div>                        
                                 </el-radio-group>
                             </div> 
                         </el-form-item>
                     </el-collapse-item>
-                    <el-collapse-item v-for="(item, idx) in questions" :key="idx" :title="item.categoryName">
-                            <el-form-item>
-                                <div class="surveytitle">
-                                    {{item.questionNum}}. {{item.title}}
-                                    <br>
-                                    <el-radio-group v-model="form.category">
-                                        <div class="surveytitle" v-for="(example, idx) in questionexample[item.questionNum-1]" :key="idx">
-                                            <el-radio :label="example" style="display: block; margin-top:1.5em;"></el-radio>
-                                        </div>
-                                    </el-radio-group>
-                                </div> 
-                            </el-form-item>
-                        </el-collapse-item>
 
-                    <!-- <el-collapse-item title="Feedback" name="2">
+                    <el-collapse-item v-for="(item, idx) in category" :key="idx" :title="item.categoryName">
                         <el-form-item>
-                            <div class="surveytitle" v-for="(item, idx) in questions" :key="idx">
-                                {{item.questionNum}}. {{item.title}}
-                                <br>
-                                <el-radio-group v-model="form.category">
-                                    <div class="surveytitle" v-for="(example, idx) in questionexample[item.questionNum-1]" :key="idx">
-                                        <el-radio :label="example" style="display: block; margin-top:1.5em;"></el-radio>
+                            <div class="surveytitle" v-for="(question, questionIdx) in questions" :key="questionIdx">
+                                <div v-if="item==question.categoryId"> {{question.questionNum}}. {{question.title}} 
+                                    <el-radio-group v-model="form.questionRes[questionIdx]">
+                                    <div class="surveytitle" v-for="(example, exampleIdx) in questionExample" :key="exampleIdx">
+                                        {{example.questionId}}
+                                        <el-radio :label="example.questionId" style="display: block; margin-top:1.5em;"></el-radio>
                                     </div>
-                                </el-radio-group>
+                                    </el-radio-group>
+                                </div>
+                                <br>
                             </div> 
                         </el-form-item>
-                    </el-collapse-item> -->
+                    </el-collapse-item>
 
 
-                    <!-- <el-collapse-item title="Efficiency" name="3">
+
+                    <!-- <el-collapse-item v-for="(item, idx) in questions" :key="idx" :title="item.categoryName">
                         <el-form-item>
-                            <div class="surveytitle" v-for="(item, idx) in filters" :key="idx">
+                            <div class="surveytitle">
                                 {{item.questionNum}}. {{item.title}}
                                 <br>
-                                <el-radio-group v-model="form.category">
-                                    <div class="surveytitle" v-for="(example, idx) in filterexample[item.questionNum-1]" :key="idx">
+                                <el-radio-group v-model="form.questionRes[idx]">
+                                    <div class="surveytitle" v-for="(example, exampleIdx) in questionexample[item.questionNum-1]" :key="exampleIdx">
                                         <el-radio :label="example" style="display: block; margin-top:1.5em;"></el-radio>
-                                    </div>                        
+                                    </div>
                                 </el-radio-group>
                             </div> 
                         </el-form-item>
@@ -94,24 +86,43 @@ import axios from "@/utils/axios.js";
   export default {
     data () {
       return {
-        form:{
-            
+        form:{           
+            filterRes:[],
+            questionRes:[]
         },
         radio: '1',
         templateId : '1234657891234',
         surveyId: 'rm15zxga9lsRp',
-        category: [],
+        category: [
+            {
+            categoryId: "",
+            categoryName: ""
+            }
+        ],
         filters: [],
         questions:[],
-        filterexample: [],
-        questionexample: []
+        filterExample: [],
+        questionExample: [
+            {
+                questionId: "",
+                content: []
+            }
+        ]
       };
     },
     methods:{
+        // radio 버튼을 다 누르지 않았을때 넘어가지 않도록 유효성 검사 추가 
         submitForm(formName) {
+            console.log("!" + this.form.filterRes)
+            const formData = {
+                surveyId : this.surveyId,
+                filterAnswer : JSON.stringify(this.form.filterRes)
+            }
+            console.log(formData)
+
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                this.register(this.form);
+                this.register(formData);
                 } else {
                 return false;
                 }
@@ -129,35 +140,52 @@ import axios from "@/utils/axios.js";
                     contentAnswers[i] = JSON.parse(contents[i])
                 }
                 this.filterexample = contentAnswers;
+                console.log(this.filters);
+                console.log(this.filterexample)
             })
         },
         getQuestionList(templateId){
             axios.get("template/" + templateId + "/questions").then((res)=>{
                 console.log(res)
                 this.questions = res.data.questionList;
-                this.category = res.data.questionList.categoryId;
 
                 var contents = new Array();
-                var contentAnswers = new Array();
+                var categorys = new Array();
+                var questionExs = new Array();
 
                 for(var i=0; i<this.questions.length; i++){
                     contents[i] = this.questions[i].content
-                    contentAnswers[i] = JSON.parse(contents[i])
+                    categorys.push({categoryId : this.questions[i].categoryId,categoryName: this.questions[i].categoryName});
+                    questionExs.push({questionId: this.questions[i].questionId, content: JSON.parse(contents[i])})
+                    console.log(categorys)
                 }
-                this.questionexample = contentAnswers;
+                var uniqueCategory = this.removeDuplicates(categorys, "categoryId");
+                console.log("uniqueArray is: " + JSON.stringify(uniqueCategory));
+
+                this.category = uniqueCategory
+                this.questionexample = questionExs;
+                console.log(this.questionexample)
+                console.log(this.questions)
 
             })
+        },
+        // 카테고리 중복값을 제거하기 위한 메소드 
+        removeDuplicates(originalArray, prop) {
+            var newArray = [];
+            var lookupObject  = {};
+
+            for(var i in originalArray) {
+                lookupObject[originalArray[i][prop]] = originalArray[i];
+            }
+
+            for(i in lookupObject) {
+                newArray.push(lookupObject[i]);
+            }
+            return newArray;
         },
         register(data){
             console.log(data);
         },
-        surveyFilters() {
-            console.log(1);
-        },
-        surveyQuestions(){
-            console.log(1);
-        }
-
     },
     // 동기적으로 호출 
     created() {
