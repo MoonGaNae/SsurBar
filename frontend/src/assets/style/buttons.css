@@ -1,0 +1,59 @@
+.yellow-button {
+  background-color: #ffa724;
+  border-style: solid;
+  border-color: #ffa724;
+  color: white;
+}
+
+.yellow-button:hover {
+  filter: brightness(115%);
+}
+
+.white-button {
+  background-color: white;
+  border-style: solid;
+  border-color: #ffa724;
+  color: #ffa724;
+}
+
+.white-button:hover {
+  filter: brightness(90%);
+}
+
+.red-button {
+  background-color: #f56c6c;
+  border-style: solid;
+  border-color: #f56c6c;
+  color: white;
+}
+
+.red-button:hover {
+  /* background-color: #ffa724;
+  border-style: solid;
+  border-color: #ffa724;
+  color: white; */
+  /* filter: brightness(90%); */
+}
+
+.rounded-corner-button {
+  border-radius: 12px;
+}
+
+.round-button {
+  border-radius: 50%;
+}
+
+.green-button {
+  background-color: #67c23a;
+  border-color: #67c23a;
+  border-style: solid;
+  color: white;
+}
+
+.green-button:hover {
+  filter: brightness(110%);
+}
+
+button:hover {
+  cursor: pointer;
+}

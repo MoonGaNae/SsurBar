@@ -3,7 +3,7 @@
 // import Editform from "../views/Editform.vue";
 // // 설문 문항 편집
 import Createform from "@/views/Createform.vue";
-
+import SurveyCreateComplete from "@/views/SurveyCreateComplete.vue";
 import QuestionEdit from "@/views/question/QuestionEdit.vue";
 import Vue from "vue";
 import VueRouter from "vue-router";
@@ -40,6 +40,11 @@ const routes = [
     path: "/form",
     name: "Form",
     component: Form,
+  },
+  {
+    path: "/survey/complete",
+    name: "SurveyCreateComplete",
+    component: SurveyCreateComplete,
   },
 ];
 

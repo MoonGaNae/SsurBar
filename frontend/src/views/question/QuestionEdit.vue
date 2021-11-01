@@ -670,20 +670,6 @@ export default {
   border-style: solid;
 } */
 
-.choice-add-button {
-  background-color: #ffa724;
-  border-style: solid;
-  border-color: #ffa724;
-  color: white;
-}
-
-.question-add-button {
-  background-color: #ffa724;
-  border-style: solid;
-  border-color: #ffa724;
-  color: white;
-}
-
 .category-title-div {
   display: flex;
   background-color: white;
