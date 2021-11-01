@@ -10,37 +10,35 @@
         <hr>
         <div class="surveyContent">
             <el-form ref="form" v-model="form">
-                <el-collapse v-model="activeNames" @change="handleChange">
-
-
+                <el-collapse>
                     <el-collapse-item title="Filters" name="1">
-                        <el-form-item>
-                            <div class="surveytitle" v-for="(item, idx) in filters" :key="idx">
-                                {{item.questionNum}}. {{item.title}}
-                                <br>
+                        <div class="surveytitle" v-for="(item, idx) in filters" :key="idx">
+                            {{item.questionNum}}. {{item.title}}
+                            <br>
+                            <el-form-item>
                                 <el-radio-group v-model="form.filterRes[idx]">
                                     <div class="surveytitle" v-for="(example, exampleIdx) in filterExample[item.questionNum-1]" :key="exampleIdx">
                                         <el-radio :label="example" style="display: block; margin-top:1.5em;"></el-radio>
                                     </div>                        
                                 </el-radio-group>
-                            </div> 
-                        </el-form-item>
+                            </el-form-item>
+                        </div> 
                     </el-collapse-item>
 
                     <el-collapse-item v-for="(item, idx) in category" :key="idx" :title="item.categoryName">
-                        <el-form-item>
-                            <div class="surveytitle" v-for="(question, questionIdx) in questions" :key="questionIdx">
-                                <div v-if="item==question.categoryId"> {{question.questionNum}}. {{question.title}} 
-                                    <el-radio-group v-model="form.questionRes[questionIdx]">
-                                    <div class="surveytitle" v-for="(example, exampleIdx) in questionExample" :key="exampleIdx">
-                                        {{example.questionId}}
-                                        <el-radio :label="example.questionId" style="display: block; margin-top:1.5em;"></el-radio>
-                                    </div>
-                                    </el-radio-group>
-                                </div>
+                        <div class="surveytitle" v-for="(question, questionIdx) in questions" :key="questionIdx">
+                            <div v-if="item.categoryId==question.categoryId">
+                                {{question.questionNum}}. {{question.title}} 
                                 <br>
-                            </div> 
-                        </el-form-item>
+                                <el-form-item>   
+                                    <el-radio-group v-model="form.questionRes[questionIdx]">
+                                        <div class="surveytitle" v-for="(example, exampleIdx) in questionExample[questionIdx].content" :key="exampleIdx">
+                                            <el-radio :label="example" style="display: block; margin-top:1.5em;"></el-radio>
+                                        </div> 
+                                    </el-radio-group>
+                                </el-form-item>
+                                </div> 
+                            </div>
                     </el-collapse-item>
 
 
@@ -63,7 +61,7 @@
                 <div class="button">
                     <el-button
                     type="primary"
-                    @click="submitForm('form')"
+                    @click="submitForm()"
                     size="medium"
                     style="border-radius: 50px;"
                     >완료</el-button
@@ -86,9 +84,18 @@ import axios from "@/utils/axios.js";
   export default {
     data () {
       return {
-        form:{           
+        form:{
             filterRes:[],
+            questionId:[],
             questionRes:[]
+        },
+        rules: {
+          filterRes: [
+            { required: true, message: '일치하는 항목에 체크해주세요.', trigger: 'change' },
+          ],
+          questionRes: [
+            { required: true, message: '일치하는 항목에 체크해주세요.', trigger: 'change' },
+          ],
         },
         radio: '1',
         templateId : '1234657891234',
@@ -102,6 +109,7 @@ import axios from "@/utils/axios.js";
         filters: [],
         questions:[],
         filterExample: [],
+        //questionExample: []
         questionExample: [
             {
                 questionId: "",
@@ -111,22 +119,30 @@ import axios from "@/utils/axios.js";
       };
     },
     methods:{
-        // radio 버튼을 다 누르지 않았을때 넘어가지 않도록 유효성 검사 추가 
-        submitForm(formName) {
-            console.log("!" + this.form.filterRes)
+        submitForm() {
+            console.log(this.form)
+            var questionIdAnswer = new Array();
+            var answerlist = new Array();
+            // Json 형태 수정 해야됨 
+            for(var i=0; i<this.form.questionId.length; i++){
+                var QId = this.form.questionId[i];
+                var Qres = this.form.questionRes[i];
+                questionIdAnswer.push({questionId: QId, answer:JSON.stringify(Qres)})
+                answerlist.push(JSON.stringify({questionId: QId, answer:JSON.stringify(Qres)}));
+            }
             const formData = {
                 surveyId : this.surveyId,
-                filterAnswer : JSON.stringify(this.form.filterRes)
+                filterAnswer : JSON.stringify(this.form.filterRes),
+                answerList : answerlist
             }
             console.log(formData)
-
-            this.$refs[formName].validate((valid) => {
-                if (valid) {
+            if(this.checkForm(questionIdAnswer)){
                 this.register(formData);
-                } else {
+                return true;
+            }else{
+                console.log(false);
                 return false;
-                }
-            });
+            }
         },
         getFilterList(surveyId){
             axios.get("survey/" + surveyId + "/filters").then((res)=>{
@@ -139,9 +155,9 @@ import axios from "@/utils/axios.js";
                     contents[i] = this.filters[i].content
                     contentAnswers[i] = JSON.parse(contents[i])
                 }
-                this.filterexample = contentAnswers;
+                this.filterExample = contentAnswers;
                 console.log(this.filters);
-                console.log(this.filterexample)
+                console.log(this.filterExample)
             })
         },
         getQuestionList(templateId){
@@ -157,15 +173,15 @@ import axios from "@/utils/axios.js";
                     contents[i] = this.questions[i].content
                     categorys.push({categoryId : this.questions[i].categoryId,categoryName: this.questions[i].categoryName});
                     questionExs.push({questionId: this.questions[i].questionId, content: JSON.parse(contents[i])})
+                    this.form.questionId.push(this.questions[i].questionId)
                     console.log(categorys)
                 }
                 var uniqueCategory = this.removeDuplicates(categorys, "categoryId");
                 console.log("uniqueArray is: " + JSON.stringify(uniqueCategory));
 
                 this.category = uniqueCategory
-                this.questionexample = questionExs;
-                console.log(this.questionexample)
-                console.log(this.questions)
+                this.questionExample = questionExs;
+                console.log(this.form)
 
             })
         },
@@ -185,7 +201,24 @@ import axios from "@/utils/axios.js";
         },
         register(data){
             console.log(data);
+            axios
+            .post("response" , data)
+            .then(()=>{
+                // 완료페이지 이동 
+                console.log("Success!")
+            })
         },
+        // radio 버튼을 다 누르지 않았을때 넘어가지 않도록 유효성 검사하는 로직 (alert 추가해야됨)
+        checkForm(data){
+            console.log(data);
+            for(var i=0; i<data.length; i++){
+                var result = data[i].answer;
+                if(!result){
+                    return false;
+                }
+            }
+            return true;
+        }
     },
     // 동기적으로 호출 
     created() {
