@@ -1,33 +1,46 @@
 <template>
   <div id="wrapper">
-    <h1 style="padding-top: 3%; padding-left: 4%; font-size: 4rem">신규 설문 생성</h1>
-    <hr style="width: 90%" />
-    <div>
-      <h3 style="d-flex; text-align:center; font-size:2.5rem">
-        설문 이름 :
-        <input
-          v-model="surveyTitle"
-          type="text"
-          style="height: 3vh; width: 27vw; font-size: 2.5rem"
-        />
-      </h3>
-    </div>
-    <div>
-      <h3 style="d-flex; text-align:center; font-size:2.5rem">
-        설문 대상
-        <div class="form-checkbox form-checkbox-inline" style="d-flex; text-align:center;">
-          <label class="form-checkbox-label" v-for="(team, teamIdx) in teamList" :key="teamIdx">
+    <div style="background-color: rgb(5, 25, 58); height: 100vh">
+      <div>네브바같은 느낌으로다가</div>
+      <div
+        style="
+          background-position: center;
+          background-color: white;
+          margin-top: 3%;
+          margin-left: 4%;
+          margin-right: 4%;
+          height: 90vh;
+          border-radius: 60px 60px 0% 0%;
+        "
+      >
+        <h1 style="padding-top: 3%; padding-left: 4%; font-size: 4rem">신규 설문 생성</h1>
+        <hr style="width: 90%" />
+        <div>
+          <h3 style="d-flex; text-align:center; font-size:2.5rem">
+            설문 이름 :
             <input
-              v-model="targetTeams"
-              name="rap"
-              class="form-checkbox-field"
-              type="checkbox"
-              :value="team.teamId"
+              v-model="surveyTitle"
+              type="text"
+              style="height: 3vh; width: 27vw; font-size: 2.5rem"
             />
-            <i class="form-checkbox-button"></i>
-            <span style="font-size: 2rem">{{ team.teamName }}</span>
-          </label>
-          <!-- <label class="form-checkbox-label">
+          </h3>
+        </div>
+        <div>
+          <h3 style="d-flex; text-align:center; font-size:2.5rem">
+            설문 대상
+            <div class="form-checkbox form-checkbox-inline" style="d-flex; text-align:center;">
+              <label class="form-checkbox-label" v-for="(team, teamIdx) in teamList" :key="teamIdx">
+                <input
+                  v-model="targetTeams"
+                  name="rap"
+                  class="form-checkbox-field"
+                  type="checkbox"
+                  :value="team.teamId"
+                />
+                <i class="form-checkbox-button"></i>
+                <span style="font-size: 2rem">{{ team.teamName }}</span>
+              </label>
+              <!-- <label class="form-checkbox-label">
             <input v-model="targetTeams" name="rap" class="form-checkbox-field" type="checkbox" />
             <i class="form-checkbox-button"></i>
             <span style="font-size: 2rem">인사팀</span>
@@ -52,8 +65,8 @@
             <i class="form-checkbox-button"></i>
             <span style="font-size: 2rem">재경팀</span>
           </label> -->
-        </div>
-        <!-- <div class="form-checkbox form-checkbox-inline" style="d-flex; text-align:center;">
+            </div>
+            <!-- <div class="form-checkbox form-checkbox-inline" style="d-flex; text-align:center;">
           <label class="form-checkbox-label">
             <input v-model="targetTeams" name="rap" class="form-checkbox-field" type="checkbox" />
             <i class="form-checkbox-button"></i>
@@ -70,32 +83,34 @@
             <span style="font-size: 2rem">타회사</span>
           </label>
         </div> -->
-      </h3>
-      <div style="d-flex; text-align:center">
-        <h3 style="font-size: 2.5rem">설문 기간</h3>
-        <div class="block" style="d-flex; ">
-          <el-date-picker
-            v-model="endDate"
-            type="date"
-            placeholder="Pick a date"
-            default-value="2010-10-01"
-          >
-          </el-date-picker>
+          </h3>
+          <div style="d-flex; text-align:center">
+            <h3 style="font-size: 2.5rem">설문 기간</h3>
+            <div class="block" style="d-flex; ">
+              <el-date-picker
+                v-model="endDate"
+                type="date"
+                placeholder="Pick a date"
+                default-value="2010-10-01"
+              >
+              </el-date-picker>
+            </div>
+          </div>
+          <div style="d-flex; text-align:center;">
+            <h3 style="font-size: 2.5rem">설명</h3>
+
+            <textarea
+              v-model="description"
+              placeholder="여러줄을 입력해보세요"
+              style="height: 10vh; width: 27vw; font-size: 2rem"
+            ></textarea>
+
+            <el-button>생성</el-button>
+          </div>
         </div>
-      </div>
-      <div style="d-flex; text-align:center;">
-        <h3 style="font-size: 2.5rem">설명</h3>
-
-        <textarea
-          v-model="description"
-          placeholder="여러줄을 입력해보세요"
-          style="height: 10vh; width: 27vw; font-size: 2rem"
-        ></textarea>
-
-        <el-button>생성</el-button>
+        <button @click="nextPage()">다음</button>
       </div>
     </div>
-    <button @click="nextPage()">다음</button>
   </div>
 </template>
 
