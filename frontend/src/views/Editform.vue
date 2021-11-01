@@ -88,10 +88,10 @@
                 class="category-div  "
                 v-for="(category, categoryIndex) in categoryList"
                 :key="categoryIndex"
-                style="width:70vw"
+                style="width:50vw"
               >
-                <div class="category  d-flex  justify-content-between" :id="'category' + categoryIndex" @click="clickCategory(category)">
-                  <div class="category-title-div " style="width: 20%" >
+                <div class="category  d-flex  justify-content-between" :id="'category' + categoryIndex" >
+                  <div class="category-title-div " style="width: 20%" @click="clickCategory(category)" >
                     <div class="category-title ">
                       <div style="d-flex; text-align:left; font-size:2.5rem">
                         {{ category.title }}
@@ -113,67 +113,74 @@
                       </div>
                     </div>
                   </div>
-                  <div class="question-list" v-if="category.isSelected">
-                    <div
-                      class="question el-card box-card is-always-shadow"
-                      v-for="(question, questionIndex) in category.questionList"
-                      :key="questionIndex"
-                    >
-                      <div class="question-delete-btn-div">
-                        
-                      </div>
-                      <h4 class="question-title" style="d-flex; text-align:left; font-size:2rem">
-                        {{ category.title }}
-                        
-                      </h4>
-                      <div class="answer-choices-list">
-                        <div
-                          class="choice"
-                          v-for="(choice, choiceIndex) in question.choiceList"
-                          :key="choiceIndex"
-                        >
-                          <div>
-                            
-                            <input
-                              type="text"
-                              class="el-input__inner"
-                              v-model="
-                                categoryList[categoryIndex].questionList[questionIndex].choiceList[
-                                  choiceIndex
-                                ]
-                              "
-                            />
-                          </div>
-                          <button
-                            class="el-button el-button--danger is-circle el-button--mini"
-                            @click="deleteChoice(question.choiceList, choiceIndex)"
-                          >
-                            <i class="el-icon-minus"></i>
-                          </button>
-
-                          <!-- <button class="round-button" @click="testClick(question.choiceList)">
-                            test
-                          </button> -->
-                        </div>
-                        <div class="choice-add-button-div">
-                          <button
-                            class="rounded-corner-button green-button"
-                            @click="addChoice(question.choiceList)"
-                          >
-                            보기 추가
-                          </button>
-                          
-                        </div>
-                          
-                        
-                      </div>
-                    
-                  
-                    </div>
-                    
-                  </div>
                             
               </div>
+            <div class="question-list" v-if="category.isSelected">
+              <div
+                class="question el-card box-card is-always-shadow"
+                v-for="(question, questionIndex) in category.questionList"
+                :key="questionIndex"
+              >
+                <div class="question-delete-btn-div">
+                  
+                </div>
+                <h4 class="question-title" style="d-flex; text-align:left; font-size:2rem">
+                  
+                  <input
+                    class="question-title-input el-input__inner"
+                    style="d-flex; text-align:left; font-size:1.5rem"
+                    type="text"
+                    v-model="categoryList[categoryIndex].questionList[questionIndex].title"
+                    placeholder= "질문을 입력하세요"
+                  />
+                  
+                </h4>
+                <div class="answer-choices-list">
+                  <div
+                    class="choice"
+                    v-for="(choice, choiceIndex) in question.choiceList"
+                    :key="choiceIndex"
+                  >
+                    <div>
+                      
+                      <input
+                        type="text"
+                        class="el-input__inner"
+                        v-model="
+                          categoryList[categoryIndex].questionList[questionIndex].choiceList[
+                            choiceIndex
+                          ]
+                        "
+                      />
+                    </div>
+                    <button
+                      class="el-button el-button--danger is-circle el-button--mini"
+                      @click="deleteChoice(question.choiceList, choiceIndex)"
+                    >
+                      <i class="el-icon-minus"></i>
+                    </button>
+
+                    <!-- <button class="round-button" @click="testClick(question.choiceList)">
+                      test
+                    </button> -->
+                  </div>
+                  <div class="choice-add-button-div">
+                    <button
+                      class="rounded-corner-button green-button"
+                      @click="addChoice(question.choiceList)"
+                    >
+                      보기 추가
+                    </button>
+                    
+                  </div>
+                    
+                  
+                </div>
+              
+            
+              </div>
+              
+            </div>
             </div>
             
           
@@ -558,7 +565,7 @@ export default {
 }
 
 .question-list {
-  width: 70%;
+  width: 70vw;
   padding-top: 2%;
   padding-right: 0;
 }
@@ -683,7 +690,7 @@ export default {
 
 .category-title {
   display: flex;
-  width: 85%;
+  width: 100%;
   height: 8vh;
   justify-content: space-between;
   align-items: center;
@@ -724,7 +731,7 @@ button:hover {
 }
 
 .category {
-  width: 100%;
+  width: 40%;
 }
 
 .question-delete-btn-div {
