@@ -79,7 +79,7 @@
 
 <script>
 import axios from "@/utils/axios.js";
-import { mapActions } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 export default {
   name: "Createform",
@@ -89,8 +89,10 @@ export default {
       surveyTitle: "",
       targetTeamId: "",
       endDate: "",
-      teamList: [],
     };
+  },
+  computed: {
+    ...mapState("team", ["teamList"]),
   },
   methods: {
     ...mapActions([
@@ -101,6 +103,7 @@ export default {
       "setDescription",
       "setTitle",
     ]),
+    ...mapActions("team", ["getTeams"]),
     nextPage() {
       this.setTeamId(this.targetTeamId);
       this.setTitle(this.surveyTitle);
@@ -122,28 +125,9 @@ export default {
           this.$router.push("/test");
         });
     },
-    getTeamList() {
-      axios
-        .get("/team")
-        .then((res) => {
-          res.data.teamList.forEach((el) => {
-            let team = {
-              teamId: el.teamId,
-              teamName: el.teamName,
-            };
-
-            this.teamList.push(team);
-          });
-
-          console.log(this.teamList);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
   },
-  mounted() {
-    this.getTeamList();
+  created() {
+    this.getTeams();
   },
 };
 </script>
