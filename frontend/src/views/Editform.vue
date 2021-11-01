@@ -88,7 +88,7 @@
                 class="category-div"
                 v-for="(category, categoryIndex) in categoryList"
                 :key="categoryIndex"
-                style="width: 50vw"
+                style="width: 24vw"
               >
                 <div
                   class="category d-flex justify-content-between"
@@ -96,27 +96,24 @@
                 >
                   <div
                     class="category-title-div"
-                    style="width: 20%"
+                    style="width: 20vh"
                     @click="clickCategory(category)"
                   >
                     <div class="category-title">
                       <div style="d-flex; text-align:left; font-size:2.5rem">
                         {{ category.title }}
                       </div>
-                      <!-- <div class="category-arrow">
-                        <i v-if="category.isSelected" class="el-icon-arrow-right"></i>
-                        <i v-else class="el-icon-arrow-left"></i>
-                      </div> -->
+                      
                       <div class="category-delete-div">
-                        <!-- <div class="category-delete-btn-div"> -->
+                        
                         <button
                           class="el-button el-button--danger"
-                          style="width: 100vw"
+                          style="width: 30vw"
                           @click="deleteCategory(categoryIndex)"
                         >
                           <i class="el-icon-minus"></i>
                         </button>
-                        <!-- </div> -->
+                        
                       </div>
                     </div>
                   </div>
@@ -131,42 +128,10 @@
                     class="question-title-input el-input__inner"
                     style="d-flex; text-align:left; font-size:1.5rem"
                     type="text"
+                    
                     placeholder="질문을 입력하세요"
                   />
-                </h4>
-                <div class="answer-choices-list">
-                  <!-- <div
-                  class="choice"
-                  v-for="(choice, choiceIndex) in question.choiceList"
-                  :key="choiceIndex"
-                >
-                  <div>
-                    <input
-                      type="text"
-                      class="el-input__inner"
-                      v-model="
-                        categoryList[categoryIndex].questionList[questionIndex].choiceList[
-                          choiceIndex
-                        ]
-                      "
-                    />
-                  </div>
-                  <button
-                    class="el-button el-button--danger is-circle el-button--mini"
-                    @click="deleteChoice(question.choiceList, choiceIndex)"
-                  >
-                    <i class="el-icon-minus"></i>
-                  </button>
-                </div>
-                <div class="choice-add-button-div">
-                  <button
-                    class="rounded-corner-button green-button"
-                    @click="addChoice(question.choiceList)"
-                  >
-                    보기 추가
-                  </button>
-                </div> -->
-                </div>
+                </h4>               
               </div>
             </div>
           </div>
@@ -176,7 +141,7 @@
   </div>
 </template>
 
-<script>
+<script scoped>
 import { mapActions } from "vuex";
 
 export default {
