@@ -1,21 +1,28 @@
 <template>
-   <div>
-    <Sidebar/>
-   </div>
+  <div id="app">
+    <Sidebar id="sidebar" />
+    <RouterView id="router" :key="$route.fullPath" />
+  </div>
 </template>
 
 <script>
-import Sidebar from "@/components/common/Sidebar.vue"
+import Sidebar from "@/components/common/Sidebar.vue";
 
 export default {
-   name: "App",
+  name: "App",
 
-   components: {
-      Sidebar
-   }  
-}  
-
+  components: {
+    Sidebar,
+  },
+};
 </script>
 
 <style>
+#app {
+  display: flex;
+}
+
+#router {
+  width: 100%;
+}
 </style>
