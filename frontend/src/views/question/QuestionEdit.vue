@@ -1,24 +1,5 @@
 <template>
   <div id="wrapper">
-    <div id="sidebar-wrapper">
-      <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
-        <li style="margin-top: 25vh; margin-left: 5%">
-          <a href="#"><i class="fas fa-home fa-2x" style="margin-top: 1vh"></i></a>
-        </li>
-
-        <li style="margin-top: 10vh; margin-left: 10%">
-          <a href="#"><i class="fas fa-plus-square fa-2x" style="margin-top: 1vh"></i></a>
-        </li>
-
-        <li style="margin-top: 10vh; margin-left: 10%">
-          <a href="#"><i class="fas fa-chart-bar fa-2x" style="margin-top: 1vh"></i></a>
-        </li>
-
-        <li style="margin-top: 10vh; margin-left: 10%">
-          <a href="#"><i class="fas fa-cog fa-2x" style="margin-top: 1vh"></i></a>
-        </li>
-      </ul>
-    </div>
     <div style="background-color: rgb(5, 25, 58); height: 100vh">
       <div>네브바같은 느낌으로다가</div>
       <div
@@ -304,6 +285,10 @@ export default {
       });
 
       this.setQuestionList(this.questionList);
+
+      this.$router.push({
+        path: `/test`,
+      });
     },
   },
 };
@@ -640,20 +625,6 @@ export default {
   border: 3px;
   border-style: solid;
 } */
-
-.choice-add-button {
-  background-color: #ffa724;
-  border-style: solid;
-  border-color: #ffa724;
-  color: white;
-}
-
-.question-add-button {
-  background-color: #ffa724;
-  border-style: solid;
-  border-color: #ffa724;
-  color: white;
-}
 
 .category-title-div {
   display: flex;

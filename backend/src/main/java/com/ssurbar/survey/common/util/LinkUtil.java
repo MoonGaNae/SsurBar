@@ -10,10 +10,12 @@ public class LinkUtil {
 	public String makeUrl(String surveyId, String type) {
 		MessageDigest md;
 		StringBuilder sb = new StringBuilder();
+
+		String str = surveyId+type;
 		
 		try {
 			md = MessageDigest.getInstance("SHA-256");
-			md.update(surveyId.getBytes());
+			md.update(str.getBytes());
 			
 			byte[] bytes = md.digest();
 			
