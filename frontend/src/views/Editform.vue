@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <template>
   <div id="wrapper">
     <div id="sidebar-wrapper">
@@ -21,7 +20,7 @@
       </ul>
     </div>
     <div style="background-color: rgb(5, 25, 58); height: 100vh">
-      <br>
+      <br />
       <div
         style="
           background-position: center;
@@ -70,16 +69,15 @@
               >
                 취소
               </button>
-              
-              
+
               <!-- <button class="rounded-corner-button while-button">질문 은행</button> -->
             </div>
           </div>
 
           <div class="category-warning" v-text="categoryInputWarning"></div>
-          <br>
+          <br />
 
-          <div class="d-flex flex-row ">
+          <div class="d-flex flex-row">
             <div>
               <div class="category-list">
                 <div
@@ -88,64 +86,56 @@
                   :key="categoryIndex"
                 >
                   <div class="category" :id="'category' + categoryIndex">
-                    
-                    
-                      <div
-                        class="question el-card box-card is-always-shadow"
-                        v-for="(question, questionIndex) in category.questionList"
-                        :key="questionIndex"
-                      >
-                        
-                        <h4 class="question-title" style="d-flex; text-align:left; font-size:2rem">
-                         필터 목록
-                        </h4>
-                        <div class="answer-choices-list">
-                          <div
-                            class="choice"
-                            v-for="(choice, choiceIndex) in question.choiceList"
-                            :key="choiceIndex"
+                    <div
+                      class="question el-card box-card is-always-shadow"
+                      v-for="(question, questionIndex) in category.questionList"
+                      :key="questionIndex"
+                    >
+                      <h4 class="question-title" style="d-flex; text-align:left; font-size:2rem">
+                        필터 목록
+                      </h4>
+                      <div class="answer-choices-list">
+                        <div
+                          class="choice"
+                          v-for="(choice, choiceIndex) in question.choiceList"
+                          :key="choiceIndex"
+                        >
+                          <div>
+                            <input
+                              type="text"
+                              class="el-input__inner"
+                              v-model="
+                                categoryList[categoryIndex].questionList[questionIndex].choiceList[
+                                  choiceIndex
+                                ]
+                              "
+                            />
+                          </div>
+                          <button
+                            class="el-button el-button--danger is-circle el-button--mini"
+                            @click="deleteChoice(question.choiceList, choiceIndex)"
                           >
-                            <div>
-                              
-                              <input
-                                type="text"
-                                class="el-input__inner"
-                                v-model="
-                                  categoryList[categoryIndex].questionList[questionIndex].choiceList[
-                                    choiceIndex
-                                  ]
-                                "
-                              />
-                            </div>
-                            <button
-                              class="el-button el-button--danger is-circle el-button--mini"
-                              @click="deleteChoice(question.choiceList, choiceIndex)"
-                            >
-                              <i class="el-icon-minus"></i>
-                            </button>
+                            <i class="el-icon-minus"></i>
+                          </button>
 
-                            <!-- <button class="round-button" @click="testClick(question.choiceList)">
+                          <!-- <button class="round-button" @click="testClick(question.choiceList)">
                               test
                             </button> -->
-                          </div>
-                          <div class="choice-add-button-div">
-                            <button
-                              class="rounded-corner-button green-button"
-                              @click="addChoice(question.choiceList)"
-                            >
-                              필터 추가
-                            </button>
-                          </div>
-                          
+                        </div>
+                        <div class="choice-add-button-div">
+                          <button
+                            class="rounded-corner-button green-button"
+                            @click="addChoice(question.choiceList)"
+                          >
+                            필터 추가
+                          </button>
                         </div>
                       </div>
-                  </div>             
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-            
-            
-
           </div>
         </div>
       </div>
@@ -172,7 +162,6 @@ export default {
             {
               choiceList: ["직무"],
             },
-            
           ],
         },
       ],
@@ -741,18 +730,4 @@ button:hover {
 .category-delete-div button {
   width: 100%;
 }
-=======
-!<template>
-  <div>sdasd</div>
-</template>
-
-<script>
-export default {
-
-}
-</script>
-
-<style>
-
->>>>>>> feat-9/response
 </style>
