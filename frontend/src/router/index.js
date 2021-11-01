@@ -5,6 +5,8 @@
 import Createform from "@/views/Createform.vue";
 import SurveyCreateComplete from "@/views/SurveyCreateComplete.vue";
 import QuestionEdit from "@/views/question/QuestionEdit.vue";
+import filter from "@/views/Editform.vue";
+import TestPage from "@/views/test.vue";
 import Vue from "vue";
 import VueRouter from "vue-router";
 // import Home from "../views/Home.vue";
@@ -45,6 +47,16 @@ const routes = [
     path: "/survey/complete",
     name: "SurveyCreateComplete",
     component: SurveyCreateComplete,
+  },
+  {
+    path: "/test",
+    name: "TestPage",
+    component: TestPage,
+  },
+  {
+    path: "/filter",
+    name: "filter",
+    component: filter,
   },
 ];
 

@@ -49,7 +49,7 @@ public class SurveyServiceImpl implements SurveyService {
 
     /* 새로운 설문지 생성 */
     @Override
-    public boolean createNewSurvey(SurveyCreatePostReq surveyCreatePostReq) {
+    public String createNewSurvey(SurveyCreatePostReq surveyCreatePostReq) {
     	Template template = Template.builder().templateId(surveyCreatePostReq.getTemplateId()).build();
     	
     	Team team = teamRepository.findById(surveyCreatePostReq.getTeamId()).orElse(null);
@@ -94,7 +94,7 @@ public class SurveyServiceImpl implements SurveyService {
 		surveyList.add(savedSurvey);
 		/*------------------ survey 데이터 생성 및 저장 끝  -----------------------*/
 
-		return true;
+		return surveyId;
 
 	}
 

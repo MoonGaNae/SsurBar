@@ -53,7 +53,8 @@
 </template>
 
 <script>
-// import { mapActions } from "vuex";
+import { mapGetters } from "vuex";
+import axios from "@/utils/axios.js";
 
 export default {
   name: "SurveyCreateComplete",
@@ -64,6 +65,7 @@ export default {
     };
   },
   methods: {
+    ...mapGetters(["getSurveyId"]),
     copyUrl(url) {
       let tmpTextarea = document.createElement("textarea");
 
@@ -81,6 +83,18 @@ export default {
 
       console.log(successCopy);
     },
+  },
+  mounted() {
+    axios
+      .get(`/survey/` + this.getSurveyId())
+      .then((res) => {
+        console.log(res);
+        this.responseUrl = res.data.responseUrl;
+        this.resultUrl = res.data.resultUrl;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   },
 };
 </script>

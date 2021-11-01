@@ -78,7 +78,8 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import axios from "@/utils/axios.js";
+import { mapState, mapActions } from "vuex";
 
 export default {
   name: "Createform",
@@ -91,19 +92,42 @@ export default {
     };
   },
   computed: {
-      ...mapState('team', ['teamList']),
+    ...mapState("team", ["teamList"]),
   },
   methods: {
-     ...mapActions('team', ['getTeams']),
+    ...mapActions([
+      "setTemplateId",
+      "setCreateTime",
+      "setEndTime",
+      "setTeamId",
+      "setDescription",
+      "setTitle",
+    ]),
+    ...mapActions("team", ["getTeams"]),
     nextPage() {
-      console.log(this.description);
-      console.log(this.surveyTitle);
-      console.log(this.targetTeamId);
-      console.log(this.endDate);
+      this.setTeamId(this.targetTeamId);
+      this.setTitle(this.surveyTitle);
+      this.setDescription(this.description);
+      this.setEndTime(this.endDate);
+
+      // let regex = RegExp(/^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/);
+
+      // let dateStr = regex.test(this.endDate);
+
+      axios
+        .post("/template", {
+          title: this.surveyTitle,
+          description: this.description,
+        })
+        .then((res) => {
+          this.setTemplateId(res.data.tempateId);
+
+          this.$router.push("/test");
+        });
     },
   },
-  created () {
-     this.getTeams();
+  created() {
+    this.getTeams();
   },
 };
 </script>

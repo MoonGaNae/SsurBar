@@ -42,13 +42,16 @@ public class SurveyController {
     })
     public ResponseEntity<BaseResponseBody> createNewSurvey(@RequestBody SurveyCreatePostReq surveyCreatePostReq){
     	
-    	boolean isSuccess = surveyService.createNewSurvey(surveyCreatePostReq);
+    	String surveyId = surveyService.createNewSurvey(surveyCreatePostReq);
     	
-    	if(!isSuccess) {
+    	if(surveyId == null) {
     		return ResponseEntity.status(401).body(BaseResponseBody.of("실패"));
     	}
-    	
-        return ResponseEntity.status(200).body(BaseResponseBody.of("성공"));
+
+		SurveyCreatePostRes surveyCreatePostRes = SurveyCreatePostRes.builder().surveyId(surveyId).build();
+		surveyCreatePostRes.setMessage("성공");
+
+		return ResponseEntity.status(200).body(surveyCreatePostRes);
     }
     
     @GetMapping()
