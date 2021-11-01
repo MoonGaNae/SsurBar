@@ -5,21 +5,30 @@
 // // 설문 문항 편집
 // import Createform from "../views/Createform.vue";
 
-// Vue.use(VueRouter);
+import QuestionEdit from "@/views/question/QuestionEdit.vue";
 
-// const routes = [
-//   {
-//     path: "/Editform",
-//     name: "Editform",
-//     component: Editform,
-//   },
-//   {
-//     path: "/Createform",
-//     name: "Createform",
-//     component: Createform,
-//   },
-  
-// ];
+Vue.use(VueRouter);
+
+const routes = [
+  {
+    path: "/",
+    name: "Home",
+    component: Home,
+  },
+  {
+    path: "/about",
+    name: "About",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ "../views/About.vue"),
+  },
+  {
+    path: "/question/questionedit",
+    name: "QuestionEdit",
+    component: QuestionEdit,
+  },
+];
 
 // const router = new VueRouter({
 //   mode: "history",
