@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <template>
   <div id="wrapper">
     <div id="sidebar-wrapper">
@@ -740,4 +741,18 @@ button:hover {
 .category-delete-div button {
   width: 100%;
 }
+=======
+!<template>
+  <div>sdasd</div>
+</template>
+
+<script>
+export default {
+
+}
+</script>
+
+<style>
+
+>>>>>>> feat-9/response
 </style>

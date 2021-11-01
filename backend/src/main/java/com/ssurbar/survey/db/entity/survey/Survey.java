@@ -1,6 +1,5 @@
 package com.ssurbar.survey.db.entity.survey;
 
-import com.ssurbar.survey.db.entity.answer.QuestionAnswer;
 import lombok.*;
 
 import javax.persistence.*;

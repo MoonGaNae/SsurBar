@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
    <div id="wrapper">
       <div id="sidebar-wrapper">
          <ul class="sidebar-nav nav-pills nav-stacked" id="menu">            
@@ -26,12 +27,46 @@
          <div style=" background-position: center;background-color:white; margin-top:5%; margin-left:7%; margin-right:7%; height: 90vh; border-radius: 60px 60px 0% 0%;"></div>
       </div>    
    </div>
+=======
+  <div id="wrapper">
+    <div id="sidebar-wrapper">
+        <ul class="sidebar-nav nav-pills nav-stacked" id="menu">            
+          <li style="margin-top:25vh; margin-left:5%">
+           <a href="#"><i class="fas fa-home fa-2x" style="margin-top:1vh"></i></a>
+          </li>
+      
+          <li style="margin-top:10vh;margin-left:10%">
+           <router-link to="/Editform">
+             <a href="#"><i class="fas fa-plus-square fa-2x" style="margin-top:1vh"></i></a>
+           </router-link>
+          </li>
+      
+          <li style="margin-top:10vh;margin-left:10%">
+           <a href="#"><i class="fas fa-chart-bar fa-2x" style="margin-top:1vh"></i></a>
+          </li>
+    
+          <li style="margin-top:10vh;margin-left:10%">
+             <a href="#"><i class="fas fa-cog fa-2x" style="margin-top:1vh" ></i></a>
+          </li>                    
+        </ul>
+    </div>
+    <div style="background-color:rgb(5,25,58); height: 100vh;">   
+       <div> 네브바같은 느낌으로다가 </div>    
+       <div style=" background-position: center;background-color:white; margin-top:5%; margin-left:7%; margin-right:7%; height: 90vh; border-radius: 60px 60px 0% 0%;"></div>
+    </div>    
+  </div>
+>>>>>>> feat-9/response
 </template>
 
 <script>
 export default {
+<<<<<<< HEAD
   name: 'Sidebar',
 }
+=======
+  name: "Sidebar",
+};
+>>>>>>> feat-9/response
 </script>
 
 <style>
@@ -106,4 +141,8 @@ export default {
    }
 }
 
+<<<<<<< HEAD
 </style>
+=======
+</style>
+>>>>>>> feat-9/response
