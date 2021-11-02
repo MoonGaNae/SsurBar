@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Form from "../views/Res/SurveyForm.vue"
+import Finish from "../views/Res/SurveyFinish.vue"
 
 Vue.use(VueRouter);
 
@@ -24,6 +25,11 @@ const routes = [
     path: "/form",
     name: "Form",
     component: Form,
+  },
+  {
+    path: "/finish",
+    name: "Finish",
+    component: Finish,
   },
 ];
 

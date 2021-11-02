@@ -40,22 +40,6 @@
                                 </div> 
                             </div>
                     </el-collapse-item>
-
-
-
-                    <!-- <el-collapse-item v-for="(item, idx) in questions" :key="idx" :title="item.categoryName">
-                        <el-form-item>
-                            <div class="surveytitle">
-                                {{item.questionNum}}. {{item.title}}
-                                <br>
-                                <el-radio-group v-model="form.questionRes[idx]">
-                                    <div class="surveytitle" v-for="(example, exampleIdx) in questionexample[item.questionNum-1]" :key="exampleIdx">
-                                        <el-radio :label="example" style="display: block; margin-top:1.5em;"></el-radio>
-                                    </div>
-                                </el-radio-group>
-                            </div> 
-                        </el-form-item>
-                    </el-collapse-item> -->
                 </el-collapse>
 
                 <div class="button">
@@ -80,7 +64,6 @@
 
 <script>
 import axios from "@/utils/axios.js";
-
   export default {
     data () {
       return {
@@ -109,7 +92,6 @@ import axios from "@/utils/axios.js";
         filters: [],
         questions:[],
         filterExample: [],
-        //questionExample: []
         questionExample: [
             {
                 questionId: "",
