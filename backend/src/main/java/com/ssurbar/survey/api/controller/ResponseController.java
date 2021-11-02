@@ -46,6 +46,7 @@ public class ResponseController {
     })
     public ResponseEntity<? extends BaseResponseBody> saveAnswer(
             @RequestBody @ApiParam(value="사용자 응답", required = true) ResponsePostReq responsePostReq){
+        System.out.println(responsePostReq);
         List<SurveyAnswer> answerList = responseService.saveAnswer(responsePostReq);
 
         SurveyAnswerRes res = SurveyAnswerRes.builder().surveyAnswerList(answerList).build();
