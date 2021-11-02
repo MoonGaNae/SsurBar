@@ -98,7 +98,7 @@ export default {
 
 <style>
 .component-div {
-  height: 80%;
+  height: 100%;
 }
 
 ul.tabs {
@@ -132,7 +132,7 @@ ul.tabs li:hover {
 }
 
 .detail-container {
-  min-height: 60vh;
+  min-height: 75vh;
   display: flex;
   justify-content: space-between;
 }
@@ -179,7 +179,7 @@ ul.tabs li:hover {
 #tab-div {
   /* border-style: solid;
   border-width: 0px 0px 1px 0px; */
-  margin-bottom: 3%;
+  margin-bottom: 1%;
 }
 
 .el-card {

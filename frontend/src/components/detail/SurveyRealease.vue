@@ -1,6 +1,14 @@
 <template>
-  <div class="realease-container">
-    <div class="realeas-content">
+  <div class="release-container">
+    <div class="release-content">
+      <div class="survey-info-div">
+        <div class="team-name">{{ teamName }}</div>
+        <div class="survey-title">{{ title }}</div>
+        <div class="survey-duration">{{ startDate }} ~ {{ endDate }}</div>
+        <div class="survey-description">
+          {{ description }}
+        </div>
+      </div>
       <div class="link-list-div">
         <div class="response-link-div">
           <div class="link-type">응답 링크</div>
@@ -35,12 +43,17 @@
 <script>
 import axios from "@/utils/axios.js";
 export default {
-  name: "SurveyRealease",
+  name: "Surveyreleasee",
   props: ["surveyId"],
   data() {
     return {
       responseUrl: "",
       resultUrl: "",
+      endDate: null,
+      startDate: null,
+      teamName: "",
+      title: "",
+      description: "",
     };
   },
   methods: {
@@ -69,6 +82,21 @@ export default {
         console.log(res);
         this.responseUrl = res.data.responseUrl;
         this.resultUrl = res.data.resultUrl;
+        let endTime = res.data.endTime.split("T");
+        this.endDate = endTime[0] + " " + endTime[1].split(".")[0];
+        let creationTime = res.data.creationTime.split("T");
+        this.startDate = creationTime[0] + " " + creationTime[1].split(".")[0];
+        this.teamName = res.data.teamName;
+
+        axios
+          .get(`/template/` + res.data.templateId)
+          .then((templateRes) => {
+            this.title = templateRes.data.title;
+            this.description = templateRes.data.description;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       })
       .catch((err) => {
         console.log(err);
@@ -78,13 +106,44 @@ export default {
 </script>
 
 <style>
-.realease-container {
+.release-container {
   display: flex;
   align-items: center;
   height: 100%;
 }
 
-.realeas-content {
+.release-content {
   width: 100%;
+  height: 100%;
+}
+</style>
+
+<style scoped>
+.survey-info-div {
+  margin: 5%;
+}
+
+.team-name {
+  font-weight: 500;
+  font-size: 200%;
+}
+
+.survey-title {
+  font-weight: 600;
+  font-size: 300%;
+}
+
+.survey-duration {
+  color: #878a91;
+}
+
+.survey-description {
+  margin-top: 2%;
+  font-size: 100%;
+}
+
+.link-list-div {
+  padding-top: 2vh;
+  padding-bottom: 5vh;
 }
 </style>

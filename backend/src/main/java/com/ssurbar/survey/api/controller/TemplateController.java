@@ -115,7 +115,7 @@ public class TemplateController {
         return ResponseEntity.status(200).body(TemplateDefaultGetRes.builder().templateList(templateList).build());
     }
 
-    @GetMapping("/{template_id}")
+    @GetMapping("/{templateId}")
     @ApiOperation(value = "서식 상세 정보 조회", notes="서식 제목, 설명 등 상세정보를 조회한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
@@ -124,7 +124,7 @@ public class TemplateController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<? extends BaseResponseBody> getTemplate(
-            @PathVariable("template_id") String templateId
+            @PathVariable("templateId") String templateId
     ){
         TemplateInfo templateInfo = templateService.getTemplate(templateId);
 
