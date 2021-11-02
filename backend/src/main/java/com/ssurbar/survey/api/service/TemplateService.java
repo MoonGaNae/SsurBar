@@ -15,6 +15,8 @@ public interface TemplateService {
     List<String> createNewQuestions(String templateId, TemplateQuestionListPostReq templateQuestionListPostReq);
     // 설문 서식에 연결된 문항리스트 가져오기
     List<QuestionDetail> getQuestions(String templateId);
-
+    // 기본서식 목록 가져오기
     List<TemplateInfo> getDefaultTemplate();
+    // 트정 서식에 대한 정보가져오기
+    TemplateInfo getTemplate(String templateId);
 }

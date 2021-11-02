@@ -137,4 +137,13 @@ public class TemplateServiceImpl implements TemplateService{
         List<Template> defaultTemplates = templateRepository.findByIsDefaultTrue();
         return defaultTemplates.stream().map(TemplateInfo::of).collect(Collectors.toList());
     }
+
+    @Override
+    public TemplateInfo getTemplate(String templateId) {
+        Template template = templateRepository.findById(templateId).orElse(null);
+
+        if(template == null) return null;
+
+        return TemplateInfo.of(template);
+    }
 }
