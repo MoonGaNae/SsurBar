@@ -68,6 +68,7 @@ import axios from "@/utils/axios.js";
     data () {
       return {
         form:{
+            filterTitle:[],
             filterRes:[],
             questionId:[],
             questionRes:[]
@@ -105,6 +106,8 @@ import axios from "@/utils/axios.js";
             console.log(this.form)
             var questionIdAnswer = new Array();
             var answerlist = new Array();
+            var filterlist = new Array();
+
             // Json 형태 수정 해야됨 
             for(var i=0; i<this.form.questionId.length; i++){
                 var QId = this.form.questionId[i];
@@ -112,9 +115,22 @@ import axios from "@/utils/axios.js";
                 questionIdAnswer.push({questionId: QId, answer:JSON.stringify(Qres)})
                 answerlist.push(JSON.stringify({questionId: QId, answer:JSON.stringify(Qres)}));
             }
+
+            
+
+            for(var j=0; j<this.form.filterTitle.length; j++){
+                var Ftitle = this.form.filterTitle[j];
+                var Fres = this.form.filterRes[j];
+                var something = { };
+                something[Ftitle]= Fres;
+                filterlist.push(something)
+            }
+
+            console.log(filterlist)
+
             const formData = {
                 surveyId : this.surveyId,
-                filterAnswer : JSON.stringify(this.form.filterRes),
+                filterAnswer : JSON.stringify(filterlist),
                 answerList : answerlist
             }
             console.log(formData)
@@ -136,6 +152,7 @@ import axios from "@/utils/axios.js";
                 for(var i=0; i<this.filters.length; i++){
                     contents[i] = this.filters[i].content
                     contentAnswers[i] = JSON.parse(contents[i])
+                    this.form.filterTitle.push(this.filters[i].title)
                 }
                 this.filterExample = contentAnswers;
                 console.log(this.filters);
