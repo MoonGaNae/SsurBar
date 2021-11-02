@@ -75,7 +75,6 @@
               >
                 필터 추가
               </button>
-              <!-- <button class="rounded-corner-button while-button">질문 은행</button> -->
             </div>
           </div>
 
@@ -94,13 +93,12 @@
                   class="category d-flex justify-content-between"
                   :id="'category' + categoryIndex"
                 >
-                  <div
-                    class="category-title-div"
-                    style="width: 20%"
-                    @click="clickCategory(category)"
-                  >
+                  <div class="category-title-div">
                     <div class="category-title">
-                      <div style="d-flex; text-align:left; font-size:2.5rem">
+                      <div
+                        style="d-flex; text-align:left; font-size:2.5rem"
+                        @click="clickCategory(categoryIndex)"
+                      >
                         {{ category.title }}
                       </div>
                       <!-- <div class="category-arrow">
@@ -123,7 +121,7 @@
                 </div>
               </div>
             </div>
-            <div class="question-list">
+            <div v-if="selectedCategoryIdx != null" class="question-list">
               <div class="question el-card box-card is-always-shadow">
                 <div class="question-delete-btn-div"></div>
                 <h4 class="question-title" style="d-flex; text-align:left; font-size:2rem">
@@ -131,41 +129,40 @@
                     class="question-title-input el-input__inner"
                     style="d-flex; text-align:left; font-size:1.5rem"
                     type="text"
+                    v-model="categoryList[selectedCategoryIdx].title"
                     placeholder="질문을 입력하세요"
                   />
                 </h4>
                 <div class="answer-choices-list">
-                  <!-- <div
-                  class="choice"
-                  v-for="(choice, choiceIndex) in question.choiceList"
-                  :key="choiceIndex"
-                >
-                  <div>
-                    <input
-                      type="text"
-                      class="el-input__inner"
-                      v-model="
-                        categoryList[categoryIndex].questionList[questionIndex].choiceList[
-                          choiceIndex
-                        ]
+                  <div
+                    class="choice"
+                    v-for="(choice, choiceIndex) in categoryList[selectedCategoryIdx].choiceList"
+                    :key="choiceIndex"
+                  >
+                    <div>
+                      <input
+                        type="text"
+                        class="el-input__inner"
+                        v-model="categoryList[selectedCategoryIdx].choiceList[choiceIndex]"
+                      />
+                    </div>
+                    <button
+                      class="el-button el-button--danger is-circle el-button--mini"
+                      @click="
+                        deleteChoice(categoryList[selectedCategoryIdx].choiceList, choiceIndex)
                       "
-                    />
+                    >
+                      <i class="el-icon-minus"></i>
+                    </button>
                   </div>
-                  <button
-                    class="el-button el-button--danger is-circle el-button--mini"
-                    @click="deleteChoice(question.choiceList, choiceIndex)"
-                  >
-                    <i class="el-icon-minus"></i>
-                  </button>
-                </div>
-                <div class="choice-add-button-div">
-                  <button
-                    class="rounded-corner-button green-button"
-                    @click="addChoice(question.choiceList)"
-                  >
-                    보기 추가
-                  </button>
-                </div> -->
+                  <div class="choice-add-button-div">
+                    <button
+                      class="rounded-corner-button green-button"
+                      @click="addChoice(categoryList[selectedCategoryIdx].choiceList)"
+                    >
+                      보기 추가
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -188,24 +185,15 @@ export default {
       categoryInputWarning: "",
       categoryNameList: [],
       questionList: [],
+      selectedCategoryIdx: null,
       categoryList: [
         {
           title: "직무",
-          isSelected: false,
-          questionList: [
-            {
-              choiceList: ["개발팀", "영업팀", "보안팀"],
-            },
-          ],
+          choiceList: ["개발팀", "영업팀", "보안팀"],
         },
         {
           title: "성별",
-          isSelected: false,
-          questionList: [
-            {
-              choiceList: ["여성", "남성"],
-            },
-          ],
+          choiceList: ["여성", "남성"],
         },
       ],
     };
@@ -228,8 +216,8 @@ export default {
     deleteQuestion: function (questionList, questionIndex) {
       questionList.splice(questionIndex, 1);
     },
-    clickCategory: function (category) {
-      category.isSelected = !category.isSelected;
+    clickCategory: function (categoryIdx) {
+      this.selectedCategoryIdx = categoryIdx;
     },
     addCategory: function () {
       let category = {
@@ -268,6 +256,9 @@ export default {
       console.log(list);
     },
     deleteCategory: function (categoryIndex) {
+      if (this.selectedCategoryIdx == categoryIndex) {
+        this.selectedCategoryIdx = null;
+      }
       this.categoryList.splice(categoryIndex, 1);
     },
     endEditSurvey: function () {
@@ -667,10 +658,6 @@ export default {
   color: #9cbbff; */
 }
 
-.category-title-div:hover {
-  cursor: pointer;
-}
-
 .category-title {
   display: flex;
   width: 100%;
@@ -681,8 +668,9 @@ export default {
   border-radius: 12px;
 }
 
-.category-title:hover {
+.category-title div:hover {
   background-color: white;
+  cursor: pointer;
   filter: brightness(90%);
 }
 
