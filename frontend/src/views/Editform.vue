@@ -81,13 +81,13 @@
           <div class="category-warning" v-text="categoryInputWarning"></div>
           <br />
 
-          <div class="content-div">
-            <div class="category-list">
+          <div class="content-div ">
+            <div class="category-list el-card box-card is-always-shadow" style="width:10vw; margin-top:2%; padding-left:1%" >
               <div
-                class="category-div"
+                class="category-div "
                 v-for="(category, categoryIndex) in categoryList"
                 :key="categoryIndex"
-                style="width: 24vw"
+                style="width: 40vw"
               >
                 <div
                   class="category d-flex justify-content-between"
@@ -96,16 +96,17 @@
                   <div class="category-title-div">
                     <div class="category-title">
                       <div
-                        style="d-flex; text-align:left; font-size:2.5rem"
+                        style="d-flex; text-align:left; font-size:2.3rem;"
                         @click="clickCategory(categoryIndex)"
                       >
                         {{ category.title }}
+
                       </div>
 
                       <div class="category-delete-div">
                         <button
-                          class="el-button el-button--danger"
-                          style="width: 30vw"
+                          class="el-button el-button--danger is-circle"
+                          style="width: 2vw"
                           @click="deleteCategory(categoryIndex)"
                         >
                           <i class="el-icon-minus"></i>
@@ -117,7 +118,7 @@
               </div>
             </div>
             <div v-if="selectedCategoryIdx != null" class="question-list">
-              <div class="question el-card box-card is-always-shadow">
+              <div class="question el-card box-card is-always-shadow" >
                 <div class="question-delete-btn-div"></div>
                 <h4 class="question-title" style="d-flex; text-align:left; font-size:2rem">
                   <input
@@ -189,6 +190,10 @@ export default {
         {
           title: "성별",
           choiceList: ["여성", "남성"],
+        },
+        {
+          title: "나이대",
+          choiceList: ["20대", "30대","40대","50대"],
         },
       ],
     };
@@ -534,7 +539,7 @@ export default {
 }
 
 .question-list {
-  width: 70vw;
+  width: 35vw;
   padding-top: 2%;
   padding-right: 0;
 }
@@ -555,6 +560,7 @@ export default {
 
 .question {
   margin-bottom: 2%;
+  margin-left: -5vh;
 }
 
 .choice {
@@ -605,13 +611,6 @@ export default {
   color: white;
 }
 
-.red-button:hover {
-  /* background-color: #ffa724;
-  border-style: solid;
-  border-color: #ffa724;
-  color: white; */
-  /* filter: brightness(90%); */
-}
 
 .rounded-corner-button {
   border-radius: 12px;
@@ -621,10 +620,6 @@ export default {
   border-radius: 50%;
 }
 
-/* .question {
-  border: 3px;
-  border-style: solid;
-} */
 
 .choice-add-button {
   background-color: #ffa724;
@@ -664,7 +659,7 @@ export default {
 }
 
 .category-title div:hover {
-  background-color: white;
+  color: rgb(5,25,58);
   cursor: pointer;
   filter: brightness(90%);
 }

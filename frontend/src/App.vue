@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Sidebar v-if="$route.name != 'Form'" id="sidebar" />
+    <Sidebar id="sidebar"  v-if="showSide"/>
     <RouterView id="router" :key="$route.fullPath" />
   </div>
 </template>
@@ -13,6 +13,14 @@ export default {
   components: {
     Sidebar,
   },
+   computed:{
+         showSide(){
+            return !(
+               this.$route.name === "Form" ||
+               this.$route.name  === "Finish"
+            );
+         }
+   }
 };
 </script>
 

@@ -9,9 +9,9 @@ import filter from "@/views/Editform.vue";
 import TestPage from "@/views/test.vue";
 import Vue from "vue";
 import VueRouter from "vue-router";
-// import Home from "../views/Home.vue";
 import Form from "../views/Res/SurveyForm.vue";
 import SurveyDetail from "@/views/survey/SurveyDetail.vue";
+import Finish from "../views/Res/SurveyFinish.vue";
 
 Vue.use(VueRouter);
 
@@ -64,6 +64,11 @@ const routes = [
     path: "/survey/detail",
     name: "SurveyDetail",
     component: SurveyDetail,
+  },
+  {
+    path: "/finish",
+    name: "Finish",
+    component: Finish,
   },
 ];
 
