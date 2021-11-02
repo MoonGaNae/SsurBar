@@ -60,8 +60,8 @@
             </div>
           </div>
           <div class="category-warning" v-text="categoryInputWarning"></div>
-          
-          <div class="category-list ">
+
+          <div class="category-list">
             <div
               class="category-div"
               v-for="(category, categoryIndex) in categoryList"
@@ -79,14 +79,12 @@
                     </div>
                   </div>
                   <div class="category-delete-div">
-                    
                     <button
                       class="category-delete-btn rounded-corner-button red-button el-button--danger"
                       @click="deleteCategory(categoryIndex)"
                     >
                       카테고리 삭제
                     </button>
-                  
                   </div>
                 </div>
                 <div class="question-list" v-if="category.isSelected">
@@ -155,7 +153,7 @@
                   </button>
                 </div>
               </div>
-            </div>         
+            </div>
           </div>
         </div>
       </div>
@@ -293,9 +291,6 @@ export default {
   },
 };
 </script>
-
-
-
 
 <style scoped>
 .nav-pills > li > a {
