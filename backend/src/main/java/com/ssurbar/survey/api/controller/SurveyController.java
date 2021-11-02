@@ -122,9 +122,9 @@ public class SurveyController {
 	  public ResponseEntity<? extends BaseResponseBody> getSurveyAnswerList(@PathVariable String surveyId
 			  , @ModelAttribute SurveyAnswerListGetReq surveyAnswerListGetReq)
 	  {
-		  List<SurveyAnswer> surveyAnswerList = answerService.getSurveyAnswerList(surveyId, surveyAnswerListGetReq);
+		  List<AnswerData> answerDataList = answerService.getSurveyAnswerList(surveyId, surveyAnswerListGetReq);
 		  
-		  SurveyAnswerRes res = SurveyAnswerRes.builder().surveyAnswerList(surveyAnswerList).build();
+		  SurveyResultRes res = SurveyResultRes.builder().answerDataList(answerDataList).build();
 		  res.setMessage("성공");
 		  
 	      return ResponseEntity.status(200).body(res);
