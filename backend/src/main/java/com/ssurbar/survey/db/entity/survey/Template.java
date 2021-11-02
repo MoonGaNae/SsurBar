@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -26,6 +27,9 @@ public class Template implements Serializable {
     private String title;
 
     private String description;
+
+    @Column(columnDefinition = "boolean default false")
+    private boolean isDefault;
 
     @OneToMany(mappedBy = "template")
     private List<Survey> surveys = new ArrayList<>();
