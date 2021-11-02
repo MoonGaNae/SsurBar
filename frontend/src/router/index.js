@@ -1,7 +1,7 @@
-// // 설문 제작
-// // 설문 제작
+// 설문 제작
+// 설문 제작
 // import Editform from "../views/Editform.vue";
-// // 설문 문항 편집
+// 설문 문항 편집
 import Createform from "@/views/Createform.vue";
 import SurveyCreateComplete from "@/views/SurveyCreateComplete.vue";
 import QuestionEdit from "@/views/question/QuestionEdit.vue";
@@ -28,6 +28,7 @@ const routes = [
   //   // which is lazy-loaded when the route is visited.
   //   component: () => import(/* webpackChunkName: "about" */ "@/views/About.vue"),
   // },
+  
   {
     path: "/question/questionedit",
     name: "QuestionEdit",

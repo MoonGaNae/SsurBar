@@ -87,7 +87,7 @@
                 class="category-div"
                 v-for="(category, categoryIndex) in categoryList"
                 :key="categoryIndex"
-                style="width: 50vw"
+                style="width: 24vw"
               >
                 <div
                   class="category d-flex justify-content-between"
@@ -101,20 +101,15 @@
                       >
                         {{ category.title }}
                       </div>
-                      <!-- <div class="category-arrow">
-                        <i v-if="category.isSelected" class="el-icon-arrow-right"></i>
-                        <i v-else class="el-icon-arrow-left"></i>
-                      </div> -->
+
                       <div class="category-delete-div">
-                        <!-- <div class="category-delete-btn-div"> -->
                         <button
                           class="el-button el-button--danger"
-                          style="width: 100vw"
+                          style="width: 30vw"
                           @click="deleteCategory(categoryIndex)"
                         >
                           <i class="el-icon-minus"></i>
                         </button>
-                        <!-- </div> -->
                       </div>
                     </div>
                   </div>
@@ -173,7 +168,7 @@
   </div>
 </template>
 
-<script>
+<script scoped>
 import { mapActions } from "vuex";
 
 export default {
