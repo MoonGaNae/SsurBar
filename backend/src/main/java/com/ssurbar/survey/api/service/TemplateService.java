@@ -4,6 +4,7 @@ import com.ssurbar.survey.api.request.SurveyFilterListPostReq;
 import com.ssurbar.survey.api.request.TemplateQuestionListPostReq;
 import com.ssurbar.survey.api.request.TemplatePostReq;
 import com.ssurbar.survey.api.response.QuestionDetail;
+import com.ssurbar.survey.api.response.TemplateInfo;
 
 import java.util.List;
 
@@ -14,4 +15,6 @@ public interface TemplateService {
     List<String> createNewQuestions(String templateId, TemplateQuestionListPostReq templateQuestionListPostReq);
     // 설문 서식에 연결된 문항리스트 가져오기
     List<QuestionDetail> getQuestions(String templateId);
+
+    List<TemplateInfo> getDefaultTemplate();
 }

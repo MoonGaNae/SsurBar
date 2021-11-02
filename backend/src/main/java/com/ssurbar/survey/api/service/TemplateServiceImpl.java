@@ -5,6 +5,7 @@ import com.ssurbar.survey.api.request.SurveyFilterListPostReq;
 import com.ssurbar.survey.api.request.TemplatePostReq;
 import com.ssurbar.survey.api.request.TemplateQuestionListPostReq;
 import com.ssurbar.survey.api.response.QuestionDetail;
+import com.ssurbar.survey.api.response.TemplateInfo;
 import com.ssurbar.survey.common.util.RandomIdUtil;
 import com.ssurbar.survey.db.entity.Code;
 import com.ssurbar.survey.db.entity.survey.Category;
@@ -129,5 +130,11 @@ public class TemplateServiceImpl implements TemplateService{
         List<Question> questions = template.getQuestions();
 
         return questions.stream().map(QuestionDetail::of).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TemplateInfo> getDefaultTemplate() {
+        List<Template> defaultTemplates = templateRepository.findByIsDefaultTrue();
+        return defaultTemplates.stream().map(TemplateInfo::of).collect(Collectors.toList());
     }
 }
