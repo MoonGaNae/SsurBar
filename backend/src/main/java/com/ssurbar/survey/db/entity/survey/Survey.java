@@ -25,9 +25,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Survey implements Serializable {
+public class Survey {
 
     @Id
+    @Column(name="survey_id")
     private String surveyId;
 
     private Date creationTime;
@@ -51,4 +52,8 @@ public class Survey implements Serializable {
 
     @OneToMany(mappedBy = "survey", cascade = CascadeType.ALL)
     private List<FilterQuestion> filterQuestions = new ArrayList<>();
+
+    @OneToOne(mappedBy = "survey")
+    private IntegratedFeedback integratedFeedback;
+
 }
