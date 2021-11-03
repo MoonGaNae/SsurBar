@@ -6,6 +6,7 @@ import com.ssurbar.survey.api.request.TemplatePostReq;
 import com.ssurbar.survey.api.request.TemplateQuestionListPostReq;
 import com.ssurbar.survey.api.response.QuestionDetail;
 import com.ssurbar.survey.api.response.TemplateInfo;
+import com.ssurbar.survey.common.model.common.QuestionCreateResult;
 import com.ssurbar.survey.common.util.RandomIdUtil;
 import com.ssurbar.survey.db.entity.Code;
 import com.ssurbar.survey.db.entity.survey.Category;
@@ -61,9 +62,12 @@ public class TemplateServiceImpl implements TemplateService{
     }
 
     @Override
-    public List<String> createNewQuestions(String templateId, TemplateQuestionListPostReq templateQuestionListPostReq) {
-
+    public QuestionCreateResult createNewQuestions(String templateId, TemplateQuestionListPostReq templateQuestionListPostReq) {
         Template template = templateRepository.getById(templateId);
+
+        if(template.getQuestions() != null && template.getQuestions().size() > 0) {
+            return QuestionCreateResult.builder().isExist(true).build();
+        }
 
         Gson gson = new Gson();
 
@@ -117,7 +121,7 @@ public class TemplateServiceImpl implements TemplateService{
             idList.add(question.getQuestionId());
         }
 
-        return idList;
+        return QuestionCreateResult.builder().questionIdList(idList).isExist(false).build();
     }
 
     @Override

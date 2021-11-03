@@ -5,6 +5,7 @@ import com.ssurbar.survey.api.request.TemplatePostReq;
 import com.ssurbar.survey.api.request.TemplateQuestionListPostReq;
 import com.ssurbar.survey.api.response.*;
 import com.ssurbar.survey.api.service.TemplateService;
+import com.ssurbar.survey.common.model.common.QuestionCreateResult;
 import com.ssurbar.survey.common.model.response.BaseResponseBody;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ import java.util.List;
  * 설문지 서식 관련 API 요청 처리를 위한 컨트롤러 정의.
  */
 
-@CrossOrigin(origins = "*")
+@CrossOrigin("*")
 @Api(value = "설문 서식 API", tags = {"Template"})
 @RestController
 @RequestMapping("/api/v1/template")
@@ -66,13 +67,17 @@ public class TemplateController {
             @RequestBody @ApiParam(value="설문 서식 문항생성", required = true) TemplateQuestionListPostReq templateQuestionListPostReq
             ){
 
-        List<String> idList = templateService.createNewQuestions(templateId, templateQuestionListPostReq);
+        QuestionCreateResult questionCreateResult = templateService.createNewQuestions(templateId, templateQuestionListPostReq);
 
-        if(idList == null){
+        if(questionCreateResult.isExist()){
+            //이거 코드 이대로 써도 되나?
+            return ResponseEntity.status(201).body(BaseResponseBody.of("이미 존재하는 템플릿"));
+        }
+        else if(questionCreateResult.getQuestionIdList() == null){
             return ResponseEntity.status(500).body(BaseResponseBody.of("서버오류"));
         }
 
-        TemplateQuestionListPostRes res = TemplateQuestionListPostRes.builder().questionList(idList).build();
+        TemplateQuestionListPostRes res = TemplateQuestionListPostRes.builder().questionList(questionCreateResult.getQuestionIdList()).build();
         return ResponseEntity.status(201).body(res);
     }
 
@@ -115,7 +120,7 @@ public class TemplateController {
         return ResponseEntity.status(200).body(TemplateDefaultGetRes.builder().templateList(templateList).build());
     }
 
-    @GetMapping("/{template_id}")
+    @GetMapping("/{templateId}")
     @ApiOperation(value = "서식 상세 정보 조회", notes="서식 제목, 설명 등 상세정보를 조회한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
@@ -124,7 +129,7 @@ public class TemplateController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<? extends BaseResponseBody> getTemplate(
-            @PathVariable("template_id") String templateId
+            @PathVariable("templateId") String templateId
     ){
         TemplateInfo templateInfo = templateService.getTemplate(templateId);
 

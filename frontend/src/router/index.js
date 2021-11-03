@@ -10,8 +10,9 @@ import TestPage from "@/views/test.vue";
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Form from "../views/Res/SurveyForm.vue";
-import Finish from "../views/Res/SurveyFinish.vue"
-import DefaultTemplateList from "../views/DefaultTemplateList.vue"
+import SurveyDetail from "@/views/survey/SurveyDetail.vue";
+import Finish from "../views/Res/SurveyFinish.vue";
+import DefaultTemplateList from "../views/DefaultTemplateList.vue";
 
 Vue.use(VueRouter);
 
@@ -29,7 +30,7 @@ const routes = [
   //   // which is lazy-loaded when the route is visited.
   //   component: () => import(/* webpackChunkName: "about" */ "@/views/About.vue"),
   // },
-  
+
   {
     path: "/question/questionedit",
     name: "QuestionEdit",
@@ -59,6 +60,11 @@ const routes = [
     path: "/filter",
     name: "filter",
     component: filter,
+  },
+  {
+    path: "/survey/detail",
+    name: "SurveyDetail",
+    component: SurveyDetail,
   },
   {
     path: "/finish",

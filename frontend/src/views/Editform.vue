@@ -3,19 +3,27 @@
     <div id="sidebar-wrapper">
       <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
         <li style="margin-top: 25vh; margin-left: 5%">
-          <a href="#"><i class="fas fa-home fa-2x" style="margin-top: 1vh"></i></a>
+          <a href="#"
+            ><i class="fas fa-home fa-2x" style="margin-top: 1vh"></i
+          ></a>
         </li>
 
         <li style="margin-top: 10vh; margin-left: 10%">
-          <a href="#"><i class="fas fa-plus-square fa-2x" style="margin-top: 1vh"></i></a>
+          <a href="#"
+            ><i class="fas fa-plus-square fa-2x" style="margin-top: 1vh"></i
+          ></a>
         </li>
 
         <li style="margin-top: 10vh; margin-left: 10%">
-          <a href="#"><i class="fas fa-chart-bar fa-2x" style="margin-top: 1vh"></i></a>
+          <a href="#"
+            ><i class="fas fa-chart-bar fa-2x" style="margin-top: 1vh"></i
+          ></a>
         </li>
 
         <li style="margin-top: 10vh; margin-left: 10%">
-          <a href="#"><i class="fas fa-cog fa-2x" style="margin-top: 1vh"></i></a>
+          <a href="#"
+            ><i class="fas fa-cog fa-2x" style="margin-top: 1vh"></i
+          ></a>
         </li>
       </ul>
     </div>
@@ -34,9 +42,11 @@
       >
         <div class="container">
           <div class="page-title-div">
-            <h1 style="padding-top: 3%; padding-left: 4%; font-size: 4rem">필터 항목 등록</h1>
+            <h1 style="padding-top: 3%; padding-left: 4%; font-size: 4rem">
+              필터 항목 등록
+            </h1>
             <button
-              @click="endEditSurvey()"
+              @click="endEditFilter()"
               class="next-button yellow-button rounded-corner-button"
             >
               Next
@@ -45,7 +55,9 @@
           <hr style="width: 100%" />
           <div class="sub-title-div">
             <div>
-              <h3 style="d-flex; text-align:left; font-size:2.5rem">업무 만족도 조사</h3>
+              <h3 style="d-flex; text-align:left; font-size:2.5rem">
+                업무 만족도 조사
+              </h3>
             </div>
             <div class="sub-title-div-buttons">
               <input
@@ -81,10 +93,13 @@
           <div class="category-warning" v-text="categoryInputWarning"></div>
           <br />
 
-          <div class="content-div ">
-            <div class="category-list el-card box-card is-always-shadow" style="width:10vw; margin-top:2%; padding-left:1%" >
+          <div class="content-div">
+            <div
+              class="category-list el-card box-card is-always-shadow"
+              style="width: 10vw; margin-top: 2%; padding-left: 1%"
+            >
               <div
-                class="category-div "
+                class="category-div"
                 v-for="(category, categoryIndex) in categoryList"
                 :key="categoryIndex"
                 style="width: 40vw"
@@ -100,7 +115,6 @@
                         @click="clickCategory(categoryIndex)"
                       >
                         {{ category.title }}
-
                       </div>
 
                       <div class="category-delete-div">
@@ -118,9 +132,12 @@
               </div>
             </div>
             <div v-if="selectedCategoryIdx != null" class="question-list">
-              <div class="question el-card box-card is-always-shadow" >
+              <div class="question el-card box-card is-always-shadow">
                 <div class="question-delete-btn-div"></div>
-                <h4 class="question-title" style="d-flex; text-align:left; font-size:2rem">
+                <h4
+                  class="question-title"
+                  style="d-flex; text-align:left; font-size:2rem"
+                >
                   <input
                     class="question-title-input el-input__inner"
                     style="d-flex; text-align:left; font-size:1.5rem"
@@ -132,20 +149,33 @@
                 <div class="answer-choices-list">
                   <div
                     class="choice"
-                    v-for="(choice, choiceIndex) in categoryList[selectedCategoryIdx].choiceList"
+                    v-for="(choice, choiceIndex) in categoryList[
+                      selectedCategoryIdx
+                    ].choiceList"
                     :key="choiceIndex"
                   >
                     <div>
                       <input
                         type="text"
                         class="el-input__inner"
-                        v-model="categoryList[selectedCategoryIdx].choiceList[choiceIndex]"
+                        v-model="
+                          categoryList[selectedCategoryIdx].choiceList[
+                            choiceIndex
+                          ]
+                        "
                       />
                     </div>
                     <button
-                      class="el-button el-button--danger is-circle el-button--mini"
+                      class="
+                        el-button el-button--danger
+                        is-circle
+                        el-button--mini
+                      "
                       @click="
-                        deleteChoice(categoryList[selectedCategoryIdx].choiceList, choiceIndex)
+                        deleteChoice(
+                          categoryList[selectedCategoryIdx].choiceList,
+                          choiceIndex
+                        )
                       "
                     >
                       <i class="el-icon-minus"></i>
@@ -154,7 +184,9 @@
                   <div class="choice-add-button-div">
                     <button
                       class="rounded-corner-button green-button"
-                      @click="addChoice(categoryList[selectedCategoryIdx].choiceList)"
+                      @click="
+                        addChoice(categoryList[selectedCategoryIdx].choiceList)
+                      "
                     >
                       보기 추가
                     </button>
@@ -173,14 +205,14 @@
 import { mapActions } from "vuex";
 
 export default {
-  name: "QuestionEdit",
+  name: "FilterQuestionEdit",
   data() {
     return {
       categoryInputState: false,
       categoryInput: "",
       categoryInputWarning: "",
       categoryNameList: [],
-      questionList: [],
+      filterQuestionList: [],
       selectedCategoryIdx: null,
       categoryList: [
         {
@@ -193,28 +225,28 @@ export default {
         },
         {
           title: "나이대",
-          choiceList: ["20대", "30대","40대","50대"],
+          choiceList: ["20대", "30대", "40대", "50대"],
         },
       ],
     };
   },
   methods: {
-    ...mapActions(["setQuestionList"]),
+    ...mapActions("filterQuestion", ["setFilterQuestionList"]),
     deleteChoice: function (choiceList, index) {
       choiceList.splice(index, 1);
     },
     addChoice: function (choiceList) {
       choiceList.push("새 항목");
     },
-    addQuestion: function (questionList) {
+    addQuestion: function (filterList) {
       let question = {
         title: "새 문제",
         choiceList: [],
       };
-      questionList.push(question);
+      filterList.push(question);
     },
-    deleteQuestion: function (questionList, questionIndex) {
-      questionList.splice(questionIndex, 1);
+    deleteQuestion: function (filterList, questionIndex) {
+      filterList.splice(questionIndex, 1);
     },
     clickCategory: function (categoryIdx) {
       this.selectedCategoryIdx = categoryIdx;
@@ -223,7 +255,7 @@ export default {
       let category = {
         title: this.categoryInput,
         isSelected: false,
-        questionList: [],
+        filterList: [],
       };
 
       let isExist = false;
@@ -261,38 +293,26 @@ export default {
       }
       this.categoryList.splice(categoryIndex, 1);
     },
-    endEditSurvey: function () {
-      this.questionList = [];
-
-      this.categoryList.forEach((el) => {
-        this.categoryNameList.push(el.title);
-
-        el.questionList.forEach((question, index) => {
-          let content = "{ ";
-
-          question.choiceList.forEach((choice, index) => {
-            content += `"${index + 1}":"${choice},`;
-            // content += '"' + index + '":' + choice + ",";
-          });
-
-          content = content.slice(0, content.length - 1) + "}";
-
-          // console.log(content);
-
-          let questionInfo = {
-            title: question.title,
-            isEssential: false,
-            number: index + 1,
-            questionType: 201,
-            content: content,
-            categoryName: el.title,
-          };
-
-          this.questionList.push(questionInfo);
+    endEditFilter: function () {
+      this.categoryList.forEach((category, idx) => {
+        let content = {};
+        category.choiceList.forEach((choice, choiceIdx) => {
+          content[choiceIdx + 1] = choice;
         });
+
+        let jsonData = {
+          content: JSON.stringify(content),
+          number: idx + 1,
+          title: category.title,
+        };
+
+        this.filterQuestionList.push(JSON.stringify(jsonData));
       });
 
-      this.setQuestionList(this.questionList);
+      console.log(this.filterQuestionList);
+      this.setFilterQuestionList(this.filterQuestionList);
+
+      this.$router.push({ path: "/question/questionedit" });
     },
   },
 };
@@ -611,7 +631,6 @@ export default {
   color: white;
 }
 
-
 .rounded-corner-button {
   border-radius: 12px;
 }
@@ -619,7 +638,6 @@ export default {
 .round-button {
   border-radius: 50%;
 }
-
 
 .choice-add-button {
   background-color: #ffa724;
@@ -659,7 +677,7 @@ export default {
 }
 
 .category-title div:hover {
-  color: rgb(5,25,58);
+  color: rgb(5, 25, 58);
   cursor: pointer;
   filter: brightness(90%);
 }

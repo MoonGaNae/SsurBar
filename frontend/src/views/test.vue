@@ -1,7 +1,6 @@
 te
 <template>
   <div id="wrapper">
-    <button @click="editPage">to edit</button>
     <button @click="endPage">to end</button>
   </div>
 </template>
@@ -13,38 +12,88 @@ import { mapActions, mapGetters } from "vuex";
 export default {
   name: "TestPage",
   data() {
-    return {};
+    return {
+      surveyId: "",
+      templateId: "",
+    };
   },
   methods: {
-    ...mapGetters(["getQuestionList", "getTemplateId", "getEndTime", "getTeamId"]),
-    ...mapActions(["setSurveyId"]),
+    ...mapGetters("template", [
+      "getTemplateId",
+      "getEndTime",
+      "getTeamId",
+      "getTitle",
+      "getDescription",
+    ]),
+    ...mapGetters("question", ["getQuestionList", "getCategoryList"]),
+    ...mapGetters("filterQuestion", ["getFilterQuestionList"]),
+    ...mapActions("survey", ["setSurveyId"]),
     endPage() {
-      console.log("test");
+      this.saveTemplate();
 
-      let questionList = this.getQuestionList();
-
-      console.log(questionList);
-
-      // let templateId = this.getTemplateId();
-      // let endTime = this.getEndTime();
-      // let teamId = this.getTeamId();
-
+      // this.$router.push({
+      //   path: `/survey/complete`,
+      // });
+    },
+    saveTemplate() {
       axios
-        .post("/survey", {
-          templateId: "Eg75YlYoi7lWO",
-          endTime: "2021-10-10 14:22:33",
-          teamId: "1234567891233",
+        .post("/template", {
+          title: this.getTitle,
+          desc: this.getDescription,
         })
-        .then((result) => {
-          this.setSurveyId(result.data.surveyId);
-          this.$router.push("/survey/complete");
+        .then((res) => {
+          this.templateId = res.data.templateId;
+
+          this.saveQuestions();
         })
         .catch((err) => {
           console.log(err);
         });
-      // this.$router.push({
-      //   path: `/survey/complete`,
-      // });
+    },
+    saveQuestions() {
+      axios
+        .post(`/template/${this.templateId}/questions`, {
+          questionList: this.getQuestionList(),
+          categoryList: this.getCategoryList(),
+        })
+        .then(() => {
+          console.log("!@!@!@");
+          this.saveSurvey();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    saveSurvey() {
+      axios
+        .post("/survey", {
+          templateId: this.templateId,
+          endTime: this.getEndTime(),
+          teamId: this.getTeamId(),
+        })
+        .then((res) => {
+          this.surveyId = res.data.surveyId;
+          this.setSurveyId(this.surveyId);
+          this.saveFilterQuestions();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    saveFilterQuestions() {
+      console.log(this.getFilterQuestionList());
+      axios
+        .post(`/survey/${this.surveyId}/filters`, {
+          filterQuestionList: this.getFilterQuestionList(),
+        })
+        .then(() => {
+          this.$router.push({
+            path: `/survey/complete`,
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     editPage() {
       console.log("edit");

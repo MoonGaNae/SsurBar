@@ -1,0 +1,149 @@
+<template>
+  <div class="release-container">
+    <div class="release-content">
+      <div class="survey-info-div">
+        <div class="team-name">{{ teamName }}</div>
+        <div class="survey-title">{{ title }}</div>
+        <div class="survey-duration">{{ startDate }} ~ {{ endDate }}</div>
+        <div class="survey-description">
+          {{ description }}
+        </div>
+      </div>
+      <div class="link-list-div">
+        <div class="response-link-div">
+          <div class="link-type">응답 링크</div>
+          <div class="blank"></div>
+          <div class="link-url el-card is-always-shadow">
+            <div>
+              <i class="el-icon-link"></i>
+              <input disabled type="text" v-model="responseUrl" />
+            </div>
+            <button class="yellow-button rounded-corner-button" @click="copyUrl(responseUrl)">
+              copy
+            </button>
+          </div>
+        </div>
+        <div class="result-link-div">
+          <div class="link-type">결과 링크</div>
+          <div class="blank"></div>
+          <div class="link-url el-card is-always-shadow">
+            <div>
+              <i class="el-icon-link"></i> <input disabled type="text" v-model="resultUrl" />
+            </div>
+            <button class="yellow-button rounded-corner-button" @click="copyUrl(resultUrl)">
+              copy
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import axios from "@/utils/axios.js";
+export default {
+  name: "Surveyreleasee",
+  props: ["surveyId"],
+  data() {
+    return {
+      responseUrl: "",
+      resultUrl: "",
+      endDate: null,
+      startDate: null,
+      teamName: "",
+      title: "",
+      description: "",
+    };
+  },
+  methods: {
+    copyUrl(url) {
+      let tmpTextarea = document.createElement("textarea");
+
+      tmpTextarea.value = url;
+
+      tmpTextarea.setAttribute("readonly", "");
+      tmpTextarea.setAttribute("display", "none");
+      document.body.appendChild(tmpTextarea);
+
+      tmpTextarea.select();
+
+      let successCopy = document.execCommand("copy");
+
+      document.body.removeChild(tmpTextarea);
+
+      console.log(successCopy);
+    },
+  },
+  mounted() {
+    axios
+      .get(`/survey/` + this.surveyId)
+      .then((res) => {
+        console.log(res);
+        this.responseUrl = res.data.responseUrl;
+        this.resultUrl = res.data.resultUrl;
+        let endTime = res.data.endTime.split("T");
+        this.endDate = endTime[0] + " " + endTime[1].split(".")[0];
+        let creationTime = res.data.creationTime.split("T");
+        this.startDate = creationTime[0] + " " + creationTime[1].split(".")[0];
+        this.teamName = res.data.teamName;
+
+        axios
+          .get(`/template/` + res.data.templateId)
+          .then((templateRes) => {
+            this.title = templateRes.data.title;
+            this.description = templateRes.data.description;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  },
+};
+</script>
+
+<style>
+.release-container {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.release-content {
+  width: 100%;
+  height: 100%;
+}
+</style>
+
+<style scoped>
+.survey-info-div {
+  margin: 5%;
+}
+
+.team-name {
+  font-weight: 500;
+  font-size: 200%;
+}
+
+.survey-title {
+  font-weight: 600;
+  font-size: 300%;
+}
+
+.survey-duration {
+  color: #878a91;
+}
+
+.survey-description {
+  margin-top: 2%;
+  font-size: 100%;
+}
+
+.link-list-div {
+  padding-top: 2vh;
+  padding-bottom: 5vh;
+}
+</style>
