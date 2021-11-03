@@ -11,6 +11,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Form from "../views/Res/SurveyForm.vue";
 import Finish from "../views/Res/SurveyFinish.vue"
+import DefaultTemplateList from "../views/DefaultTemplateList.vue"
 
 Vue.use(VueRouter);
 
@@ -63,6 +64,11 @@ const routes = [
     path: "/finish",
     name: "Finish",
     component: Finish,
+  },
+  {
+    path: "/template/default",
+    name: "DefaultTemplateList",
+    component: DefaultTemplateList
   },
 ];
 
