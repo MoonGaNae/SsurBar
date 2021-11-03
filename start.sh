@@ -5,7 +5,7 @@ COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose up --build -d
 
 # remove unused docker images
 unused=$(docker images -f "dangling=true" -q)
-if [ ${#result} != 0 ]
+if [ ${#unused} != 0 ]
 then
     docker rmi $unused -f
 
