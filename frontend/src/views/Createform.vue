@@ -40,22 +40,25 @@
               </h3>
               <div class="custom-select" style="margin-top:0.5vh; font-size: 1.5rem" >
                 <select name="team" v-model="targetTeamId">
-                  <option value="">인사팀</option>
+                  <option v-for="(team, teamIdx) in teamList" :key="teamIdx" :value="team.teamId">
+                    {{ team.teamName }}
+                  </option>
+                  <!-- <option value="">인사팀</option>
                   <option value="">홍보팀</option>
                   <option value="">보안팀</option>
-                  <option value="">개발팀</option>
+                  <option value="">개발팀</option> -->
                 </select>
               </div>
-
-            </div>
               <!-- <div class="form-checkbox form-checkbox-inline" >
                 <select name="team" v-model="targetTeamId">
                   <option v-for="(team, teamIdx) in teamList" :key="teamIdx" :value="team.teamId">
                     {{ team.teamName }}
                   </option>
                 </select>
-                <div class="custom-select"> -->
-                <!-- </div> -->
+              </div> -->
+
+            </div>
+                
               
 
             
