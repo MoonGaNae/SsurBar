@@ -63,10 +63,9 @@ public class TemplateServiceImpl implements TemplateService{
 
     @Override
     public QuestionCreateResult createNewQuestions(String templateId, TemplateQuestionListPostReq templateQuestionListPostReq) {
-
         Template template = templateRepository.getById(templateId);
 
-        if(template.getQuestions() == null || template.getQuestions().size() == 0) {
+        if(template.getQuestions() != null && template.getQuestions().size() > 0) {
             return QuestionCreateResult.builder().isExist(true).build();
         }
 
