@@ -1,5 +1,5 @@
 module.exports = {
-  outputDir: "../backend/src/main/resources/dist",
+  // outputDir: "../backend/src/main/resources/dist",
   // 개발 서버 설정
   devServer: {
     port: 8081,
