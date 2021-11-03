@@ -28,7 +28,10 @@
                   <i class="el-icon-link"></i>
                   <input disabled type="text" v-model="responseUrl" />
                 </div>
-                <button class="yellow-button rounded-corner-button" @click="copyUrl(responseUrl)">
+                <button
+                  class="yellow-button rounded-corner-button"
+                  @click="copyUrl(responseUrl)"
+                >
                   copy
                 </button>
               </div>
@@ -38,9 +41,13 @@
               <div class="blank"></div>
               <div class="link-url el-card is-always-shadow">
                 <div>
-                  <i class="el-icon-link"></i> <input disabled type="text" v-model="resultUrl" />
+                  <i class="el-icon-link"></i>
+                  <input disabled type="text" v-model="resultUrl" />
                 </div>
-                <button class="yellow-button rounded-corner-button" @click="copyUrl(resultUrl)">
+                <button
+                  class="yellow-button rounded-corner-button"
+                  @click="copyUrl(resultUrl)"
+                >
                   copy
                 </button>
               </div>
@@ -65,7 +72,7 @@ export default {
     };
   },
   methods: {
-    ...mapGetters(["getSurveyId"]),
+    ...mapGetters("survey", ["getSurveyId"]),
     copyUrl(url) {
       let tmpTextarea = document.createElement("textarea");
 

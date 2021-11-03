@@ -15,7 +15,9 @@
       >
         <div class="container">
           <div class="page-title-div">
-            <h1 style="padding-top: 3%; padding-left: 4%; font-size: 4rem">문항 편집</h1>
+            <h1 style="padding-top: 3%; padding-left: 4%; font-size: 4rem">
+              문항 편집
+            </h1>
             <button
               @click="endEditSurvey()"
               class="next-button yellow-button rounded-corner-button"
@@ -26,7 +28,9 @@
           <hr style="width: 100%" />
           <div class="sub-title-div">
             <div>
-              <h3 style="d-flex; text-align:left; font-size:2.5rem">업무 만족도 조사</h3>
+              <h3 style="d-flex; text-align:left; font-size:2.5rem">
+                업무 만족도 조사
+              </h3>
             </div>
             <div class="sub-title-div-buttons">
               <input
@@ -68,19 +72,30 @@
               :key="categoryIndex"
             >
               <div class="category" :id="'category' + categoryIndex">
-                <div class="category-title-div" @click="clickCategory(category)">
+                <div
+                  class="category-title-div"
+                  @click="clickCategory(category)"
+                >
                   <div class="category-title">
                     <div style="d-flex; text-align:left; font-size:2.5rem">
                       {{ category.title }}
                     </div>
                     <div class="category-arrow">
-                      <i v-if="category.isSelected" class="el-icon-arrow-down"></i>
+                      <i
+                        v-if="category.isSelected"
+                        class="el-icon-arrow-down"
+                      ></i>
                       <i v-else class="el-icon-arrow-left"></i>
                     </div>
                   </div>
                   <div class="category-delete-div">
                     <button
-                      class="category-delete-btn rounded-corner-button red-button el-button--danger"
+                      class="
+                        category-delete-btn
+                        rounded-corner-button
+                        red-button
+                        el-button--danger
+                      "
                       @click="deleteCategory(categoryIndex)"
                     >
                       카테고리 삭제
@@ -95,19 +110,32 @@
                   >
                     <div class="question-delete-btn-div">
                       <button
-                        class="rounded-corner-button red-button el-button--danger"
-                        @click="deleteQuestion(category.questionList, questionIndex)"
+                        class="
+                          rounded-corner-button
+                          red-button
+                          el-button--danger
+                        "
+                        @click="
+                          deleteQuestion(category.questionList, questionIndex)
+                        "
                       >
                         문제 삭제
                       </button>
                     </div>
-                    <h4 class="question-title" style="d-flex; text-align:left; font-size:2rem">
+                    <h4
+                      class="question-title"
+                      style="d-flex; text-align:left; font-size:2rem"
+                    >
                       Q{{ questionIndex + 1 }}.
                       <input
                         class="question-title-input el-input__inner"
                         style="d-flex; text-align:left; font-size:1.5rem"
                         type="text"
-                        v-model="categoryList[categoryIndex].questionList[questionIndex].title"
+                        v-model="
+                          categoryList[categoryIndex].questionList[
+                            questionIndex
+                          ].title
+                        "
                       />
                     </h4>
                     <div class="answer-choices-list">
@@ -122,15 +150,21 @@
                             type="text"
                             class="el-input__inner"
                             v-model="
-                              categoryList[categoryIndex].questionList[questionIndex].choiceList[
-                                choiceIndex
-                              ]
+                              categoryList[categoryIndex].questionList[
+                                questionIndex
+                              ].choiceList[choiceIndex]
                             "
                           />
                         </div>
                         <button
-                          class="el-button el-button--danger is-circle el-button--mini"
-                          @click="deleteChoice(question.choiceList, choiceIndex)"
+                          class="
+                            el-button el-button--danger
+                            is-circle
+                            el-button--mini
+                          "
+                          @click="
+                            deleteChoice(question.choiceList, choiceIndex)
+                          "
                         >
                           <i class="el-icon-minus"></i>
                         </button>
@@ -192,7 +226,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["setQuestionList"]),
+    ...mapActions("question", ["setQuestionList", "setCategoryList"]),
     deleteChoice: function (choiceList, index) {
       choiceList.splice(index, 1);
     },
@@ -278,10 +312,11 @@ export default {
             categoryName: el.title,
           };
 
-          this.questionList.push(questionInfo);
+          this.questionList.push(JSON.stringify(questionInfo));
         });
       });
 
+      this.setCategoryList(this.categoryNameList);
       this.setQuestionList(this.questionList);
 
       this.$router.push({

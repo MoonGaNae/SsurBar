@@ -18,8 +18,8 @@ public class SurveyFilterListPostReq {
     @NoArgsConstructor
     @Builder
     public static class FilterDto{
-        private String title;
         private String content;
         private Integer number;
+        private String title;
     }
 }
