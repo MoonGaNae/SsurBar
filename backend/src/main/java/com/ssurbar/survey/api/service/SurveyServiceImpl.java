@@ -19,7 +19,12 @@ import com.ssurbar.survey.db.repository.survey.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -84,7 +89,7 @@ public class SurveyServiceImpl implements SurveyService {
 		Survey savedSurvey = surveyRepository.save(Survey.builder()
 				.surveyId(surveyId)
 				.template(template)
-				.creationTime(surveyCreatePostReq.getCreationTime())
+				.creationTime(new Date())
 				.endTime(surveyCreatePostReq.getEndTime())
 				.team(team)
 				.responseUrl(responseUrl)
@@ -143,7 +148,23 @@ public class SurveyServiceImpl implements SurveyService {
 		Survey survey = surveyRepository.findById(surveyId).orElse(null);
 		
 		if(survey == null)	return null;
-		
+
+		SimpleDateFormat formatter = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss");
+
+		String dateStr = formatter.format(new Date());
+
+		System.out.println(survey.getEndTime());
+		Date now = null;
+
+		try{
+			now = formatter.parse(dateStr);
+		}
+		catch(ParseException e) {
+			e.getStackTrace();
+		}
+
+		System.out.println(now);
+
 		SurveyDetailRes surveyDetailRes = SurveyDetailRes.builder()
 				.surveyId(survey.getSurveyId())
 				.templateId(survey.getTemplate().getTemplateId())
@@ -163,6 +184,8 @@ public class SurveyServiceImpl implements SurveyService {
 		Survey survey = surveyRepository.getById(surveyId);
 
 		Gson gson = new Gson();
+
+		System.out.println(surveyFilterListPostReq.getFilterQuestionList());
 
 		// 필터문항 추출및 Entity로 변환
 		List<FilterQuestion> filterSaveList = new ArrayList<>();

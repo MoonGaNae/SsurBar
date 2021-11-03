@@ -141,6 +141,10 @@ public class SurveyController {
 	  public ResponseEntity<? extends BaseResponseBody> getSurveyDetail(@PathVariable String surveyId)
 	  {
 		  SurveyDetailRes res = surveyService.getSurveyDetailInfo(surveyId);
+		  
+		  if(res == null){
+			  return ResponseEntity.status(500).body(BaseResponseBody.of("실패"));
+		  }
 		  res.setMessage("성공");
 		  
 	      return ResponseEntity.status(200).body(res);
