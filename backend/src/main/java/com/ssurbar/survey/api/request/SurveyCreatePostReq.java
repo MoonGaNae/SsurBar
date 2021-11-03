@@ -30,7 +30,7 @@ public class SurveyCreatePostReq {
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@ApiModelProperty(name="endTime", example="")
 	private Date endTime;
-	
+
 	@ApiModelProperty(name="teamId", example="")
 	private String teamId;
 }
