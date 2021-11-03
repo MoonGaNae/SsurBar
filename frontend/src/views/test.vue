@@ -57,6 +57,7 @@ export default {
           categoryList: this.getCategoryList(),
         })
         .then(() => {
+          console.log("!@!@!@");
           this.saveSurvey();
         })
         .catch((err) => {
@@ -66,13 +67,11 @@ export default {
     saveSurvey() {
       axios
         .post("/survey", {
-          templateId: this.getTemplateId(),
+          templateId: this.templateId,
           endTime: this.getEndTime(),
           teamId: this.getTeamId(),
         })
         .then((res) => {
-          console.log("미쳣나");
-          console.log(res);
           this.surveyId = res.data.surveyId;
           this.setSurveyId(this.surveyId);
           this.saveFilterQuestions();

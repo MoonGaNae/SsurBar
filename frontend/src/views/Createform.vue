@@ -166,16 +166,18 @@ export default {
       this.setTitle(this.surveyTitle);
       this.setDescription(this.description);
 
-      axios
-        .post("/template", {
-          title: this.surveyTitle,
-          description: this.description,
-        })
-        .then((res) => {
-          this.setTemplateId(res.data.templateId);
+      this.$router.push("/filter");
 
-          this.$router.push("/filter");
-        });
+      // axios
+      //   .post("/template", {
+      //     title: this.surveyTitle,
+      //     description: this.description,
+      //   })
+      //   .then((res) => {
+      //     this.setTemplateId(res.data.templateId);
+
+      //     this.$router.push("/filter");
+      //   });
     },
   },
   created() {
