@@ -1,4 +1,4 @@
-cd backend && ./gradlew bootJar && cd ..
+cd backend && chmod 777 ./gradlew && ./gradlew bootJar && cd ..
 docker-compose pull
 
 COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose up --build -d
