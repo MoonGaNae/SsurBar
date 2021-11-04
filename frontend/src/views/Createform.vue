@@ -14,85 +14,102 @@
         "
       >
         <div class="page-title-div">
-          <h1 style="padding-top: 3%; padding-left: 4%; font-size: 4rem">신규 설문 생성</h1>
+          <h1 style="padding-top: 3%; padding-left: 4%; font-size: 4rem">
+            신규 설문 생성
+          </h1>
           <button
-            @click="endEditSurvey()"
+            @click="endEditForm()"
             class="next-button yellow-button rounded-corner-button"
           >
             Next
           </button>
         </div>
         <hr style="width: 100%" />
-      
-        <div class="el-card box-card is-always-shadow " style="margin-top:5vh; margin-left:13vw;height:50vh ; width:60vw">
-            <h3 class="d-flex" style="font-size:2.5rem; margin-left:10vw; margin-top:7vh; ">
-              설문 이름 :
-              <input
-                v-model="surveyTitle"
-                type="text"
-                style="height: 3vh; width: 20vw; font-size: 1.5rem; margin-left:1vw"
-                placeholder="제목을 작성하세요."
-              />
-            </h3>
-            <div class="d-flex" style="margin-left:10vw; margin-top:5vh">
-              <h3 style="font-size:2.5rem; margin-right:1vw">
-                설문 대상 :
-              </h3>
-              <div class="custom-select" style="margin-top:0.5vh; font-size: 1.5rem" >
-                <select name="team" v-model="targetTeamId">
+
+        <div
+          class="el-card box-card is-always-shadow"
+          style="margin-top: 5vh; margin-left: 13vw; height: 50vh; width: 60vw"
+        >
+          <h3
+            class="d-flex"
+            style="font-size: 2.5rem; margin-left: 10vw; margin-top: 7vh"
+          >
+            설문 이름 :
+            <input
+              v-model="surveyTitle"
+              type="text"
+              style="
+                height: 3vh;
+                width: 20vw;
+                font-size: 1.5rem;
+                margin-left: 1vw;
+              "
+              placeholder="제목을 작성하세요."
+            />
+          </h3>
+          <div class="d-flex" style="margin-left: 10vw; margin-top: 5vh">
+            <h3 style="font-size: 2.5rem; margin-right: 1vw">설문 대상 :</h3>
+            <div
+              class="custom-select"
+              style="margin-top: 0.5vh; font-size: 1.5rem"
+            >
+              <!-- <select name="team" v-model="targetTeamId">
                   <option value="">인사팀</option>
                   <option value="">홍보팀</option>
                   <option value="">보안팀</option>
                   <option value="">개발팀</option>
-                </select>
-              </div>
-
+                </select> -->
+              <select name="team" v-model="targetTeamId">
+                <option
+                  v-for="(team, teamIdx) in teamList"
+                  :key="teamIdx"
+                  :value="team.teamId"
+                >
+                  {{ team.teamName }}
+                </option>
+              </select>
             </div>
-              <!-- <div class="form-checkbox form-checkbox-inline" >
+          </div>
+          <!-- <div class="form-checkbox form-checkbox-inline" >
                 <select name="team" v-model="targetTeamId">
                   <option v-for="(team, teamIdx) in teamList" :key="teamIdx" :value="team.teamId">
                     {{ team.teamName }}
                   </option>
                 </select>
                 <div class="custom-select"> -->
-                <!-- </div> -->
-              
+          <!-- </div> -->
 
-            
-            <div class="d-flex" style="margin-left:10vw; margin-top:5vh">
-              <h3 style="font-size: 2.5rem; margin-right:1vw">설문 기간 :
-              </h3>
-              <div style="margin-top: 0.2vh">
-                <el-date-picker
-                  v-model="endDate"
-                  type="date"
-                  placeholder="종료 날짜를 선택하세요"
-                  default-value="2021-11-01"
-                  
-                >
-                </el-date-picker> 
-              </div>
-            </div>        
-              
-            
-            <div class="d-flex" style="margin-left:10vw; margin-top:5vh">
-              <h3 style="font-size: 2.5rem; margin-right:1vw">설명 :
-              </h3>
-              <textarea @ auto_textarea.html
-                name="Text1" 
-                cols="40" 
-                rows="5"
-                v-model="description"
-                placeholder="설명을 입력해주세요."
-                style="height: 10vh; width: 27vw; font-size: 1.5rem; resize:none"
-                ></textarea>
+          <div class="d-flex" style="margin-left: 10vw; margin-top: 5vh">
+            <h3 style="font-size: 2.5rem; margin-right: 1vw">설문 기간 :</h3>
+            <div style="margin-top: 0.2vh">
+              <el-date-picker
+                v-model="endDate"
+                type="date"
+                placeholder="종료 날짜를 선택하세요"
+                default-value="2021-11-01"
+              >
+              </el-date-picker>
             </div>
-        </div>   
+          </div>
+
+          <div class="d-flex" style="margin-left: 10vw; margin-top: 5vh">
+            <h3 style="font-size: 2.5rem; margin-right: 1vw">설명 :</h3>
+            <textarea
+              @
+              auto_textarea.html
+              name="Text1"
+              cols="40"
+              rows="5"
+              v-model="description"
+              placeholder="설명을 입력해주세요."
+              style="height: 10vh; width: 27vw; font-size: 1.5rem; resize: none"
+            ></textarea>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
-          
 
 <script scoped>
 import axios from "@/utils/axios.js";
@@ -112,7 +129,7 @@ export default {
     ...mapState("team", ["teamList"]),
   },
   methods: {
-    ...mapActions([
+    ...mapActions("template", [
       "setTemplateId",
       "setCreateTime",
       "setEndTime",
@@ -142,19 +159,34 @@ export default {
           this.$router.push("/test");
         });
     },
+    endEditForm() {
+      let endTime = this.endDate.toISOString().split("T");
+      this.setEndTime(endTime[0] + " " + endTime[1].split(".")[0]);
+      this.setTeamId(this.targetTeamId);
+      this.setTitle(this.surveyTitle);
+      this.setDescription(this.description);
+
+      this.$router.push("/filter");
+
+      // axios
+      //   .post("/template", {
+      //     title: this.surveyTitle,
+      //     description: this.description,
+      //   })
+      //   .then((res) => {
+      //     this.setTemplateId(res.data.templateId);
+
+      //     this.$router.push("/filter");
+      //   });
+    },
   },
   created() {
     this.getTeams();
   },
 };
-
-
-
-
 </script>
 
 <style scoped>
-
 .page-title-div {
   display: flex;
   justify-content: space-between;
@@ -168,10 +200,6 @@ export default {
   border-radius: 12px;
 }
 .yellow-button:hover {
-  /* background-color: white;
-  border-style: solid;
-  border-color: #ffa724;
-  color: #ffa724; */
   filter: brightness(115%);
 }
 .yellow-button {
@@ -364,23 +392,23 @@ export default {
   height: 1.2rem;
   transition-delay: 0.28s;
 }
-.custom-select{
-    width: 300px;
-    height: 40px;
-    background-color: #eee;
-    position: relative
+.custom-select {
+  width: 300px;
+  height: 40px;
+  background-color: #eee;
+  position: relative;
 }
-.custom-select select{
-    width: 100%;
-    height: 100%;
-    border: none;
-    position: relative;
-    z-index: 2;
-    padding: 0 10px;
-    background: transparent;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
+.custom-select select {
+  width: 100%;
+  height: 100%;
+  border: none;
+  position: relative;
+  z-index: 2;
+  padding: 0 10px;
+  background: transparent;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 /* .custom-select:after{
     content: "S";
@@ -396,11 +424,9 @@ export default {
     right: 10px;
     z-index: 1;
 } */
-.custom-select > select:focus > option{
+.custom-select > select:focus > option {
   padding: 10px 0 !important;
   -webkit-appearance: none;
 }
-
-
-
 </style>
+
