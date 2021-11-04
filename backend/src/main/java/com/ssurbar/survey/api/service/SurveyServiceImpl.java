@@ -111,12 +111,15 @@ public class SurveyServiceImpl implements SurveyService {
 		List<SurveyInfo> list = new ArrayList<>();
 		
 		for (Survey survey : surveyList) {
+			String surveyId = survey.getSurveyId();
+			int cnt = getSurveyResponseCount(surveyId);
 			list.add(SurveyInfo.builder()
 					.creationTime(survey.getCreationTime())
 					.endTime(survey.getEndTime())
 					.surveyId(survey.getSurveyId())
 					.title(survey.getTemplate().getTitle())
 					.teamName(survey.getTeam().getName())
+					.cnt(cnt)
 					.build());
 		}
 		

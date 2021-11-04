@@ -13,6 +13,7 @@ import Form from "../views/Res/SurveyForm.vue";
 import SurveyDetail from "@/views/survey/SurveyDetail.vue";
 import Finish from "../views/Res/SurveyFinish.vue";
 import DefaultTemplateList from "../views/DefaultTemplateList.vue";
+import Main from "../views/main/main.vue";
 
 Vue.use(VueRouter);
 
@@ -30,7 +31,11 @@ const routes = [
   //   // which is lazy-loaded when the route is visited.
   //   component: () => import(/* webpackChunkName: "about" */ "@/views/About.vue"),
   // },
-
+  {
+    path: "/",
+    name: "main",
+    component: Main,
+  },
   {
     path: "/question/questionedit",
     name: "QuestionEdit",
