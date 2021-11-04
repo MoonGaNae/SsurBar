@@ -10,7 +10,7 @@
           datasets: [
             {
               label: 'Dataset',
-              backgroundColor: "rgba(255, 10, 13, 0.4)",
+              backgroundColor: "rgba(255, 10, 13, 0.2)",
               pointBackgroundColor: 'white',
               borderWidth: 5,
               pointBorderColor: '#249EBF',
