@@ -153,18 +153,14 @@ export default {
       this.selectedTabNum = tabNum;
     },
     applyFilter() {
-      // console.log(this.checkedFilter);
+      console.log(this.checkedFilter);
 
-      let filterStr = JSON.stringify(this.checkedFilter)
-        .replace(/\[/gi, "!q@w#e")
-        .replace(/\]/gi, "q!w@e#");
+      let filterStr = JSON.stringify(this.checkedFilter);
       console.log(filterStr);
-
-      console.log(JSON.stringify(this.checkedFilter));
       axios
         .get(`/survey/${this.surveyId}/answer`, {
           params: {
-            filterDataList: filterStr,
+            filterDataStr: encodeURI(filterStr),
           },
         })
         .then((res) => {

@@ -2,15 +2,18 @@ package com.ssurbar.survey.api.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ssurbar.survey.api.request.FilterDataReq;
 import com.ssurbar.survey.api.request.SurveyDecodeLinkGetReq;
 import com.ssurbar.survey.api.request.SurveyFilterListPostReq;
 import com.ssurbar.survey.api.response.*;
 import io.swagger.annotations.*;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -18,7 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.ssurbar.survey.api.request.SurveyAnswerListGetReq;
 import com.ssurbar.survey.api.request.SurveyCreatePostReq;
 import com.ssurbar.survey.api.service.AnswerService;
 import com.ssurbar.survey.api.service.SurveyService;
@@ -129,28 +131,27 @@ public class SurveyController {
 	  })
 	  public ResponseEntity<? extends BaseResponseBody> getSurveyAnswerList(@PathVariable String surveyId
 			  , /*@ModelAttribute("filterDataList") SurveyAnswerListGetReq surveyAnswerListGetReq*/
-	  @RequestParam String filterDataList) throws UnsupportedEncodingException, ParseException {
-		  System.out.println(filterDataList);
-//		  String str = URLEncoder.encode(filterDataList, "UTF-8");
-//		  String str2= URLDecoder.decode(filterDataList,"MS949");
-//		  System.out.println(str2);
-//		  String str3 = URLDecoder.decode(str2,"MS949");
-//		  System.out.println(str3);
-//		  System.out.println(URLDecoder.decode(str3,"UTF-8"));
-//
-//		  System.out.println(Charset.defaultCharset().displayName());
+	  @RequestParam String filterDataStr) throws ParseException, UnsupportedEncodingException, JsonProcessingException {
 
-//		  JSONParser jsonParse = new JSONParser();
-//
-//		  JSONObject jsonObj =  (JSONObject) jsonParse.parse(filterDataList);
-//
-//		  System.out.println(jsonObj.toJSONString());
-//		  List<AnswerData> answerDataList = answerService.getSurveyAnswerList(surveyId, surveyAnswerListGetReq);
+//		String filterStr = URLDecoder.decode(filterDataStr,"UTF-8");
 
-//		  SurveyResultRes res = SurveyResultRes.builder().answerDataList(answerDataList).build();
-//		  res.setMessage("성공");
-		  
-	      return ResponseEntity.status(200).body(BaseResponseBody.of(filterDataList));
+
+//		  List<FilterDataReq> list = Arrays.asList(new ObjectMapper().readValue(filterStr, FilterDataReq[].class));
+
+
+//		  for(FilterDataReq fdr: list){
+//			  System.out.print(fdr.getFilterKind()+" ");
+//			  for(String str: fdr.getFilterValue()){
+//				  System.out.print(str+" ");
+//			  }
+//			  System.out.println();
+//		  }
+		  List<AnswerData> answerDataList = answerService.getSurveyAnswerList(surveyId, filterDataStr);
+
+		  SurveyResultRes res = SurveyResultRes.builder().answerDataList(answerDataList).build();
+		  res.setMessage("성공");
+
+		  return ResponseEntity.status(200).body(res);
 	  }
 	  
 	  @GetMapping("/{surveyId}")
