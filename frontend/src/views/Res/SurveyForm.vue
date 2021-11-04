@@ -82,8 +82,10 @@ import axios from "@/utils/axios.js";
           ],
         },
         radio: '1',
-        templateId : '1234657891234',
-        surveyId: 'rm15zxga9lsRp',
+        // templateId : '1234657891234',
+        // surveyId: 'rm15zxga9lsRp',
+        tempaletId : '',
+        surveyId : '',
         category: [
             {
             categoryId: "",
@@ -138,6 +140,11 @@ import axios from "@/utils/axios.js";
                 this.register(formData);
                 return true;
             }else{
+                this.$fire({
+                    title: "응답실패",
+                    text : "아직 체크하지 않은 응답이 존재합니다!",
+                    type: "error",
+                })
                 console.log(false);
                 return false;
             }
@@ -203,7 +210,8 @@ import axios from "@/utils/axios.js";
             axios
             .post("response" , data)
             .then(()=>{
-                // 완료페이지 이동 
+                // 완료페이지 이동
+                this.$router.push("/finish");
                 console.log("Success!")
             })
         },
@@ -217,12 +225,26 @@ import axios from "@/utils/axios.js";
                 }
             }
             return true;
+        },
+        async process(){
+            const linkCode = this.$route.params.linkCode;
+            await axios
+                .get("/survey/decode-link?linkCode=" + linkCode +"&type=answer")
+                .then((res) => {
+                    this.templateId = res.data.templateId;
+                    this.surveyId = res.data.surveyId;
+                    this.getQuestionList(this.templateId);
+                    this.getFilterList(this.surveyId);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+            
         }
     },
     // 동기적으로 호출 
     created() {
-        this.getQuestionList(this.templateId);
-        this.getFilterList(this.surveyId);
+        this.process()
     },
 
     

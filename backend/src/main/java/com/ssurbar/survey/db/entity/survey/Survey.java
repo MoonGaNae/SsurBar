@@ -31,8 +31,10 @@ public class Survey {
     @Column(name="survey_id")
     private String surveyId;
 
+    @Temporal(TemporalType.DATE)
     private Date creationTime;
 
+    @Temporal(TemporalType.DATE)
     private Date endTime;
     
     private String responseUrl;
