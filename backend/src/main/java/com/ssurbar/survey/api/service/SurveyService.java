@@ -6,16 +6,16 @@ import java.util.List;
 import com.ssurbar.survey.api.request.SurveyCreatePostReq;
 import com.ssurbar.survey.api.request.SurveyDecodeLinkGetReq;
 import com.ssurbar.survey.api.request.SurveyFilterListPostReq;
-import com.ssurbar.survey.api.response.FilterQuestionDetail;
-import com.ssurbar.survey.api.response.SurveyDecodeLinkGetRes;
-import com.ssurbar.survey.api.response.SurveyDetailRes;
-import com.ssurbar.survey.api.response.SurveyInfo;
+import com.ssurbar.survey.api.response.*;
 
 public interface SurveyService {
     // 새로운 설문지 생성
 	String createNewSurvey(SurveyCreatePostReq surveyCreatePostReq);
 
 	List<SurveyInfo> getAllSurveyList();
+
+	// 최근 설문 최신순으로 불러오기
+	List<RecentSurveyInfo> getRecentSurveyList();
 
 	List<SurveyInfo> getMySurveyList(String accessToken);
 

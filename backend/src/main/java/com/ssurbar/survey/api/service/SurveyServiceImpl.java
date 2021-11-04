@@ -4,10 +4,7 @@ import com.google.gson.Gson;
 import com.ssurbar.survey.api.request.SurveyCreatePostReq;
 import com.ssurbar.survey.api.request.SurveyDecodeLinkGetReq;
 import com.ssurbar.survey.api.request.SurveyFilterListPostReq;
-import com.ssurbar.survey.api.response.FilterQuestionDetail;
-import com.ssurbar.survey.api.response.SurveyDecodeLinkGetRes;
-import com.ssurbar.survey.api.response.SurveyDetailRes;
-import com.ssurbar.survey.api.response.SurveyInfo;
+import com.ssurbar.survey.api.response.*;
 import com.ssurbar.survey.common.util.LinkUtil;
 import com.ssurbar.survey.common.util.RandomIdUtil;
 import com.ssurbar.survey.db.entity.Team;
@@ -17,6 +14,7 @@ import com.ssurbar.survey.db.entity.survey.SurveyResponseLog;
 import com.ssurbar.survey.db.entity.survey.Template;
 import com.ssurbar.survey.db.repository.survey.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -123,6 +121,24 @@ public class SurveyServiceImpl implements SurveyService {
 					.build());
 		}
 		
+		return list;
+	}
+
+	@Override
+	public List<RecentSurveyInfo> getRecentSurveyList() {
+    	// 로그인이 가능해지면 사용자 아이디별로 가져오는 로직으로 변경
+		List<Survey> surveyList = surveyRepository.findAll(Sort.by(Sort.Direction.DESC, "creationTime"));
+		List<RecentSurveyInfo> list = new ArrayList<>();
+
+		for (Survey survey : surveyList) {
+			list.add(RecentSurveyInfo.builder()
+					.creationTime(survey.getCreationTime())
+					.endTime(survey.getEndTime())
+					.surveyId(survey.getSurveyId())
+					.title(survey.getTemplate().getTitle())
+					.teamName(survey.getTeam().getName())
+					.build());
+		}
 		return list;
 	}
 
