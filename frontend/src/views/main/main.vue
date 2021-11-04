@@ -9,16 +9,25 @@
             </div>
             <div id="bottonBox">
                 <div class="surveyButton" @click="clickScratch">
+                  <img class="buttonImg" src="@/assets/newdoc.png" />
+                  <span style="display:inline-block; vertical-align: middle;">
                     Start from scratch
                     <h5>신규 설문 생성</h5>
+                  </span> 
                 </div>
                 <div class="surveyButton" @click="clickTemplate">
+                  <img class="buttonImg" src="@/assets/edit.png" />
+                  <span style="display:inline-block; vertical-align: middle;">
                     Start from a template
                     <h5>기본 서식에서 시작</h5>
+                  </span> 
                 </div>
                 <div class="surveyButton" @click="clickPastSurvey">
+                  <img class="buttonImg" src="@/assets/copy.png" />
+                  <span style="display:inline-block; vertical-align: middle;">
                     Copy a past survey
                     <h5>지난 설문조사 복사</h5>
+                  </span> 
                 </div>
             </div>
 
@@ -26,15 +35,6 @@
 
             <div id="tab">
                 <span>진행중인 설문</span>   |   <span>완료된 설문</span> 
-                <span style="float:right;">
-                  <el-input
-                    v-model="search"
-                    size="mini"
-                    placeholder="Type to search"
-                    >
-                    <el-button slot="append" icon="el-icon-search"></el-button>
-                    </el-input>
-                </span>
             </div>
             <ongoingList></ongoingList>
 
@@ -53,17 +53,15 @@ export default {
   },
   methods:{
     clickScratch(){
-        alert("이동!")
-        //this.$router.push("/test");
+        this.$router.push("/form/createform");
     },
     clickTemplate(){
-      alert("이동!")
-        //this.$router.push("/test");
+        this.$router.push("/template/default");
     },
     clickPastSurvey(){
-        alert("이동!")
+        alert("아직 준비중인 기능입니다!")
         //this.$router.push("/test");
-    }
+    },
   }
 };
 </script>
@@ -104,9 +102,11 @@ export default {
     text-align:center;
     margin-bottom:5%;
 }
+#bottonBox .surveyButton:hover{
+  transform:scale(1.1); 
+}
 #tab{
     margin-top:2.5%;
-    margin-bottom:2.5%;
 }
 .surveyButton{
     width: 25%;
@@ -118,9 +118,14 @@ export default {
     font-size: 0.5em;
     color: rgb(167, 167, 167);
 }
-.surveyButton >h5{
+.surveyButton >span >h5{
     font-weight: 600;
     color: black;
+}
+.buttonImg{
+  height : 50px;
+  display:inline-block;
+  margin-right: 5%;
 }
 #sidebar-wrapper {
   z-index: 1000;
