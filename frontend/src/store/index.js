@@ -9,6 +9,8 @@ import filterQuestion from "@/store/modules/filterQuestion.js";
 
 Vue.use(Vuex);
 
+Vue.prototype.$mainUrl = "http://localhost:8080/";
+
 export default new Vuex.Store({
   modules: { question, template, survey, team, filterQuestion },
   state: {},

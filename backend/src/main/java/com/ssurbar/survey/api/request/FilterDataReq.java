@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Builder
@@ -13,5 +15,5 @@ import lombok.Setter;
 @AllArgsConstructor
 public class FilterDataReq {
 	private String filterKind;
-	private String filterValue;
+	private List<String> filterValue;
 }

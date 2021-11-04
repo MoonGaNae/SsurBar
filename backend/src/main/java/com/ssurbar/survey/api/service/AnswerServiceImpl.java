@@ -38,34 +38,39 @@ public class AnswerServiceImpl implements AnswerService{
 		
 		List<FilterDataReq> filterDataList = surveyAnswerListGetReq.getFilterDataList();
 
+		System.out.println(surveyAnswerListGetReq.getFilterDataList().get(0));
+
 		List<String> categoryList = new ArrayList<>();
 		Map<String, Double> categoryScoreMap = new HashMap<>();
 		Map<String, Integer> categoryCountMap = new HashMap<>();
 		Map<String, Map<String, Double>> categoryQuestionScoreMap = new HashMap<>();
 		Map<String, Map<String, int[]>> categoryQuestionCountMap = new HashMap<>();
-
-		System.out.println(surveyId);
 		
 		for (QuestionAnswer questionAnswer : questionAnswerList) {
 			FilterData filterData = questionAnswer.getFilterData();
 			String filterRes = filterData.getResponse();
 			
 			JSONParser jsonParse = new JSONParser();
+
+			System.out.println(filterDataList.size());
 			
 			try {
 				JSONObject jsonObj =  (JSONObject) jsonParse.parse(filterRes);
 				
 //				int size = jsonObj.size();
 //				int count = 0;
+				System.out.println(jsonObj.toJSONString());
 				
 				boolean isCorrect = true;
 
 				if(filterDataList != null) {
 					for (FilterDataReq filterDataReq : filterDataList) {
 						String filterKind = filterDataReq.getFilterKind();
-						String filterValue = filterDataReq.getFilterValue();
+						List<String> filterValue = filterDataReq.getFilterValue();
+
+						System.out.println(filterKind+" "+jsonObj.get(filterKind)+" "+!filterValue.contains(jsonObj.get(filterKind)));
 						
-						if(!filterValue.equals(jsonObj.get(filterKind))) {
+						if(!filterValue.contains(jsonObj.get(filterKind))) {
 							isCorrect = false;
 							break;
 						}
@@ -73,6 +78,8 @@ public class AnswerServiceImpl implements AnswerService{
 //						count++;
 					}
 				}
+
+				System.out.println(isCorrect);
 				
 				if(isCorrect /*&& count == size*/){
 					String cateogryName = questionAnswer.getQuestion().getCategory().getName();
@@ -89,6 +96,8 @@ public class AnswerServiceImpl implements AnswerService{
 					//해당 응답의 데이터
 					String answerRes = questionAnswer.getResponse();
 					JSONObject answerJsonObj = (JSONObject) jsonParse.parse(answerRes);
+
+//					System.out.println(questionAnswer.getFilterData().getResponse());
 
 					//응답 데이터 저장 형태에 따라서 조정 필요
 					String answer = (String) answerJsonObj.get("0");
