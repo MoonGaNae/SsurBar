@@ -1,13 +1,21 @@
 <template>
     <div id="ListWrapper">
+      <div style="float:right; margin-bottom:1%;">
+        <el-input
+            v-model="search"
+            size="mini"
+            placeholder="Title to search"
+            >
+            <el-button slot="append" icon="el-icon-search"></el-button>
+          </el-input>
+        </div>
         <el-table 
-            :data="surveyList"
+            :data="surveyList.filter(data => !search || data.title.includes(search))"
             :default-sort = "{prop: 'startDate', order: 'descending'}"
             style="width: 100%">
             <el-table-column
             prop="title"
-            label="설문 제목"
-            style="font-weight:600;">
+            label="설문 제목">
             </el-table-column>
             <el-table-column
             prop="teamName"
@@ -35,12 +43,19 @@
     </div>
 </template>
 
+<style scoped>
+#ListWrapper{
+  padding-left:0;
+}
+</style>
+
 <script>
 import { mapState, mapActions } from "vuex";
   export default {
     data() {
       return {
         tableList:[],
+        search: '',
       }
     },
     computed: {
@@ -48,22 +63,9 @@ import { mapState, mapActions } from "vuex";
     },
     methods:{
     ...mapActions("list", ["getOngoingSurveyList"]),
-      getSurveyList(){
-          console.log(2);
-          console.log(this.surveyList)
-          this.tableList = this.surveyList;
-      }
     },
     created() {
       this.getOngoingSurveyList();
-      this.getSurveyList();
-      
     },
   }
 </script>
-
-<style scoped>
-#ListWrapper{
-  padding-left:0;
-}
-</style>
