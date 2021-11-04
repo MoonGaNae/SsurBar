@@ -1,6 +1,7 @@
 <template>
   <div class="release-container">
-    <div class="release-content">
+    <div v-if="isLoading"></div>
+    <div v-else class="release-content">
       <div class="survey-info-div">
         <div class="team-name">{{ teamName }}</div>
         <div class="survey-title">{{ title }}</div>
@@ -18,7 +19,10 @@
               <i class="el-icon-link"></i>
               <input disabled type="text" v-model="responseUrl" />
             </div>
-            <button class="yellow-button rounded-corner-button" @click="copyUrl(responseUrl)">
+            <button
+              class="yellow-button rounded-corner-button"
+              @click="copyUrl(responseUrl)"
+            >
               copy
             </button>
           </div>
@@ -28,9 +32,13 @@
           <div class="blank"></div>
           <div class="link-url el-card is-always-shadow">
             <div>
-              <i class="el-icon-link"></i> <input disabled type="text" v-model="resultUrl" />
+              <i class="el-icon-link"></i>
+              <input disabled type="text" v-model="resultUrl" />
             </div>
-            <button class="yellow-button rounded-corner-button" @click="copyUrl(resultUrl)">
+            <button
+              class="yellow-button rounded-corner-button"
+              @click="copyUrl(resultUrl)"
+            >
               copy
             </button>
           </div>
@@ -54,6 +62,7 @@ export default {
       teamName: "",
       title: "",
       description: "",
+      isLoading: true,
     };
   },
   methods: {
@@ -75,17 +84,15 @@ export default {
       console.log(successCopy);
     },
   },
-  mounted() {
+  created() {
     axios
       .get(`/survey/` + this.surveyId)
       .then((res) => {
         console.log(res);
-        this.responseUrl = res.data.responseUrl;
-        this.resultUrl = res.data.resultUrl;
-        let endTime = res.data.endTime.split("T");
-        this.endDate = endTime[0] + " " + endTime[1].split(".")[0];
-        let creationTime = res.data.creationTime.split("T");
-        this.startDate = creationTime[0] + " " + creationTime[1].split(".")[0];
+        this.responseUrl = this.$mainUrl + res.data.responseUrl;
+        this.resultUrl = this.$mainUrl + res.data.resultUrl;
+        this.endDate = res.data.endTime;
+        this.startDate = res.data.creationTime;
         this.teamName = res.data.teamName;
 
         axios
@@ -93,6 +100,7 @@ export default {
           .then((templateRes) => {
             this.title = templateRes.data.title;
             this.description = templateRes.data.description;
+            this.isLoading = false;
           })
           .catch((err) => {
             console.log(err);
