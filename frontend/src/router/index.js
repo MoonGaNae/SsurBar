@@ -47,7 +47,7 @@ const routes = [
     component: Createform,
   },
   {
-    path: "/form",
+    path: "/form/:linkCode",
     name: "Form",
     component: Form,
   },
