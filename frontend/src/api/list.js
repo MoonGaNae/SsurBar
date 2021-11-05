@@ -8,11 +8,11 @@ export default {
             method: 'get'
         })
     },
-    // 설문 응답수 조회
-    getSurveyCount(surveyId) {
+    // 진행중인 설문 최신순으로 조회 
+    getRecentSurveyList(){
         return axios({
-            url: `/survey/${surveyId}/response/cnt`,
+            url: `/survey/recent`,
             method: 'get'
         })
-    },
+    }
 }

@@ -10,6 +10,8 @@ import list from "@/store/modules/list.js";
 
 Vue.use(Vuex);
 
+Vue.prototype.$mainUrl = "http://localhost:8080/";
+
 export default new Vuex.Store({
   modules: { question, template, survey, team, filterQuestion, list },
   state: {},

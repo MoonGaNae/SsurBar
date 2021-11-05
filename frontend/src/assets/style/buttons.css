@@ -28,11 +28,11 @@
 }
 
 .red-button:hover {
-  /* background-color: #ffa724;
-  border-style: solid;
-  border-color: #ffa724;
-  color: white; */
-  /* filter: brightness(90%); */
+  /* background-color: #ffa724; */
+  /* border-style: solid; */
+  /* border-color: #ffa724; */
+  /* color: white;  */
+  filter: brightness(110%);
 }
 
 .rounded-corner-button {
@@ -51,6 +51,17 @@
 }
 
 .green-button:hover {
+  filter: brightness(110%);
+}
+
+.blue-button {
+  background-color: #0e4194;
+  border-color: #0e4194;
+  border-style: solid;
+  color: white;
+}
+
+.blue-button:hover {
   filter: brightness(110%);
 }
 

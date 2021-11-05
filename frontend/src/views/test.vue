@@ -30,10 +30,6 @@ export default {
     ...mapActions("survey", ["setSurveyId"]),
     endPage() {
       this.saveTemplate();
-
-      // this.$router.push({
-      //   path: `/survey/complete`,
-      // });
     },
     saveTemplate() {
       axios
