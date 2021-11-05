@@ -4,40 +4,57 @@
       <div>네브바같은 느낌으로다가</div>
       <div id="wrapper-div">
         <div id="container">
-            <div id="intro">
-                안녕하세요! 지금 <b>SSURBAR</b>를 통해 설문을 시작해보세요 📝
-            </div>
-            <div id="bottonBox">
-                <div class="surveyButton" @click="clickScratch">
-                  <img class="buttonImg" src="@/assets/newdoc.png" />
-                  <span style="display:inline-block; vertical-align: middle;">
-                    Start from scratch
-                    <h5>신규 설문 생성</h5>
-                  </span> 
-                </div>
-                <div class="surveyButton" @click="clickTemplate">
-                  <img class="buttonImg" src="@/assets/edit.png" />
-                  <span style="display:inline-block; vertical-align: middle;">
-                    Start from a template
-                    <h5>기본 서식에서 시작</h5>
-                  </span> 
-                </div>
-                <div class="surveyButton" @click="clickPastSurvey">
-                  <img class="buttonImg" src="@/assets/copy.png" />
-                  <span style="display:inline-block; vertical-align: middle;">
-                    Copy a past survey
-                    <h5>지난 설문조사 복사</h5>
-                  </span> 
-                </div>
-            </div>
+          <div class="page-title-div">
+            <h1 style="padding-top: 3%; padding-bottom: 2%; font-size: 4rem">
+              최근 사용 서식 조회
+            </h1>
+            <p>최근에 만들어진 서식순으로 보여드립니다.</p>
+          </div>
 
-            <hr>
-
-            <div id="tab">
-                <span>진행중인 설문</span>   |   <span>완료된 설문</span> 
+          <hr>
+          <div style="float:right; margin-bottom:1%;">
+            <el-input
+                v-model="search"
+                size="mini"
+                placeholder="Title to search"
+                >
+                <el-button slot="append" icon="el-icon-search"></el-button>
+              </el-input>
             </div>
-            <ongoingList></ongoingList>
-
+              <el-table 
+                  :data="recentList.filter(data => !search || data.title.includes(search))"
+                  style="width: 100%">
+                  <el-table-column
+                  prop="title"
+                  label="설문 제목">
+                  </el-table-column>
+                  <el-table-column
+                  prop="teamName"
+                  label="담당팀"
+                  width="180">
+                  </el-table-column>
+                  <el-table-column
+                  prop="creationTime"
+                  label="시작 날짜"
+                  width="180">
+                  </el-table-column>
+                  <el-table-column
+                  prop="endTime"
+                  label="종료 날짜"
+                  width="180">
+                  </el-table-column>
+                  <el-table-column
+                    label="편집하기"
+                    width="180">
+                    <template slot-scope="scope">
+                    <el-button
+                      @click.native.prevent="RecentTemplate(scope.$index, recentList)"
+                      type="info" plain >
+                      Click
+                    </el-button>
+                  </template>
+                  </el-table-column>
+              </el-table>
         </div>
       </div>
     </div>
@@ -45,24 +62,26 @@
 </template>
 
 <script>
-import ongoingList from "@/views/main/ongoingList.vue";
-export default {
-  name: "App",
-  components: {
-    ongoingList,
-  },
-  methods:{
-    clickScratch(){
-        this.$router.push("/form/createform");
+import { mapState, mapActions } from "vuex";
+  export default {
+    data() {
+      return {
+        search: '',
+      }
     },
-    clickTemplate(){
-        this.$router.push("/template/default");
+    computed: {
+      ...mapState("list", ["recentList"]),
     },
-    clickPastSurvey(){
-        this.$router.push("/template/recent");
+    methods:{
+    ...mapActions("list", ["getRecentSurveyList"]),
+      RecentTemplate(index, row){
+        console.log(row[index].surveyId)
+      }
+    },
+    created() {
+      this.getRecentSurveyList();
     },
   }
-};
 </script>
 
 <style scoped>

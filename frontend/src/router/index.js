@@ -13,6 +13,7 @@ import Form from "../views/Res/SurveyForm.vue";
 import SurveyDetail from "@/views/survey/SurveyDetail.vue";
 import Finish from "../views/Res/SurveyFinish.vue";
 import DefaultTemplateList from "../views/DefaultTemplateList.vue";
+import RecentTemplateList from "../views/RecentTemplateList.vue";
 import Main from "../views/main/main.vue";
 
 Vue.use(VueRouter);
@@ -80,6 +81,11 @@ const routes = [
     path: "/template/default",
     name: "DefaultTemplateList",
     component: DefaultTemplateList
+  },
+  {
+    path: "/template/recent",
+    name: "RecentTemplateList",
+    component: RecentTemplateList
   },
 ];
 

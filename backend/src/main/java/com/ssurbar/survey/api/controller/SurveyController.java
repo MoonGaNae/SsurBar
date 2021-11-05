@@ -84,6 +84,27 @@ public class SurveyController {
     	
         return ResponseEntity.status(200).body(res);
     }
+
+	@GetMapping("/recent")
+	@ApiOperation(value = "최근 서식 목록 불러오기", notes = "최근 서식 목록을 불러온다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<? extends BaseResponseBody> getRecentList(){
+		List<RecentSurveyInfo> surveyList = surveyService.getRecentSurveyList();
+
+		if(surveyList == null) {
+			return ResponseEntity.status(401).body(BaseResponseBody.of("없음"));
+		}
+
+		RecentSurveyListRes res = RecentSurveyListRes.builder().surveyList(surveyList).build();
+		res.setMessage("성공");
+
+		return ResponseEntity.status(200).body(res);
+	}
     
 //    @GetMapping()
 //    @ApiOperation(value = "나의 설문 목록 불러오기", notes = "내가 생성한 설문 목록을 불러온다.")
