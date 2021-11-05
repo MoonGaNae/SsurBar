@@ -13,6 +13,7 @@ import Form from "../views/Res/SurveyForm.vue";
 import SurveyDetail from "@/views/survey/SurveyDetail.vue";
 import Finish from "../views/Res/SurveyFinish.vue";
 import DefaultTemplateList from "../views/DefaultTemplateList.vue";
+import RecentTemplateList from "../views/RecentTemplateList.vue";
 import Main from "../views/main/main.vue";
 import TemplatePreview from "@/views/TemplatePreview"
 
@@ -86,6 +87,11 @@ const routes = [
     path: "/template/:templateId/preview",
     name: "TemplatePreview",
     component: TemplatePreview
+  },
+  {
+    path: "/template/recent",
+    name: "RecentTemplateList",
+    component: RecentTemplateList
   },
 ];
 
