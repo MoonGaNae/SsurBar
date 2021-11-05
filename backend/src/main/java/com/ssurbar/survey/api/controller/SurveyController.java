@@ -1,16 +1,26 @@
 package com.ssurbar.survey.api.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ssurbar.survey.api.request.FilterDataReq;
 import com.ssurbar.survey.api.request.SurveyDecodeLinkGetReq;
 import com.ssurbar.survey.api.request.SurveyFilterListPostReq;
 import com.ssurbar.survey.api.response.*;
 import io.swagger.annotations.*;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.ssurbar.survey.api.request.SurveyAnswerListGetReq;
 import com.ssurbar.survey.api.request.SurveyCreatePostReq;
 import com.ssurbar.survey.api.service.AnswerService;
 import com.ssurbar.survey.api.service.SurveyService;
@@ -111,7 +121,7 @@ public class SurveyController {
 	      return ResponseEntity.status(200).body(res);
 	  }
 	  
-	  @GetMapping("/{surveyId}/answer")
+	  @GetMapping(value="/{surveyId}/answer")
 	  @ApiOperation(value = "설문 응답 목록 불러오기", notes = "선택한 설문에 응답한 목록을 불러온다.")
 	  @ApiResponses({
 	          @ApiResponse(code = 200, message = "성공"),
@@ -120,14 +130,28 @@ public class SurveyController {
 	          @ApiResponse(code = 500, message = "서버 오류")
 	  })
 	  public ResponseEntity<? extends BaseResponseBody> getSurveyAnswerList(@PathVariable String surveyId
-			  , @ModelAttribute SurveyAnswerListGetReq surveyAnswerListGetReq)
-	  {
-		  List<AnswerData> answerDataList = answerService.getSurveyAnswerList(surveyId, surveyAnswerListGetReq);
-		  
+			  , /*@ModelAttribute("filterDataList") SurveyAnswerListGetReq surveyAnswerListGetReq*/
+	  @RequestParam String filterDataStr) throws ParseException, UnsupportedEncodingException, JsonProcessingException {
+
+//		String filterStr = URLDecoder.decode(filterDataStr,"UTF-8");
+
+
+//		  List<FilterDataReq> list = Arrays.asList(new ObjectMapper().readValue(filterStr, FilterDataReq[].class));
+
+
+//		  for(FilterDataReq fdr: list){
+//			  System.out.print(fdr.getFilterKind()+" ");
+//			  for(String str: fdr.getFilterValue()){
+//				  System.out.print(str+" ");
+//			  }
+//			  System.out.println();
+//		  }
+		  List<AnswerData> answerDataList = answerService.getSurveyAnswerList(surveyId, filterDataStr);
+
 		  SurveyResultRes res = SurveyResultRes.builder().answerDataList(answerDataList).build();
 		  res.setMessage("성공");
-		  
-	      return ResponseEntity.status(200).body(res);
+
+		  return ResponseEntity.status(200).body(res);
 	  }
 	  
 	  @GetMapping("/{surveyId}")

@@ -4,10 +4,13 @@ import router from "./router";
 import store from "./store";
 import Element from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
-import locale from 'element-ui/lib/locale/lang/en'
+import locale from "element-ui/lib/locale/lang/en";
+import VueSimpleAlert from "vue-simple-alert";
+import 'chart.js';
 
-Vue.use(Element, { locale })
-// Vue.use(Element);
+
+Vue.use(Element, { locale });
+Vue.use(VueSimpleAlert);
 
 Vue.config.productionTip = false;
 

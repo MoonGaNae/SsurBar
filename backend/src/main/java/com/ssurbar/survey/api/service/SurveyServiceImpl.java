@@ -111,12 +111,15 @@ public class SurveyServiceImpl implements SurveyService {
 		List<SurveyInfo> list = new ArrayList<>();
 		
 		for (Survey survey : surveyList) {
+			String surveyId = survey.getSurveyId();
+			int cnt = getSurveyResponseCount(surveyId);
 			list.add(SurveyInfo.builder()
 					.creationTime(survey.getCreationTime())
 					.endTime(survey.getEndTime())
 					.surveyId(survey.getSurveyId())
 					.title(survey.getTemplate().getTitle())
 					.teamName(survey.getTeam().getName())
+					.cnt(cnt)
 					.build());
 		}
 		
@@ -153,7 +156,6 @@ public class SurveyServiceImpl implements SurveyService {
 
 		String dateStr = formatter.format(new Date());
 
-		System.out.println(survey.getEndTime());
 		Date now = null;
 
 		try{
@@ -162,8 +164,6 @@ public class SurveyServiceImpl implements SurveyService {
 		catch(ParseException e) {
 			e.getStackTrace();
 		}
-
-		System.out.println(now);
 
 		SurveyDetailRes surveyDetailRes = SurveyDetailRes.builder()
 				.surveyId(survey.getSurveyId())
@@ -184,8 +184,6 @@ public class SurveyServiceImpl implements SurveyService {
 		Survey survey = surveyRepository.getById(surveyId);
 
 		Gson gson = new Gson();
-
-		System.out.println(surveyFilterListPostReq.getFilterQuestionList());
 
 		// 필터문항 추출및 Entity로 변환
 		List<FilterQuestion> filterSaveList = new ArrayList<>();
