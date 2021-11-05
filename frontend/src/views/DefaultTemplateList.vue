@@ -47,7 +47,7 @@ te
           </div>
           <hr class="mb-5" style="width: 100%" />
           <div class="row row-cols-2" style="height:50%;"> 
-            <default-template-item v-for="(template, index) in defaultTemplateList" :key="index" :template="template"> </default-template-item>
+            <default-template-item v-on:click.native="moveTemplatePreview(template.templateId)" v-for="(template, index) in defaultTemplateList" :key="index" :template="template"> </default-template-item>
           </div>
         </div>
       </div>
@@ -74,6 +74,9 @@ export default {
   },
   methods: {
     ...mapActions("template",['getDefaultTemplates']),
+    moveTemplatePreview(templateId){
+      this.$router.push("/template/"+templateId+"/preview");
+    },
   },
   created () {
     this.getDefaultTemplates();

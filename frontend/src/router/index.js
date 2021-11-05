@@ -14,6 +14,7 @@ import SurveyDetail from "@/views/survey/SurveyDetail.vue";
 import Finish from "../views/Res/SurveyFinish.vue";
 import DefaultTemplateList from "../views/DefaultTemplateList.vue";
 import Main from "../views/main/main.vue";
+import TemplatePreview from "@/views/TemplatePreview"
 
 Vue.use(VueRouter);
 
@@ -80,6 +81,11 @@ const routes = [
     path: "/template/default",
     name: "DefaultTemplateList",
     component: DefaultTemplateList
+  },
+  {
+    path: "/template/:templateId/preview",
+    name: "TemplatePreview",
+    component: TemplatePreview
   },
 ];
 
