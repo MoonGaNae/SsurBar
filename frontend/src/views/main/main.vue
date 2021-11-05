@@ -59,8 +59,7 @@ export default {
         this.$router.push("/template/default");
     },
     clickPastSurvey(){
-        alert("아직 준비중인 기능입니다!")
-        //this.$router.push("/test");
+        this.$router.push("/template/recent");
     },
   }
 };

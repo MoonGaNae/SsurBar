@@ -5,25 +5,24 @@
       <div id="wrapper-div">
         <div id="container">
           <div class="page-title-div">
-            <h1 style="padding-top: 3%; font-size: 4rem">
+            <h1 style="padding-top: 3%; padding-bottom: 2%; font-size: 4rem">
               최근 사용 서식 조회
             </h1>
-
-            <div style="float:right; margin-bottom:1%;">
-              <el-input
-                  v-model="search"
-                  size="mini"
-                  placeholder="Title to search"
-                  >
-                  <el-button slot="append" icon="el-icon-search"></el-button>
-                </el-input>
-              </div>
+            <p>최근에 만들어진 서식순으로 보여드립니다.</p>
           </div>
 
           <hr>
+          <div style="float:right; margin-bottom:1%;">
+            <el-input
+                v-model="search"
+                size="mini"
+                placeholder="Title to search"
+                >
+                <el-button slot="append" icon="el-icon-search"></el-button>
+              </el-input>
+            </div>
               <el-table 
-                  :data="surveyList.filter(data => !search || data.title.includes(search))"
-                  :default-sort = "{prop: 'startDate', order: 'descending'}"
+                  :data="recentList.filter(data => !search || data.title.includes(search))"
                   style="width: 100%">
                   <el-table-column
                   prop="title"
@@ -37,33 +36,23 @@
                   <el-table-column
                   prop="creationTime"
                   label="시작 날짜"
-                  sortable
                   width="180">
                   </el-table-column>
                   <el-table-column
                   prop="endTime"
                   label="종료 날짜"
-                  sortable
                   width="180">
                   </el-table-column>
                   <el-table-column
-                  prop="cnt"
-                  label="응답 수"
-                  width="120">
-                  </el-table-column>
-                  <el-table-column
-                    align="right"
-                    label="편집">
-                    <template slot="header">
-                      <el-input
-                        v-model="search"
-                        size="mini"
-                        placeholder="Type to search"/>
-                    </template>
-                    <template>
-                      <el-button
-                        size="mini">Edit</el-button>
-                    </template>
+                    label="편집하기"
+                    width="180">
+                    <template slot-scope="scope">
+                    <el-button
+                      @click.native.prevent="RecentTemplate(scope.$index, recentList)"
+                      type="info" plain >
+                      Click
+                    </el-button>
+                  </template>
                   </el-table-column>
               </el-table>
         </div>
@@ -77,18 +66,20 @@ import { mapState, mapActions } from "vuex";
   export default {
     data() {
       return {
-        tableList:[],
         search: '',
       }
     },
     computed: {
-      ...mapState("list", ["surveyList"]),
+      ...mapState("list", ["recentList"]),
     },
     methods:{
-    ...mapActions("list", ["getOngoingSurveyList"]),
+    ...mapActions("list", ["getRecentSurveyList"]),
+      RecentTemplate(index, row){
+        console.log(row[index].surveyId)
+      }
     },
     created() {
-      this.getOngoingSurveyList();
+      this.getRecentSurveyList();
     },
   }
 </script>
