@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions} from "vuex";
   export default {
     data() {
       return {
@@ -73,9 +73,11 @@ import { mapState, mapActions } from "vuex";
       ...mapState("list", ["recentList"]),
     },
     methods:{
-    ...mapActions("list", ["getRecentSurveyList"]),
+    ...mapActions("list", ["getRecentSurveyList", "setCategoryList"]),
       RecentTemplate(index, row){
         console.log(row[index].surveyId)
+        this.setCategoryList(row[index].surveyId);
+        this.$router.push("/form/createform");
       }
     },
     created() {

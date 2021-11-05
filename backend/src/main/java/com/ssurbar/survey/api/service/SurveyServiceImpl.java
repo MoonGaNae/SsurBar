@@ -24,6 +24,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service("surveyService")
@@ -49,6 +50,9 @@ public class SurveyServiceImpl implements SurveyService {
 
 	@Autowired
 	FilterQuestionRepository filterQuestionRepository;
+
+	@Autowired
+	TemplateRepository templateRepository;
 
     /* 새로운 설문지 생성 */
     @Override
@@ -193,6 +197,25 @@ public class SurveyServiceImpl implements SurveyService {
 				.build();
 
 		return surveyDetailRes;
+	}
+
+	@Override
+	public RecentSurveyDetailRes getRecentSurveyDetailInfo(String surveyId) {
+		Optional<Survey> survey = surveyRepository.findById(surveyId);
+		Optional<Template> template = templateRepository.getTemplateByTemplateId(survey.get().getTemplate().getTemplateId());
+
+		if(survey.isPresent()){
+			RecentSurveyDetailRes surveyDetailRes = RecentSurveyDetailRes.builder()
+					.templateId(template.get().getTemplateId())
+					.teamName(survey.get().getTeam().getName())
+					.title(survey.get().getTemplate().getTitle())
+					.teamId(survey.get().getTeam().getTeamId())
+					.description(template.get().getDescription())
+					.build();
+			return surveyDetailRes;
+		}
+
+		return null;
 	}
 
 	@Override

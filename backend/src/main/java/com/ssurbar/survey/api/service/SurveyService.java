@@ -23,6 +23,8 @@ public interface SurveyService {
 
 	SurveyDetailRes getSurveyDetailInfo(String surveyId);
 
+	RecentSurveyDetailRes getRecentSurveyDetailInfo(String surveyId);
+
 	// 설문에 대한 필터 생성
 	List<String> createNewFilters(String surveyId, SurveyFilterListPostReq surveyFilterListPostReq);
 
