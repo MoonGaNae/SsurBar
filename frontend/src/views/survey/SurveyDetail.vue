@@ -205,7 +205,7 @@ export default {
       checkedFilter: [],
       surveyId: "samplesurvey1",
       filterList: [],
-      isFeedbackOpened: true,
+      isFeedbackOpened: false,
       feedbackContentBackup: "",
       feedbackContent: "",
       isEditState: false,
@@ -314,6 +314,7 @@ export default {
 @import "../../assets/style/buttons.css";
 
 .component-div {
+  /* overflow: scroll; */
   height: 100%;
 }
 
@@ -359,6 +360,7 @@ ul.tabs li:hover {
   /* border-style: solid; */
 }
 .component-container {
+  /* overflow: scroll; */
   width: 100%;
   height: 100%;
   /* border-style: solid; */
@@ -441,6 +443,7 @@ ul.tabs li:hover {
 
 .content-cotainer {
   width: 86%;
+  height: 75vh;
   display: flex;
   flex-direction: column;
 }
@@ -472,6 +475,7 @@ ul.tabs li:hover {
   height: 85%;
   overflow: auto;
   overflow-x: hidden;
+  padding-top: 10%;
   /* scrollbar-width: 3%; */
   /* justify-content: center; */
 }
@@ -503,15 +507,16 @@ ul.tabs li:hover {
 
 .button-div {
   display: flex;
-  height: 10%;
+  height: 15%;
   justify-content: flex-end;
   align-items: flex-end;
-  margin: 3%;
-  margin-bottom: 10%;
+  padding: 10%;
+  /* margin-bottom: 10%; */
 }
 
 .apply-button {
-  height: 50%;
+  /* margin: 5%;
+  height: 50%; */
 }
 
 .filter-main-div {
@@ -523,7 +528,7 @@ ul.tabs li:hover {
 }
 .name-text {
   font-weight: 600;
-  margin: 3%;
+  padding: 10%;
   height: 5%;
 }
 
