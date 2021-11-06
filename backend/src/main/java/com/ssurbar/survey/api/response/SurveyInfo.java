@@ -15,4 +15,5 @@ public class SurveyInfo {
 	private String surveyId;
 	private String title;
 	private String teamName;
+	private int cnt;
 }

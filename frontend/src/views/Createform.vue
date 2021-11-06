@@ -112,7 +112,6 @@
 </template>
 
 <script scoped>
-import axios from "@/utils/axios.js";
 import { mapState, mapActions } from "vuex";
 
 export default {
@@ -138,27 +137,6 @@ export default {
       "setTitle",
     ]),
     ...mapActions("team", ["getTeams"]),
-    nextPage() {
-      this.setTeamId(this.targetTeamId);
-      this.setTitle(this.surveyTitle);
-      this.setDescription(this.description);
-      this.setEndTime(this.endDate);
-
-      // let regex = RegExp(/^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/);
-
-      // let dateStr = regex.test(this.endDate);
-
-      axios
-        .post("/template", {
-          title: this.surveyTitle,
-          description: this.description,
-        })
-        .then((res) => {
-          this.setTemplateId(res.data.tempateId);
-
-          this.$router.push("/test");
-        });
-    },
     endEditForm() {
       let endTime = this.endDate.toISOString().split("T");
       this.setEndTime(endTime[0] + " " + endTime[1].split(".")[0]);
@@ -429,3 +407,4 @@ export default {
   -webkit-appearance: none;
 }
 </style>
+

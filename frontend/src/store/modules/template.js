@@ -1,3 +1,4 @@
+import templateApi from '@/api/template.js';
 const state = {
   templateId: null,
   createTime: null,
@@ -5,6 +6,8 @@ const state = {
   teamId: null,
   description: null,
   title: null,
+
+  defaultTemplateList: null,
 };
 
 const mutations = {
@@ -26,6 +29,9 @@ const mutations = {
   SET_TITLE: (state, title) => {
     state.title = title;
   },
+  SET_DEFAULT_TEMPLATE_LIST: (state, list) => {
+    state.defaultTemplateList = list;
+  },
 };
 
 const actions = {
@@ -46,6 +52,16 @@ const actions = {
   },
   setTitle({ commit }, title) {
     commit("SET_TITLE", title);
+  },
+
+  async getDefaultTemplates ({commit}) {
+    await templateApi.getDefaultTemplates()
+      .then((res) =>{
+        commit('SET_DEFAULT_TEMPLATE_LIST', res.data.templateList)
+      })
+      .catch((err) => {
+        console.log(err)
+      });
   },
 };
 

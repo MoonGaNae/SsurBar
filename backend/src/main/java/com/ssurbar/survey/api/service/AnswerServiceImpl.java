@@ -1,10 +1,11 @@
 package com.ssurbar.survey.api.service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.*;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssurbar.survey.api.response.AnswerData;
 import com.ssurbar.survey.api.response.QuestionData;
 import com.ssurbar.survey.db.entity.survey.Question;
@@ -24,19 +25,22 @@ import com.ssurbar.survey.db.repository.answer.QuestionAnswerRepository;
 
 @Service("answerService")
 public class AnswerServiceImpl implements AnswerService{
-	
+
 	@Autowired
 	QuestionAnswerRepository questionAnswerRepository;
 
 	@Override
-	public List<AnswerData> getSurveyAnswerList(String surveyId, SurveyAnswerListGetReq surveyAnswerListGetReq) {
+	public List<AnswerData> getSurveyAnswerList(String surveyId, String filterDataStr) throws JsonProcessingException, UnsupportedEncodingException {
 		Survey survey = Survey.builder().surveyId(surveyId).build();
-		
+
 		List<QuestionAnswer> questionAnswerList = questionAnswerRepository.findAllBySurvey(survey);
-		
+
 		List<AnswerData> answerDataList = new ArrayList<>();
-		
-		List<FilterDataReq> filterDataList = surveyAnswerListGetReq.getFilterDataList();
+
+		String filterStr = URLDecoder.decode(filterDataStr,"UTF-8");
+
+		//분석 페이지에서 선택한 필터
+		List<FilterDataReq> filterDataList = Arrays.asList(new ObjectMapper().readValue(filterStr, FilterDataReq[].class));
 
 		List<String> categoryList = new ArrayList<>();
 		Map<String, Double> categoryScoreMap = new HashMap<>();
@@ -44,31 +48,37 @@ public class AnswerServiceImpl implements AnswerService{
 		Map<String, Map<String, Double>> categoryQuestionScoreMap = new HashMap<>();
 		Map<String, Map<String, int[]>> categoryQuestionCountMap = new HashMap<>();
 
-		System.out.println(surveyId);
-		
+		//해당 설문의 모든 응답에 대해서
 		for (QuestionAnswer questionAnswer : questionAnswerList) {
 			FilterData filterData = questionAnswer.getFilterData();
 			String filterRes = filterData.getResponse();
-			
+
 			JSONParser jsonParse = new JSONParser();
-			
+
 			try {
 				JSONObject jsonObj =  (JSONObject) jsonParse.parse(filterRes);
-				
+
 				boolean isCorrect = true;
 
+				//필터가 없는 경우
 				if(filterDataList != null) {
 					for (FilterDataReq filterDataReq : filterDataList) {
 						String filterKind = filterDataReq.getFilterKind();
-						String filterValue = filterDataReq.getFilterValue();
-						
-						if(!filterValue.equals(jsonObj.get(filterKind))) {
+						List<String> filterValue = filterDataReq.getFilterValue();
+
+						//필터 선택 안한 경우
+						if(filterValue.size()==0){
+							continue;
+						}
+						//선택한 필터에 없는 경우
+						if(!filterValue.contains(jsonObj.get(filterKind))) {
 							isCorrect = false;
 							break;
 						}
 					}
 				}
-				
+
+				//선택한 데이터인 경우
 				if(isCorrect){
 					String cateogryName = questionAnswer.getQuestion().getCategory().getName();
 
@@ -81,6 +91,8 @@ public class AnswerServiceImpl implements AnswerService{
 					//해당 응답의 데이터
 					String answerRes = questionAnswer.getResponse();
 					JSONObject answerJsonObj = (JSONObject) jsonParse.parse(answerRes);
+
+//					System.out.println(questionAnswer.getFilterData().getResponse());
 
 					//응답 데이터 저장 형태에 따라서 조정 필요
 					String answer = (String) answerJsonObj.get("0");
@@ -185,7 +197,7 @@ public class AnswerServiceImpl implements AnswerService{
 
 			answerDataList.add(answerData);
 		}
-		
+
 		return answerDataList;
 	}
 

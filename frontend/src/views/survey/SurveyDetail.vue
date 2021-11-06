@@ -15,41 +15,166 @@
       >
         <div class="main-container">
           <!-- <div class="filter-container" v-if="!checkFullContent">sdadasdsad</div>
-          <div class="content-container" :class="{ isFullContent: checkFullContent }"> -->
+          <div class="component-container" :class="{ isFullContent: checkFullContent }"> -->
           <div id="tab-div">
             <ul class="tabs">
-              <li class="tab" :class="{ selectedTab: selectedTabNum == 0 }" @click="changeTab(0)">
+              <li
+                class="tab"
+                :class="{ selectedTab: selectedTabNum == 0 }"
+                @click="changeTab(0)"
+              >
                 분석
               </li>
               <!-- <li class="tab">비교</li> -->
-              <li class="tab" :class="{ selectedTab: selectedTabNum == 2 }" @click="changeTab(2)">
+              <li
+                class="tab"
+                :class="{ selectedTab: selectedTabNum == 2 }"
+                @click="changeTab(2)"
+              >
                 배포
               </li>
-              <li class="tab" :class="{ selectedTab: selectedTabNum == 3 }" @click="changeTab(3)">
+              <li
+                class="tab"
+                :class="{ selectedTab: selectedTabNum == 3 }"
+                @click="changeTab(3)"
+              >
                 결과
               </li>
             </ul>
           </div>
           <div class="detail-container">
-            <div class="filter-container el-card is-always-shadow" v-if="!checkFullContent">
-              sdadasdsad
+            <div
+              class="filter-container el-card is-always-shadow"
+              v-if="!checkFullContent"
+            >
+              <div class="name-text">필터</div>
+              <div class="filter-main-div">
+                <!-- <div class="filter-div"> -->
+                <div class="filter-list">
+                  <div
+                    class="filter-div"
+                    v-for="(filter, filterIdx) in filterList"
+                    :key="filterIdx"
+                  >
+                    <div class="filter el-card is-always-shadow">
+                      <div
+                        class="filter-title"
+                        @click="clickFilterDiv(filterIdx)"
+                      >
+                        {{ filter.name }}
+
+                        <i
+                          v-if="filter.isSelected"
+                          class="el-icon-arrow-down"
+                        ></i>
+                        <i v-else class="el-icon-arrow-left"></i>
+                      </div>
+                      <div class="filter-content" v-if="filter.isSelected">
+                        <div
+                          v-for="(filterName, nameIdx) in filter.filterNames"
+                          :key="nameIdx"
+                        >
+                          <label
+                            class="filter-label"
+                            :for="filter + filterName"
+                            >{{ filterName }}</label
+                          >
+                          <input
+                            type="checkbox"
+                            :id="filter + filterName"
+                            :value="filterName"
+                            v-model="checkedFilter[filterIdx].filterValue"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- </div> -->
+                </div>
+                <div class="button-div">
+                  <button
+                    @click="applyFilter()"
+                    class="yellow-button rounded-corner-button apply-button"
+                  >
+                    적용하기
+                  </button>
+                </div>
+              </div>
             </div>
             <div
-              class="content-container el-card is-always-shadow"
+              class="content-cotainer"
               :class="{ isFullContent: checkFullContent }"
             >
-              <div class="component-div" v-if="selectedTabNum == 0">
-                <SurveyAnalysis :surveyId="surveyId" />
+              <div
+                class="component-container el-card is-always-shadow"
+                :class="{ isFullContent: checkFullContent }"
+              >
+                <div class="component-div" v-if="selectedTabNum == 0">
+                  <SurveyAnalysis :surveyId="surveyId" />
+                </div>
+                <div class="component-div" v-if="selectedTabNum == 2">
+                  <SurveyRealease :surveyId="surveyId" />
+                </div>
+                <div class="component-div" v-if="selectedTabNum == 3">
+                  <SurveyResult :surveyId="surveyId" />
+                </div>
               </div>
-              <div class="component-div" v-if="selectedTabNum == 2">
-                <SurveyRealease :surveyId="surveyId" />
+              <div
+                class="feedback-container el-card is-always-shadow"
+                :class="{ 'opened-feedback': isFeedbackOpened }"
+                v-if="!checkFullContent"
+              >
+                <div
+                  :class="[
+                    { 'feedback-title-open': isFeedbackOpened },
+                    { 'feedback-title-close': !isFeedbackOpened },
+                  ]"
+                  @click="clickFeedbackDiv()"
+                >
+                  <div class="feedback-name-text">피드백</div>
+                  <i v-if="isFeedbackOpened" class="el-icon-arrow-down"></i>
+                  <i v-else class="el-icon-arrow-left"></i>
+                </div>
+                <div v-if="isFeedbackOpened" class="feedback-main-div">
+                  <div class="feedback-content-div">
+                    <textarea
+                      :disabled="!isEditState"
+                      class="feedback-content"
+                      type="textarea"
+                      placeholder="Feedback input"
+                      v-model="feedbackContent"
+                    >
+                    </textarea>
+                    <!-- <textarea name="feedback-content"></textarea> -->
+                  </div>
+                  <div class="feedback-button-div">
+                    <button
+                      @click="clickEditButton"
+                      v-if="!isEditState"
+                      class="blue-button rounded-corner-button"
+                    >
+                      수정</button
+                    ><button
+                      @click="clickEditSubmitButton"
+                      v-if="isEditState"
+                      class="green-button rounded-corner-button"
+                    >
+                      완료
+                    </button>
+                    <button
+                      @click="clickEditCancelButton"
+                      v-if="isEditState"
+                      class="red-button rounded-corner-button"
+                    >
+                      취소
+                    </button>
+                  </div>
+                </div>
               </div>
               <div class="component-div" v-if="selectedTabNum == 3">
                 <SurveyResult :surveyId="surveyId" />
               </div>
-            </div>
-            <div class="feedback-container el-card is-always-shadow" v-if="!checkFullContent">
-              12321323
             </div>
           </div>
           <!-- </div>
@@ -61,7 +186,7 @@
 </template>
 
 <script>
-// import axios from "@/utils/axios.js";
+import axios from "@/utils/axios.js";
 // import { mapActions, mapGetters } from "vuex";
 import SurveyRealease from "@/components/detail/SurveyRealease.vue";
 import SurveyAnalysis from "@/components/detail/SurveyAnalysis.vue";
@@ -77,12 +202,76 @@ export default {
   data() {
     return {
       selectedTabNum: 0,
+      checkedFilter: [],
       surveyId: "samplesurvey1",
+      filterList: [],
+      isFeedbackOpened: false,
+      feedbackContentBackup: "",
+      feedbackContent: "",
+      isEditState: false,
     };
   },
   methods: {
     changeTab(tabNum) {
       this.selectedTabNum = tabNum;
+    },
+    applyFilter() {
+      console.log(this.checkedFilter);
+
+      let filterStr = JSON.stringify(this.checkedFilter);
+      console.log(filterStr);
+      axios
+        .get(`/survey/${this.surveyId}/answer`, {
+          params: {
+            filterDataStr: encodeURI(filterStr),
+          },
+        })
+        .then((res) => {
+          console.log(res);
+        });
+    },
+    clickFilterDiv(filterIdx) {
+      this.filterList[filterIdx].isSelected =
+        !this.filterList[filterIdx].isSelected;
+    },
+    clickFeedbackDiv() {
+      this.isFeedbackOpened = !this.isFeedbackOpened;
+    },
+    clickEditButton() {
+      this.feedbackContentBackup = this.feedbackContent;
+      this.isEditState = true;
+    },
+    clickEditSubmitButton() {
+      //axios 추가 필요
+      this.saveIntegratedFeedback();
+      this.isEditState = false;
+    },
+    clickEditCancelButton() {
+      this.feedbackContent = this.feedbackContentBackup;
+      this.isEditState = false;
+    },
+    saveIntegratedFeedback() {
+      axios
+        .post("/feedback", {
+          surveyId: this.surveyId,
+          comment: this.feedbackContent,
+        })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    getIntegratedFeedback() {
+      axios
+        .get(`/feedback/${this.surveyId}`)
+        .then((res) => {
+          this.feedbackContent = res.data.comment;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
   computed: {
@@ -93,11 +282,39 @@ export default {
       return true;
     },
   },
+  created() {
+    axios.get(`/survey/${this.surveyId}/filters`).then((res) => {
+      res.data.filterQuestionList.forEach((el) => {
+        let title = el.title;
+        let content = JSON.parse(el.content);
+
+        let filterNames = [];
+
+        Object.keys(content).forEach((key) => {
+          filterNames.push(content[key]);
+        });
+
+        this.checkedFilter.push({
+          filterKind: title,
+          filterValue: [],
+        });
+
+        this.filterList.push({
+          name: title,
+          isSelected: false,
+          filterNames: filterNames,
+        });
+      });
+    });
+  },
 };
 </script>
 
 <style>
+@import "../../assets/style/buttons.css";
+
 .component-div {
+  /* overflow: scroll; */
   height: 100%;
 }
 
@@ -138,20 +355,25 @@ ul.tabs li:hover {
 }
 
 .feedback-container {
-  width: 10%;
+  width: 100%;
+  /* height: 50%; */
   /* border-style: solid; */
 }
-.content-container {
-  width: 78%;
+.component-container {
+  /* overflow: scroll; */
+  width: 100%;
+  height: 100%;
   /* border-style: solid; */
 }
 .filter-container {
-  width: 10%;
+  width: 13%;
+  height: 75vh;
+  /* overflow: hidden; */
   /* border-style: solid; */
 }
 
 .isFullContent {
-  width: 100%;
+  width: 100% !important;
 }
 
 .selectedTab {
@@ -184,5 +406,217 @@ ul.tabs li:hover {
 
 .el-card {
   transition: 0s !important;
+}
+</style>
+
+<style scoped>
+.filter-div {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5px;
+}
+.filter-title {
+  display: flex;
+  justify-content: space-between;
+  border-radius: 4px;
+  padding: 2%;
+  /* padding-left: 2%; */
+  /* margin: 2%; */
+  background-color: #dde0e7;
+  width: 100%;
+  /* border-style: solid; */
+  cursor: pointer;
+}
+.filter {
+  /* display: flex;
+  flex-direction: column;
+  align-items: center; */
+  width: 90% !important;
+  border: 0px;
+  /* border-style: solid; */
+  /* padding: 5%; */
+}
+.filter-content {
+  padding: 5%;
+  width: 90%;
+}
+
+.content-cotainer {
+  width: 86%;
+  height: 75vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-content div {
+  cursor: pointer;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.filter-content label {
+  cursor: pointer;
+}
+
+.filter-content input {
+  cursor: pointer;
+}
+
+.filter-div {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.filter-list {
+  width: 100%;
+  height: 85%;
+  overflow: auto;
+  overflow-x: hidden;
+  padding-top: 10%;
+  /* scrollbar-width: 3%; */
+  /* justify-content: center; */
+}
+
+.filter-list::-webkit-scrollbar {
+  width: 1vh;
+}
+.filter-list::-webkit-scrollbar-track {
+  background-color: #dde0e7;
+}
+
+.filter-list::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background-color: #9cbbff;
+}
+
+.filter-list i {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+}
+
+.filter {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.button-div {
+  display: flex;
+  height: 15%;
+  justify-content: flex-end;
+  align-items: flex-end;
+  padding: 10%;
+  /* margin-bottom: 10%; */
+}
+
+.apply-button {
+  /* margin: 5%;
+  height: 50%; */
+}
+
+.filter-main-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 95%;
+  /* overflow: scroll; */
+}
+.name-text {
+  font-weight: 600;
+  padding: 10%;
+  height: 5%;
+}
+
+.feedback-name-text {
+  font-weight: 600;
+  height: 100%;
+  display: flex;
+  margin-left: 1%;
+  align-items: center;
+}
+
+.feedback-title-open {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 20%;
+  cursor: pointer;
+}
+
+.feedback-title-close {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  cursor: pointer;
+}
+
+.feedback-title-open i {
+  font-weight: 900;
+  margin: 1%;
+}
+
+.feedback-title-close i {
+  font-weight: 900;
+  margin: 1%;
+}
+.filter-label {
+  width: 100%;
+}
+
+.opened-feedback {
+  height: 50%;
+}
+
+.feedback-button-div {
+  display: flex;
+  height: 25%;
+  justify-content: flex-end;
+}
+
+.feedback-button-div button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 10%;
+  margin: 0.5% !important;
+}
+.feedback-content-div {
+  display: flex;
+  justify-content: center;
+  height: 80%;
+}
+.feedback-content {
+  width: 95%;
+  height: 90%;
+  border: 1px solid;
+  border-radius: 4px;
+  border-color: #dde0e7;
+  resize: none;
+}
+
+.feedback-content:focus {
+  outline-color: #9cbbff;
+}
+
+.feedback-main-div {
+  height: 75%;
+}
+
+.feedback-content::-webkit-scrollbar {
+  width: 1vh;
+}
+.feedback-content::-webkit-scrollbar-track {
+  background-color: #dde0e7;
+}
+
+.feedback-content::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background-color: #9cbbff;
 }
 </style>

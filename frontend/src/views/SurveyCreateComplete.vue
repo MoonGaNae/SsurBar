@@ -67,8 +67,8 @@ export default {
   name: "SurveyCreateComplete",
   data() {
     return {
-      responseUrl: "testRes",
-      resultUrl: "testResult",
+      responseUrl: "",
+      resultUrl: "",
     };
   },
   methods: {
@@ -96,8 +96,8 @@ export default {
       .get(`/survey/` + this.getSurveyId())
       .then((res) => {
         console.log(res);
-        this.responseUrl = res.data.responseUrl;
-        this.resultUrl = res.data.resultUrl;
+        this.responseUrl = this.$mainUrl + res.data.responseUrl;
+        this.resultUrl = this.$mainUrl + res.data.resultUrl;
       })
       .catch((err) => {
         console.log(err);
