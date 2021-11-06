@@ -25,39 +25,39 @@ import com.ssurbar.survey.db.repository.answer.QuestionAnswerRepository;
 
 @Service("answerService")
 public class AnswerServiceImpl implements AnswerService{
-	
+
 	@Autowired
 	QuestionAnswerRepository questionAnswerRepository;
 
 	@Override
 	public List<AnswerData> getSurveyAnswerList(String surveyId, String filterDataStr) throws JsonProcessingException, UnsupportedEncodingException {
 		Survey survey = Survey.builder().surveyId(surveyId).build();
-		
+
 		List<QuestionAnswer> questionAnswerList = questionAnswerRepository.findAllBySurvey(survey);
-		
+
 		List<AnswerData> answerDataList = new ArrayList<>();
 
 		String filterStr = URLDecoder.decode(filterDataStr,"UTF-8");
 
 		//분석 페이지에서 선택한 필터
 		List<FilterDataReq> filterDataList = Arrays.asList(new ObjectMapper().readValue(filterStr, FilterDataReq[].class));
-		
+
 		List<String> categoryList = new ArrayList<>();
 		Map<String, Double> categoryScoreMap = new HashMap<>();
 		Map<String, Integer> categoryCountMap = new HashMap<>();
 		Map<String, Map<String, Double>> categoryQuestionScoreMap = new HashMap<>();
 		Map<String, Map<String, int[]>> categoryQuestionCountMap = new HashMap<>();
-		
+
 		//해당 설문의 모든 응답에 대해서
 		for (QuestionAnswer questionAnswer : questionAnswerList) {
 			FilterData filterData = questionAnswer.getFilterData();
 			String filterRes = filterData.getResponse();
-			
+
 			JSONParser jsonParse = new JSONParser();
-			
+
 			try {
 				JSONObject jsonObj =  (JSONObject) jsonParse.parse(filterRes);
-				
+
 				boolean isCorrect = true;
 
 				//필터가 없는 경우
@@ -70,20 +70,13 @@ public class AnswerServiceImpl implements AnswerService{
 						if(filterValue.size()==0){
 							continue;
 						}
-
-//						System.out.println(filterKind+" "+jsonObj.get(filterKind)+" "+!filterValue.contains(jsonObj.get(filterKind)));
-						
 						//선택한 필터에 없는 경우
 						if(!filterValue.contains(jsonObj.get(filterKind))) {
 							isCorrect = false;
 							break;
 						}
-						
-//						count++;
 					}
 				}
-
-//				System.out.println(isCorrect);
 
 				//선택한 데이터인 경우
 				if(isCorrect){
@@ -92,11 +85,8 @@ public class AnswerServiceImpl implements AnswerService{
 					//해당 문제의 content데이터
 					Question question = questionAnswer.getQuestion();
 					String questionContent = question.getContent();
-//					System.out.println(questionContent);
 					JSONObject questionJsonObj =  (JSONObject) jsonParse.parse(questionContent);
 					int contentCount = questionJsonObj.size();
-
-//					System.out.println("question content count: " + contentCount);
 
 					//해당 응답의 데이터
 					String answerRes = questionAnswer.getResponse();
@@ -107,8 +97,6 @@ public class AnswerServiceImpl implements AnswerService{
 					//응답 데이터 저장 형태에 따라서 조정 필요
 					String answer = (String) answerJsonObj.get("0");
 
-//					System.out.println(answer);
-
 					//선택한 답변의 번호
 					int num = 0;
 
@@ -117,7 +105,6 @@ public class AnswerServiceImpl implements AnswerService{
 						String contentStr = (String) questionJsonObj.get(idx);
 
 						if(answer.equals(contentStr)){
-//							System.out.println(contentStr);
 							num = i;
 							break;
 						}
@@ -125,12 +112,7 @@ public class AnswerServiceImpl implements AnswerService{
 
 					double score = (5.0/(double)contentCount) * (double) num;
 
-//					System.out.println(5.0/4);
-//					System.out.println(contentCount+" "+score+" "+num);
-
 					score = Math.round(score*100)/100.0;
-
-//					System.out.println(num+" "+score);
 
 					if(!categoryList.contains(cateogryName))	categoryList.add(cateogryName);
 
@@ -166,7 +148,6 @@ public class AnswerServiceImpl implements AnswerService{
 							if(categoryQuestionCountMap.get(cateogryName).containsKey(question.getTitle())){
 								int[] questionCount = categoryQuestionCountMap.get(cateogryName).get(question.getTitle());
 								questionCount[0] += 1;
-//								categoryQuestionCountMap.get(cateogryName).put(question.getTitle(), questionCount + 1);
 							}
 							else{
 								categoryQuestionCountMap.get(cateogryName).put(question.getTitle(), new int[]{1, question.getQuestionNum()});
@@ -181,10 +162,6 @@ public class AnswerServiceImpl implements AnswerService{
 						categoryQuestionCountMap.get(cateogryName).put(question.getTitle(), new int[]{1, question.getQuestionNum()});
 						categoryCountMap.put(cateogryName, 1);
 					}
-//					answerDataList.add(SurveyAnswer.builder()
-//							.questionId(questionAnswer.getQuestion().getQuestionId())
-//							.response(questionAnswer.getResponse())
-//							.build());
 				}
 			} catch (ParseException e) {
 				e.printStackTrace();
@@ -220,7 +197,7 @@ public class AnswerServiceImpl implements AnswerService{
 
 			answerDataList.add(answerData);
 		}
-		
+
 		return answerDataList;
 	}
 
