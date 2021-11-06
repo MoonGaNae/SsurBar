@@ -55,9 +55,6 @@ public class AnswerServiceImpl implements AnswerService{
 			try {
 				JSONObject jsonObj =  (JSONObject) jsonParse.parse(filterRes);
 				
-//				int size = jsonObj.size();
-//				int count = 0;
-				
 				boolean isCorrect = true;
 
 				if(filterDataList != null) {
@@ -69,22 +66,17 @@ public class AnswerServiceImpl implements AnswerService{
 							isCorrect = false;
 							break;
 						}
-						
-//						count++;
 					}
 				}
 				
-				if(isCorrect /*&& count == size*/){
+				if(isCorrect){
 					String cateogryName = questionAnswer.getQuestion().getCategory().getName();
 
 					//해당 문제의 content데이터
 					Question question = questionAnswer.getQuestion();
 					String questionContent = question.getContent();
-//					System.out.println(questionContent);
 					JSONObject questionJsonObj =  (JSONObject) jsonParse.parse(questionContent);
 					int contentCount = questionJsonObj.size();
-
-//					System.out.println("question content count: " + contentCount);
 
 					//해당 응답의 데이터
 					String answerRes = questionAnswer.getResponse();
@@ -92,8 +84,6 @@ public class AnswerServiceImpl implements AnswerService{
 
 					//응답 데이터 저장 형태에 따라서 조정 필요
 					String answer = (String) answerJsonObj.get("0");
-
-//					System.out.println(answer);
 
 					//선택한 답변의 번호
 					int num = 0;
@@ -103,7 +93,6 @@ public class AnswerServiceImpl implements AnswerService{
 						String contentStr = (String) questionJsonObj.get(idx);
 
 						if(answer.equals(contentStr)){
-//							System.out.println(contentStr);
 							num = i;
 							break;
 						}
@@ -111,12 +100,7 @@ public class AnswerServiceImpl implements AnswerService{
 
 					double score = (5.0/(double)contentCount) * (double) num;
 
-//					System.out.println(5.0/4);
-//					System.out.println(contentCount+" "+score+" "+num);
-
 					score = Math.round(score*100)/100.0;
-
-//					System.out.println(num+" "+score);
 
 					if(!categoryList.contains(cateogryName))	categoryList.add(cateogryName);
 
@@ -152,7 +136,6 @@ public class AnswerServiceImpl implements AnswerService{
 							if(categoryQuestionCountMap.get(cateogryName).containsKey(question.getTitle())){
 								int[] questionCount = categoryQuestionCountMap.get(cateogryName).get(question.getTitle());
 								questionCount[0] += 1;
-//								categoryQuestionCountMap.get(cateogryName).put(question.getTitle(), questionCount + 1);
 							}
 							else{
 								categoryQuestionCountMap.get(cateogryName).put(question.getTitle(), new int[]{1, question.getQuestionNum()});
@@ -167,10 +150,6 @@ public class AnswerServiceImpl implements AnswerService{
 						categoryQuestionCountMap.get(cateogryName).put(question.getTitle(), new int[]{1, question.getQuestionNum()});
 						categoryCountMap.put(cateogryName, 1);
 					}
-//					answerDataList.add(SurveyAnswer.builder()
-//							.questionId(questionAnswer.getQuestion().getQuestionId())
-//							.response(questionAnswer.getResponse())
-//							.build());
 				}
 			} catch (ParseException e) {
 				e.printStackTrace();
