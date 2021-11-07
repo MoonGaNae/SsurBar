@@ -33,7 +33,7 @@
           <div class="detail-container">
             <div class="filter-container el-card is-always-shadow" v-if="!checkFullContent">
               <div class="name-text">필터</div>
-              <div class="filter-main-div">
+              <div v-if="!isFilterOpened" class="filter-main-div">
                 <!-- <div class="filter-div"> -->
                 <div class="filter-list">
                   <div
@@ -76,7 +76,7 @@
                 </div>
               </div>
             </div>
-            <div class="content-cotainer" :class="{ isFullContent: checkFullContent }">
+            <div class="content-container" :class="{ isFullContent: checkFullContent }">
               <div
                 class="component-container el-card is-always-shadow"
                 :class="{ isFullContent: checkFullContent }"
@@ -181,6 +181,7 @@ export default {
       feedbackContentBackup: "",
       feedbackContent: "",
       isEditState: false,
+      isFilterOpened: false,
     };
   },
   methods: {
@@ -283,6 +284,13 @@ export default {
         });
       });
     });
+
+    let filterStr = JSON.stringify(this.checkedFilter);
+    let searchData = {
+      filterStr: filterStr,
+      surveyId: this.surveyId,
+    };
+    this.setAnswerData(searchData);
   },
 };
 </script>
@@ -390,7 +398,8 @@ ul.tabs li:hover {
 .filter-div {
   display: flex;
   justify-content: center;
-  margin-bottom: 5px;
+  width: 90%;
+  margin-bottom: 1vh;
 }
 .filter-title {
   display: flex;
@@ -411,6 +420,7 @@ ul.tabs li:hover {
   align-items: center; */
   width: 90% !important;
   border: 0px;
+  transition: 0.3s;
   /* border-style: solid; */
   /* padding: 5%; */
 }
@@ -419,7 +429,7 @@ ul.tabs li:hover {
   width: 90%;
 }
 
-.content-cotainer {
+.content-container {
   width: 86%;
   height: 75vh;
   display: flex;
@@ -442,18 +452,16 @@ ul.tabs li:hover {
   cursor: pointer;
 }
 
-.filter-div {
-  display: flex;
-  width: 100%;
-  justify-content: center;
-}
-
 .filter-list {
   width: 100%;
-  height: 85%;
+  height: 80%;
   overflow: auto;
   overflow-x: hidden;
-  padding-top: 10%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  /* padding-top: 10%; */
   /* scrollbar-width: 3%; */
   /* justify-content: center; */
 }
@@ -501,13 +509,12 @@ ul.tabs li:hover {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 95%;
+  height: 92%;
   /* overflow: scroll; */
 }
 .name-text {
   font-weight: 600;
-  padding: 10%;
-  height: 5%;
+  padding: 2vh;
 }
 
 .feedback-name-text {
