@@ -143,9 +143,9 @@
                   </div>
                 </div>
               </div>
-              <div class="component-div" v-if="selectedTabNum == 3">
+              <!-- <div class="component-div" v-if="selectedTabNum == 3">
                 <SurveyResult :surveyId="surveyId" />
-              </div>
+              </div> -->
             </div>
           </div>
           <!-- </div>
