@@ -37,22 +37,14 @@ public class AnswerServiceImpl implements AnswerService{
 
 		List<AnswerData> answerDataList = new ArrayList<>();
 
-//		System.out.println(questionAnswerList.size());
-
 		String filterStr = URLDecoder.decode(filterDataStr,"UTF-8");
 
 		//분석 페이지에서 선택한 필터
 		List<FilterDataReq> filterDataList = Arrays.asList(new ObjectMapper().readValue(filterStr, FilterDataReq[].class));
 
-		//각 카테고리에 해당, 문항에 해당하는 각각의 점수도 저장필요
 		List<String> categoryList = new ArrayList<>();
-		//필터로 걸러진 후 해당 카테고리 응답 점수의 합
-//		Map<String, Double> categoryScoreMap = new HashMap<>();
+		//필터로 걸러진 후 해당 카테고리 정보
 		Map<String, CategoryAnswerInfo> categoryMap = new HashMap<>();
-		//필터로 걸러진 후 해당 카테고리 응답의 수
-//		Map<String, Integer> categoryCountMap = new HashMap<>();
-//		Map<String, Map<String, Double>> categoryQuestionScoreMap = new HashMap<>();
-//		Map<String, Map<String, int[]>> categoryQuestionCountMap = new HashMap<>();
 
 		//해당 설문의 모든 응답에 대해서
 		for (QuestionAnswer questionAnswer : questionAnswerList) {
@@ -126,50 +118,63 @@ public class AnswerServiceImpl implements AnswerService{
 						double categryScore = categoryAnswerInfo.getTotalScore();
 						categoryAnswerInfo.setTotalScore(categryScore + score);
 						categoryAnswerInfo.getScoreList().add(score);
-//						categoryMap.put(categoryName, categryScore + score);
 
 						//있는 문제인 경우 -> 점수 갱신
-						if(categoryAnswerInfo.getQuestionMap().containsKey(question.getTitle())){
-//						if(categoryQuestionScoreMap.get(categoryName).containsKey(question.getTitle())){
-//							if(categoryQuestionScoreMap.get(categoryName).containsKey(question.getTitle())){
-//								double questionScore = categoryQuestionScoreMap.get(categoryName).get(question.getTitle());
-//								categoryQuestionScoreMap.get(categoryName).put(question.getTitle(),questionScore + score);
-//							}
-//							else{
-//								categoryQuestionScoreMap.get(categoryName).put(question.getTitle(),score);
-//							}
+//						if(categoryAnswerInfo.getQuestionMap().containsKey(question.getTitle())){
+						if(categoryAnswerInfo.getQuestionMap().containsKey(question.getQuestionNum())){
 
-							QuestionAnswerInfo questionAnswerInfo = categoryAnswerInfo.getQuestionMap().get(question.getTitle());
+//							QuestionAnswerInfo questionAnswerInfo = categoryAnswerInfo.getQuestionMap().get(question.getTitle());
+							QuestionAnswerInfo questionAnswerInfo = categoryAnswerInfo.getQuestionMap().get(question.getQuestionNum());
 							questionAnswerInfo.setTotalScore(questionAnswerInfo.getTotalScore() + score);
 							questionAnswerInfo.getScoreList().add(score);
+
+							//있는 답변인 경우
+							if(questionAnswerInfo.getCountMap().containsKey(answer)){
+								questionAnswerInfo.getCountMap().put(answer, questionAnswerInfo.getCountMap().get(answer) + 1);
+							}
+							else{
+								questionAnswerInfo.getCountMap().put(answer, 1);
+							}
 						}
 						else{
+							Map<String, Integer> countMap = new HashMap<>();
+							countMap.put(answer,1);
+
 							List<Double> questionScoreList = new ArrayList<>();
 							questionScoreList.add(score);
 							QuestionAnswerInfo questionAnswerInfo = QuestionAnswerInfo.builder()
 									.totalScore(score)
 									.scoreList(questionScoreList)
 									.number(question.getQuestionNum())
+									.title(question.getTitle())
+									.countMap(countMap)
 									.build();
-//							categoryQuestionScoreMap.get(categoryName).put(question.getTitle(), score);
 
-							categoryAnswerInfo.getQuestionMap().put(question.getTitle(), questionAnswerInfo);
+//							categoryAnswerInfo.getQuestionMap().put(question.getTitle(), questionAnswerInfo);
+							categoryAnswerInfo.getQuestionMap().put(question.getQuestionNum(), questionAnswerInfo);
 						}
 					}
 					else{
 						List<Double> categoryScoreList = new ArrayList<>();
 						categoryScoreList.add(score);
 
-						Map<String, QuestionAnswerInfo> questionMap = new HashMap<>();
+						Map<String, Integer> countMap = new HashMap<>();
+						countMap.put(answer,1);
+
+//						Map<String, QuestionAnswerInfo> questionMap = new HashMap<>();
+						Map<Integer, QuestionAnswerInfo> questionMap = new HashMap<>();
 						List<Double> questionScoreList = new ArrayList<>();
 						questionScoreList.add(score);
 						QuestionAnswerInfo questionAnswerInfo = QuestionAnswerInfo.builder()
 								.totalScore(score)
 								.scoreList(questionScoreList)
 								.number(question.getQuestionNum())
+								.title(question.getTitle())
+								.countMap(countMap)
 								.build();
 
-						questionMap.put(question.getTitle(), questionAnswerInfo);
+//						questionMap.put(question.getTitle(), questionAnswerInfo);
+						questionMap.put(question.getQuestionNum(), questionAnswerInfo);
 
 						CategoryAnswerInfo categoryAnswerInfo = CategoryAnswerInfo
 								.builder()
@@ -178,32 +183,8 @@ public class AnswerServiceImpl implements AnswerService{
 								.questionMap(questionMap)
 								.build();
 
-//						categoryQuestionScoreMap.put(categoryName, new HashMap<>());
-//						categoryQuestionScoreMap.get(categoryName).put(question.getTitle(), score);
 						categoryMap.put(categoryName, categoryAnswerInfo);
 					}
-
-//					if (categoryCountMap.containsKey(categoryName)) {
-//						categoryCountMap.put(categoryName, categoryCountMap.get(categoryName) + 1);
-//
-//						if (categoryQuestionCountMap.containsKey(categoryName)) {
-//							if(categoryQuestionCountMap.get(categoryName).containsKey(question.getTitle())){
-//								int[] questionCount = categoryQuestionCountMap.get(categoryName).get(question.getTitle());
-//								questionCount[0] += 1;
-//							}
-//							else{
-//								categoryQuestionCountMap.get(categoryName).put(question.getTitle(), new int[]{1, question.getQuestionNum()});
-//							}
-//						}
-//						else{
-//							categoryQuestionCountMap.get(categoryName).put(question.getTitle(), new int[]{1, question.getQuestionNum()});
-//						}
-//					}
-//					else{
-//						categoryQuestionCountMap.put(categoryName, new HashMap<>());
-//						categoryQuestionCountMap.get(categoryName).put(question.getTitle(), new int[]{1, question.getQuestionNum()});
-//						categoryCountMap.put(categoryName, 1);
-//					}
 				}
 			} catch (ParseException e) {
 				e.printStackTrace();
@@ -217,9 +198,6 @@ public class AnswerServiceImpl implements AnswerService{
 			CategoryAnswerInfo categoryAnswerInfo = categoryMap.get(categoryName);
 			double categoryTotalScore = categoryAnswerInfo.getTotalScore();
 			int count = categoryAnswerInfo.getScoreList().size();
-//			System.out.println("cateGoryCount:" +count);
-//			System.out.println("categoryTotalScore:" +categoryTotalScore);
-//			double caregoryVariance = categoryMap.get(categoryName).getVarianceBase()/count;
 			double caregoryVariance = 0;
 
 			double categoryAverageScore = Math.round((categoryTotalScore/count)*100)/100.0;
@@ -234,35 +212,83 @@ public class AnswerServiceImpl implements AnswerService{
 
 			List<QuestionData> questionDataList = new ArrayList<QuestionData>();
 
-			Map <String, QuestionAnswerInfo> questionMap = categoryAnswerInfo.getQuestionMap();
-//			Map <String, int[]> questionCountMap = categoryQuestionCountMap.get(categoryName);
+//			Map <String, QuestionAnswerInfo> questionMap = categoryAnswerInfo.getQuestionMap();
+			Map <Integer, QuestionAnswerInfo> questionMap = categoryAnswerInfo.getQuestionMap();
 
-			List<String> questionTitleList = new ArrayList<>(questionMap.keySet());
+//			List<String> questionTitleList = new ArrayList<>(questionMap.keySet());
+			List<Integer> questionNumberList = new ArrayList<>(questionMap.keySet());
 
-			for (String questionTitle : questionTitleList) {
-				QuestionAnswerInfo questionAnswerInfo = questionMap.get(questionTitle);
+//			for (String questionTitle : questionTitleList) {
+//				QuestionAnswerInfo questionAnswerInfo = questionMap.get(questionTitle);
+//				double questionScore = questionAnswerInfo.getTotalScore();
+//				int questionCount = questionAnswerInfo.getScoreList().size();
+//				int questionNumber = questionAnswerInfo.getNumber();
+//				double questionAverageScore = Math.round((questionScore/questionCount)*100)/100.0;
+//				double questionVariance = 0;
+//
+//				for (Double score: questionAnswerInfo.getScoreList()){
+//					questionVariance += Math.pow(Math.abs(score - questionAverageScore),2);
+//				}
+//
+//				questionVariance = questionVariance/count;
+//
+//				double questionStandardDeviation = Math.round(Math.sqrt(questionVariance)*100)/100.0;
+//
+//				QuestionData questionData = QuestionData.builder()
+//						.title(questionTitle)
+//						.averageScore(questionAverageScore)
+//						.number(questionNumber)
+//						.standardDeviation(questionStandardDeviation)
+//						.build();
+//
+//				questionDataList.add(questionData);
+//
+//				totalQuestionDataList.add(questionData);
+//			}
+			for (int questionNumber : questionNumberList) {
+				QuestionAnswerInfo questionAnswerInfo = questionMap.get(questionNumber);
 				double questionScore = questionAnswerInfo.getTotalScore();
 				int questionCount = questionAnswerInfo.getScoreList().size();
-				int questionNumber = questionAnswerInfo.getNumber();
+//				int questionNumber = questionAnswerInfo.getNumber();
+				String questionTitle = questionAnswerInfo.getTitle();
+				//문항 평균
 				double questionAverageScore = Math.round((questionScore/questionCount)*100)/100.0;
-//				System.out.println(questionAnswerInfo.getScoreList().size());
-//				System.out.println(questionCount+" "+questionScore);
-
 				double questionVariance = 0;
 
+				//문항별 분산을 계산
 				for (Double score: questionAnswerInfo.getScoreList()){
 					questionVariance += Math.pow(Math.abs(score - questionAverageScore),2);
 				}
 
 				questionVariance = questionVariance/count;
 
+				//문항별 표준편차
 				double questionStandardDeviation = Math.round(Math.sqrt(questionVariance)*100)/100.0;
+
+				Map<String, Integer> countMap = questionAnswerInfo.getCountMap();
+
+				List<QuestionData.QuestionAnswerDto> questionAnswerDtoList = new ArrayList<>();
+
+				System.out.println(questionCount);
+				for (String key :countMap.keySet()){
+					int selectedCount = countMap.get(key);
+					double selectedPercentage = (double)Math.round(((double)selectedCount/questionCount)*10000)/100;
+
+					QuestionData.QuestionAnswerDto questionAnswerDto = QuestionData.QuestionAnswerDto.builder()
+							.count(selectedCount)
+							.percentage(selectedPercentage)
+							.sentence(key)
+							.build();
+
+					questionAnswerDtoList.add(questionAnswerDto);
+				}
 
 				QuestionData questionData = QuestionData.builder()
 						.title(questionTitle)
 						.averageScore(questionAverageScore)
 						.number(questionNumber)
 						.standardDeviation(questionStandardDeviation)
+						.questionAnswerDtoList(questionAnswerDtoList)
 						.build();
 
 				questionDataList.add(questionData);
@@ -293,7 +319,7 @@ public class AnswerServiceImpl implements AnswerService{
 		List<QuestionData> lowestStandardDeviationList = new ArrayList<>();
 		List<QuestionData> highestStandardDeviationList = new ArrayList<>();
 
-//		System.out.println("=====================================");
+		//최저 평균
 		double lowestAverageDataLimit = 0;
 		for (int i = 0; i < totalQuestionDataList.size(); i++){
 			QuestionData questionData = totalQuestionDataList.get(i);
@@ -303,9 +329,8 @@ public class AnswerServiceImpl implements AnswerService{
 			lowestAverageDataLimit = questionData.getAverageScore();
 
 			lowestAverageList.add(questionData);
-//			System.out.println(totalQuestionDataList.get(i).getAverageScore());
 		}
-//		System.out.println("---------------------------");
+		//최고 평균
 		double highestAverageDataLimit = 0;
 		for (int i = totalQuestionDataList.size()-1; i >= 0; i--){
 			QuestionData questionData = totalQuestionDataList.get(i);
@@ -314,13 +339,12 @@ public class AnswerServiceImpl implements AnswerService{
 			}
 			highestAverageDataLimit = questionData.getAverageScore();
 			highestAverageList.add((totalQuestionDataList.get(i)));
-//			System.out.println(totalQuestionDataList.get(i).getAverageScore());
 		}
-//		System.out.println("=====================================");
 		Collections.sort(totalQuestionDataList,((o1, o2) -> {
 			return Double.compare(o1.getStandardDeviation(),o2.getStandardDeviation());
 		}));
 
+		//최저 편차
 		double lowestStandardDeviationDataLimit = 0;
 		for (int i = 0; i < totalQuestionDataList.size(); i++){
 			QuestionData questionData = totalQuestionDataList.get(i);
@@ -329,9 +353,8 @@ public class AnswerServiceImpl implements AnswerService{
 			}
 			lowestStandardDeviationDataLimit = questionData.getStandardDeviation();
 			lowestStandardDeviationList.add(totalQuestionDataList.get(i));
-//			System.out.println(totalQuestionDataList.get(i).getStandardDeviation());
 		}
-//		System.out.println("---------------------------");
+		//최고 편차
 		double hightestStandardDeviationDataLimit = 0;
 		for (int i = totalQuestionDataList.size()-1; i >= 0 ; i--){
 			QuestionData questionData = totalQuestionDataList.get(i);
@@ -340,9 +363,7 @@ public class AnswerServiceImpl implements AnswerService{
 			}
 			hightestStandardDeviationDataLimit = questionData.getStandardDeviation();
 			highestStandardDeviationList.add(totalQuestionDataList.get(i));
-//			System.out.println(totalQuestionDataList.get(i).getStandardDeviation());
 		}
-//		System.out.println("=====================================");
 
 		SurveyResultRes surveyResultRes = SurveyResultRes.builder()
 				.answerDataList(answerDataList)

@@ -18,7 +18,7 @@
       <div class="chart-title">
         <h2>문항별 데이터</h2>
       </div>
-      <div class="bar-chart-div-parent">
+      <div class="bar-chart-div-parent" :class="{ 'bar-chart-div-parent-center': isFlexCenter }">
         <div class="bar-chart-div">
           <BarChart :style="{ width: widthTemp }" />
         </div>
@@ -30,8 +30,8 @@
         <ul class="data-ul">
           <li v-for="(data, idx) in highestAverageList" :key="idx">
             <div class="data-title-div">
-              <div class="question-number">{{ data.number }}</div>
-              <div>{{ data.title }}</div>
+              <div class="summary-question-number">{{ data.number }}</div>
+              <div class="summary-question-title">{{ data.title }}</div>
             </div>
             <div class="score-number">{{ data.averageScore }}</div>
           </li>
@@ -42,8 +42,8 @@
         <ul class="data-ul">
           <li v-for="(data, idx) in lowestStandardDeviationList" :key="idx">
             <div class="data-title-div">
-              <div class="question-number">{{ data.number }}</div>
-              <div>{{ data.title }}</div>
+              <div class="summary-question-number">{{ data.number }}</div>
+              <div class="summary-question-title">{{ data.title }}</div>
             </div>
             <div class="score-number">{{ data.standardDeviation }}</div>
           </li>
@@ -54,8 +54,8 @@
         <ul class="data-ul">
           <li v-for="(data, idx) in lowestAverageList" :key="idx">
             <div class="data-title-div">
-              <div class="question-number">{{ data.number }}</div>
-              <div>{{ data.title }}</div>
+              <div class="summary-question-number">{{ data.number }}</div>
+              <div class="summary-question-title">{{ data.title }}</div>
             </div>
             <div class="score-number">{{ data.averageScore }}</div>
           </li>
@@ -66,8 +66,8 @@
         <ul class="data-ul">
           <li v-for="(data, idx) in highestStandardDeviationList" :key="idx">
             <div class="data-title-div">
-              <div class="question-number">{{ data.number }}</div>
-              <div>{{ data.title }}</div>
+              <div class="summary-question-number">{{ data.number }}</div>
+              <div class="summary-question-title">{{ data.title }}</div>
             </div>
             <div class="score-number">{{ data.standardDeviation }}</div>
           </li>
@@ -81,12 +81,29 @@
           :name="answerDataIdx"
         >
           <div
+            class="question-div el-card is-always-shadow"
             v-for="(questionData, questionDataIdx) in answerData.questionDataList"
             :key="questionDataIdx"
           >
-            {{ questionData }}
-            <div>{{ questionData.number }}</div>
-            <div>{{ questionData.title }}</div>
+            <!-- {{ questionData }} -->
+            <div>
+              <span class="question-number">Q{{ questionData.number }}.</span
+              ><span class="question-title">{{ questionData.title }}</span>
+            </div>
+            <!-- <el-progress :text-inside="true" :stroke-width="26" :percentage="70">test</el-progress> -->
+            <div
+              class="progress-div"
+              v-for="(questionAnswer, questionAnswerIdx) in questionData.questionAnswerDtoList"
+              :key="questionAnswerIdx"
+            >
+              <div class="progress-bar-base">
+                <div class="progress-bar-color" :style="{ width: questionAnswer.percentage + '%' }">
+                  <div>{{ questionAnswer.sentence }}</div>
+                  <div>{{ questionAnswer.percentage }} %</div>
+                </div>
+              </div>
+              <div>{{ questionAnswer.count }} 명</div>
+            </div>
           </div>
         </el-collapse-item>
       </el-collapse>
@@ -118,6 +135,7 @@ export default {
       count: 14,
       widthTemp: "",
       testTitle: "testest",
+      isFlexCenter: false,
       // highestAverageList: null,
       // highestStandardDeviationList: null,
       // lowestAverageList: null,
@@ -136,6 +154,10 @@ export default {
   mounted() {},
   created() {
     this.widthTemp = this.count * 5 + "vh";
+    if (this.count * 5 < 125) {
+      console.log("center");
+      this.isFlexCenter = true;
+    }
   },
 };
 </script>
@@ -212,6 +234,10 @@ export default {
   overflow-y: hidden;
 }
 
+.bar-chart-div-parent-center {
+  justify-content: center !important;
+}
+
 .bar-chart-container {
   /* overflow: scroll;
   overflow-y: hidden; */
@@ -255,6 +281,7 @@ export default {
 }
 
 .question-number {
+  font-size: 200%;
   width: 3vh;
   margin-right: 1vh;
   font-weight: 600;
@@ -268,10 +295,12 @@ export default {
 .data-ul li {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   border-bottom: 1px solid #dde0e7;
+  border-radius: 4px;
 }
 .data-ul li:hover {
-  background-color: #dde0e7;
+  background-color: #9cbbff;
 }
 
 .data-ul li div {
@@ -284,7 +313,11 @@ export default {
 
 .data-title {
   padding-left: 1vh;
-  background-color: #9cbbff;
+  height: 4vh;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  background-color: #dde0e7;
 }
 
 .temp-container {
@@ -301,5 +334,63 @@ export default {
 
 .category-list {
   margin: 3vh;
+}
+
+.question-div {
+  margin-bottom: 1vh;
+  padding: 3%;
+  /* box-shadow: #dde0e7; */
+}
+
+.progress-bar-base {
+  background-color: #dde0e7;
+  border-radius: 10px;
+  width: 95%;
+}
+
+.question-div > div {
+  margin-bottom: 1vh;
+}
+
+.question-title {
+  font-size: 150%;
+}
+
+.summary-question-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5vh 1vh 0.5vh 2vh;
+  /* padding-left: 1vh; */
+  font-size: 150%;
+  width: 3vh;
+  margin-right: 1vh;
+  font-weight: 400;
+}
+
+.summary-question-title {
+  padding-left: 1vh;
+  display: flex;
+  align-items: center;
+}
+
+.progress-div {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1vh;
+}
+
+.progress-bar-color {
+  padding-left: 1vh;
+  padding-right: 1vh;
+  color: #747577;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #9cbbff;
+  /* width: 80%; */
+  border-radius: 10px;
+  height: 100%;
 }
 </style>

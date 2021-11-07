@@ -13,5 +13,6 @@ import java.util.Map;
 public class CategoryAnswerInfo {
     private double totalScore;
     private List<Double> scoreList;
-    private Map<String, QuestionAnswerInfo> questionMap;
+//    private Map<String, QuestionAnswerInfo> questionMap;
+    private Map<Integer, QuestionAnswerInfo> questionMap;
 }
