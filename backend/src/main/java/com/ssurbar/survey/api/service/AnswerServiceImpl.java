@@ -294,12 +294,25 @@ public class AnswerServiceImpl implements AnswerService{
 		List<QuestionData> highestStandardDeviationList = new ArrayList<>();
 
 //		System.out.println("=====================================");
-		for (int i = 0; i < totalQuestionDataList.size() && i < 3; i++){
-			lowestAverageList.add(totalQuestionDataList.get(i));
+		double lowestAverageDataLimit = 0;
+		for (int i = 0; i < totalQuestionDataList.size(); i++){
+			QuestionData questionData = totalQuestionDataList.get(i);
+			if(i >= 3 && questionData.getAverageScore() != lowestAverageDataLimit){
+				break;
+			}
+			lowestAverageDataLimit = questionData.getAverageScore();
+
+			lowestAverageList.add(questionData);
 //			System.out.println(totalQuestionDataList.get(i).getAverageScore());
 		}
 //		System.out.println("---------------------------");
-		for (int i = totalQuestionDataList.size()-1; i >= 0 && i > totalQuestionDataList.size()-4; i--){
+		double highestAverageDataLimit = 0;
+		for (int i = totalQuestionDataList.size()-1; i >= 0; i--){
+			QuestionData questionData = totalQuestionDataList.get(i);
+			if(i <= totalQuestionDataList.size()-4 && questionData.getAverageScore() != highestAverageDataLimit){
+				break;
+			}
+			highestAverageDataLimit = questionData.getAverageScore();
 			highestAverageList.add((totalQuestionDataList.get(i)));
 //			System.out.println(totalQuestionDataList.get(i).getAverageScore());
 		}
@@ -308,13 +321,24 @@ public class AnswerServiceImpl implements AnswerService{
 			return Double.compare(o1.getStandardDeviation(),o2.getStandardDeviation());
 		}));
 
-
-		for (int i = 0; i < totalQuestionDataList.size() && i < 3; i++){
+		double lowestStandardDeviationDataLimit = 0;
+		for (int i = 0; i < totalQuestionDataList.size(); i++){
+			QuestionData questionData = totalQuestionDataList.get(i);
+			if(i >= 3 && questionData.getStandardDeviation() != lowestStandardDeviationDataLimit){
+				break;
+			}
+			lowestStandardDeviationDataLimit = questionData.getStandardDeviation();
 			lowestStandardDeviationList.add(totalQuestionDataList.get(i));
 //			System.out.println(totalQuestionDataList.get(i).getStandardDeviation());
 		}
 //		System.out.println("---------------------------");
-		for (int i = totalQuestionDataList.size()-1; i >= 0 && i > totalQuestionDataList.size()-4; i--){
+		double hightestStandardDeviationDataLimit = 0;
+		for (int i = totalQuestionDataList.size()-1; i >= 0 ; i--){
+			QuestionData questionData = totalQuestionDataList.get(i);
+			if(i <= totalQuestionDataList.size()-4 && questionData.getStandardDeviation() != hightestStandardDeviationDataLimit){
+				break;
+			}
+			hightestStandardDeviationDataLimit = questionData.getStandardDeviation();
 			highestStandardDeviationList.add(totalQuestionDataList.get(i));
 //			System.out.println(totalQuestionDataList.get(i).getStandardDeviation());
 		}
