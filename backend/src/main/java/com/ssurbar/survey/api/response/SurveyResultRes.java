@@ -12,4 +12,8 @@ import java.util.List;
 @Builder
 public class SurveyResultRes extends BaseResponseBody {
     private List<AnswerData> answerDataList;
+    private List<QuestionData> lowestAverageList;
+    private List<QuestionData> highestAverageList;
+    private List<QuestionData> lowestStandardDeviationList;
+    private List<QuestionData> highestStandardDeviationList;
 }

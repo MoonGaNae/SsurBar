@@ -1,27 +1,27 @@
 package com.ssurbar.survey.api.service;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.util.*;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ssurbar.survey.api.request.FilterDataReq;
 import com.ssurbar.survey.api.response.AnswerData;
 import com.ssurbar.survey.api.response.QuestionData;
+import com.ssurbar.survey.api.response.SurveyResultRes;
+import com.ssurbar.survey.common.model.common.CategoryAnswerInfo;
+import com.ssurbar.survey.common.model.common.QuestionAnswerInfo;
+import com.ssurbar.survey.db.entity.answer.FilterData;
+import com.ssurbar.survey.db.entity.answer.QuestionAnswer;
 import com.ssurbar.survey.db.entity.survey.Question;
+import com.ssurbar.survey.db.entity.survey.Survey;
+import com.ssurbar.survey.db.repository.answer.QuestionAnswerRepository;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ssurbar.survey.api.request.FilterDataReq;
-import com.ssurbar.survey.api.request.SurveyAnswerListGetReq;
-import com.ssurbar.survey.api.response.SurveyAnswer;
-import com.ssurbar.survey.db.entity.answer.FilterData;
-import com.ssurbar.survey.db.entity.answer.QuestionAnswer;
-import com.ssurbar.survey.db.entity.survey.Survey;
-import com.ssurbar.survey.db.repository.answer.QuestionAnswerRepository;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.*;
 
 @Service("answerService")
 public class AnswerServiceImpl implements AnswerService{
@@ -30,23 +30,29 @@ public class AnswerServiceImpl implements AnswerService{
 	QuestionAnswerRepository questionAnswerRepository;
 
 	@Override
-	public List<AnswerData> getSurveyAnswerList(String surveyId, String filterDataStr) throws JsonProcessingException, UnsupportedEncodingException {
+	public SurveyResultRes getSurveyAnswerList(String surveyId, String filterDataStr) throws JsonProcessingException, UnsupportedEncodingException {
 		Survey survey = Survey.builder().surveyId(surveyId).build();
 
 		List<QuestionAnswer> questionAnswerList = questionAnswerRepository.findAllBySurvey(survey);
 
 		List<AnswerData> answerDataList = new ArrayList<>();
 
+//		System.out.println(questionAnswerList.size());
+
 		String filterStr = URLDecoder.decode(filterDataStr,"UTF-8");
 
 		//분석 페이지에서 선택한 필터
 		List<FilterDataReq> filterDataList = Arrays.asList(new ObjectMapper().readValue(filterStr, FilterDataReq[].class));
 
+		//각 카테고리에 해당, 문항에 해당하는 각각의 점수도 저장필요
 		List<String> categoryList = new ArrayList<>();
-		Map<String, Double> categoryScoreMap = new HashMap<>();
-		Map<String, Integer> categoryCountMap = new HashMap<>();
-		Map<String, Map<String, Double>> categoryQuestionScoreMap = new HashMap<>();
-		Map<String, Map<String, int[]>> categoryQuestionCountMap = new HashMap<>();
+		//필터로 걸러진 후 해당 카테고리 응답 점수의 합
+//		Map<String, Double> categoryScoreMap = new HashMap<>();
+		Map<String, CategoryAnswerInfo> categoryMap = new HashMap<>();
+		//필터로 걸러진 후 해당 카테고리 응답의 수
+//		Map<String, Integer> categoryCountMap = new HashMap<>();
+//		Map<String, Map<String, Double>> categoryQuestionScoreMap = new HashMap<>();
+//		Map<String, Map<String, int[]>> categoryQuestionCountMap = new HashMap<>();
 
 		//해당 설문의 모든 응답에 대해서
 		for (QuestionAnswer questionAnswer : questionAnswerList) {
@@ -80,7 +86,7 @@ public class AnswerServiceImpl implements AnswerService{
 
 				//선택한 데이터인 경우
 				if(isCorrect){
-					String cateogryName = questionAnswer.getQuestion().getCategory().getName();
+					String categoryName = questionAnswer.getQuestion().getCategory().getName();
 
 					//해당 문제의 content데이터
 					Question question = questionAnswer.getQuestion();
@@ -91,8 +97,6 @@ public class AnswerServiceImpl implements AnswerService{
 					//해당 응답의 데이터
 					String answerRes = questionAnswer.getResponse();
 					JSONObject answerJsonObj = (JSONObject) jsonParse.parse(answerRes);
-
-//					System.out.println(questionAnswer.getFilterData().getResponse());
 
 					//응답 데이터 저장 형태에 따라서 조정 필요
 					String answer = (String) answerJsonObj.get("0");
@@ -114,91 +118,217 @@ public class AnswerServiceImpl implements AnswerService{
 
 					score = Math.round(score*100)/100.0;
 
-					if(!categoryList.contains(cateogryName))	categoryList.add(cateogryName);
+					if(!categoryList.contains(categoryName))	categoryList.add(categoryName);
 
-					if (categoryScoreMap.containsKey(cateogryName)) {
-						double categryScore = categoryScoreMap.get(cateogryName);
-						categoryScoreMap.put(cateogryName, categryScore + score);
+					//있는 카테고리인 경우
+					if (categoryMap.containsKey(categoryName)) {
+						CategoryAnswerInfo categoryAnswerInfo = categoryMap.get(categoryName);
+						double categryScore = categoryAnswerInfo.getTotalScore();
+						categoryAnswerInfo.setTotalScore(categryScore + score);
+						categoryAnswerInfo.getScoreList().add(score);
+//						categoryMap.put(categoryName, categryScore + score);
 
-						//있는 문제인 경우
-						if(categoryQuestionScoreMap.get(cateogryName).containsKey(question.getTitle())){
-							if(categoryQuestionScoreMap.get(cateogryName).containsKey(question.getTitle())){
-								double questionScore = categoryQuestionScoreMap.get(cateogryName).get(question.getTitle());
-								categoryQuestionScoreMap.get(cateogryName).put(question.getTitle(),questionScore + score);
-							}
-							else{
-								categoryQuestionScoreMap.get(cateogryName).put(question.getTitle(),score);
-							}
+						//있는 문제인 경우 -> 점수 갱신
+						if(categoryAnswerInfo.getQuestionMap().containsKey(question.getTitle())){
+//						if(categoryQuestionScoreMap.get(categoryName).containsKey(question.getTitle())){
+//							if(categoryQuestionScoreMap.get(categoryName).containsKey(question.getTitle())){
+//								double questionScore = categoryQuestionScoreMap.get(categoryName).get(question.getTitle());
+//								categoryQuestionScoreMap.get(categoryName).put(question.getTitle(),questionScore + score);
+//							}
+//							else{
+//								categoryQuestionScoreMap.get(categoryName).put(question.getTitle(),score);
+//							}
 
+							QuestionAnswerInfo questionAnswerInfo = categoryAnswerInfo.getQuestionMap().get(question.getTitle());
+							questionAnswerInfo.setTotalScore(questionAnswerInfo.getTotalScore() + score);
+							questionAnswerInfo.getScoreList().add(score);
 						}
 						else{
-							categoryQuestionScoreMap.get(cateogryName).put(question.getTitle(), score);
+							List<Double> questionScoreList = new ArrayList<>();
+							questionScoreList.add(score);
+							QuestionAnswerInfo questionAnswerInfo = QuestionAnswerInfo.builder()
+									.totalScore(score)
+									.scoreList(questionScoreList)
+									.number(question.getQuestionNum())
+									.build();
+//							categoryQuestionScoreMap.get(categoryName).put(question.getTitle(), score);
+
+							categoryAnswerInfo.getQuestionMap().put(question.getTitle(), questionAnswerInfo);
 						}
 					}
 					else{
-						categoryQuestionScoreMap.put(cateogryName, new HashMap<>());
-						categoryQuestionScoreMap.get(cateogryName).put(question.getTitle(), score);
-						categoryScoreMap.put(cateogryName,score);
+						List<Double> categoryScoreList = new ArrayList<>();
+						categoryScoreList.add(score);
+
+						Map<String, QuestionAnswerInfo> questionMap = new HashMap<>();
+						List<Double> questionScoreList = new ArrayList<>();
+						questionScoreList.add(score);
+						QuestionAnswerInfo questionAnswerInfo = QuestionAnswerInfo.builder()
+								.totalScore(score)
+								.scoreList(questionScoreList)
+								.number(question.getQuestionNum())
+								.build();
+
+						questionMap.put(question.getTitle(), questionAnswerInfo);
+
+						CategoryAnswerInfo categoryAnswerInfo = CategoryAnswerInfo
+								.builder()
+								.totalScore(score)
+								.scoreList(categoryScoreList)
+								.questionMap(questionMap)
+								.build();
+
+//						categoryQuestionScoreMap.put(categoryName, new HashMap<>());
+//						categoryQuestionScoreMap.get(categoryName).put(question.getTitle(), score);
+						categoryMap.put(categoryName, categoryAnswerInfo);
 					}
 
-					if (categoryCountMap.containsKey(cateogryName)) {
-						categoryCountMap.put(cateogryName, categoryCountMap.get(cateogryName) + 1);
-
-						if (categoryQuestionCountMap.containsKey(cateogryName)) {
-							if(categoryQuestionCountMap.get(cateogryName).containsKey(question.getTitle())){
-								int[] questionCount = categoryQuestionCountMap.get(cateogryName).get(question.getTitle());
-								questionCount[0] += 1;
-							}
-							else{
-								categoryQuestionCountMap.get(cateogryName).put(question.getTitle(), new int[]{1, question.getQuestionNum()});
-							}
-						}
-						else{
-							categoryQuestionCountMap.get(cateogryName).put(question.getTitle(), new int[]{1, question.getQuestionNum()});
-						}
-					}
-					else{
-						categoryQuestionCountMap.put(cateogryName, new HashMap<>());
-						categoryQuestionCountMap.get(cateogryName).put(question.getTitle(), new int[]{1, question.getQuestionNum()});
-						categoryCountMap.put(cateogryName, 1);
-					}
+//					if (categoryCountMap.containsKey(categoryName)) {
+//						categoryCountMap.put(categoryName, categoryCountMap.get(categoryName) + 1);
+//
+//						if (categoryQuestionCountMap.containsKey(categoryName)) {
+//							if(categoryQuestionCountMap.get(categoryName).containsKey(question.getTitle())){
+//								int[] questionCount = categoryQuestionCountMap.get(categoryName).get(question.getTitle());
+//								questionCount[0] += 1;
+//							}
+//							else{
+//								categoryQuestionCountMap.get(categoryName).put(question.getTitle(), new int[]{1, question.getQuestionNum()});
+//							}
+//						}
+//						else{
+//							categoryQuestionCountMap.get(categoryName).put(question.getTitle(), new int[]{1, question.getQuestionNum()});
+//						}
+//					}
+//					else{
+//						categoryQuestionCountMap.put(categoryName, new HashMap<>());
+//						categoryQuestionCountMap.get(categoryName).put(question.getTitle(), new int[]{1, question.getQuestionNum()});
+//						categoryCountMap.put(categoryName, 1);
+//					}
 				}
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
 		}
 
-		//여기에 데이터 저장 코드
-		for (String categoryName : categoryList) {
-			double categoryTotalScore = categoryScoreMap.get(categoryName);
-			int count = categoryCountMap.get(categoryName);
+		List<QuestionData> totalQuestionDataList = new ArrayList<>();
 
-			double resultScore = Math.round((categoryTotalScore/count)*100)/100.0;
+		//문항, 카테고리별 평균 계산
+		for (String categoryName : categoryList) {
+			CategoryAnswerInfo categoryAnswerInfo = categoryMap.get(categoryName);
+			double categoryTotalScore = categoryAnswerInfo.getTotalScore();
+			int count = categoryAnswerInfo.getScoreList().size();
+//			System.out.println("cateGoryCount:" +count);
+//			System.out.println("categoryTotalScore:" +categoryTotalScore);
+//			double caregoryVariance = categoryMap.get(categoryName).getVarianceBase()/count;
+			double caregoryVariance = 0;
+
+			double categoryAverageScore = Math.round((categoryTotalScore/count)*100)/100.0;
+
+			for (Double score: categoryAnswerInfo.getScoreList()){
+				caregoryVariance += Math.pow(Math.abs(score - categoryAverageScore),2);
+			}
+
+			caregoryVariance = caregoryVariance/count;
+
+			double categoryStandardDeviation = Math.round(Math.sqrt(caregoryVariance)*100)/100.0;
 
 			List<QuestionData> questionDataList = new ArrayList<QuestionData>();
 
-			Map <String, Double> questionScoreMap = categoryQuestionScoreMap.get(categoryName);
-			Map <String, int[]> questionCountMap = categoryQuestionCountMap.get(categoryName);
+			Map <String, QuestionAnswerInfo> questionMap = categoryAnswerInfo.getQuestionMap();
+//			Map <String, int[]> questionCountMap = categoryQuestionCountMap.get(categoryName);
 
-			List<String> questionTitleList = new ArrayList<>(questionScoreMap.keySet());
+			List<String> questionTitleList = new ArrayList<>(questionMap.keySet());
 
 			for (String questionTitle : questionTitleList) {
-				double questionScore = questionScoreMap.get(questionTitle);
-				int[] questionCount = questionCountMap.get(questionTitle);
+				QuestionAnswerInfo questionAnswerInfo = questionMap.get(questionTitle);
+				double questionScore = questionAnswerInfo.getTotalScore();
+				int questionCount = questionAnswerInfo.getScoreList().size();
+				int questionNumber = questionAnswerInfo.getNumber();
+				double questionAverageScore = Math.round((questionScore/questionCount)*100)/100.0;
+//				System.out.println(questionAnswerInfo.getScoreList().size());
+//				System.out.println(questionCount+" "+questionScore);
 
-				double questionAverageScore = Math.round((questionScore/questionCount[0])*100)/100.0;
+				double questionVariance = 0;
 
-				QuestionData questionData = QuestionData.builder().title(questionTitle).averageScore(questionAverageScore).number(questionCount[1]).build();
+				for (Double score: questionAnswerInfo.getScoreList()){
+					questionVariance += Math.pow(Math.abs(score - questionAverageScore),2);
+				}
+
+				questionVariance = questionVariance/count;
+
+				double questionStandardDeviation = Math.round(Math.sqrt(questionVariance)*100)/100.0;
+
+				QuestionData questionData = QuestionData.builder()
+						.title(questionTitle)
+						.averageScore(questionAverageScore)
+						.number(questionNumber)
+						.standardDeviation(questionStandardDeviation)
+						.build();
 
 				questionDataList.add(questionData);
+
+				totalQuestionDataList.add(questionData);
 			}
 
-			AnswerData answerData = AnswerData.builder().categoryName(categoryName).averageScore(resultScore).questionDataList(questionDataList).build();
+			Collections.sort(questionDataList, ((o1, o2) -> {
+				return Integer.compare(o1.getNumber(), o2.getNumber());
+			}));
+
+			AnswerData answerData = AnswerData.builder()
+					.categoryName(categoryName)
+					.averageScore(categoryAverageScore)
+					.questionDataList(questionDataList)
+					.standardDeviation(categoryStandardDeviation)
+					.build();
 
 			answerDataList.add(answerData);
 		}
 
-		return answerDataList;
+		Collections.sort(totalQuestionDataList,((o1, o2) -> {
+			return Double.compare(o1.getAverageScore(),o2.getAverageScore());
+		}));
+
+		List<QuestionData> lowestAverageList = new ArrayList<>();
+		List<QuestionData> highestAverageList = new ArrayList<>();
+		List<QuestionData> lowestStandardDeviationList = new ArrayList<>();
+		List<QuestionData> highestStandardDeviationList = new ArrayList<>();
+
+//		System.out.println("=====================================");
+		for (int i = 0; i < totalQuestionDataList.size() && i < 3; i++){
+			lowestAverageList.add(totalQuestionDataList.get(i));
+//			System.out.println(totalQuestionDataList.get(i).getAverageScore());
+		}
+//		System.out.println("---------------------------");
+		for (int i = totalQuestionDataList.size()-1; i >= 0 && i > totalQuestionDataList.size()-4; i--){
+			highestAverageList.add((totalQuestionDataList.get(i)));
+//			System.out.println(totalQuestionDataList.get(i).getAverageScore());
+		}
+//		System.out.println("=====================================");
+		Collections.sort(totalQuestionDataList,((o1, o2) -> {
+			return Double.compare(o1.getStandardDeviation(),o2.getStandardDeviation());
+		}));
+
+
+		for (int i = 0; i < totalQuestionDataList.size() && i < 3; i++){
+			lowestStandardDeviationList.add(totalQuestionDataList.get(i));
+//			System.out.println(totalQuestionDataList.get(i).getStandardDeviation());
+		}
+//		System.out.println("---------------------------");
+		for (int i = totalQuestionDataList.size()-1; i >= 0 && i > totalQuestionDataList.size()-4; i--){
+			highestStandardDeviationList.add(totalQuestionDataList.get(i));
+//			System.out.println(totalQuestionDataList.get(i).getStandardDeviation());
+		}
+//		System.out.println("=====================================");
+
+		SurveyResultRes surveyResultRes = SurveyResultRes.builder()
+				.answerDataList(answerDataList)
+				.highestStandardDeviationList(highestStandardDeviationList)
+				.highestAverageList(highestAverageList)
+				.lowestStandardDeviationList(lowestStandardDeviationList)
+				.lowestAverageList(lowestAverageList)
+				.build();
+
+		return surveyResultRes;
 	}
 
 }

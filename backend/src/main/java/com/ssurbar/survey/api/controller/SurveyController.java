@@ -1,30 +1,20 @@
 package com.ssurbar.survey.api.controller;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ssurbar.survey.api.request.FilterDataReq;
+import com.ssurbar.survey.api.request.SurveyCreatePostReq;
 import com.ssurbar.survey.api.request.SurveyDecodeLinkGetReq;
 import com.ssurbar.survey.api.request.SurveyFilterListPostReq;
 import com.ssurbar.survey.api.response.*;
+import com.ssurbar.survey.api.service.AnswerService;
+import com.ssurbar.survey.api.service.SurveyService;
+import com.ssurbar.survey.common.model.response.BaseResponseBody;
 import io.swagger.annotations.*;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.ssurbar.survey.api.request.SurveyCreatePostReq;
-import com.ssurbar.survey.api.service.AnswerService;
-import com.ssurbar.survey.api.service.SurveyService;
-import com.ssurbar.survey.common.model.response.BaseResponseBody;
+import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 /**
  * 설문지 내용 관련 API 요청 처리를 위한 컨트롤러 정의.
@@ -152,24 +142,11 @@ public class SurveyController {
 	  })
 	  public ResponseEntity<? extends BaseResponseBody> getSurveyAnswerList(@PathVariable String surveyId
 			  , /*@ModelAttribute("filterDataList") SurveyAnswerListGetReq surveyAnswerListGetReq*/
-	  @RequestParam String filterDataStr) throws ParseException, UnsupportedEncodingException, JsonProcessingException {
+	  @RequestParam String filterDataStr) throws UnsupportedEncodingException, JsonProcessingException {
 
-//		String filterStr = URLDecoder.decode(filterDataStr,"UTF-8");
+		  SurveyResultRes res = answerService.getSurveyAnswerList(surveyId, filterDataStr);
 
-
-//		  List<FilterDataReq> list = Arrays.asList(new ObjectMapper().readValue(filterStr, FilterDataReq[].class));
-
-
-//		  for(FilterDataReq fdr: list){
-//			  System.out.print(fdr.getFilterKind()+" ");
-//			  for(String str: fdr.getFilterValue()){
-//				  System.out.print(str+" ");
-//			  }
-//			  System.out.println();
-//		  }
-		  List<AnswerData> answerDataList = answerService.getSurveyAnswerList(surveyId, filterDataStr);
-
-		  SurveyResultRes res = SurveyResultRes.builder().answerDataList(answerDataList).build();
+//		  SurveyResultRes res = SurveyResultRes.builder().answerDataList(answerDataList).build();
 		  res.setMessage("성공");
 
 		  return ResponseEntity.status(200).body(res);
