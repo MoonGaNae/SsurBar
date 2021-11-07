@@ -13,4 +13,5 @@ public class AnswerData {
     private String categoryName;
     private List<QuestionData> questionDataList;
     private double averageScore;
+    private double standardDeviation;
 }

@@ -11,4 +11,5 @@ public class QuestionData {
     private int number;
     private String title;
     private double averageScore;
+    private double standardDeviation;
 }
