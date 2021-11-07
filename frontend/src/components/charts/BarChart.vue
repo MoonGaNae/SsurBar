@@ -4,6 +4,7 @@ import { Bar } from "vue-chartjs";
 export default {
   extends: Bar,
   name: "BarChart",
+  props: ["chartData"],
   data() {
     return {
       datacollection: {
@@ -57,18 +58,18 @@ export default {
               },
               tacked: false,
               beginAtZero: true,
-              scaleLabel: {
-                labelString: "Month",
-              },
-              ticks: {
-                autoSkip: false,
-              },
+              // scaleLabel: {
+              //   labelString: "Month",
+              // },
+              // ticks: {
+              //   autoSkip: false,
+              // },
             },
           ],
         },
-        legend: {
-          display: true,
-        },
+        // legend: {
+        //   display: true,
+        // },
         responsive: true,
         maintainAspectRatio: false,
       },

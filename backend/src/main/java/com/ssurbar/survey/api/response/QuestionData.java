@@ -1,8 +1,8 @@
 package com.ssurbar.survey.api.response;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -12,4 +12,16 @@ public class QuestionData {
     private String title;
     private double averageScore;
     private double standardDeviation;
+    private List<QuestionAnswerDto> questionAnswerDtoList;
+
+    @Getter
+    @Setter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class QuestionAnswerDto{
+        private String sentence;
+        private int count;
+        private double percentage;
+    }
 }
