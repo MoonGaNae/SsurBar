@@ -3,27 +3,19 @@ import mainApi from '@/api/list.js';
 const state = {
     surveyList : [],
     recentList : [],
-    recentSurvey:{
-      surveyId:"",
-      creantionTime: "",
-      title: "",
-      endTime: "",
-      teamName: ""
-    }
+    editSurveyId:""
   };
   
   const mutations = {
     SET_ONGOING_SURVEY_LIST: (state, payload) => {
       state.surveyList = payload;
-      console.log(state.surveyList)
     },
     SET_RECENT_SURVEY_LIST: (state, payload) => {
-      console.log(payload);
       state.recentList = payload;
     },
-    SET_RECENT_TEMPLATE: (state, payload) => {
-      console.log(payload);
-      state.recentSurvey = payload;
+    SET_RECENT_TEMPLATE_ID: (state, payload) => {
+      state.editSurveyId = payload;
+      console.log(state.editSurveyId)
     },
   };
   const actions = {
@@ -46,7 +38,10 @@ const state = {
           .catch((err) => {
               console.log(err);
           })
-  },
+    },
+    setCategoryList({ commit }, surveyId) {
+      commit("SET_RECENT_TEMPLATE_ID", surveyId);
+    },
   };
   
   const getters = {

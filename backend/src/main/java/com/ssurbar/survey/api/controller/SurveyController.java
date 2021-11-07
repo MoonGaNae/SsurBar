@@ -172,6 +172,27 @@ public class SurveyController {
 	      return ResponseEntity.status(200).body(res);
 	  }
 
+	@GetMapping("/recent/{surveyId}")
+	@ApiOperation(value = "최근 설문 상제 정보 불러오기", notes = "선택한 최근 설문에 대한 상세정보를 불러온다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<? extends BaseResponseBody> getRecentSurveyDetail(@PathVariable String surveyId)
+	{
+		RecentSurveyDetailRes res  = surveyService.getRecentSurveyDetailInfo(surveyId);
+
+		if(res == null){
+			return ResponseEntity.status(500).body(BaseResponseBody.of("실패"));
+		}
+		res.setMessage("성공");
+
+		return ResponseEntity.status(200).body(res);
+	}
+
+
 	@PostMapping("/{surveyId}/filters")
 	@ApiOperation(value = "설문 필터 생성", notes = "새로운 설문의 필터를 생성해서 저장한다")
 	@ApiResponses({

@@ -126,6 +126,8 @@ export default {
   },
   computed: {
     ...mapState("team", ["teamList"]),
+    ...mapState("list", ["editSurveyId"]),
+    ...mapState("survey", ["recentSurvey"]),
   },
   methods: {
     ...mapActions("template", [
@@ -137,6 +139,7 @@ export default {
       "setTitle",
     ]),
     ...mapActions("team", ["getTeams"]),
+    ...mapActions("survey", ["getRecentSurveyInfo"]),
     endEditForm() {
       let endTime = this.endDate.toISOString().split("T");
       this.setEndTime(endTime[0] + " " + endTime[1].split(".")[0]);
@@ -157,9 +160,22 @@ export default {
       //     this.$router.push("/filter");
       //   });
     },
+    setRecentSurvey(){
+      if(!this.editSurveyId){
+        console.log("null!");
+      }else{
+        console.log("not null")
+        this.getRecentSurveyInfo(this.editSurveyId)
+        this.description = this.recentSurvey.description;
+        this.surveyTitle = this.recentSurvey.title;
+        this.targetTeamId = this.recentSurvey.teamId;
+        console.log(this.surveyTitle)
+      }
+    }
   },
   created() {
     this.getTeams();
+    this.setRecentSurvey();
   },
 };
 </script>
