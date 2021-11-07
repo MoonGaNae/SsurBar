@@ -18,35 +18,20 @@
           <div class="component-container" :class="{ isFullContent: checkFullContent }"> -->
           <div id="tab-div">
             <ul class="tabs">
-              <li
-                class="tab"
-                :class="{ selectedTab: selectedTabNum == 0 }"
-                @click="changeTab(0)"
-              >
+              <li class="tab" :class="{ selectedTab: selectedTabNum == 0 }" @click="changeTab(0)">
                 분석
               </li>
               <!-- <li class="tab">비교</li> -->
-              <li
-                class="tab"
-                :class="{ selectedTab: selectedTabNum == 2 }"
-                @click="changeTab(2)"
-              >
+              <li class="tab" :class="{ selectedTab: selectedTabNum == 2 }" @click="changeTab(2)">
                 배포
               </li>
-              <li
-                class="tab"
-                :class="{ selectedTab: selectedTabNum == 3 }"
-                @click="changeTab(3)"
-              >
+              <li class="tab" :class="{ selectedTab: selectedTabNum == 3 }" @click="changeTab(3)">
                 결과
               </li>
             </ul>
           </div>
           <div class="detail-container">
-            <div
-              class="filter-container el-card is-always-shadow"
-              v-if="!checkFullContent"
-            >
+            <div class="filter-container el-card is-always-shadow" v-if="!checkFullContent">
               <div class="name-text">필터</div>
               <div class="filter-main-div">
                 <!-- <div class="filter-div"> -->
@@ -57,28 +42,17 @@
                     :key="filterIdx"
                   >
                     <div class="filter el-card is-always-shadow">
-                      <div
-                        class="filter-title"
-                        @click="clickFilterDiv(filterIdx)"
-                      >
+                      <div class="filter-title" @click="clickFilterDiv(filterIdx)">
                         {{ filter.name }}
 
-                        <i
-                          v-if="filter.isSelected"
-                          class="el-icon-arrow-down"
-                        ></i>
+                        <i v-if="filter.isSelected" class="el-icon-arrow-down"></i>
                         <i v-else class="el-icon-arrow-left"></i>
                       </div>
                       <div class="filter-content" v-if="filter.isSelected">
-                        <div
-                          v-for="(filterName, nameIdx) in filter.filterNames"
-                          :key="nameIdx"
-                        >
-                          <label
-                            class="filter-label"
-                            :for="filter + filterName"
-                            >{{ filterName }}</label
-                          >
+                        <div v-for="(filterName, nameIdx) in filter.filterNames" :key="nameIdx">
+                          <label class="filter-label" :for="filter + filterName">{{
+                            filterName
+                          }}</label>
                           <input
                             type="checkbox"
                             :id="filter + filterName"
@@ -102,10 +76,7 @@
                 </div>
               </div>
             </div>
-            <div
-              class="content-cotainer"
-              :class="{ isFullContent: checkFullContent }"
-            >
+            <div class="content-cotainer" :class="{ isFullContent: checkFullContent }">
               <div
                 class="component-container el-card is-always-shadow"
                 :class="{ isFullContent: checkFullContent }"
@@ -188,6 +159,7 @@
 <script>
 import axios from "@/utils/axios.js";
 // import { mapActions, mapGetters } from "vuex";
+import { mapActions } from "vuex";
 import SurveyRealease from "@/components/detail/SurveyRealease.vue";
 import SurveyAnalysis from "@/components/detail/SurveyAnalysis.vue";
 import SurveyResult from "@/components/detail/SurveyResult.vue";
@@ -212,6 +184,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions("analysis", ["setAnswerData"]),
     changeTab(tabNum) {
       this.selectedTabNum = tabNum;
     },
@@ -220,19 +193,23 @@ export default {
 
       let filterStr = JSON.stringify(this.checkedFilter);
       console.log(filterStr);
-      axios
-        .get(`/survey/${this.surveyId}/answer`, {
-          params: {
-            filterDataStr: encodeURI(filterStr),
-          },
-        })
-        .then((res) => {
-          console.log(res);
-        });
+      let searchData = {
+        filterStr: filterStr,
+        surveyId: this.surveyId,
+      };
+      this.setAnswerData(searchData);
+      // axios
+      //   .get(`/survey/${this.surveyId}/answer`, {
+      //     params: {
+      //       filterDataStr: encodeURI(filterStr),
+      //     },
+      //   })
+      //   .then((res) => {
+      //     console.log(res);
+      //   });
     },
     clickFilterDiv(filterIdx) {
-      this.filterList[filterIdx].isSelected =
-        !this.filterList[filterIdx].isSelected;
+      this.filterList[filterIdx].isSelected = !this.filterList[filterIdx].isSelected;
     },
     clickFeedbackDiv() {
       this.isFeedbackOpened = !this.isFeedbackOpened;
@@ -426,6 +403,7 @@ ul.tabs li:hover {
   width: 100%;
   /* border-style: solid; */
   cursor: pointer;
+  /* transition: border-bottom-color 0.3s; */
 }
 .filter {
   /* display: flex;
