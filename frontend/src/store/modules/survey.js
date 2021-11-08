@@ -9,6 +9,13 @@ const state = {
     teamId: "",
     description: ""
   },
+
+  surveyCreateType: {
+    NEW : 0,
+    DEFAULT : 1,
+    RECENT : 2,
+  },
+  curCreateType: null,
 };
 
 const mutations = {
@@ -24,12 +31,17 @@ const mutations = {
     state.recentSurvey.description = payload.description;
     console.log(state.recentSurvey)
   },
+
+  SET_CUR_CREATE_TYPE: (state, type) => {
+    state.curCreateType = type;
+  }
 };
 
 const actions = {
   setSurveyId({ commit }, surveyId) {
     commit("SET_SURVEY_ID", surveyId);
   },
+
   getRecentSurveyInfo({commit},surveyId) {
     surveyApi.getSurveyInfo(surveyId)
         .then((res) => {
@@ -40,6 +52,10 @@ const actions = {
             console.log(err);
         })
   },
+
+  setCreateType({ commit }, createType) {
+    commit('SET_CUR_CREATE_TYPE', createType);
+  }
 };
 
 const getters = {
