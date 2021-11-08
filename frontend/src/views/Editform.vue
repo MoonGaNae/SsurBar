@@ -202,10 +202,10 @@
 </template>
 
 <script scoped>
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 export default {
-  name: "FilterQuestionEdit",
+  name: "FilterQuestionEdit", 
   data() {
     return {
       categoryInputState: false,
@@ -229,6 +229,9 @@ export default {
         },
       ],
     };
+  },
+  computed: {
+    ...mapState('survey', ['surveyCreateType', 'curCreateType']),
   },
   methods: {
     ...mapActions("filterQuestion", ["setFilterQuestionList"]),
@@ -312,7 +315,12 @@ export default {
       console.log(this.filterQuestionList);
       this.setFilterQuestionList(this.filterQuestionList);
 
-      this.$router.push({ path: "/question/questionedit" });
+      if(this.curCreateType == this.surveyCreateType.NEW){
+        this.$router.push({ path: "/question/questionedit" });
+      }else {
+        this.$router.push({ path: "/test" });
+      }
+      
     },
   },
 };

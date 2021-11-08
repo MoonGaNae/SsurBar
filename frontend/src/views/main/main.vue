@@ -46,19 +46,27 @@
 
 <script>
 import ongoingList from "@/views/main/ongoingList.vue";
+import { mapActions, mapState } from 'vuex';
 export default {
   name: "App",
   components: {
     ongoingList,
   },
+  computed: {
+    ...mapState('survey', ['surveyCreateType']),
+  },
   methods:{
+    ...mapActions('survey', ['setCreateType']),
     clickScratch(){
+        this.setCreateType(this.surveyCreateType.NEW);
         this.$router.push("/form/createform");
     },
     clickTemplate(){
+        this.setCreateType(this.surveyCreateType.DEFAULT);
         this.$router.push("/template/default");
     },
     clickPastSurvey(){
+        this.setCreateType(this.surveyCreateType.RECENT);
         this.$router.push("/template/recent");
     },
   }
