@@ -1,13 +1,122 @@
 te
 <template>
   <div id="wrapper">
-    <button @click="endPage">to end</button>
+    <div style="background-color: rgb(5, 25, 58); height: 100vh">
+      <div>네브바같은 느낌으로다가</div>
+      <div
+        style="
+          background-position: center;
+          background-color: white;
+          margin-top: 3%;
+          margin-left: 4%;
+          margin-right: 4%;
+          height: 90vh;
+          border-radius: 60px 60px 0% 0%;
+        "
+      >
+        <div class="container">
+          <div class="page-title-div row justify-content-md-center">
+            <div class="col">
+              <h1 style="padding-top: 3%; padding-left: 4%; font-size: 4rem">
+                설문서식 미리보기
+              </h1>
+            </div>
+            <div class="col-md-auto align-self-end">
+              <!-- <el-input placeholder="Please input" v-model="searchTemplate" class="input-with-select">
+                <el-button slot="append" icon="el-icon-search"></el-button>
+              </el-input> -->
+              <button class="next-button yellow-button rounded-button "
+                @click="moveCreateForm()"
+              >
+                Create
+              </button>
+              <button class="next-button red-button rounded-button ms-3"
+                @click="moveBack()"
+              >
+                Exit
+              </button>
+              
+            </div>
+          </div>
+          <hr style="width: 100%" />
+          <div class="surveyForm">
+        <el-tag type="danger" effect="plain" style="border-radius:50px;">1일남음</el-tag>
+        <div class="surveyDes">
+            <!-- <h1 class="title">{{title}}</h1> -->
+            <h5 class="date">2021.10.25~2021.10.28</h5>
+            <!-- <p class="description">{{description}}</p> -->
+        </div>
+        <hr>
+        <div class="surveyContent">
+            <!-- <el-form ref="form" v-model="form">
+                <el-collapse>
+                    <el-collapse-item v-for="(item, idx) in category" :key="idx" :title="item.categoryName">
+                        <div class="surveytitle" v-for="(question, questionIdx) in questions" :key="questionIdx">
+                            <div v-if="item.categoryId==question.categoryId">
+                                {{question.questionNum}}. {{question.title}} 
+                                <br>
+                                <el-form-item>
+                                    <el-radio-group v-model="form.questionRes[questionIdx]">
+                                        <div class="surveytitle" v-for="(example, exampleIdx) in questionExample[questionIdx].content" :key="exampleIdx">
+                                            <el-radio :label="example" style="display: block; margin-top:1.5em;"></el-radio>
+                                        </div> 
+                                    </el-radio-group>
+                                </el-form-item>
+                                </div> 
+                            </div>
+                    </el-collapse-item>
+                </el-collapse>
+            </el-form> -->
+
+            <el-form ref="form">
+                <el-collapse>
+                    <el-collapse-item title="Filters" name="1">
+                      <div class="surveytitle" v-for="(question, questionIdx) in filters" :key="questionIdx">
+                                {{question.number}}. {{question.title}} 
+                                <br>
+                                <el-form-item>
+                                    <el-radio-group v-model="form.questionRes[questionIdx]">
+                                        <div class="surveytitle" v-for="(example, exampleIdx) in question.content" :key="exampleIdx">
+                                            <el-radio :label="example" style="display: block; margin-top:1.5em;"></el-radio>
+                                        </div> 
+                                    </el-radio-group>
+                                </el-form-item>
+                      </div>
+                    </el-collapse-item>
+
+                    <el-collapse-item v-for="(item, idx) in questions" :key="idx" :title="idx">
+                        <div class="surveytitle" v-for="(question, questionIdx) in item" :key="questionIdx">
+                                {{question.number}}. {{question.title}} 
+                                <br>
+                                <el-form-item>
+                                    <el-radio-group v-model="form.questionRes[idx + questionIdx]">
+                                        <div class="surveytitle" v-for="(example, exampleIdx) in question.content" :key="exampleIdx">
+                                            <el-radio :label="example" style="display: block; margin-top:1.5em;"></el-radio>
+                                        </div> 
+                                    </el-radio-group>
+                                </el-form-item>
+                            </div>
+                    </el-collapse-item>
+                </el-collapse>
+            </el-form>
+
+        </div>
+        <div style="text-align:center;">
+            <img class="logo" src="@/assets/smalllogo.png" />
+        </div>     
+    </div>
+        </div>
+      </div>
+    </div>
+    <!-- <button @click="endPage">to end</button> -->
+
+    
   </div>
 </template>
 
 <script>
 import axios from "@/utils/axios.js";
-import { mapActions, mapGetters } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex";
 
 export default {
   name: "TestPage",
@@ -15,7 +124,17 @@ export default {
     return {
       surveyId: "",
       templateId: "",
+
+      filters: [],
+      questions: [],
+
+      form: {
+        questionRes:[]
+      },
     };
+  },
+  computed: {
+    ...mapState('survey', ['surveyCreateType', 'curCreateType']),
   },
   methods: {
     ...mapGetters("template", [
@@ -28,8 +147,18 @@ export default {
     ...mapGetters("question", ["getQuestionList", "getCategoryList"]),
     ...mapGetters("filterQuestion", ["getFilterQuestionList"]),
     ...mapActions("survey", ["setSurveyId"]),
-    endPage() {
-      this.saveTemplate();
+    moveCreateForm(){
+      if(this.curCreateType == this.surveyCreateType.NEW){
+        this.saveTemplate();
+      }
+      else {
+        this.templateId = this.getTemplateId();
+        this.saveQuestions();
+      }
+      
+    },
+    moveBack(){
+       this.$router.back();
     },
     saveTemplate() {
       axios
@@ -77,7 +206,7 @@ export default {
         });
     },
     saveFilterQuestions() {
-      console.log(this.getFilterQuestionList());
+      // console.log(this.getFilterQuestionList());
       axios
         .post(`/survey/${this.surveyId}/filters`, {
           filterQuestionList: this.getFilterQuestionList(),
@@ -94,6 +223,52 @@ export default {
     editPage() {
       console.log("edit");
     },
+
+    // 객체배열에서, key값을 가지고, 그룹핑하기
+    groupBy(data, key){
+      return data.reduce( (carry, el) => {
+        var group = el[key];
+
+        if(carry[group] === undefined) {
+          carry[group] = []
+        }
+
+        carry[group].push(el)
+        return carry
+      }, {})
+    },
+    getFilters(){
+      const filterList = new Array();
+
+      this.getFilterQuestionList().forEach(el => {
+
+        // 필터질문 역직렬화
+        var filter = JSON.parse(el);
+        filter.content = JSON.parse(filter.content);
+
+        filterList.push(filter);
+      });
+
+      this.filters = filterList;
+    },
+    getQuestions(){
+      const questionList = new Array();
+      
+      this.getQuestionList().forEach(el => {
+        var question = JSON.parse(el);
+
+        // 질문 역직렬화
+        question.content = JSON.parse(question.content);
+        questionList.push(question);
+      });
+
+      // 카테고리별 그룹핑
+      this.questions = this.groupBy(questionList, 'categoryName');
+    },
+  },
+  created () {
+    this.getQuestions();
+    this.getFilters();
   },
 };
 </script>
