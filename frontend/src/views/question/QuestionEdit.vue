@@ -295,7 +295,7 @@ export default {
           let content = "{ ";
 
           question.choiceList.forEach((choice, index) => {
-            content += `"${index + 1}":"${choice},`;
+            content += `"${index + 1}":"${choice}",`;
             // content += '"' + index + '":' + choice + ",";
           });
 
