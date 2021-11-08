@@ -102,6 +102,8 @@ export default {
   padding-right: 4%;
 }
 #bottonBox {
+  display: flex;
+  justify-content: space-between;
   text-align: center;
   margin-bottom: 5%;
 }
@@ -112,23 +114,29 @@ export default {
   margin-top: 2.5%;
 }
 .surveyButton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 25%;
+  height: 100%;
   border-radius: 10px 10px 10px 10px;
-  padding: 2% 5% 2% 5%;
-  display: inline-block;
+  padding: 2% 2% 2% 2%;
+  margin-left: 5%;
   margin-right: 5%;
   box-shadow: 2px 2px 2px 2px rgb(206, 206, 206);
   font-size: 0.5em;
   color: rgb(167, 167, 167);
 }
+
 .surveyButton > span > h5 {
   font-weight: 600;
   color: black;
 }
+
 .buttonImg {
   height: 50px;
+  width: 50px;
   display: inline-block;
-  margin-right: 5%;
 }
 #sidebar-wrapper {
   z-index: 1000;
