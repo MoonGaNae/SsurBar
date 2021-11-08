@@ -1,57 +1,42 @@
 <template>
   <div id="wrapper">
-    <div style="background-color: rgb(5, 25, 58); height: 100vh">
-      <div>1</div>
-      <div
-        style="
-          background-position: center;
-          background-color: white;
-          margin-top: 3%;
-          margin-left: 4%;
-          margin-right: 4%;
-          height: 90vh;
-          border-radius: 60px 60px 0% 0%;
-        "
-      >
-        <div class="container">
-          <div class="complete-message-div">
-            <div class="complete-message1">설문 생성이 완료되었습니다</div>
-            <div class="complete-message2">링크를 통해 설문을 공유해보세요</div>
-          </div>
+    <div class="container">
+      <div class="complete-message-div">
+        <div class="complete-message1">설문 생성이 완료되었습니다</div>
+        <div class="complete-message2">링크를 통해 설문을 공유해보세요</div>
+      </div>
 
-          <div class="link-list-div">
-            <div class="response-link-div">
-              <div class="link-type">응답 링크</div>
-              <div class="blank"></div>
-              <div class="link-url el-card is-always-shadow">
-                <div>
-                  <i class="el-icon-link"></i>
-                  <input disabled type="text" v-model="responseUrl" />
-                </div>
-                <button
-                  class="yellow-button rounded-corner-button"
-                  @click="copyUrl(responseUrl)"
-                >
-                  copy
-                </button>
-              </div>
+      <div class="link-list-div">
+        <div class="response-link-div">
+          <div class="link-type">응답 링크</div>
+          <div class="blank"></div>
+          <div class="link-url el-card is-always-shadow">
+            <div>
+              <i class="el-icon-link"></i>
+              <input disabled type="text" v-model="responseUrl" />
             </div>
-            <div class="result-link-div">
-              <div class="link-type">결과 링크</div>
-              <div class="blank"></div>
-              <div class="link-url el-card is-always-shadow">
-                <div>
-                  <i class="el-icon-link"></i>
-                  <input disabled type="text" v-model="resultUrl" />
-                </div>
-                <button
-                  class="yellow-button rounded-corner-button"
-                  @click="copyUrl(resultUrl)"
-                >
-                  copy
-                </button>
-              </div>
+            <button
+              class="yellow-button rounded-corner-button"
+              @click="copyUrl(responseUrl)"
+            >
+              copy
+            </button>
+          </div>
+        </div>
+        <div class="result-link-div">
+          <div class="link-type">결과 링크</div>
+          <div class="blank"></div>
+          <div class="link-url el-card is-always-shadow">
+            <div>
+              <i class="el-icon-link"></i>
+              <input disabled type="text" v-model="resultUrl" />
             </div>
+            <button
+              class="yellow-button rounded-corner-button"
+              @click="copyUrl(resultUrl)"
+            >
+              copy
+            </button>
           </div>
         </div>
       </div>

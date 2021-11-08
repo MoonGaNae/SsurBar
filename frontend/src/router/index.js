@@ -15,24 +15,11 @@ import Finish from "../views/Res/SurveyFinish.vue";
 import DefaultTemplateList from "../views/DefaultTemplateList.vue";
 import RecentTemplateList from "../views/RecentTemplateList.vue";
 import Main from "../views/main/main.vue";
-import TemplatePreview from "@/views/TemplatePreview"
+import TemplatePreview from "@/views/TemplatePreview";
 
 Vue.use(VueRouter);
 
 const routes = [
-  // {
-  //   path: "/",
-  //   name: "Home",
-  //   component: Home,
-  // },
-  // {
-  //   path: "/about",
-  //   name: "About",
-  //   // route level code-splitting
-  //   // this generates a separate chunk (about.[hash].js) for this route
-  //   // which is lazy-loaded when the route is visited.
-  //   component: () => import(/* webpackChunkName: "about" */ "@/views/About.vue"),
-  // },
   {
     path: "/",
     name: "main",
@@ -81,17 +68,17 @@ const routes = [
   {
     path: "/template/default",
     name: "DefaultTemplateList",
-    component: DefaultTemplateList
+    component: DefaultTemplateList,
   },
   {
     path: "/template/:templateId/preview",
     name: "TemplatePreview",
-    component: TemplatePreview
+    component: TemplatePreview,
   },
   {
     path: "/template/recent",
     name: "RecentTemplateList",
-    component: RecentTemplateList
+    component: RecentTemplateList,
   },
 ];
 
