@@ -205,15 +205,6 @@ export default {
         surveyId: this.surveyId,
       };
       this.setAnswerData(searchData);
-      // axios
-      //   .get(`/survey/${this.surveyId}/answer`, {
-      //     params: {
-      //       filterDataStr: encodeURI(filterStr),
-      //     },
-      //   })
-      //   .then((res) => {
-      //     console.log(res);
-      //   });
     },
     clickFilterDiv(filterIdx) {
       this.filterList[filterIdx].isSelected =
