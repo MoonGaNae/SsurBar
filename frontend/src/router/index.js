@@ -59,6 +59,7 @@ const routes = [
     path: "/survey/detail",
     name: "SurveyDetail",
     component: SurveyDetail,
+    props: true,
   },
   {
     path: "/finish",

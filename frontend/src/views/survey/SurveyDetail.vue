@@ -172,6 +172,7 @@ import SurveyResult from "@/components/detail/SurveyResult.vue";
 
 export default {
   name: "SurveyDetail",
+  props: ["selectedSurveyId"],
   components: {
     SurveyRealease,
     SurveyAnalysis,
@@ -181,7 +182,7 @@ export default {
     return {
       selectedTabNum: 0,
       checkedFilter: [],
-      surveyId: "samplesurvey1",
+      // surveyId: "samplesurvey1",
       filterList: [],
       isFeedbackOpened: false,
       feedbackContentBackup: "",
@@ -259,29 +260,38 @@ export default {
     },
   },
   created() {
-    axios.get(`/survey/${this.surveyId}/filters`).then((res) => {
-      res.data.filterQuestionList.forEach((el) => {
-        let title = el.title;
-        let content = JSON.parse(el.content);
+    this.surveyId = this.$route.params.selectedSurveyId;
+    console.log(this.$route.params);
+    console.log(this.surveyId);
+    axios
+      .get(`/survey/${this.surveyId}/filters`)
+      .then((res) => {
+        res.data.filterQuestionList.forEach((el) => {
+          let title = el.title;
+          let content = JSON.parse(el.content);
 
-        let filterNames = [];
+          let filterNames = [];
 
-        Object.keys(content).forEach((key) => {
-          filterNames.push(content[key]);
+          Object.keys(content).forEach((key) => {
+            filterNames.push(content[key]);
+          });
+
+          this.checkedFilter.push({
+            filterKind: title,
+            filterValue: [],
+          });
+
+          this.filterList.push({
+            name: title,
+            isSelected: false,
+            filterNames: filterNames,
+          });
         });
-
-        this.checkedFilter.push({
-          filterKind: title,
-          filterValue: [],
-        });
-
-        this.filterList.push({
-          name: title,
-          isSelected: false,
-          filterNames: filterNames,
-        });
+      })
+      .catch((err) => {
+        console.log(err);
+        // this.$router.push("/");
       });
-    });
 
     let filterStr = JSON.stringify(this.checkedFilter);
     let searchData = {
