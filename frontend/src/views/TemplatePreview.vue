@@ -131,6 +131,7 @@ export default {
   },
   methods: {
       ...mapActions('template', ['setTemplateId']),
+      ...mapActions("question", ["setQuestionList", "setCategoryList"]),
       getTemplateInfo(templateId){
           axios.get("/template/"+templateId)
             .then((res)=>{
@@ -190,7 +191,14 @@ export default {
           this.$router.push("/template/default");
         },
         moveCreateForm(){
-          this.setTemplateId(this.tempaletId);
+          this.setTemplateId(this.templateId);
+          // JSON 직렬화 시켜서 store에 저장
+          let jsonList = new Array();
+          this.questions.forEach(el => {
+            jsonList.push(JSON.stringify(el));
+          })
+
+          this.setQuestionList(jsonList);
           this.$router.push("/form/createform");
         }
   },
