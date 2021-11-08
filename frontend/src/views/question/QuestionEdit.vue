@@ -1,192 +1,164 @@
 <template>
   <div id="wrapper">
-    <div style="background-color: rgb(5, 25, 58); height: 100vh">
-      <div>네브바같은 느낌으로다가</div>
-      <div
-        style="
-          background-position: center;
-          background-color: white;
-          margin-top: 3%;
-          margin-left: 4%;
-          margin-right: 4%;
-          height: 90vh;
-          border-radius: 60px 60px 0% 0%;
-        "
-      >
-        <div class="container">
-          <div class="page-title-div">
-            <h1 style="padding-top: 3%; padding-left: 4%; font-size: 4rem">
-              문항 편집
-            </h1>
-            <button
-              @click="endEditSurvey()"
-              class="next-button yellow-button rounded-corner-button"
-            >
-              Next
-            </button>
-          </div>
-          <hr style="width: 100%" />
-          <div class="sub-title-div">
-            <div>
-              <h3 style="d-flex; text-align:left; font-size:2.5rem">
-                업무 만족도 조사
-              </h3>
-            </div>
-            <div class="sub-title-div-buttons">
-              <input
-                class="el-input__inner"
-                type="text"
-                v-model="categoryInput"
-                v-if="categoryInputState"
-              />
-              <button
-                @click="addCategory()"
-                v-if="categoryInputState"
-                class="rounded-corner-button white-button category-input-btn"
-              >
-                입력 완료
-              </button>
-              <button
-                v-if="categoryInputState"
-                @click="cancelCategoryAdd()"
-                class="rounded-corner-button white-button category-cancel-btn"
-              >
-                취소
-              </button>
-              <button
-                class="rounded-corner-button white-button category-add-btn"
-                @click="categoryInputState = true"
-                v-if="!categoryInputState"
-              >
-                카테고리 추가
-              </button>
-              <!-- <button class="rounded-corner-button while-button">질문 은행</button> -->
-            </div>
-          </div>
-          <div class="category-warning" v-text="categoryInputWarning"></div>
+    <div class="container">
+      <div class="page-title-div">
+        <h1 style="padding-top: 3%; padding-left: 4%; font-size: 4rem">
+          문항 편집
+        </h1>
+        <button
+          @click="endEditSurvey()"
+          class="next-button yellow-button rounded-corner-button"
+        >
+          Next
+        </button>
+      </div>
+      <hr style="width: 100%" />
+      <div class="sub-title-div">
+        <div>
+          <h3 style="d-flex; text-align:left; font-size:2.5rem">
+            업무 만족도 조사
+          </h3>
+        </div>
+        <div class="sub-title-div-buttons">
+          <input
+            class="el-input__inner"
+            type="text"
+            v-model="categoryInput"
+            v-if="categoryInputState"
+          />
+          <button
+            @click="addCategory()"
+            v-if="categoryInputState"
+            class="rounded-corner-button white-button category-input-btn"
+          >
+            입력 완료
+          </button>
+          <button
+            v-if="categoryInputState"
+            @click="cancelCategoryAdd()"
+            class="rounded-corner-button white-button category-cancel-btn"
+          >
+            취소
+          </button>
+          <button
+            class="rounded-corner-button white-button category-add-btn"
+            @click="categoryInputState = true"
+            v-if="!categoryInputState"
+          >
+            카테고리 추가
+          </button>
+          <!-- <button class="rounded-corner-button while-button">질문 은행</button> -->
+        </div>
+      </div>
+      <div class="category-warning" v-text="categoryInputWarning"></div>
 
-          <div class="category-list">
-            <div
-              class="category-div"
-              v-for="(category, categoryIndex) in categoryList"
-              :key="categoryIndex"
-            >
-              <div class="category" :id="'category' + categoryIndex">
-                <div
-                  class="category-title-div"
-                  @click="clickCategory(category)"
-                >
-                  <div class="category-title">
-                    <div style="d-flex; text-align:left; font-size:2.5rem">
-                      {{ category.title }}
-                    </div>
-                    <div class="category-arrow">
-                      <i
-                        v-if="category.isSelected"
-                        class="el-icon-arrow-down"
-                      ></i>
-                      <i v-else class="el-icon-arrow-left"></i>
-                    </div>
-                  </div>
-                  <div class="category-delete-div">
-                    <button
-                      class="
-                        category-delete-btn
-                        rounded-corner-button
-                        red-button
-                        el-button--danger
-                      "
-                      @click="deleteCategory(categoryIndex)"
-                    >
-                      카테고리 삭제
-                    </button>
-                  </div>
+      <div class="category-list">
+        <div
+          class="category-div"
+          v-for="(category, categoryIndex) in categoryList"
+          :key="categoryIndex"
+        >
+          <div class="category" :id="'category' + categoryIndex">
+            <div class="category-title-div" @click="clickCategory(category)">
+              <div class="category-title">
+                <div style="d-flex; text-align:left; font-size:2.5rem">
+                  {{ category.title }}
                 </div>
-                <div class="question-list" v-if="category.isSelected">
-                  <div
-                    class="question el-card box-card is-always-shadow"
-                    v-for="(question, questionIndex) in category.questionList"
-                    :key="questionIndex"
+                <div class="category-arrow">
+                  <i v-if="category.isSelected" class="el-icon-arrow-down"></i>
+                  <i v-else class="el-icon-arrow-left"></i>
+                </div>
+              </div>
+              <div class="category-delete-div">
+                <button
+                  class="
+                    category-delete-btn
+                    rounded-corner-button
+                    red-button
+                    el-button--danger
+                  "
+                  @click="deleteCategory(categoryIndex)"
+                >
+                  카테고리 삭제
+                </button>
+              </div>
+            </div>
+            <div class="question-list" v-if="category.isSelected">
+              <div
+                class="question el-card box-card is-always-shadow"
+                v-for="(question, questionIndex) in category.questionList"
+                :key="questionIndex"
+              >
+                <div class="question-delete-btn-div">
+                  <button
+                    class="rounded-corner-button red-button el-button--danger"
+                    @click="
+                      deleteQuestion(category.questionList, questionIndex)
+                    "
                   >
-                    <div class="question-delete-btn-div">
-                      <button
-                        class="
-                          rounded-corner-button
-                          red-button
-                          el-button--danger
-                        "
-                        @click="
-                          deleteQuestion(category.questionList, questionIndex)
-                        "
-                      >
-                        문제 삭제
-                      </button>
-                    </div>
-                    <h4
-                      class="question-title"
-                      style="d-flex; text-align:left; font-size:2rem"
-                    >
-                      Q{{ questionIndex + 1 }}.
+                    문제 삭제
+                  </button>
+                </div>
+                <h4
+                  class="question-title"
+                  style="d-flex; text-align:left; font-size:2rem"
+                >
+                  Q{{ questionIndex + 1 }}.
+                  <input
+                    class="question-title-input el-input__inner"
+                    style="d-flex; text-align:left; font-size:1.5rem"
+                    type="text"
+                    v-model="
+                      categoryList[categoryIndex].questionList[questionIndex]
+                        .title
+                    "
+                  />
+                </h4>
+                <div class="answer-choices-list">
+                  <div
+                    class="choice"
+                    v-for="(choice, choiceIndex) in question.choiceList"
+                    :key="choiceIndex"
+                  >
+                    <div>
+                      {{ choiceIndex + 1 }}.
                       <input
-                        class="question-title-input el-input__inner"
-                        style="d-flex; text-align:left; font-size:1.5rem"
                         type="text"
+                        class="el-input__inner"
                         v-model="
                           categoryList[categoryIndex].questionList[
                             questionIndex
-                          ].title
+                          ].choiceList[choiceIndex]
                         "
                       />
-                    </h4>
-                    <div class="answer-choices-list">
-                      <div
-                        class="choice"
-                        v-for="(choice, choiceIndex) in question.choiceList"
-                        :key="choiceIndex"
-                      >
-                        <div>
-                          {{ choiceIndex + 1 }}.
-                          <input
-                            type="text"
-                            class="el-input__inner"
-                            v-model="
-                              categoryList[categoryIndex].questionList[
-                                questionIndex
-                              ].choiceList[choiceIndex]
-                            "
-                          />
-                        </div>
-                        <button
-                          class="
-                            el-button el-button--danger
-                            is-circle
-                            el-button--mini
-                          "
-                          @click="
-                            deleteChoice(question.choiceList, choiceIndex)
-                          "
-                        >
-                          <i class="el-icon-minus"></i>
-                        </button>
-                      </div>
-                      <div class="choice-add-button-div">
-                        <button
-                          class="rounded-corner-button green-button"
-                          @click="addChoice(question.choiceList)"
-                        >
-                          보기 추가
-                        </button>
-                      </div>
                     </div>
+                    <button
+                      class="
+                        el-button el-button--danger
+                        is-circle
+                        el-button--mini
+                      "
+                      @click="deleteChoice(question.choiceList, choiceIndex)"
+                    >
+                      <i class="el-icon-minus"></i>
+                    </button>
                   </div>
-                  <button
-                    class="rounded-corner-button green-button"
-                    @click="addQuestion(category.questionList)"
-                  >
-                    문제 추가
-                  </button>
+                  <div class="choice-add-button-div">
+                    <button
+                      class="rounded-corner-button green-button"
+                      @click="addChoice(question.choiceList)"
+                    >
+                      보기 추가
+                    </button>
+                  </div>
                 </div>
               </div>
+              <button
+                class="rounded-corner-button green-button"
+                @click="addQuestion(category.questionList)"
+              >
+                문제 추가
+              </button>
             </div>
           </div>
         </div>

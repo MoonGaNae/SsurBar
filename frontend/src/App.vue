@@ -1,7 +1,11 @@
 <template>
   <div id="app">
-    <Sidebar id="sidebar"  v-if="showSide"/>
-    <RouterView id="router" :key="$route.fullPath" />
+    <Sidebar id="sidebar" v-if="showSide" />
+    <div id="main-frame">
+      <div id="background-frame">
+        <RouterView id="router" :key="$route.fullPath" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -13,14 +17,11 @@ export default {
   components: {
     Sidebar,
   },
-   computed:{
-         showSide(){
-            return !(
-               this.$route.name === "Form" ||
-               this.$route.name  === "Finish"
-            );
-         }
-   }
+  computed: {
+    showSide() {
+      return !(this.$route.name === "Form" || this.$route.name === "Finish");
+    },
+  },
 };
 </script>
 

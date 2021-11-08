@@ -1,197 +1,149 @@
 <template>
   <div id="wrapper">
-    <div id="sidebar-wrapper">
-      <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
-        <li style="margin-top: 25vh; margin-left: 5%">
-          <a href="#"
-            ><i class="fas fa-home fa-2x" style="margin-top: 1vh"></i
-          ></a>
-        </li>
+    <div class="container">
+      <div class="page-title-div">
+        <h1 style="padding-top: 3%; padding-left: 4%; font-size: 4rem">
+          필터 항목 등록
+        </h1>
+        <button
+          @click="endEditFilter()"
+          class="next-button yellow-button rounded-corner-button"
+        >
+          Next
+        </button>
+      </div>
+      <hr style="width: 100%" />
+      <div class="sub-title-div">
+        <div>
+          <h3 style="d-flex; text-align:left; font-size:2.5rem">
+            업무 만족도 조사
+          </h3>
+        </div>
+        <div class="sub-title-div-buttons">
+          <input
+            class="el-input__inner"
+            type="text"
+            v-model="categoryInput"
+            v-if="categoryInputState"
+          />
+          <button
+            @click="addCategory()"
+            v-if="categoryInputState"
+            class="rounded-corner-button white-button category-input-btn"
+          >
+            입력 완료
+          </button>
+          <button
+            v-if="categoryInputState"
+            @click="cancelCategoryAdd()"
+            class="rounded-corner-button white-button category-cancel-btn"
+          >
+            취소
+          </button>
+          <button
+            class="rounded-corner-button white-button category-add-btn"
+            @click="categoryInputState = true"
+            v-if="!categoryInputState"
+          >
+            필터 추가
+          </button>
+        </div>
+      </div>
 
-        <li style="margin-top: 10vh; margin-left: 10%">
-          <a href="#"
-            ><i class="fas fa-plus-square fa-2x" style="margin-top: 1vh"></i
-          ></a>
-        </li>
+      <div class="category-warning" v-text="categoryInputWarning"></div>
+      <br />
 
-        <li style="margin-top: 10vh; margin-left: 10%">
-          <a href="#"
-            ><i class="fas fa-chart-bar fa-2x" style="margin-top: 1vh"></i
-          ></a>
-        </li>
-
-        <li style="margin-top: 10vh; margin-left: 10%">
-          <a href="#"
-            ><i class="fas fa-cog fa-2x" style="margin-top: 1vh"></i
-          ></a>
-        </li>
-      </ul>
-    </div>
-    <div style="background-color: rgb(5, 25, 58); height: 100vh">
-      <div>네브바같은 느낌으로다가</div>
-      <div
-        style="
-          background-position: center;
-          background-color: white;
-          margin-top: 3%;
-          margin-left: 4%;
-          margin-right: 4%;
-          height: 90vh;
-          border-radius: 60px 60px 0% 0%;
-        "
-      >
-        <div class="container">
-          <div class="page-title-div">
-            <h1 style="padding-top: 3%; padding-left: 4%; font-size: 4rem">
-              필터 항목 등록
-            </h1>
-            <button
-              @click="endEditFilter()"
-              class="next-button yellow-button rounded-corner-button"
-            >
-              Next
-            </button>
-          </div>
-          <hr style="width: 100%" />
-          <div class="sub-title-div">
-            <div>
-              <h3 style="d-flex; text-align:left; font-size:2.5rem">
-                업무 만족도 조사
-              </h3>
-            </div>
-            <div class="sub-title-div-buttons">
-              <input
-                class="el-input__inner"
-                type="text"
-                v-model="categoryInput"
-                v-if="categoryInputState"
-              />
-              <button
-                @click="addCategory()"
-                v-if="categoryInputState"
-                class="rounded-corner-button white-button category-input-btn"
-              >
-                입력 완료
-              </button>
-              <button
-                v-if="categoryInputState"
-                @click="cancelCategoryAdd()"
-                class="rounded-corner-button white-button category-cancel-btn"
-              >
-                취소
-              </button>
-              <button
-                class="rounded-corner-button white-button category-add-btn"
-                @click="categoryInputState = true"
-                v-if="!categoryInputState"
-              >
-                필터 추가
-              </button>
-            </div>
-          </div>
-
-          <div class="category-warning" v-text="categoryInputWarning"></div>
-          <br />
-
-          <div class="content-div">
+      <div class="content-div">
+        <div
+          class="category-list el-card box-card is-always-shadow"
+          style="width: 10vw; margin-top: 2%; padding-left: 1%"
+        >
+          <div
+            class="category-div"
+            v-for="(category, categoryIndex) in categoryList"
+            :key="categoryIndex"
+            style="width: 40vw"
+          >
             <div
-              class="category-list el-card box-card is-always-shadow"
-              style="width: 10vw; margin-top: 2%; padding-left: 1%"
+              class="category d-flex justify-content-between"
+              :id="'category' + categoryIndex"
             >
-              <div
-                class="category-div"
-                v-for="(category, categoryIndex) in categoryList"
-                :key="categoryIndex"
-                style="width: 40vw"
-              >
-                <div
-                  class="category d-flex justify-content-between"
-                  :id="'category' + categoryIndex"
-                >
-                  <div class="category-title-div">
-                    <div class="category-title">
-                      <div
-                        style="d-flex; text-align:left; font-size:2.3rem;"
-                        @click="clickCategory(categoryIndex)"
-                      >
-                        {{ category.title }}
-                      </div>
-
-                      <div class="category-delete-div">
-                        <button
-                          class="el-button el-button--danger is-circle"
-                          style="width: 2vw"
-                          @click="deleteCategory(categoryIndex)"
-                        >
-                          <i class="el-icon-minus"></i>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div v-if="selectedCategoryIdx != null" class="question-list">
-              <div class="question el-card box-card is-always-shadow">
-                <div class="question-delete-btn-div"></div>
-                <h4
-                  class="question-title"
-                  style="d-flex; text-align:left; font-size:2rem"
-                >
-                  <input
-                    class="question-title-input el-input__inner"
-                    style="d-flex; text-align:left; font-size:1.5rem"
-                    type="text"
-                    v-model="categoryList[selectedCategoryIdx].title"
-                    placeholder="질문을 입력하세요"
-                  />
-                </h4>
-                <div class="answer-choices-list">
+              <div class="category-title-div">
+                <div class="category-title">
                   <div
-                    class="choice"
-                    v-for="(choice, choiceIndex) in categoryList[
-                      selectedCategoryIdx
-                    ].choiceList"
-                    :key="choiceIndex"
+                    style="d-flex; text-align:left; font-size:2.3rem;"
+                    @click="clickCategory(categoryIndex)"
                   >
-                    <div>
-                      <input
-                        type="text"
-                        class="el-input__inner"
-                        v-model="
-                          categoryList[selectedCategoryIdx].choiceList[
-                            choiceIndex
-                          ]
-                        "
-                      />
-                    </div>
+                    {{ category.title }}
+                  </div>
+
+                  <div class="category-delete-div">
                     <button
-                      class="
-                        el-button el-button--danger
-                        is-circle
-                        el-button--mini
-                      "
-                      @click="
-                        deleteChoice(
-                          categoryList[selectedCategoryIdx].choiceList,
-                          choiceIndex
-                        )
-                      "
+                      class="el-button el-button--danger is-circle"
+                      style="width: 2vw"
+                      @click="deleteCategory(categoryIndex)"
                     >
                       <i class="el-icon-minus"></i>
                     </button>
                   </div>
-                  <div class="choice-add-button-div">
-                    <button
-                      class="rounded-corner-button green-button"
-                      @click="
-                        addChoice(categoryList[selectedCategoryIdx].choiceList)
-                      "
-                    >
-                      보기 추가
-                    </button>
-                  </div>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div v-if="selectedCategoryIdx != null" class="question-list">
+          <div class="question el-card box-card is-always-shadow">
+            <div class="question-delete-btn-div"></div>
+            <h4
+              class="question-title"
+              style="d-flex; text-align:left; font-size:2rem"
+            >
+              <input
+                class="question-title-input el-input__inner"
+                style="d-flex; text-align:left; font-size:1.5rem"
+                type="text"
+                v-model="categoryList[selectedCategoryIdx].title"
+                placeholder="질문을 입력하세요"
+              />
+            </h4>
+            <div class="answer-choices-list">
+              <div
+                class="choice"
+                v-for="(choice, choiceIndex) in categoryList[
+                  selectedCategoryIdx
+                ].choiceList"
+                :key="choiceIndex"
+              >
+                <div>
+                  <input
+                    type="text"
+                    class="el-input__inner"
+                    v-model="
+                      categoryList[selectedCategoryIdx].choiceList[choiceIndex]
+                    "
+                  />
+                </div>
+                <button
+                  class="el-button el-button--danger is-circle el-button--mini"
+                  @click="
+                    deleteChoice(
+                      categoryList[selectedCategoryIdx].choiceList,
+                      choiceIndex
+                    )
+                  "
+                >
+                  <i class="el-icon-minus"></i>
+                </button>
+              </div>
+              <div class="choice-add-button-div">
+                <button
+                  class="rounded-corner-button green-button"
+                  @click="
+                    addChoice(categoryList[selectedCategoryIdx].choiceList)
+                  "
+                >
+                  보기 추가
+                </button>
               </div>
             </div>
           </div>
@@ -205,7 +157,7 @@
 import { mapActions, mapState } from "vuex";
 
 export default {
-  name: "FilterQuestionEdit", 
+  name: "FilterQuestionEdit",
   data() {
     return {
       categoryInputState: false,
@@ -231,7 +183,7 @@ export default {
     };
   },
   computed: {
-    ...mapState('survey', ['surveyCreateType', 'curCreateType']),
+    ...mapState("survey", ["surveyCreateType", "curCreateType"]),
   },
   methods: {
     ...mapActions("filterQuestion", ["setFilterQuestionList"]),
@@ -315,12 +267,11 @@ export default {
       console.log(this.filterQuestionList);
       this.setFilterQuestionList(this.filterQuestionList);
 
-      if(this.curCreateType == this.surveyCreateType.NEW){
+      if (this.curCreateType == this.surveyCreateType.NEW) {
         this.$router.push({ path: "/question/questionedit" });
-      }else {
+      } else {
         this.$router.push({ path: "/test" });
       }
-      
     },
   },
 };

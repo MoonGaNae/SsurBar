@@ -1,157 +1,163 @@
 <template>
   <div id="wrapper">
-    <div style="background-color: rgb(5, 25, 58); height: 100vh">
-      <div>네브바같은 느낌으로다가</div>
-      <div
-        style="
-          background-position: center;
-          background-color: white;
-          margin-top: 3%;
-          margin-left: 4%;
-          margin-right: 4%;
-          height: 90vh;
-          border-radius: 60px 60px 0% 0%;
-        "
-      >
-        <div class="main-container">
-          <!-- <div class="filter-container" v-if="!checkFullContent">sdadasdsad</div>
+    <div class="main-container">
+      <!-- <div class="filter-container" v-if="!checkFullContent">sdadasdsad</div>
           <div class="component-container" :class="{ isFullContent: checkFullContent }"> -->
-          <div id="tab-div">
-            <ul class="tabs">
-              <li class="tab" :class="{ selectedTab: selectedTabNum == 0 }" @click="changeTab(0)">
-                분석
-              </li>
-              <!-- <li class="tab">비교</li> -->
-              <li class="tab" :class="{ selectedTab: selectedTabNum == 2 }" @click="changeTab(2)">
-                배포
-              </li>
-              <li class="tab" :class="{ selectedTab: selectedTabNum == 3 }" @click="changeTab(3)">
-                결과
-              </li>
-            </ul>
-          </div>
-          <div class="detail-container">
-            <div class="filter-container el-card is-always-shadow" v-if="!checkFullContent">
-              <div class="name-text">필터</div>
-              <div v-if="!isFilterOpened" class="filter-main-div">
-                <!-- <div class="filter-div"> -->
-                <div class="filter-list">
-                  <div
-                    class="filter-div"
-                    v-for="(filter, filterIdx) in filterList"
-                    :key="filterIdx"
-                  >
-                    <div class="filter el-card is-always-shadow">
-                      <div class="filter-title" @click="clickFilterDiv(filterIdx)">
-                        {{ filter.name }}
+      <div id="tab-div">
+        <ul class="tabs">
+          <li
+            class="tab"
+            :class="{ selectedTab: selectedTabNum == 0 }"
+            @click="changeTab(0)"
+          >
+            분석
+          </li>
+          <!-- <li class="tab">비교</li> -->
+          <li
+            class="tab"
+            :class="{ selectedTab: selectedTabNum == 2 }"
+            @click="changeTab(2)"
+          >
+            배포
+          </li>
+          <li
+            class="tab"
+            :class="{ selectedTab: selectedTabNum == 3 }"
+            @click="changeTab(3)"
+          >
+            결과
+          </li>
+        </ul>
+      </div>
+      <div class="detail-container">
+        <div
+          class="filter-container el-card is-always-shadow"
+          v-if="!checkFullContent"
+        >
+          <div class="name-text">필터</div>
+          <div v-if="!isFilterOpened" class="filter-main-div">
+            <!-- <div class="filter-div"> -->
+            <div class="filter-list">
+              <div
+                class="filter-div"
+                v-for="(filter, filterIdx) in filterList"
+                :key="filterIdx"
+              >
+                <div class="filter el-card is-always-shadow">
+                  <div class="filter-title" @click="clickFilterDiv(filterIdx)">
+                    {{ filter.name }}
 
-                        <i v-if="filter.isSelected" class="el-icon-arrow-down"></i>
-                        <i v-else class="el-icon-arrow-left"></i>
-                      </div>
-                      <div class="filter-content" v-if="filter.isSelected">
-                        <div v-for="(filterName, nameIdx) in filter.filterNames" :key="nameIdx">
-                          <label class="filter-label" :for="filter + filterName">{{
-                            filterName
-                          }}</label>
-                          <input
-                            type="checkbox"
-                            :id="filter + filterName"
-                            :value="filterName"
-                            v-model="checkedFilter[filterIdx].filterValue"
-                          />
-                        </div>
-                      </div>
+                    <i v-if="filter.isSelected" class="el-icon-arrow-down"></i>
+                    <i v-else class="el-icon-arrow-left"></i>
+                  </div>
+                  <div class="filter-content" v-if="filter.isSelected">
+                    <div
+                      v-for="(filterName, nameIdx) in filter.filterNames"
+                      :key="nameIdx"
+                    >
+                      <label class="filter-label" :for="filter + filterName">{{
+                        filterName
+                      }}</label>
+                      <input
+                        type="checkbox"
+                        :id="filter + filterName"
+                        :value="filterName"
+                        v-model="checkedFilter[filterIdx].filterValue"
+                      />
                     </div>
                   </div>
+                </div>
+              </div>
 
-                  <!-- </div> -->
-                </div>
-                <div class="button-div">
-                  <button
-                    @click="applyFilter()"
-                    class="yellow-button rounded-corner-button apply-button"
-                  >
-                    적용하기
-                  </button>
-                </div>
-              </div>
+              <!-- </div> -->
             </div>
-            <div class="content-container" :class="{ isFullContent: checkFullContent }">
-              <div
-                class="component-container el-card is-always-shadow"
-                :class="{ isFullContent: checkFullContent }"
+            <div class="button-div">
+              <button
+                @click="applyFilter()"
+                class="yellow-button rounded-corner-button apply-button"
               >
-                <div class="component-div" v-if="selectedTabNum == 0">
-                  <SurveyAnalysis :surveyId="surveyId" />
-                </div>
-                <div class="component-div" v-if="selectedTabNum == 2">
-                  <SurveyRealease :surveyId="surveyId" />
-                </div>
-                <div class="component-div" v-if="selectedTabNum == 3">
-                  <SurveyResult :surveyId="surveyId" />
-                </div>
-              </div>
-              <div
-                class="feedback-container el-card is-always-shadow"
-                :class="{ 'opened-feedback': isFeedbackOpened }"
-                v-if="!checkFullContent"
-              >
-                <div
-                  :class="[
-                    { 'feedback-title-open': isFeedbackOpened },
-                    { 'feedback-title-close': !isFeedbackOpened },
-                  ]"
-                  @click="clickFeedbackDiv()"
-                >
-                  <div class="feedback-name-text">피드백</div>
-                  <i v-if="isFeedbackOpened" class="el-icon-arrow-down"></i>
-                  <i v-else class="el-icon-arrow-left"></i>
-                </div>
-                <div v-if="isFeedbackOpened" class="feedback-main-div">
-                  <div class="feedback-content-div">
-                    <textarea
-                      :disabled="!isEditState"
-                      class="feedback-content"
-                      type="textarea"
-                      placeholder="Feedback input"
-                      v-model="feedbackContent"
-                    >
-                    </textarea>
-                    <!-- <textarea name="feedback-content"></textarea> -->
-                  </div>
-                  <div class="feedback-button-div">
-                    <button
-                      @click="clickEditButton"
-                      v-if="!isEditState"
-                      class="blue-button rounded-corner-button"
-                    >
-                      수정</button
-                    ><button
-                      @click="clickEditSubmitButton"
-                      v-if="isEditState"
-                      class="green-button rounded-corner-button"
-                    >
-                      완료
-                    </button>
-                    <button
-                      @click="clickEditCancelButton"
-                      v-if="isEditState"
-                      class="red-button rounded-corner-button"
-                    >
-                      취소
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <!-- <div class="component-div" v-if="selectedTabNum == 3">
-                <SurveyResult :surveyId="surveyId" />
-              </div> -->
+                적용하기
+              </button>
             </div>
           </div>
-          <!-- </div>
-          <div class="feedback-container" v-if="!checkFullContent">12321323</div> -->
+        </div>
+        <div
+          class="content-container"
+          :class="{ isFullContent: checkFullContent }"
+        >
+          <div
+            class="component-container el-card is-always-shadow"
+            :class="{ isFullContent: checkFullContent }"
+          >
+            <div class="component-div" v-if="selectedTabNum == 0">
+              <SurveyAnalysis :surveyId="surveyId" />
+            </div>
+            <div class="component-div" v-if="selectedTabNum == 2">
+              <SurveyRealease :surveyId="surveyId" />
+            </div>
+            <div class="component-div" v-if="selectedTabNum == 3">
+              <SurveyResult :surveyId="surveyId" />
+            </div>
+          </div>
+          <div
+            class="feedback-container el-card is-always-shadow"
+            :class="{ 'opened-feedback': isFeedbackOpened }"
+            v-if="!checkFullContent"
+          >
+            <div
+              :class="[
+                { 'feedback-title-open': isFeedbackOpened },
+                { 'feedback-title-close': !isFeedbackOpened },
+              ]"
+              @click="clickFeedbackDiv()"
+            >
+              <div class="feedback-name-text">피드백</div>
+              <i v-if="isFeedbackOpened" class="el-icon-arrow-down"></i>
+              <i v-else class="el-icon-arrow-left"></i>
+            </div>
+            <div v-if="isFeedbackOpened" class="feedback-main-div">
+              <div class="feedback-content-div">
+                <textarea
+                  :disabled="!isEditState"
+                  class="feedback-content"
+                  type="textarea"
+                  placeholder="Feedback input"
+                  v-model="feedbackContent"
+                >
+                </textarea>
+                <!-- <textarea name="feedback-content"></textarea> -->
+              </div>
+              <div class="feedback-button-div">
+                <button
+                  @click="clickEditButton"
+                  v-if="!isEditState"
+                  class="blue-button rounded-corner-button"
+                >
+                  수정</button
+                ><button
+                  @click="clickEditSubmitButton"
+                  v-if="isEditState"
+                  class="green-button rounded-corner-button"
+                >
+                  완료
+                </button>
+                <button
+                  @click="clickEditCancelButton"
+                  v-if="isEditState"
+                  class="red-button rounded-corner-button"
+                >
+                  취소
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="component-div" v-if="selectedTabNum == 3">
+                <SurveyResult :surveyId="surveyId" />
+              </div> -->
         </div>
       </div>
+      <!-- </div>
+          <div class="feedback-container" v-if="!checkFullContent">12321323</div> -->
     </div>
   </div>
 </template>
@@ -210,7 +216,8 @@ export default {
       //   });
     },
     clickFilterDiv(filterIdx) {
-      this.filterList[filterIdx].isSelected = !this.filterList[filterIdx].isSelected;
+      this.filterList[filterIdx].isSelected =
+        !this.filterList[filterIdx].isSelected;
     },
     clickFeedbackDiv() {
       this.isFeedbackOpened = !this.isFeedbackOpened;
