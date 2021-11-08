@@ -10,6 +10,7 @@ const state = {
   radarLabels: null,
   barDataSets: null,
   barLabels: null,
+  questionCount: null,
 };
 
 const mutations = {
@@ -43,6 +44,9 @@ const mutations = {
   SET_BAR_LABELS: (state, barLabels) => {
     state.barLabels = barLabels;
   },
+  SET_QUESTION_COUNT: (state, questionCount) => {
+    state.questionCount = questionCount;
+  },
 };
 const actions = {
   setAnswerData({ commit }, searchData) {
@@ -61,6 +65,7 @@ const actions = {
           "SET_LOWEST_STANDARD_DEVIATION_LIST",
           res.data.lowestStandardDeviationList
         );
+        commit("SET_QUESTION_COUNT", res.data.questionCount);
       })
       .catch((err) => {
         console.log(err);
