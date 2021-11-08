@@ -1,32 +1,28 @@
 <script>
 import { Radar } from "vue-chartjs";
+import { mapState } from "vuex";
 
 export default {
   extends: Radar,
+  watch: {
+    radarLabels() {
+      let dataSets = this.radarDataSets;
+      let labels = this.radarLabels;
+
+      this.datacollection.labels = labels;
+      this.datacollection.datasets = dataSets;
+
+      this.renderChart(this.datacollection, this.options);
+    },
+  },
+  computed: {
+    ...mapState("analysis", ["answerDataList", "radarLabels", "radarDataSets"]),
+  },
   data() {
     return {
       datacollection: {
-        labels: ["1번 항목", "2번 항목", "3번 항목", "4번 항목", "5번 항목"],
-        datasets: [
-          {
-            label: "Dataset",
-            backgroundColor: "rgba(255, 10, 13, 0.2)",
-            pointBackgroundColor: "white",
-            borderWidth: 5,
-            pointBorderColor: "#249EBF",
-            data: [5, 1, 5, 2, 3],
-          },
-          // {
-          //   label: 'Dataset2',
-          //   fill:true,
-          //   backgroundColor: "rgba(25, 10, 13, 0.4)",
-          //   pointBackgroundColor: 'white',
-          //   borderWidth: 1,
-          //   pointBorderColor: '#249EBF',
-          //   data: [8,6,8,8,8],
-
-          // }
-        ],
+        labels: null,
+        datasets: null,
       },
       options: {
         legend: {
@@ -46,6 +42,11 @@ export default {
     };
   },
   mounted() {
+    let dataSets = this.radarDataSets;
+    let labels = this.radarLabels;
+
+    this.datacollection.labels = labels;
+    this.datacollection.datasets = dataSets;
     this.renderChart(this.datacollection, this.options);
   },
 };

@@ -1,39 +1,32 @@
 <script>
 import { Bar } from "vue-chartjs";
+import { mapState } from "vuex";
 
 export default {
   extends: Bar,
   name: "BarChart",
   props: ["chartData"],
+  watch: {
+    barLabels() {
+      let dataSets = this.barDataSets;
+      let labels = this.barLabels;
+
+      this.datacollection.labels = labels;
+      this.datacollection.datasets = dataSets;
+
+      console.log(this.datacollection);
+
+      this.renderChart(this.datacollection, this.options);
+    },
+  },
+  computed: {
+    ...mapState("analysis", ["barLabels", "barDataSets"]),
+  },
   data() {
     return {
       datacollection: {
-        labels: [
-          "1번 문항",
-          "2번 문항",
-          "3번 문항",
-          "4번 문항",
-          "5번 문항",
-          "6번 문항",
-          "7번 문항",
-          "8번 문항",
-          "9번 문항",
-          "10번 문항",
-          "11번 문항r",
-          "12번 문항",
-          "13번 문항",
-          "14번 문항",
-        ],
-        datasets: [
-          {
-            label: "Data One",
-            backgroundColor: "#f87979",
-            pointBackgroundColor: "white",
-            borderWidth: 1,
-            pointBorderColor: "#249EBF",
-            data: [4, 2, 3, 5, 3, 1, 2, 4, 5, 1, 1.8, 2.2, 3.3, 2, 4.4, 4.3],
-          },
-        ],
+        labels: [],
+        datasets: [],
       },
       options: {
         scales: {
@@ -49,6 +42,7 @@ export default {
               gridLines: {
                 display: true,
               },
+              stacked: true,
             },
           ],
           xAxes: [
@@ -56,6 +50,7 @@ export default {
               gridLines: {
                 display: false,
               },
+              stacked: true,
               tacked: false,
               beginAtZero: true,
               // scaleLabel: {
@@ -67,9 +62,18 @@ export default {
             },
           ],
         },
-        // legend: {
-        //   display: true,
-        // },
+        legend: {
+          onClick: function () {},
+        },
+        tooltips: {
+          callbacks: {
+            label: function (tooltipItem, data) {
+              return (
+                "score : " + data["datasets"][0]["data"][tooltipItem["index"]]
+              );
+            },
+          },
+        },
         responsive: true,
         maintainAspectRatio: false,
       },

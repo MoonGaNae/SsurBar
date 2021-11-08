@@ -18,7 +18,10 @@
       <div class="chart-title">
         <h2>문항별 데이터</h2>
       </div>
-      <div class="bar-chart-div-parent" :class="{ 'bar-chart-div-parent-center': isFlexCenter }">
+      <div
+        class="bar-chart-div-parent"
+        :class="{ 'bar-chart-div-parent-center': isFlexCenter }"
+      >
         <div class="bar-chart-div">
           <BarChart :style="{ width: widthTemp }" />
         </div>
@@ -82,7 +85,9 @@
         >
           <div
             class="question-div el-card is-always-shadow"
-            v-for="(questionData, questionDataIdx) in answerData.questionDataList"
+            v-for="(
+              questionData, questionDataIdx
+            ) in answerData.questionDataList"
             :key="questionDataIdx"
           >
             <!-- {{ questionData }} -->
@@ -93,11 +98,16 @@
             <!-- <el-progress :text-inside="true" :stroke-width="26" :percentage="70">test</el-progress> -->
             <div
               class="progress-div"
-              v-for="(questionAnswer, questionAnswerIdx) in questionData.questionAnswerDtoList"
+              v-for="(
+                questionAnswer, questionAnswerIdx
+              ) in questionData.questionAnswerDtoList"
               :key="questionAnswerIdx"
             >
               <div class="progress-bar-base">
-                <div class="progress-bar-color" :style="{ width: questionAnswer.percentage + '%' }">
+                <div
+                  class="progress-bar-color"
+                  :style="{ width: questionAnswer.percentage + '%' }"
+                >
                   <div>{{ questionAnswer.sentence }}</div>
                   <div>{{ questionAnswer.percentage }} %</div>
                 </div>
@@ -121,7 +131,7 @@
 <script>
 import BarChart from "../charts/BarChart.vue";
 import RadarChart from "../charts/RadarChart.vue";
-import { mapState } from "vuex";
+import { mapState, mapGetters, mapActions } from "vuex";
 
 export default {
   name: "SurveyAnalysis",
@@ -136,10 +146,6 @@ export default {
       widthTemp: "",
       testTitle: "testest",
       isFlexCenter: false,
-      // highestAverageList: null,
-      // highestStandardDeviationList: null,
-      // lowestAverageList: null,
-      // lowestStandardDeviationList: null,
     };
   },
   computed: {
@@ -151,7 +157,98 @@ export default {
       "lowestStandardDeviationList",
     ]),
   },
-  mounted() {},
+  watch: {
+    answerDataList() {
+      /* 방사형 그래프 데이터 처리 */
+      let averageDataList = [];
+      let dataLabels = [];
+
+      this.getAnswerDataList().forEach((el) => {
+        averageDataList.push(el.averageScore);
+        dataLabels.push(el.categoryName);
+      });
+
+      averageDataList.push(1);
+      dataLabels.push("test");
+
+      let dataSets = [];
+      let dataSet = {
+        label: "Dataset",
+        pointBackgroundColor: "white",
+        backgroundColor: "rgba(156,187,255,0.4)",
+        borderWidth: 2,
+        pointBorderColor: "#9cbbff",
+        data: averageDataList,
+      };
+
+      dataSets.push(dataSet);
+
+      this.setRadarDataSets(dataSets);
+      this.setRadarLabels(dataLabels);
+
+      /* 막대 그래프 데이터 처리 */
+      let questionDataList = [];
+      let questionTitles = [];
+      let backgroundColorList = [];
+      let categoryCount = this.getAnswerDataList().length;
+      let categoryNameList = [];
+
+      for (let i = 0; i < categoryCount; i++) {
+        questionDataList.push([]);
+        let r = 156;
+        let g = 187;
+        let b = 255;
+        backgroundColorList.push(
+          `rgba(${r + i * 10},${g - i * 20},${b - i * 20},0.6)`
+        );
+      }
+
+      this.getAnswerDataList().forEach((category, idx) => {
+        categoryNameList.push(category.categoryName);
+        category.questionDataList.forEach((el) => {
+          for (let i = 0; i < categoryCount; i++) {
+            if (i == idx) {
+              questionDataList[i].push(el.averageScore);
+            } else {
+              questionDataList[i].push(null);
+            }
+          }
+          // questionDataSets.push(el.averageScore);
+          questionTitles.push(el.number + " " + el.title);
+        });
+      });
+
+      let barDataSets = [];
+
+      for (let i = 0; i < categoryCount; i++) {
+        let barDataSet = {
+          label: categoryNameList[i],
+          pointBackgroundColor: "white",
+          backgroundColor: backgroundColorList[i],
+          borderWidth: 2,
+          pointBorderColor: "#9cbbff",
+          data: questionDataList[i],
+        };
+        barDataSets.push(barDataSet);
+      }
+
+      this.setBarDataSets(barDataSets);
+      this.setBarLabels(questionTitles);
+    },
+  },
+  methods: {
+    ...mapActions("analysis", [
+      "setRadarDataSets",
+      "setRadarLabels",
+      "setBarDataSets",
+      "setBarLabels",
+    ]),
+    ...mapGetters("analysis", [
+      "getAnswerDataList",
+      "getRadarLabels",
+      "getRadarDataSets",
+    ]),
+  },
   created() {
     this.widthTemp = this.count * 5 + "vh";
     if (this.count * 5 < 125) {
