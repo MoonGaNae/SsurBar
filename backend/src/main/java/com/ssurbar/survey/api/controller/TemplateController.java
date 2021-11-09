@@ -36,7 +36,6 @@ public class TemplateController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<? extends BaseResponseBody> createNewTemplate(@RequestBody @ApiParam(value="설문 서식생성", required = true) TemplatePostReq templatePostReq){
-
         String templateId = null;
         try{
             templateId = templateService.createNewTemplate(templatePostReq);

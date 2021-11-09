@@ -82,6 +82,7 @@ const getters = {
     return state.description;
   },
   getTitle(state) {
+    console.log(state)
     return state.title;
   },
 };
