@@ -9,10 +9,10 @@ import java.util.Date;
 @Getter
 @Setter
 @Builder
-public class RecentSurveyInfo{
+public class SurveyDetailInfo {
     private Date creationTime;
     private Date endTime;
-    private String surveyId;
     private String title;
     private String teamName;
+    private String descrption;
 }

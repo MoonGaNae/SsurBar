@@ -19,8 +19,6 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -128,6 +126,23 @@ public class SurveyServiceImpl implements SurveyService {
 		return list;
 	}
 
+//	@Override
+//	public SurveyDetailInfo getSurveyInfo(String surveyId) {
+//    	Optional<Survey> survey = surveyRepository.findBySurveyId(surveyId);
+//    	if(survey.isPresent()){
+//			SurveyDetailInfo info = SurveyDetailInfo.builder()
+//					.title(survey.get().getTemplate().getTitle())
+//					.teamName(survey.get().getTeam().getName())
+//					.creationTime(survey.get().getCreationTime())
+//					.endTime(survey.get().getEndTime())
+//					.descrption(survey.get().getTemplate().getDescription())
+//					.build();
+//
+//			return info;
+//		}
+//		return null;
+//	}
+
 	@Override
 	public List<RecentSurveyInfo> getRecentSurveyList() {
     	// 로그인이 가능해지면 사용자 아이디별로 가져오는 로직으로 변경
@@ -194,6 +209,8 @@ public class SurveyServiceImpl implements SurveyService {
 				.resultUrl(survey.getResultUrl())
 				.teamId(survey.getTeam().getTeamId())
 				.teamName(survey.getTeam().getName())
+				.title(survey.getTemplate().getTitle())
+				.description(survey.getTemplate().getDescription())
 				.build();
 
 		return surveyDetailRes;

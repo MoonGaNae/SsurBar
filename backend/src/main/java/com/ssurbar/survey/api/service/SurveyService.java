@@ -1,6 +1,5 @@
 package com.ssurbar.survey.api.service;
 
-import java.text.ParseException;
 import java.util.List;
 
 import com.ssurbar.survey.api.request.SurveyCreatePostReq;
@@ -13,6 +12,8 @@ public interface SurveyService {
 	String createNewSurvey(SurveyCreatePostReq surveyCreatePostReq);
 
 	List<SurveyInfo> getAllSurveyList();
+
+	//SurveyDetailInfo getSurveyInfo(String surveyId);
 
 	// 최근 설문 최신순으로 불러오기
 	List<RecentSurveyInfo> getRecentSurveyList();

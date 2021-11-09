@@ -252,4 +252,23 @@ public class SurveyController {
 		return ResponseEntity.status(200).body(res);
 	}
 
+//	@GetMapping("/{surveyId}")
+//	@ApiOperation(value = "설문 상제 정보 불러오기", notes = "해당 id에 맞는 설문에 대한 상세정보를 불러온다.")
+//	@ApiResponses({
+//			@ApiResponse(code = 200, message = "성공"),
+//			@ApiResponse(code = 401, message = "인증 실패"),
+//			@ApiResponse(code = 404, message = "사용자 없음"),
+//			@ApiResponse(code = 500, message = "서버 오류")
+//	})
+//	public ResponseEntity<? extends BaseResponseBody> getSurveyInfo(@PathVariable String surveyId)
+//	{
+//		SurveyDetailInfo info = surveyService.getSurveyInfo(surveyId);
+//
+//		if(info == null){
+//			return ResponseEntity.status(404).body(BaseResponseBody.of("실패"));
+//		}
+//
+//		return ResponseEntity.status(200).body()
+//	}
+
 }
