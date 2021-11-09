@@ -41,6 +41,11 @@ const routes = [
     name: "Form",
     component: Form,
   },
+  // {
+  //   path: "/form",
+  //   name: "Form",
+  //   component: Form,
+  // },
   {
     path: "/result/:linkCode",
     name: "ResultLink",

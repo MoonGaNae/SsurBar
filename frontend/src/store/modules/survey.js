@@ -9,7 +9,13 @@ const state = {
     teamId: "",
     description: ""
   },
-
+  surveyInfo:{
+    title: "",
+    teamName: "",
+    description: "",
+    creationTime:"",
+    endTime:""
+  },
   surveyCreateType: {
     NEW : 0,
     DEFAULT : 1,
@@ -31,7 +37,14 @@ const mutations = {
     state.recentSurvey.description = payload.description;
     console.log(state.recentSurvey)
   },
-
+  SET_SURVEY_DETAIL_INFO:(state, payload) => {
+    console.log(payload)
+    state.surveyInfo.title = payload.title;
+    state.surveyInfo.teamName = payload.teamName;
+    state.surveyInfo.description = payload.description;
+    state.surveyInfo.creationTime = payload.creationTime;
+    state.surveyInfo.endTime = payload.endTime;
+  },
   SET_CUR_CREATE_TYPE: (state, type) => {
     state.curCreateType = type;
   }
@@ -46,6 +59,15 @@ const actions = {
         .then((res) => {
             console.log(res)
             commit('SET_RECENT_SURVEY_INFO', res.data)
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+  },
+  async getSurveyDetailInfo({commit},surveyId) {
+    await surveyApi.getSurveyDetailInfo(surveyId)
+        .then((res) => {
+          commit('SET_SURVEY_DETAIL_INFO', res.data)
         })
         .catch((err) => {
             console.log(err);

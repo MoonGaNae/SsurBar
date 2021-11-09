@@ -251,7 +251,7 @@ public class SurveyController {
 
 		return ResponseEntity.status(200).body(res);
 	}
-
+	
 	@GetMapping("/{surveyId}/template")
 	@ApiOperation(value = "해당 설문과 동일한 템플릿을 사용한 설문들 조회", notes = "해당 설문과 동일한 템플릿을 사용한 설문들의 Id, 대상, 제목을 조회한다")
 	@ApiResponses({

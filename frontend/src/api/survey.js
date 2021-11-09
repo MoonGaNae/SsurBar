@@ -8,4 +8,11 @@ export default {
             method: 'get'
         })
     },
+    // 설문 상세 정보 불러오기
+    getSurveyDetailInfo(surveyId) {
+        return axios({
+            url: `/survey/${surveyId}`,
+            method: 'get'
+        })
+    },
 }
