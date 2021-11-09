@@ -15,8 +15,8 @@
     <hr style="width: 100%" />
     <div class="container">
       <div
-        class="row el-card box-card is-always-shadow"
-        style="width: 80%; margin-left: 10%; margin-top: 6%"
+        class="row el-card box-card is-always-shadow "
+        style="width: 50%; margin-left: 20%; margin-top: 8%; border-radius:25px"
       >
         <div
           class="col-xs-12 col-lg-offset-3 col-lg-6"
@@ -24,13 +24,13 @@
         >
           <form method="GET" action="" id="survey-form" name="survey-form">
             <fieldset>
-              <label for="name" id="name-label"> 설문 이름 * </label>
+              <label for="name" id="name-label" style="margin-top:10%"> 설문 이름 * </label>
               <input
                 class="name"
                 type="text"
                 id="name"
                 name="name"
-                style="font-size: 1.8em"
+                style="font-size: 1.1em"
                 v-model="surveyTitle"
                 placeholder="Enter your name (required)"
                 required
@@ -38,11 +38,11 @@
             </fieldset>
 
             <fieldset>
-              <label for="dropdown"> 설문대상 * </label>
+              <label for="dropdown" style="margin-top:10%"> 설문대상 * </label>
               <select
                 name="team"
                 v-model="targetTeamId"
-                style="font-size: 1.8em"
+                style="font-size: 1.1em"
                 class="m-t-xs"
               >
                 <option
@@ -56,9 +56,9 @@
             </fieldset>
 
             <fieldset>
-              <label for="name" id="name-label">
+              <label for="name" id="name-label" style="margin-top:10%">
                 설문 기한 *
-                <div style="margin-top: 0.2vh">
+                <div style="margin-top: 5%">
                   <el-date-picker
                     v-model="endDate"
                     type="date"
@@ -74,7 +74,7 @@
               <textarea
                 id="survey-form-suggestions"
                 maxlength="194"
-                style="font-size: 1.2em"
+                style="font-size: 1.2em; margin-bottom:10%; margin-top:-5%"
                 v-model="description"
               ></textarea>
             </fieldset>
@@ -86,13 +86,13 @@
 </template>
 
 <style lang="scss" scoped>
-$font: "Roboto", sans-serif;
-$bg: #37404a;
+// $font: "Roboto", sans-serif;
+$bg: white;
 $grey: #333;
 $rose: #e87e91;
 $blue-light: #73bec8;
 $blue-lighter: #abdad3;
-$green: #85ffc7;
+$green: #333;
 $red: #ef5350;
 
 // Margin & Padding
@@ -132,10 +132,10 @@ a {
   label,
   .labels {
     display: block;
-    margin-bottom: 2%;
-    font-family: $font;
-    font-size: 2.5em;
-    font-weight: bolder;
+    margin-bottom: 8%;
+    // font-family: $font;
+    font-size: 1.4em;
+    // font-weight: bolder;
     color: $grey;
     letter-spacing: 0.5px;
   }
@@ -256,7 +256,7 @@ a {
     height: 40px;
     padding-left: 5px;
     background-color: $bg;
-    border: 2px solid $grey;
+    border-bottom: 2px solid $grey;
     color: $green;
 
     & option {
