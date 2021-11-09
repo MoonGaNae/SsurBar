@@ -30,8 +30,8 @@ const actions = {
   setSurveyId({ commit }, surveyId) {
     commit("SET_SURVEY_ID", surveyId);
   },
-  getRecentSurveyInfo({commit},surveyId) {
-    surveyApi.getSurveyInfo(surveyId)
+  async getRecentSurveyInfo({commit},surveyId) {
+    await surveyApi.getSurveyInfo(surveyId)
         .then((res) => {
             console.log(res)
             commit('SET_RECENT_SURVEY_INFO', res.data)
