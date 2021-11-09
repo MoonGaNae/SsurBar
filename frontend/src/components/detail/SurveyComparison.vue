@@ -35,6 +35,14 @@ export default {
       options: [
         { value: 1, label: "1", disabled: false },
         { value: 2, label: "2", disabled: false },
+        { value: 3, label: "1", disabled: false },
+        { value: 4, label: "2", disabled: false },
+        { value: 5, label: "1", disabled: false },
+        { value: 6, label: "2", disabled: false },
+        { value: 7, label: "1", disabled: false },
+        { value: 8, label: "2", disabled: false },
+        { value: 9, label: "1", disabled: false },
+        { value: 10, label: "2", disabled: false },
       ],
     };
   },

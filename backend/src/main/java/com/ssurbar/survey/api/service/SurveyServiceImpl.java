@@ -19,8 +19,6 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -284,5 +282,35 @@ public class SurveyServiceImpl implements SurveyService {
 				.surveyId(survey.getSurveyId())
 				.templateId(survey.getTemplate().getTemplateId())
 				.build();
+	}
+
+	@Override
+	public SameTemplateSurveyRes getSameTemplateSurvey(String surveyId) {
+
+		Survey survey = surveyRepository.findById(surveyId).orElse(null);
+
+		List<Survey> surveyList = surveyRepository.findAllByTemplateAndSurveyIdNot(survey.getTemplate(), surveyId);
+
+		List<SurveyInfo> surveyInfoList = new ArrayList<>();
+
+		for(Survey s : surveyList){
+			SurveyInfo surveyInfo = SurveyInfo.builder()
+					.surveyId(s.getSurveyId())
+					.teamName(s.getTeam().getName())
+					.creationTime(s.getCreationTime())
+					.endTime(s.getEndTime())
+					.build();
+
+			surveyInfoList.add(surveyInfo);
+		}
+
+		if(surveyInfoList.size() == 0){
+			return null;
+		}
+
+		SameTemplateSurveyRes sameTemplateSurveyRes = SameTemplateSurveyRes.builder()
+				.surveyInfoList(surveyInfoList).build();
+
+		return sameTemplateSurveyRes;
 	}
 }

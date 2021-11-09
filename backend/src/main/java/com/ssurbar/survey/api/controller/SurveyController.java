@@ -252,4 +252,23 @@ public class SurveyController {
 		return ResponseEntity.status(200).body(res);
 	}
 
+	@GetMapping("/{surveyId}/template")
+	@ApiOperation(value = "해당 설문과 동일한 템플릿을 사용한 설문들 조회", notes = "해당 설문과 동일한 템플릿을 사용한 설문들의 Id, 대상, 제목을 조회한다")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "설문 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<? extends BaseResponseBody> getSameTemplateSurvey(
+			@PathVariable("surveyId")String surveyId
+	){
+
+		SameTemplateSurveyRes res = surveyService.getSameTemplateSurvey(surveyId);
+
+		if(res == null) return ResponseEntity.status(404).body(BaseResponseBody.of("설문 없음"));
+
+		return ResponseEntity.status(200).body(res);
+	}
+
 }

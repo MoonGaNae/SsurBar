@@ -1,12 +1,11 @@
 package com.ssurbar.survey.api.service;
 
-import java.text.ParseException;
-import java.util.List;
-
 import com.ssurbar.survey.api.request.SurveyCreatePostReq;
 import com.ssurbar.survey.api.request.SurveyDecodeLinkGetReq;
 import com.ssurbar.survey.api.request.SurveyFilterListPostReq;
 import com.ssurbar.survey.api.response.*;
+
+import java.util.List;
 
 public interface SurveyService {
     // 새로운 설문지 생성
@@ -32,4 +31,6 @@ public interface SurveyService {
 	List<FilterQuestionDetail> getFilters(String surveyId);
 
     SurveyDecodeLinkGetRes decodeLink(SurveyDecodeLinkGetReq surveyDecodeLinkGetReq);
+
+	SameTemplateSurveyRes getSameTemplateSurvey(String surveyId);
 }
