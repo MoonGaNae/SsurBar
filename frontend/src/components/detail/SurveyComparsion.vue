@@ -1,13 +1,5 @@
 <template>
   <div class="chart-container">
-    <div class="title-div">
-      <h3 v-text="surveyId"></h3>
-      <div class="team-name" v-text="teamName"></div>
-      <div class="survey-description" v-text="surveyDescription"></div>
-      <div class="survey-date">
-        <span v-text="creationTime"></span> ~ <span v-text="endTime"></span>
-      </div>
-    </div>
     <div class="radar-chart-container">
       <div class="chart-title">
         <h2>카테고리별 데이터</h2>
@@ -21,6 +13,7 @@
         <h2>문항별 데이터</h2>
       </div>
       <div
+        v-if="isBarDataExist"
         class="bar-chart-div-parent"
         :class="{ 'bar-chart-div-parent-center': isFlexCenter }"
       >
@@ -123,10 +116,9 @@
 </template>
 
 <script>
-import BarChart from "@/components/charts/BarChart.vue";
-import RadarChart from "@/components/charts/RadarChart.vue";
+import BarChart from "../charts/BarChart.vue";
+import RadarChart from "../charts/RadarChart.vue";
 import { mapState, mapGetters, mapActions } from "vuex";
-import axios from "@/utils/axios.js";
 
 export default {
   name: "SurveyAnalysis",
@@ -136,18 +128,12 @@ export default {
   },
   data() {
     return {
+      dataCollection: null,
       count: null,
       widthTemp: "",
-      surveyId: null,
-      templateId: null,
+      testTitle: "testest",
       isFlexCenter: false,
       isBarDataExist: false,
-      filterNameList: [],
-      surveyTitle: null,
-      surveyDescription: null,
-      creationTime: null,
-      endTime: null,
-      teamName: null,
     };
   },
   computed: {
@@ -180,7 +166,6 @@ export default {
   },
   methods: {
     ...mapActions("analysis", [
-      "setAnswerData",
       "setRadarDataSets",
       "setRadarLabels",
       "setBarDataSets",
@@ -269,88 +254,22 @@ export default {
       this.setBarDataSets(barDataSets);
       this.setBarLabels(questionTitles);
     },
-    getTemplateInfo(templateId) {
-      axios.get(`/template/${templateId}`).then((res) => {
-        console.log(res.data);
-        this.surveyTitle = res.data.title;
-        this.surveyDescription = res.data.description;
-      });
-    },
-    async getFilters(surveyId) {
-      await axios.get(`/survey/${surveyId}/filters`).then((res) => {
-        res.data.filterQuestionList.forEach((el) => {
-          this.filterNameList.push(el.title);
-        });
-      });
-    },
-    getSurveyInfo(surveyId) {
-      axios.get(`/survey/${surveyId}`).then((res) => {
-        this.creationTime = res.data.creationTime;
-        this.endTime = res.data.endTime;
-        this.teamName = res.data.teamName;
-      });
-    },
-    getIds() {
-      const linkCode = this.$route.params.linkCode;
-
-      this.count = this.questionCount;
-
-      axios
-        .get(`/survey/decode-link`, {
-          params: {
-            linkCode: linkCode,
-            type: "result",
-          },
-        })
-        .then((res) => {
-          this.surveyId = res.data.surveyId;
-          this.templateId = res.data.templateId;
-
-          this.getTemplateInfo(this.templateId);
-          this.getFilters(this.surveyId);
-          this.getSurveyInfo(this.surveyId);
-
-          console.log(this.filterNameList);
-
-          this.setAnswerData({
-            surveyId: this.surveyId,
-            filterStr: JSON.stringify(this.filterNameList),
-          });
-        });
-    },
   },
   created() {
-    this.getIds();
+    this.count = this.questionCount;
+
+    if (this.count != null) {
+      this.widthTemp = this.count * 5 + "vh";
+      if (this.count * 5 < 125) {
+        this.isFlexCenter = true;
+      }
+    }
+    this.makeChart();
   },
 };
 </script>
 
 <style scoped>
-.chart-div {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 30%;
-  width: 100%;
-}
-
-.chart-container {
-  height: 120%;
-  width: 100%;
-}
-
-.chart-container::-webkit-scrollbar {
-  width: 1vh;
-}
-.chart-container::-webkit-scrollbar-track {
-  background-color: #dde0e7;
-}
-
-.chart-container::-webkit-scrollbar-thumb {
-  border-radius: 8px;
-  background-color: #9cbbff;
-}
-
 .chart-div div {
   display: flex;
   justify-content: center;
@@ -359,13 +278,6 @@ export default {
   width: 100%;
 }
 
-.bar-chart-div div {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  /* width: 3000px; */
-}
 .chart-container {
   overflow: scroll;
   overflow-x: hidden;
@@ -398,71 +310,10 @@ export default {
   /* overflow: scroll; */
 }
 
-.bar-chart-div {
-  display: flex;
-  height: 90%;
-  padding-bottom: 2vh;
-  padding-top: 2vh;
-  justify-content: flex-start;
-  align-items: center;
-}
-
 .chart-title {
   margin-top: 2%;
   margin-left: 2%;
   height: 10%;
-}
-
-.bar-chart-div-parent {
-  display: flex;
-  /* height: 100%; */
-  width: 96%;
-  justify-content: flex-start;
-  overflow: scroll;
-  overflow-y: hidden;
-}
-
-.bar-chart-div-parent-center {
-  justify-content: center !important;
-}
-
-.bar-chart-container {
-  width: 100%;
-  padding-left: 2%;
-  margin-top: 2%;
-  margin-bottom: 2%;
-  /* overflow: scroll;
-  overflow-y: hidden; */
-  display: inline-block;
-  height: 70vh;
-  width: 100%;
-  margin-bottom: 3vh;
-}
-
-.bar-chart-div-parent::-webkit-scrollbar {
-  height: 1vh;
-}
-.bar-chart-div-parent::-webkit-scrollbar-track {
-  border-radius: 8px;
-  background-color: #dde0e7;
-}
-
-.bar-chart-div-parent::-webkit-scrollbar-thumb {
-  border-radius: 8px;
-  background-color: #9cbbff;
-}
-
-.radar-chart-container {
-  width: 100%;
-  padding-left: 2%;
-  margin-top: 3%;
-  margin-bottom: 2%;
-  height: 70vh;
-}
-
-.title-div {
-  padding: 3%;
-  padding-bottom: 1.5%;
 }
 
 .data-title-div {
@@ -478,46 +329,14 @@ export default {
   text-align: center;
 }
 
-.data-ul {
-  padding: 0;
-}
-
-.data-ul li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #dde0e7;
-  border-radius: 4px;
-}
-.data-ul li:hover {
-  background-color: #9cbbff;
-}
-
-.data-ul li div {
-  text-align: center;
-}
-
 .score-number {
   width: 10vh;
-}
-
-.data-title {
-  padding-left: 1vh;
-  height: 4vh;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  background-color: #dde0e7;
 }
 
 .temp-container {
   margin-top: 2vh;
   border-bottom: 0px none !important;
-}
-
-.data-div {
-  padding-left: 3vh;
-  padding-right: 3vh;
+  /* height: 70%; */
 }
 
 .category-list {
@@ -527,16 +346,13 @@ export default {
 .question-div {
   margin-bottom: 1vh;
   padding: 3%;
+  /* box-shadow: #dde0e7; */
 }
 
 .progress-bar-base {
   background-color: #dde0e7;
   border-radius: 10px;
   width: 95%;
-}
-
-.survey-date {
-  margin-bottom: 1vh;
 }
 
 .question-div > div {
@@ -552,6 +368,7 @@ export default {
   align-items: center;
   justify-content: center;
   padding: 0.5vh 1vh 0.5vh 2vh;
+  /* padding-left: 1vh; */
   font-size: 150%;
   width: 3vh;
   margin-right: 1vh;
@@ -570,13 +387,6 @@ export default {
   justify-content: space-between;
   margin-bottom: 1vh;
 }
-.team-name {
-  margin-bottom: 1vh;
-}
-
-.survey-description {
-  margin-bottom: 1vh;
-}
 
 .progress-bar-color {
   padding-left: 1vh;
@@ -586,6 +396,7 @@ export default {
   align-items: center;
   justify-content: space-between;
   background-color: #9cbbff;
+  /* width: 80%; */
   border-radius: 10px;
   height: 100%;
 }
