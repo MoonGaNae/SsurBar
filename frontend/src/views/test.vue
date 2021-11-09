@@ -122,6 +122,7 @@
         </div>
       </div>
     </div>
+    <!-- <button @click="saveTemplate">to end</button> -->
   </div>
 </template>
 
@@ -172,12 +173,11 @@ export default {
     saveTemplate() {
       axios
         .post("/template", {
-          title: this.getTitle,
-          desc: this.getDescription,
+          title: this.getTitle(),
+          description: this.getDescription(),
         })
         .then((res) => {
           this.templateId = res.data.templateId;
-
           this.saveQuestions();
         })
         .catch((err) => {
@@ -191,7 +191,6 @@ export default {
           categoryList: this.getCategoryList(),
         })
         .then(() => {
-          console.log("!@!@!@");
           this.saveSurvey();
         })
         .catch((err) => {

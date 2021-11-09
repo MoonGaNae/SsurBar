@@ -69,7 +69,6 @@
                 </div>
               </label>
             </fieldset>
-
             <fieldset>
               <label for="survey-form-suggestions"> 설명 </label>
               <textarea
@@ -373,6 +372,7 @@ export default {
     ...mapActions("team", ["getTeams"]),
     ...mapActions("survey", ["getRecentSurveyInfo"]),
     endEditForm() {
+      console.log(this.surveyTitle)
       let endTime = this.endDate.toISOString().split("T");
       this.setEndTime(endTime[0] + " " + endTime[1].split(".")[0]);
       this.setTeamId(this.targetTeamId);
@@ -392,16 +392,20 @@ export default {
       //     this.$router.push("/filter");
       //   });
     },
-    setRecentSurvey() {
-      if (!this.editSurveyId) {
+    async setRecentSurvey(){
+      if(!this.editSurveyId){
         console.log("null!");
-      } else {
-        console.log("not null");
-        this.getRecentSurveyInfo(this.editSurveyId);
+      }else{
+        console.log("not null")
+        this.$fire({
+                    title: "지난 설문 불러오기",
+                    text : "선택한 설문지의 서식을 불러옵니다.",
+                    type: "success",
+                })
+        await this.getRecentSurveyInfo(this.editSurveyId)
         this.description = this.recentSurvey.description;
         this.surveyTitle = this.recentSurvey.title;
         this.targetTeamId = this.recentSurvey.teamId;
-        console.log(this.surveyTitle);
       }
     },
   },
