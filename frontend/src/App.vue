@@ -1,11 +1,12 @@
 <template>
   <div id="app">
     <Sidebar id="sidebar" v-if="showSide" />
-    <div id="main-frame">
+    <div v-if="showSide" id="main-frame">
       <div id="background-frame">
         <RouterView id="router" :key="$route.fullPath" />
       </div>
     </div>
+    <RouterView v-if="!showSide" id="router" :key="$route.fullPath" />
   </div>
 </template>
 

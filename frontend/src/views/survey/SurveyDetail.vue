@@ -268,6 +268,7 @@ export default {
     },
   },
   created() {
+    this.surveyId = this.$route.params.selectedSurveyId;
     axios.get(`/survey/${this.surveyId}/filters`).then((res) => {
       res.data.filterQuestionList.forEach((el) => {
         let title = el.title;
