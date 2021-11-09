@@ -1,87 +1,100 @@
 <template>
   <div>
     <div class="page-title-div">
-      <h1 style="margin-left: 5%; margin-top: 1%; font-size: 3rem;">
+      <h1 style="margin-left: 5%; margin-top: 1%; font-size: 3rem">
         신규 설문 생성
       </h1>
       <button
         @click="endEditForm()"
-        class="next-button yellow-button rounded-corner-button" 
-        style="margin-top:5%"
+        class="next-button yellow-button rounded-corner-button"
+        style="margin-top: 5%"
       >
         Next
       </button>
     </div>
     <hr style="width: 100%" />
     <div class="container">
-      
-      <div class="row el-card box-card is-always-shadow" style="width:80%;margin-left:10%;margin-top:6%">
-          <div class="col-xs-12 col-lg-offset-3 col-lg-6" style="margin-left:25%">
-            <form method="GET" action="" id="survey-form" name="survey-form">
-                <fieldset>
-                  <label for="name" id="name-label" >
-                  설문 이름 *
-                  </label>
-                  <input class="name" type="text" id="name" name="name" style="font-size: 1.8em;" v-model="surveyTitle" placeholder="Enter your name (required)" required />
-                </fieldset>                         
+      <div
+        class="row el-card box-card is-always-shadow"
+        style="width: 80%; margin-left: 10%; margin-top: 6%"
+      >
+        <div
+          class="col-xs-12 col-lg-offset-3 col-lg-6"
+          style="margin-left: 25%"
+        >
+          <form method="GET" action="" id="survey-form" name="survey-form">
+            <fieldset>
+              <label for="name" id="name-label"> 설문 이름 * </label>
+              <input
+                class="name"
+                type="text"
+                id="name"
+                name="name"
+                style="font-size: 1.8em"
+                v-model="surveyTitle"
+                placeholder="Enter your name (required)"
+                required
+              />
+            </fieldset>
 
-                <fieldset>
-                  <label for="dropdown">
-                      설문대상 *
-                  </label>
-                  <select name="team" v-model="targetTeamId" style="font-size: 1.8em;" class="m-t-xs">
-                    <option
-                      v-for="(team, teamIdx) in teamList"
-                      :key="teamIdx"
-                      :value="team.teamId"
-                    >
-                      {{ team.teamName }}
-                    </option>
-                  </select>
-                </fieldset>
+            <fieldset>
+              <label for="dropdown"> 설문대상 * </label>
+              <select
+                name="team"
+                v-model="targetTeamId"
+                style="font-size: 1.8em"
+                class="m-t-xs"
+              >
+                <option
+                  v-for="(team, teamIdx) in teamList"
+                  :key="teamIdx"
+                  :value="team.teamId"
+                >
+                  {{ team.teamName }}
+                </option>
+              </select>
+            </fieldset>
 
-                <fieldset>								
-                  <label for="name" id="name-label">
-                    설문 기한 *
-                    <div style="margin-top: 0.2vh">
-                      <el-date-picker
-                        v-model="endDate"
-                        type="date"
-                        placeholder="종료 날짜를 선택하세요"
-                        default-value="2021-11-01"
-      
-                      >
-                      </el-date-picker>
-                    </div>
-                  </label>								
-                </fieldset>
+            <fieldset>
+              <label for="name" id="name-label">
+                설문 기한 *
+                <div style="margin-top: 0.2vh">
+                  <el-date-picker
+                    v-model="endDate"
+                    type="date"
+                    placeholder="종료 날짜를 선택하세요"
+                    default-value="2021-11-01"
+                  >
+                  </el-date-picker>
+                </div>
+              </label>
+            </fieldset>
 
-                <fieldset>
-                  <label for="survey-form-suggestions">
-                  설명
-                  </label>
-                  <textarea id="survey-form-suggestions" maxlength="194" style="font-size: 1.2em;" v-model="description"></textarea>
-                </fieldset>
-                
-            </form>
-            
-          </div>
+            <fieldset>
+              <label for="survey-form-suggestions"> 설명 </label>
+              <textarea
+                id="survey-form-suggestions"
+                maxlength="194"
+                style="font-size: 1.2em"
+                v-model="description"
+              ></textarea>
+            </fieldset>
+          </form>
+        </div>
       </div>
     </div>
   </div>
-     
-  
 </template>
 
 <style lang="scss" scoped>
-$font:          'Roboto', sans-serif;
-$bg:            #37404a;
-$grey:          #333;
-$rose:          #E87E91;
-$blue-light:    #73bec8;
-$blue-lighter:  #ABDAD3;
-$green:         #85FFC7;
-$red:           #EF5350;
+$font: "Roboto", sans-serif;
+$bg: #37404a;
+$grey: #333;
+$rose: #e87e91;
+$blue-light: #73bec8;
+$blue-lighter: #abdad3;
+$green: #85ffc7;
+$red: #ef5350;
 
 // Margin & Padding
 .m-b-xs {
@@ -107,7 +120,6 @@ body {
   background-color: $bg;
 }
 
-
 a {
   color: $grey;
 
@@ -118,202 +130,201 @@ a {
 }
 
 #survey-form {
-		label,
-	.labels {
-			display: block;
-			margin-bottom: 2%;
-			font-family: $font;
-			font-size: 2.5em;
-			font-weight: bolder;
-			color: $grey;
-			letter-spacing: 0.5px;
-	}
+  label,
+  .labels {
+    display: block;
+    margin-bottom: 2%;
+    font-family: $font;
+    font-size: 2.5em;
+    font-weight: bolder;
+    color: $grey;
+    letter-spacing: 0.5px;
+  }
 
-	input::-webkit-input-placeholder {
-			color: transparent !important;
-	}
-	input::-moz-placeholder {
-			color: transparent !important;
-	}
-	input:-ms-input-placeholder {
-			color: transparent !important;
-	}
-	input:-moz-placeholder {
-			color: transparent !important;
-	}
+  input::-webkit-input-placeholder {
+    color: transparent !important;
+  }
+  input::-moz-placeholder {
+    color: transparent !important;
+  }
+  input:-ms-input-placeholder {
+    color: transparent !important;
+  }
+  input:-moz-placeholder {
+    color: transparent !important;
+  }
 
-	input,
-	select {
-			display: block;
-			width: 100%;
-			overflow: hidden;
-			outline: none;
-			border: 2px solid $grey;
-	}
+  input,
+  select {
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    outline: none;
+    border: 2px solid $grey;
+  }
 
-	input {
-			margin-top: 1.5%;
-			padding: 0 0 5px 0;
-			background: transparent;
-			border: none;
-			outline: none;
-			border-bottom: 2px solid $grey;
-			font-size: 1.1em;
-			font-weight: 300;
-			color: $green;
+  input {
+    margin-top: 1.5%;
+    padding: 0 0 5px 0;
+    background: transparent;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid $grey;
+    font-size: 1.1em;
+    font-weight: 300;
+    color: $green;
 
-			&:focus {
-					border-color: $green;
-			}
-	}
+    &:focus {
+      border-color: $green;
+    }
+  }
 
-	[type="checkbox"]{
-			display: inline-block;
-			width: auto;
-			margin: 0px 10px 0 0;
-	}
+  [type="checkbox"] {
+    display: inline-block;
+    width: auto;
+    margin: 0px 10px 0 0;
+  }
 
-	[type="checkbox"]{
-			display: inline-block;
-			margin: 0 10px 0 0 !important;
-			position: relative;
-			top: 5px;
-			right: 0;
-			bottom: 0;
-			left: 0;
-			-webkit-appearance: none;
-			-moz-appearance: none;
-			-ms-appearance: none;
-			-o-appearance: none;
-			appearance: none;
-			height: 23px;
-			width: 23px;
-			transition: all 0.15s ease-out 0s;
-			background: $bg;
-			color: $grey;
-			cursor: pointer;
-			outline: none;
-			z-index: 1000;
-			border: 1px solid #FFF;
+  [type="checkbox"] {
+    display: inline-block;
+    margin: 0 10px 0 0 !important;
+    position: relative;
+    top: 5px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    -o-appearance: none;
+    appearance: none;
+    height: 23px;
+    width: 23px;
+    transition: all 0.15s ease-out 0s;
+    background: $bg;
+    color: $grey;
+    cursor: pointer;
+    outline: none;
+    z-index: 1000;
+    border: 1px solid #fff;
 
-			&:hover {
-					border-color: $green;
-			}
-			&:checked {
-					&:before {
-							display: inline-block;
-							height: 21px;
-							width: 21px;
-							position: relative;
-							left: 0;
-							bottom: 0;
-							content: "\e014";
-							text-align: center;
-							font-family: 'Glyphicons Halflings';
-							line-height: 20px;
-							font-size: 15px;
-							color: $green;
-					}
-			}
-			&:focus {
-					outline: none;
-					border-color: $grey;
-			}
-	}
+    &:hover {
+      border-color: $green;
+    }
+    &:checked {
+      &:before {
+        display: inline-block;
+        height: 21px;
+        width: 21px;
+        position: relative;
+        left: 0;
+        bottom: 0;
+        content: "\e014";
+        text-align: center;
+        font-family: "Glyphicons Halflings";
+        line-height: 20px;
+        font-size: 15px;
+        color: $green;
+      }
+    }
+    &:focus {
+      outline: none;
+      border-color: $grey;
+    }
+  }
 
-	[type="radio"] {
-			border-radius: 50%;
+  [type="radio"] {
+    border-radius: 50%;
 
-			&:after {
-					border-radius: 50%;
-			}
-	}
+    &:after {
+      border-radius: 50%;
+    }
+  }
 
-	[type=number] {
-			width: 45px;
+  [type="number"] {
+    width: 45px;
 
-			&::-webkit-inner-spin-button,
-			&::-webkit-outer-spin-button {
-					-webkit-appearance: none;
-					-moz-appearance: none;
-					appearance: none;
-					margin: 0;
-			}
-	}
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      margin: 0;
+    }
+  }
 
-	select {
-			height: 40px;
-			padding-left: 5px;
-			background-color: $bg;
-			border: 2px solid $grey;
-			color: $green;
+  select {
+    height: 40px;
+    padding-left: 5px;
+    background-color: $bg;
+    border: 2px solid $grey;
+    color: $green;
 
-			& option {
-					padding: 5px 10px;
-					font-weight: 300;
-					cursor: pointer;
+    & option {
+      padding: 5px 10px;
+      font-weight: 300;
+      cursor: pointer;
 
-					&:hover {
-							background-color: $green;
-					}
-			}
-	}
+      &:hover {
+        background-color: $green;
+      }
+    }
+  }
 
-	textarea {
-			resize: none;
-			margin-top: 2%;
-			padding: 10px 10px 0px 20px;
-			width: 100%;
-			height: 90px;
-			color: $green;
-			background-color: $bg;
-			border: 2px solid $grey;
-	}
+  textarea {
+    resize: none;
+    margin-top: 2%;
+    padding: 10px 10px 0px 20px;
+    width: 100%;
+    height: 90px;
+    color: $green;
+    background-color: $bg;
+    border: 2px solid $grey;
+  }
 
-	.btn {
-			display: inline-block;
-			position: relative;
-			width: 100%;
-			margin: 3% 0 0 0;
-			height: 45px;
-			text-transform: uppercase;
-			text-decoration: none;
-			cursor: pointer;
-			border: 3px solid #85FFC7;
-			border-radius: 0;
-			font-weight: 500;
-			font-size: 1.2em;
-			color: $green;
-			text-align: center;
-			background: none;
-			transition: color 0.25s ease;
+  .btn {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    margin: 3% 0 0 0;
+    height: 45px;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    border: 3px solid #85ffc7;
+    border-radius: 0;
+    font-weight: 500;
+    font-size: 1.2em;
+    color: $green;
+    text-align: center;
+    background: none;
+    transition: color 0.25s ease;
 
-			&:after {
-					position: absolute;
-					content: '';
-					top:0;
-					left: 0;
-					width: 0;
-					height: 100%;
-					background-color: $green;
-					transform-origin:left;
-					transition: width 0.5s ease;
-					z-index:-1;
-			}
-			&:hover {
-					color: $bg;
+    &:after {
+      position: absolute;
+      content: "";
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 100%;
+      background-color: $green;
+      transform-origin: left;
+      transition: width 0.5s ease;
+      z-index: -1;
+    }
+    &:hover {
+      color: $bg;
 
-					&:after {
-							width: 100%;
-					}
-			}
-	}
+      &:after {
+        width: 100%;
+      }
+    }
+  }
 
-	fieldset {
-			margin: 5% 0 0 0;
-	}
+  fieldset {
+    margin: 5% 0 0 0;
+  }
 }
-
 
 .copyright {
   text-align: center;
@@ -381,18 +392,18 @@ export default {
       //     this.$router.push("/filter");
       //   });
     },
-    setRecentSurvey(){
-      if(!this.editSurveyId){
+    setRecentSurvey() {
+      if (!this.editSurveyId) {
         console.log("null!");
-      }else{
-        console.log("not null")
-        this.getRecentSurveyInfo(this.editSurveyId)
+      } else {
+        console.log("not null");
+        this.getRecentSurveyInfo(this.editSurveyId);
         this.description = this.recentSurvey.description;
         this.surveyTitle = this.recentSurvey.title;
         this.targetTeamId = this.recentSurvey.teamId;
-        console.log(this.surveyTitle)
+        console.log(this.surveyTitle);
       }
-    }
+    },
   },
   created() {
     this.getTeams();
@@ -637,4 +648,3 @@ export default {
   -webkit-appearance: none;
 }
 </style>
-

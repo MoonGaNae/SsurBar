@@ -261,8 +261,6 @@ export default {
   },
   created() {
     this.surveyId = this.$route.params.selectedSurveyId;
-    console.log(this.$route.params);
-    console.log(this.surveyId);
     axios
       .get(`/survey/${this.surveyId}/filters`)
       .then((res) => {
