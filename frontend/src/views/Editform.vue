@@ -1,18 +1,19 @@
 <template>
-  <div id="wrapper">
-    <div class="container">
-      <div class="page-title-div">
-        <h1 style="padding-top: 3%; padding-left: 4%; font-size: 4rem">
-          필터 항목 등록
-        </h1>
-        <button
-          @click="endEditFilter()"
-          class="next-button yellow-button rounded-corner-button"
-        >
-          Next
-        </button>
-      </div>
-      <hr style="width: 100%" />
+  <div>
+    <div class="page-title-div">
+      <h1 style="margin-left: 5%; margin-top: 1%; font-size: 3rem;">
+        필터 항목 등록
+      </h1>
+      <button
+        @click="endEditFilter()"
+        class="next-button yellow-button rounded-corner-button"
+        style="margin-top:5%"
+      >
+        Next
+      </button>
+    </div>
+    <hr style="width: 100%" />
+    <div class="container">    
       <div class="sub-title-div">
         <div>
           <h3 style="d-flex; text-align:left; font-size:2.5rem">
@@ -282,14 +283,6 @@ export default {
   border-radius: 0;
 }
 
-#wrapper {
-  padding-left: 0;
-  -webkit-transition: all 0.5s ease;
-  -moz-transition: all 0.5s ease;
-  -o-transition: all 0.5s ease;
-  transition: all 0.5s ease;
-  overflow: hidden;
-}
 #sidebar-wrapper {
   z-index: 1000;
   position: absolute;
@@ -462,13 +455,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.page-title-div h1 {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0;
+  height: 15vh;
 }
 
 .next-button {

@@ -1,9 +1,6 @@
 <template>
   <div class="chart-container">
-    <div
-      class="radar-chart-container"
-      style="width: 100%; padding-left: 2%; margin-top: 3%; margin-bottom: 2%"
-    >
+    <div class="radar-chart-container">
       <div class="chart-title">
         <h2>카테고리별 데이터</h2>
       </div>
@@ -11,14 +8,12 @@
         <RadarChart />
       </div>
     </div>
-    <div
-      class="bar-chart-container"
-      style="width: 100%; padding-left: 2%; margin-top: 2%; margin-bottom: 2%"
-    >
+    <div class="bar-chart-container">
       <div class="chart-title">
         <h2>문항별 데이터</h2>
       </div>
       <div
+        v-if="isBarDataExist"
         class="bar-chart-div-parent"
         :class="{ 'bar-chart-div-parent-center': isFlexCenter }"
       >
@@ -90,12 +85,10 @@
             ) in answerData.questionDataList"
             :key="questionDataIdx"
           >
-            <!-- {{ questionData }} -->
             <div>
               <span class="question-number">Q{{ questionData.number }}.</span
               ><span class="question-title">{{ questionData.title }}</span>
             </div>
-            <!-- <el-progress :text-inside="true" :stroke-width="26" :percentage="70">test</el-progress> -->
             <div
               class="progress-div"
               v-for="(
@@ -119,12 +112,6 @@
       </el-collapse>
       <div class="temp-div"></div>
     </div>
-    <!-- <div>
-      <canvas id="Bar" width="400" height="400"></canvas>
-    </div>
-    <div>
-      <radar-chart></radar-chart>
-    </div> -->
   </div>
 </template>
 
@@ -142,10 +129,11 @@ export default {
   data() {
     return {
       dataCollection: null,
-      count: 14,
+      count: null,
       widthTemp: "",
       testTitle: "testest",
       isFlexCenter: false,
+      isBarDataExist: false,
     };
   },
   computed: {
@@ -155,13 +143,45 @@ export default {
       "highestStandardDeviationList",
       "lowestAverageList",
       "lowestStandardDeviationList",
+      "questionCount",
     ]),
   },
   watch: {
     answerDataList() {
+      this.count = this.questionCount;
+
+      console.log(this.count);
+
+      this.widthTemp = this.count * 5 + "vh";
+      if (this.count * 5 < 125) {
+        this.isFlexCenter = true;
+      }
+
+      this.makeChart();
+    },
+    widthTemp() {
+      console.log(this.widthTemp);
+      if (this.widthTemp != "") this.isBarDataExist = true;
+    },
+  },
+  methods: {
+    ...mapActions("analysis", [
+      "setRadarDataSets",
+      "setRadarLabels",
+      "setBarDataSets",
+      "setBarLabels",
+    ]),
+    ...mapGetters("analysis", [
+      "getAnswerDataList",
+      "getRadarLabels",
+      "getRadarDataSets",
+    ]),
+    makeChart() {
       /* 방사형 그래프 데이터 처리 */
       let averageDataList = [];
       let dataLabels = [];
+
+      if (this.getAnswerDataList() == null) return;
 
       this.getAnswerDataList().forEach((el) => {
         averageDataList.push(el.averageScore);
@@ -213,7 +233,6 @@ export default {
               questionDataList[i].push(null);
             }
           }
-          // questionDataSets.push(el.averageScore);
           questionTitles.push(el.number + " " + el.title);
         });
       });
@@ -236,25 +255,16 @@ export default {
       this.setBarLabels(questionTitles);
     },
   },
-  methods: {
-    ...mapActions("analysis", [
-      "setRadarDataSets",
-      "setRadarLabels",
-      "setBarDataSets",
-      "setBarLabels",
-    ]),
-    ...mapGetters("analysis", [
-      "getAnswerDataList",
-      "getRadarLabels",
-      "getRadarDataSets",
-    ]),
-  },
   created() {
-    this.widthTemp = this.count * 5 + "vh";
-    if (this.count * 5 < 125) {
-      console.log("center");
-      this.isFlexCenter = true;
+    this.count = this.questionCount;
+
+    if (this.count != null) {
+      this.widthTemp = this.count * 5 + "vh";
+      if (this.count * 5 < 125) {
+        this.isFlexCenter = true;
+      }
     }
+    this.makeChart();
   },
 };
 </script>
@@ -336,11 +346,15 @@ export default {
 }
 
 .bar-chart-container {
+  width: 100%;
+  padding-left: 2%;
+  margin-top: 2%;
+  margin-bottom: 2%;
   /* overflow: scroll;
   overflow-y: hidden; */
   display: inline-block;
   height: 70vh;
-  margin-bottom: 3vh;
+  /* margin-bottom: 3vh; */
 }
 
 .bar-chart-div-parent::-webkit-scrollbar {
@@ -369,6 +383,10 @@ export default {
 } */
 
 .radar-chart-container {
+  width: 100%;
+  padding-left: 2%;
+  margin-top: 3%;
+  margin-bottom: 2%;
   height: 70vh;
 }
 
