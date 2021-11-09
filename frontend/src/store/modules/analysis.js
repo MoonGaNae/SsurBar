@@ -11,6 +11,8 @@ const state = {
   barDataSets: null,
   barLabels: null,
   questionCount: null,
+  comparisonLabels: null,
+  comparisonDataSets: null,
 };
 
 const mutations = {
@@ -47,6 +49,12 @@ const mutations = {
   SET_QUESTION_COUNT: (state, questionCount) => {
     state.questionCount = questionCount;
   },
+  SET_COMPARISON_DATA_SETS: (state, comparisonDataSets) => {
+    state.comparisonDataSets = comparisonDataSets;
+  },
+  SET_COMPARISON_LABELS: (state, comparisonLabels) => {
+    state.comparisonLabels = comparisonLabels;
+  },
 };
 const actions = {
   setAnswerData({ commit }, searchData) {
@@ -82,6 +90,12 @@ const actions = {
   },
   setBarDataSets({ commit }, barDataSets) {
     commit("SET_BAR_DATA_SETS", barDataSets);
+  },
+  setComparisonDataSets({ commit }, comparisonDataSets) {
+    commit("SET_COMPARISON_DATA_SETS", comparisonDataSets);
+  },
+  setComparisonLabels({ commit }, comparisonDataSets) {
+    commit("SET_COMPARISON_LABELS", comparisonDataSets);
   },
 };
 

@@ -15,6 +15,13 @@
           <!-- <li class="tab">비교</li> -->
           <li
             class="tab"
+            :class="{ selectedTab: selectedTabNum == 1 }"
+            @click="changeTab(1)"
+          >
+            비교
+          </li>
+          <li
+            class="tab"
             :class="{ selectedTab: selectedTabNum == 2 }"
             @click="changeTab(2)"
           >
@@ -91,6 +98,9 @@
           >
             <div class="component-div" v-if="selectedTabNum == 0">
               <SurveyAnalysis :surveyId="surveyId" />
+            </div>
+            <div class="component-div" v-if="selectedTabNum == 1">
+              <SurveyComparison :surveyId="surveyId" />
             </div>
             <div class="component-div" v-if="selectedTabNum == 2">
               <SurveyRealease :surveyId="surveyId" />
@@ -169,6 +179,7 @@ import { mapActions } from "vuex";
 import SurveyRealease from "@/components/detail/SurveyRealease.vue";
 import SurveyAnalysis from "@/components/detail/SurveyAnalysis.vue";
 import SurveyResult from "@/components/detail/SurveyResult.vue";
+import SurveyComparison from "@/components/detail/SurveyComparison.vue";
 
 export default {
   name: "SurveyDetail",
@@ -177,6 +188,7 @@ export default {
     SurveyRealease,
     SurveyAnalysis,
     SurveyResult,
+    SurveyComparison,
   },
   data() {
     return {
@@ -253,7 +265,7 @@ export default {
   },
   computed: {
     checkFullContent() {
-      if (this.selectedTabNum == 0 || this.selectedTabNum == 1) {
+      if (this.selectedTabNum == 0) {
         return false;
       }
       return true;

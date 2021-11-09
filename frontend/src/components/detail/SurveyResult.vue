@@ -23,6 +23,7 @@
         :class="{ 'bar-chart-div-parent-center': isFlexCenter }"
       >
         <div class="bar-chart-div">
+          <!-- <LineChart style="width: 1000px"></LineChart> -->
           <BarChart :style="{ width: widthTemp }" />
         </div>
       </div>
@@ -123,12 +124,14 @@
 <script>
 import BarChart from "../charts/BarChart.vue";
 import RadarChart from "../charts/RadarChart.vue";
+// import LineChart from "@/components/charts/LineChart";
 import { mapState, mapGetters, mapActions } from "vuex";
 
 export default {
   name: "SurveyAnalysis",
   components: {
     BarChart,
+    // LineChart,
     RadarChart,
   },
   data() {
