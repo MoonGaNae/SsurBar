@@ -1,7 +1,14 @@
 <template>
   <div class="chart-container">
     <div class="select-div">
-      <el-select v-model="value" multiple placeholder="Select">
+      <div class="select-div-text">비교 설문 선택</div>
+      <el-select
+        v-model="value"
+        multiple
+        :multiple-limit="5"
+        @change="selectSurvey"
+        placeholder="Select"
+      >
         <el-option
           v-for="item in options"
           :key="item.value"
@@ -12,8 +19,13 @@
         </el-option>
       </el-select>
     </div>
-    <div class="line-chart-div">
-      <LineChart></LineChart>
+    <div
+      class="line-chart-div"
+      :class="{ 'line-chart-div-flex-start': isFlexStart }"
+    >
+      <div>
+        <LineChart :style="{ width: widthTemp }"></LineChart>
+      </div>
     </div>
   </div>
 </template>
@@ -21,102 +33,153 @@
 <script>
 import { mapState, mapGetters, mapActions } from "vuex";
 import LineChart from "@/components/charts/LineChart";
+import axios from "@/utils/axios.js";
 
 export default {
   name: "SurveyComparison",
   components: { LineChart },
+  props: ["surveyId"],
   data() {
     return {
       count: null,
       widthTemp: "",
-      isFlexCenter: false,
+      isFlexStart: false,
       isDataExist: false,
       value: [],
-      options: [
-        { value: 1, label: "1", disabled: false },
-        { value: 2, label: "2", disabled: false },
-        { value: 3, label: "1", disabled: false },
-        { value: 4, label: "2", disabled: false },
-        { value: 5, label: "1", disabled: false },
-        { value: 6, label: "2", disabled: false },
-        { value: 7, label: "1", disabled: false },
-        { value: 8, label: "2", disabled: false },
-        { value: 9, label: "1", disabled: false },
-        { value: 10, label: "2", disabled: false },
+      isSelectFull: false,
+      myDataSet: null,
+      options: [],
+      colorList: [
+        `rgba(166,167,235,0.6)`,
+        `rgba(176,147,215,0.6)`,
+        `rgba(186,127,195,0.6)`,
+        `rgba(196,107,175,0.6)`,
+        `rgba(206,807,155,0.6)`,
       ],
     };
   },
   computed: {
-    ...mapState("analysis", ["answerDataList"]),
+    ...mapState("analysis", ["answerDataList", "questionCount"]),
   },
   watch: {
     answerDataList() {
       this.count = this.questionCount;
 
-      this.widthTemp = this.count * 5 + "vh";
-      if (this.count * 5 < 125) {
-        this.isFlexCenter = true;
+      this.widthTemp = this.count * 6 + "vw";
+      if (this.count * 6 > 60) {
+        this.isFlexStart = true;
       }
 
       this.makeChart();
     },
     widthTemp() {
-      console.log(this.widthTemp);
       if (this.widthTemp != "") this.isDataExist = true;
     },
   },
   methods: {
     ...mapActions("analysis", ["setComparisonDataSets", "setComparisonLabels"]),
-    ...mapGetters("analysis", ["getAnswerDataList"]),
+    ...mapGetters("analysis", ["getAnswerDataList", "getComparisonDataSets"]),
     makeChart() {
-      let categoryCount = this.getAnswerDataList().length;
       let questionDataList = [];
       let questionTitles = [];
-      let backgroundColorList = [];
-      questionDataList.push([]);
-      for (let i = 0; i < categoryCount; i++) {
-        let r = 156;
-        let g = 187;
-        let b = 255;
-        backgroundColorList.push(
-          `rgba(${r + i * 10},${g - i * 20},${b - i * 20},0.6)`
-        );
-      }
+
+      let color = `rgba(156,187,255,0.6)`;
+
       this.getAnswerDataList().forEach((category) => {
         category.questionDataList.forEach((el) => {
-          questionDataList[0].push(el.averageScore);
+          questionDataList.push(el.averageScore);
 
           questionTitles.push(el.number + " " + el.title);
         });
       });
+      let dataSet = {
+        label: "현재 설문",
+        pointBackgroundColor: color,
+        backgroundColor: color,
+        borderWidth: 2,
+        borderColor: color,
+        fill: false,
+        pointBorderColor: color,
+        data: questionDataList,
+      };
       let dataSets = [];
-      for (let i = 0; i < categoryCount; i++) {
-        let dataSet = {
-          label: 1,
-          pointBackgroundColor: backgroundColorList[i],
-          backgroundColor: backgroundColorList[i],
-          borderWidth: 2,
-          borderColor: backgroundColorList[i],
-          fill: false,
-          pointBorderColor: backgroundColorList[i],
-          data: questionDataList[i],
-        };
-        dataSets.push(dataSet);
-      }
+
+      dataSets.push(dataSet);
+
+      this.myDataSet = dataSet;
+
       this.setComparisonDataSets(dataSets);
-      console.log(dataSets);
       this.setComparisonLabels(questionTitles);
     },
+    getSameTemplateSurvey() {
+      axios.get(`/survey/${this.surveyId}/template`).then((res) => {
+        res.data.surveyInfoList.forEach((el, idx) => {
+          let endTime = el.endTime;
+          let id = el.surveyId;
+          let teamName = el.teamName;
+          // let title = el.title;
+          let option = {
+            id: id,
+            value: idx,
+            label: `${teamName} ${endTime}`,
+            disabled: false,
+          };
+          this.options.push(option);
+        });
+      });
+    },
+    selectSurvey() {
+      let dataSets = [];
+      dataSets.push(this.myDataSet);
+      this.value.forEach((optionIdx, idx) => {
+        axios
+          .get(`/survey/${this.options[optionIdx].id}/answer`, {
+            params: { filterDataStr: encodeURI("[]") },
+          })
+          .then((res) => {
+            let color = this.colorList[idx];
+
+            let dataList = [];
+
+            res.data.answerDataList.forEach((answerData) => {
+              answerData.questionDataList.forEach((el) => {
+                dataList.push(el.averageScore);
+              });
+            });
+
+            let dataSet = {
+              label: `${this.options[optionIdx].label}`,
+              pointBackgroundColor: color,
+              backgroundColor: color,
+              borderWidth: 2,
+              borderColor: color,
+              fill: false,
+              pointBorderColor: color,
+              data: dataList,
+            };
+
+            dataSets.push(dataSet);
+          });
+      });
+
+      this.setComparisonDataSets(dataSets);
+    },
+  },
+  mounted() {
+    this.getSameTemplateSurvey();
   },
   created() {
     this.count = this.questionCount;
 
+    console.log(this.count);
+
     if (this.count != null) {
-      this.widthTemp = this.count * 5 + "vh";
-      if (this.count * 5 < 125) {
-        this.isFlexCenter = true;
+      this.widthTemp = this.count * 6 + "vw";
+      if (this.count * 6 > 60) {
+        this.isFlexStart = true;
       }
     }
+
     this.makeChart();
   },
 };
@@ -126,8 +189,6 @@ export default {
 .chart-container {
   display: flex;
   flex-direction: column;
-  /* overflow: scroll;
-  overflow-y: hidden; */
   align-items: center;
   height: 100%;
   width: 100%;
@@ -140,18 +201,56 @@ export default {
   height: 80%;
   margin-left: 5%;
   margin-right: 5%;
+  margin-top: 3vh;
   width: 90%;
   overflow: auto;
   overflow-y: hidden;
 }
-/*
-.line-chart-div div {
-  height: 50vh;
-  width: 300px;
-} */
+
+.line-chart-div > div {
+  height: 100%;
+  padding-top: 3%;
+}
+
+.line-chart-div > div > div {
+  height: 90%;
+}
+
+.line-chart-div-flex-start {
+  justify-content: flex-start !important;
+}
 
 .select-div {
-  padding: 1vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 5%;
+  padding-right: 5%;
+  padding-top: 2vh;
   width: 100%;
+}
+
+.select-div div {
+  width: 100%;
+}
+
+.el-select {
+  width: 150% !important;
+}
+
+.select-div-text {
+  width: 20% !important;
+}
+
+.line-chart-div::-webkit-scrollbar {
+  height: 1vh;
+}
+.line-chart-div::-webkit-scrollbar-track {
+  background-color: #dde0e7;
+}
+
+.line-chart-div::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background-color: #9cbbff;
 }
 </style>

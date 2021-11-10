@@ -109,6 +109,9 @@ const getters = {
   getRadarDataSets(state) {
     return state.radarDataSets;
   },
+  getComparisonDataSets(state) {
+    return state.comparisonDataSets;
+  },
 };
 
 export default {
