@@ -1,22 +1,29 @@
 <template>
   <div>
-    <div class="page-title-div">
-      <h1 style="margin-left: 5%; margin-top: 1%; font-size: 3rem">
+    <div class="page-title-div ">
+      <h1 style="margin-left: 5%; margin-top: 1%; font-size: 3rem;">
         신규 설문 생성
       </h1>
-      <button
+      
+      <!-- <button
         @click="endEditForm()"
         class="next-button yellow-button rounded-corner-button"
         style="margin-top: 5%"
       >
         Next
-      </button>
+      </button> -->
+
+      <button 
+        @click="endEditForm()"
+        class="custom-btn btn-5"
+        style="margin-top:18%; margin-right:8%"
+      ><span>Next</span></button>
     </div>
-    <hr style="width: 100%" />
+    <hr style="width: 88%; margin-left:6%" />
     <div class="container">
       <div
         class="row el-card box-card is-always-shadow "
-        style="width: 50%; margin-left: 20%; margin-top: 8%; border-radius:25px"
+        style="width: 50%; margin-left: 20%; margin-top: 5%; border-radius:25px"
       >
         <div
           class="col-xs-12 col-lg-offset-3 col-lg-6"
@@ -651,4 +658,72 @@ export default {
   padding: 10px 0 !important;
   -webkit-appearance: none;
 }
+
+
+
+
+
+button {
+  margin: 20px;
+}
+.custom-btn {
+  width: 130px;
+  height: 40px;
+  color: #fff;
+  border-radius: 50px;
+  padding: 10px 25px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+   box-shadow: inset 2px 2px 2px 0px rgba(255,255,255,.5),
+    inset -7px -7px 10px 0px rgba(0,0,0,.1),7px 7px 20px 0px rgba(0,0,0,.1),
+   4px 4px 5px 0px rgba(0,0,0,.1);
+  text-shadow:  2px 2px 3px rgba(255,255,255,.5),
+              -4px -4px 6px rgba(116, 125, 136, .2);
+  outline: none;
+}
+
+
+.btn-5 {
+  border: none;
+  color: white;
+  background-color: #e39a52;
+}
+.btn-5:hover {
+  color: black;
+  background: transparent;
+   box-shadow:none;
+}
+.btn-5:before,
+.btn-5:after{
+  content:'';
+  position:absolute;
+  top:0;
+  right:0;
+  height:2px;
+  width:0;
+  background: #e39a52;
+  box-shadow:
+   -1px -1px 5px 0px #fff,
+   7px 7px 20px 0px #0003,
+   4px 4px 5px 0px #0002;
+  transition:400ms ease all;
+}
+.btn-5:after{
+  right:inherit;
+  top:inherit;
+  left:0;
+  bottom:0;
+}
+.btn-5:hover:before,
+.btn-5:hover:after{
+  width:100%;
+  transition:800ms ease all;
+}
+
 </style>

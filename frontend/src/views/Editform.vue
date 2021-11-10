@@ -4,15 +4,20 @@
       <h1 style="margin-left: 5%; margin-top: 1%; font-size: 3rem;">
         필터 항목 등록
       </h1>
-      <button
+      <!-- <button
         @click="endEditFilter()"
         class="next-button yellow-button rounded-corner-button"
         style="margin-top:5%"
       >
         Next
-      </button>
+      </button> -->
+      <button 
+        @click="endEditFilter()"
+        class="custom-btn btn-5"
+        style="margin-top:18%; margin-right:8%"
+      ><span>Next</span></button>
     </div>
-    <hr style="width: 100%" />
+    <hr style="width: 88%; margin-left:6%" />
     <div class="container">    
       <div class="sub-title-div">
         <div>
@@ -26,28 +31,39 @@
             type="text"
             v-model="categoryInput"
             v-if="categoryInputState"
+            style="width: 260%"
+            placeholder="필터을 입력하세요."
           />
           <button
             @click="addCategory()"
             v-if="categoryInputState"
-            class="rounded-corner-button white-button category-input-btn"
+            class="custom-btn2 btn-5"
+            style="width:100%; margin-right:-3%"
           >
             입력 완료
           </button>
           <button
             v-if="categoryInputState"
             @click="cancelCategoryAdd()"
-            class="rounded-corner-button white-button category-cancel-btn"
+            class="custom-btn2 btn-5"
+            style="width:100%"
           >
             취소
           </button>
-          <button
+          <button 
+            class="custom-btn1 btn-5"
+            
+            @click="categoryInputState = true"
+            v-if="!categoryInputState"
+            ><span>필터 추가</span>
+          </button>
+          <!-- <button
             class="rounded-corner-button white-button category-add-btn"
             @click="categoryInputState = true"
             v-if="!categoryInputState"
           >
             필터 추가
-          </button>
+          </button> -->
         </div>
       </div>
 
@@ -72,13 +88,13 @@
               <div class="category-title-div">
                 <div class="category-title">
                   <div
-                    style="d-flex; text-align:left; font-size:2.3rem;"
+                    style="d-flex; text-align:left; padding-left:10%; font-size:1.6rem;"
                     @click="clickCategory(categoryIndex)"
                   >
                     {{ category.title }}
                   </div>
 
-                  <div class="category-delete-div">
+                  <!-- <div class="category-delete-div">
                     <button
                       class="el-button el-button--danger is-circle"
                       style="width: 2vw"
@@ -86,6 +102,13 @@
                     >
                       <i class="el-icon-minus"></i>
                     </button>
+                  </div> -->
+                  <div 
+                    class="position-fixed contact-button " 
+                    @click="deleteCategory(categoryIndex)"
+                    style="margin-left:7.5%"
+                    >
+                    <i class="fa fa-minus contact-button__icon"></i>
                   </div>
                 </div>
               </div>
@@ -124,7 +147,20 @@
                     "
                   />
                 </div>
-                <button
+                <div 
+                  class="position-fixed contact-button " 
+                  style="width:0.6%; margin-left:30%"
+                  @click="
+                    deleteChoice(
+                      categoryList[selectedCategoryIdx].choiceList,
+                      choiceIndex
+                    )
+                  "
+                
+                  >
+                  <i class="fa fa-minus contact-button__icon"></i>
+                </div>
+                <!-- <button
                   class="el-button el-button--danger is-circle el-button--mini"
                   @click="
                     deleteChoice(
@@ -134,16 +170,23 @@
                   "
                 >
                   <i class="el-icon-minus"></i>
-                </button>
+                </button> -->
               </div>
               <div class="choice-add-button-div">
-                <button
+                <!-- <button
                   class="rounded-corner-button green-button"
                   @click="
                     addChoice(categoryList[selectedCategoryIdx].choiceList)
                   "
                 >
                   보기 추가
+                </button> -->
+                <button 
+                  class="custom-btn2 btn-6"                
+                  @click="
+                    addChoice(categoryList[selectedCategoryIdx].choiceList)
+                  "
+                  ><span>보기 추가</span>
                 </button>
               </div>
             </div>
@@ -469,18 +512,19 @@ export default {
 
 .sub-title-div {
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   align-items: center;
 }
 
 .sub-title-div-buttons {
   display: flex;
   align-items: center;
+  margin-left: 4%;
 }
 
 .sub-title-div-buttons button {
-  width: 30%;
-  margin-left: 2%;
+  width: 220%;
+  
 }
 
 .sub-title-div-buttons .el-input__inner {
@@ -720,5 +764,183 @@ button:hover {
 .content-div {
   display: flex;
   justify-content: space-between;
+}
+
+button {
+  margin: 20px;
+}
+.custom-btn {
+  width: 130px;
+  height: 40px;
+  color: #fff;
+  border-radius: 50px;
+  padding: 10px 25px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+   box-shadow: inset 2px 2px 2px 0px rgba(255,255,255,.5),
+    inset -7px -7px 10px 0px rgba(0,0,0,.1),7px 7px 20px 0px rgba(0,0,0,.1),
+   4px 4px 5px 0px rgba(0,0,0,.1);
+  text-shadow:  2px 2px 3px rgba(255,255,255,.5),
+              -4px -4px 6px rgba(116, 125, 136, .2);
+  outline: none;
+}
+
+.custom-btn1 {
+  width: 500px;
+  height: 30px;
+  color: #fff;
+  border-radius: 50px;
+  padding: 5px 20px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 500;
+  font-size: 10px;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+   box-shadow: inset 2px 2px 2px 0px rgba(255,255,255,.5),
+    inset -7px -7px 10px 0px rgba(0,0,0,.1),7px 7px 20px 0px rgba(0,0,0,.1),
+   4px 4px 5px 0px rgba(0,0,0,.1);
+  text-shadow:  2px 2px 3px rgba(255,255,255,.5),
+              -4px -4px 6px rgba(116, 125, 136, .2);
+  outline: none;
+}
+
+.custom-btn2 {
+  width: 100px;
+  height: 30px;
+  color: #fff;
+  border-radius: 50px;
+  padding: 5px 2px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 500;
+  font-size: 10px;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+   box-shadow: inset 2px 2px 2px 0px rgba(255,255,255,.5),
+    inset -7px -7px 10px 0px rgba(0,0,0,.1),7px 7px 20px 0px rgba(0,0,0,.1),
+   4px 4px 5px 0px rgba(0,0,0,.1);
+  text-shadow:  2px 2px 3px rgba(255,255,255,.5),
+              -4px -4px 6px rgba(116, 125, 136, .2);
+  outline: none;
+}
+
+.btn-5 {
+  border: none;
+  color: white;
+  background-color: #e39a52;
+}
+.btn-5:hover {
+  color: black;
+  background: transparent;
+   box-shadow:none;
+}
+.btn-5:before,
+.btn-5:after{
+  content:'';
+  position:absolute;
+  top:0;
+  right:0;
+  height:2px;
+  width:0;
+  background: #e39a52;
+  box-shadow:
+   -1px -1px 5px 0px #fff,
+   7px 7px 20px 0px #0003,
+   4px 4px 5px 0px #0002;
+  transition:400ms ease all;
+}
+.btn-5:after{
+  right:inherit;
+  top:inherit;
+  left:0;
+  bottom:0;
+}
+.btn-5:hover:before,
+.btn-5:hover:after{
+  width:100%;
+  transition:800ms ease all;
+}
+
+
+
+
+
+
+.btn-6 {
+  border: none;
+  color: white;
+  background-color: #36a72c;
+}
+.btn-6:hover {
+  color: black;
+  background: transparent;
+   box-shadow:none;
+}
+.btn-6:before,
+.btn-6:after{
+  content:'';
+  position:absolute;
+  top:0;
+  right:0;
+  height:2px;
+  width:0;
+  background: #36a72c;
+  box-shadow:
+   -1px -1px 5px 0px #fff,
+   7px 7px 20px 0px #0003,
+   4px 4px 5px 0px #0002;
+  transition:400ms ease all;
+}
+.btn-6:after{
+  right:inherit;
+  top:inherit;
+  left:0;
+  bottom:0;
+}
+.btn-6:hover:before,
+.btn-6:hover:after{
+  width:100%;
+  transition:800ms ease all;
+}
+
+
+
+
+
+
+.contact-button {
+  background-color: #ec4d4d;
+  color: white;
+  padding: 0.3% 0.3%;
+  height: 0.6%; width: 0.6%;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 0px 0px 6px #ec4d4d;
+}
+.contact-button, .contact-button__icon {
+  transition: all 0.5s ease-in-out;
+}
+
+.contact-button:hover {
+  transform: scale(0.8);
+  box-shadow: 0px 0px 0px 12px #ec6161;
+  cursor: pointer;
+}
+
+.contact-button:hover .contact-button__icon {
+  transform:scale(1.7);
 }
 </style>
