@@ -23,11 +23,12 @@ export default {
       return !(
         this.$route.name === "Form" ||
         this.$route.name === "Finish" ||
-        this.$route.name == "ResultLink"
+        this.$route.name == "ResultLink" ||
+        this.$route.name == "Login"
       );
     },
     showFrame() {
-      return !(this.$route.name === "Form" || this.$route.name === "Finish");
+      return !(this.$route.name === "Form" || this.$route.name === "Finish" || this.$route.name == "Login");
     },
   },
 };
