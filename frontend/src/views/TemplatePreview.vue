@@ -50,7 +50,7 @@
                   :key="questionIdx"
                 >
                   <div v-if="item.categoryId == question.categoryId">
-                    {{ question.questionNum }}. {{ question.title }}
+                    Q. {{ question.title }}
                     <br />
                     <el-form-item>
                       <el-radio-group v-model="form.questionRes[questionIdx]">
