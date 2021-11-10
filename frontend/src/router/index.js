@@ -16,6 +16,7 @@ import DefaultTemplateList from "../views/DefaultTemplateList.vue";
 import RecentTemplateList from "../views/RecentTemplateList.vue";
 import Main from "../views/main/main.vue";
 import TemplatePreview from "@/views/TemplatePreview";
+import Login from "@/views/user/login.vue";
 import Result from "@/views/survey/SurveyResultLink.vue";
 
 Vue.use(VueRouter);
@@ -40,6 +41,11 @@ const routes = [
     path: "/form/:linkCode",
     name: "Form",
     component: Form,
+  },
+  {
+    path: "/login",
+    name: "Login",
+    component: Login,
   },
   // {
   //   path: "/form",
