@@ -296,6 +296,7 @@ public class SurveyServiceImpl implements SurveyService {
 		for(Survey s : surveyList){
 			SurveyInfo surveyInfo = SurveyInfo.builder()
 					.surveyId(s.getSurveyId())
+					.title(s.getTemplate().getTitle())
 					.teamName(s.getTeam().getName())
 					.creationTime(s.getCreationTime())
 					.endTime(s.getEndTime())

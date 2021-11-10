@@ -13,14 +13,12 @@ export default {
     ]),
   },
   watch: {
-    comparisonLabels() {
+    comparisonDataSets() {
       let dataSets = this.comparisonDataSets;
       let labels = this.comparisonLabels;
 
       this.datacollection.labels = labels;
       this.datacollection.datasets = dataSets;
-
-      console.log(this.datacollection);
 
       this.renderChart(this.datacollection, this.options);
     },
@@ -50,6 +48,7 @@ export default {
 
     this.datacollection.labels = labels;
     this.datacollection.datasets = dataSets;
+
     this.renderChart(this.datacollection, this.options);
   },
 };
