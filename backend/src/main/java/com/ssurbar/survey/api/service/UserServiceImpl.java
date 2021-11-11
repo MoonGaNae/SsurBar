@@ -1,6 +1,8 @@
 package com.ssurbar.survey.api.service;
 
 import com.ssurbar.survey.api.request.UserJoinPostReq;
+import com.ssurbar.survey.api.request.UserLoginPostReq;
+import com.ssurbar.survey.common.model.common.UserInfo;
 import com.ssurbar.survey.common.util.RandomIdUtil;
 import com.ssurbar.survey.db.entity.User;
 import com.ssurbar.survey.db.entity.UserRole;
@@ -33,5 +35,20 @@ public class UserServiceImpl implements UserService{
 
 
         return newUser.getUserId();
+    }
+
+    @Override
+    public UserInfo login(UserLoginPostReq userLoginPostReq) {
+
+        User user = userRepository.findByEmail(userLoginPostReq.getEmail()).orElse(null);
+
+//        if (user == null) return null;
+
+        if (!user.getPassword().equals(userLoginPostReq.getPassword())){
+            System.out.println("비번틀림");
+            return null;
+        }
+
+        return UserInfo.builder().userId(user.getUserId()).userType(user.getUserType()).build();
     }
 }
