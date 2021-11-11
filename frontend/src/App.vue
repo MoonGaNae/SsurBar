@@ -24,11 +24,17 @@ export default {
         this.$route.name === "Form" ||
         this.$route.name === "Finish" ||
         this.$route.name == "ResultLink" ||
-        this.$route.name == "Login"
+        this.$route.name == "Login" ||
+        this.$route.name == "SurveyClosed"
       );
     },
     showFrame() {
-      return !(this.$route.name === "Form" || this.$route.name === "Finish" || this.$route.name == "Login");
+      return !(
+        this.$route.name === "Form" ||
+        this.$route.name === "Finish" ||
+        this.$route.name == "Login" ||
+        this.$route.name == "SurveyClosed"
+      );
     },
   },
 };

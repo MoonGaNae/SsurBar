@@ -18,6 +18,7 @@ import Main from "../views/main/main.vue";
 import TemplatePreview from "@/views/TemplatePreview";
 import Login from "@/views/user/login.vue";
 import Result from "@/views/survey/SurveyResultLink.vue";
+import SurveyClosed from "../views/Res/SurveyClosed.vue";
 
 Vue.use(VueRouter);
 
@@ -26,6 +27,11 @@ const routes = [
     path: "/",
     name: "main",
     component: Main,
+  },
+  {
+    path: "/survey/closed",
+    name: "SurveyClosed",
+    component: SurveyClosed,
   },
   {
     path: "/question/questionedit",
@@ -47,11 +53,6 @@ const routes = [
     name: "Login",
     component: Login,
   },
-  // {
-  //   path: "/form",
-  //   name: "Form",
-  //   component: Form,
-  // },
   {
     path: "/result/:linkCode",
     name: "ResultLink",
