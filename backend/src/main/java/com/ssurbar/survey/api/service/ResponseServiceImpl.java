@@ -7,13 +7,17 @@ import com.ssurbar.survey.api.response.SurveyAnswer;
 import com.ssurbar.survey.common.util.RandomIdUtil;
 import com.ssurbar.survey.db.entity.answer.FilterData;
 import com.ssurbar.survey.db.entity.answer.QuestionAnswer;
+import com.ssurbar.survey.db.entity.survey.Survey;
+import com.ssurbar.survey.db.entity.survey.SurveyResponseLog;
 import com.ssurbar.survey.db.repository.answer.FilterDataRepository;
 import com.ssurbar.survey.db.repository.answer.QuestionAnswerRepository;
 import com.ssurbar.survey.db.repository.survey.QuestionRepository;
 import com.ssurbar.survey.db.repository.survey.SurveyRepository;
+import com.ssurbar.survey.db.repository.survey.SurveyResponseLogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +26,9 @@ public class ResponseServiceImpl implements ResponseService {
 
     @Autowired
     FilterDataRepository filterDataRepository;
+
+    @Autowired
+    SurveyResponseLogRepository surveyResponseLogRepository;
 
     @Autowired
     QuestionAnswerRepository questionAnswerRepository;
@@ -43,6 +50,8 @@ public class ResponseServiceImpl implements ResponseService {
         List<String> answerList = responsePostReq.getAnswerList();
         JsonParser jsonParser = new JsonParser();
         List<SurveyAnswer> list = new ArrayList<>();
+
+        Survey survey = surveyRepository.findBySurveyId(surveyId).get();
 
         FilterData filterData = FilterData.builder()
                 .filterDataId(randomIdUtil.makeRandomId(13))
@@ -68,7 +77,7 @@ public class ResponseServiceImpl implements ResponseService {
                     .question(questionRepository.findQuestionByQuestionId(questionId).get())
                     .response("{\"0\":\""+answer+"\"}")
                     .filterData(filterDataRepository.findFilterDataByFilterDataId(filterData.getFilterDataId()).get())
-                    .survey(surveyRepository.findBySurveyId(surveyId).get())
+                    .survey(survey)
                     .build();
 
             questionAnswerRepository.save(questionAnswer);
@@ -81,6 +90,25 @@ public class ResponseServiceImpl implements ResponseService {
             list.add(surveyAnswer);
 
         }
+
+        String surveyResponseLogId = randomIdUtil.makeRandomId(13);
+
+        List<SurveyResponseLog> surveyResponseLogList = surveyResponseLogRepository.findAll();
+
+        while(surveyResponseLogList.contains(surveyResponseLogId)){
+            surveyResponseLogId = randomIdUtil.makeRandomId(13);
+        }
+
+
+        SurveyResponseLog surveyResponseLog = SurveyResponseLog.builder()
+                .responseTime(LocalDateTime.now())
+                .survey(survey)
+                .surveyResponseLogId(surveyResponseLogId)
+                .build();
+
+
+
+        System.out.println(surveyResponseLogRepository.save(surveyResponseLog));
 
         return list;
 
