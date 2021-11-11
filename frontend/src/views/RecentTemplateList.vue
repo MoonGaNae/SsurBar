@@ -89,7 +89,6 @@ export default {
   margin-top: 3%;
   margin-left: 4%;
   margin-right: 4%;
-  height: 90vh;
   border-radius: 60px 60px 0% 0%;
 }
 #intro {
@@ -130,20 +129,6 @@ export default {
   height: 50px;
   display: inline-block;
   margin-right: 5%;
-}
-#sidebar-wrapper {
-  z-index: 1000;
-  position: absolute;
-  left: 100px;
-  width: 0;
-  height: 100%;
-  margin-left: -100px;
-  overflow-y: auto;
-  background: white;
-  -webkit-transition: all 0.5s ease;
-  -moz-transition: all 0.5s ease;
-  -o-transition: all 0.5s ease;
-  transition: all 0.5s ease;
 }
 
 .sidebar-nav {

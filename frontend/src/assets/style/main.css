@@ -40,19 +40,16 @@ h6,
   justify-content: center;
   align-items: center;
   overflow: auto;
+  padding: 5vh 5vh 5vh 5vh;
 }
 
 #background-frame {
   background-position: center;
   background-color: white;
-  /* margin-top: 3%;
-  margin-left: 4%;
-  margin-right: 4%; */
-  overflow: auto;
-  /* float: left; */
-  height: 90vh;
-  width: 90%;
-  border-radius: 60px 60px 0% 0%;
+  /* overflow: auto; */
+  /* height: 90vh; */
+  width: 100%;
+  border-radius: 60px 60px 60px 60px;
 }
 
 #background-frame::-webkit-scrollbar {
@@ -68,8 +65,20 @@ h6,
   overflow: auto;
 } */
 
-#siderbar {
-  position: fixed;
-  width: 10vw;
+#sidebar {
+  position: sticky;
+  width: 100px;
   height: 100vh;
+  padding: 0px;
+  top: 0px;
+}
+
+#sidebar-wrapper {
+  width: 100px;
+  height: 100%;
+  background: white;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
 }

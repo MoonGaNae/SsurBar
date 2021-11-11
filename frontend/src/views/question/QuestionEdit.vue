@@ -312,20 +312,6 @@ export default {
   transition: all 0.5s ease;
   overflow: hidden;
 }
-#sidebar-wrapper {
-  z-index: 1000;
-  position: absolute;
-  left: 100px;
-  width: 0;
-  height: 100%;
-  margin-left: -100px;
-  overflow-y: auto;
-  background: white;
-  -webkit-transition: all 0.5s ease;
-  -moz-transition: all 0.5s ease;
-  -o-transition: all 0.5s ease;
-  transition: all 0.5s ease;
-}
 
 .sidebar-nav {
   position: absolute;
