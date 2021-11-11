@@ -13,30 +13,30 @@ const _axios = axios.create({
 
 _axios.interceptors.request.use(
   (config) => {
-    if(store.state.user.token){
-      config.headers['authorization'] = store.state.user.token;
+    if (store.state.user.token) {
+      config.headers["authorization"] = store.state.user.token;
     }
     return config;
   },
   (err) => {
     return Promise.reject(err);
   }
-)
+);
 
 _axios.interceptors.response.use(
   (response) => {
-    if(response.headers.authorization){
-      store.commit('user/SET_TOKEN', response.headers.authorization)
+    if (response.headers.authorization) {
+      store.commit("user/SET_TOKEN", response.headers.authorization);
     }
-    return Promise.resolve(response)
+    return Promise.resolve(response);
   },
   (err) => {
-    if(err.response.status === 401){
+    if (err.response.status === 401) {
       // 로그인페이지 보내기
     }
 
     return Promise.reject(err);
   }
-)
+);
 
 export default _axios;

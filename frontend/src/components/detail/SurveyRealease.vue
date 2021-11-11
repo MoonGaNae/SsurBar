@@ -86,7 +86,7 @@ export default {
   },
   created() {
     axios
-      .get(`/survey/` + this.surveyId)
+      .get(`/survey/${this.surveyId}/info`)
       .then((res) => {
         console.log(res);
         this.responseUrl = this.$responseUrl + res.data.responseUrl;
@@ -96,7 +96,7 @@ export default {
         this.teamName = res.data.teamName;
 
         axios
-          .get(`/template/` + res.data.templateId)
+          .get(`/template/${res.data.templateId}/info`)
           .then((templateRes) => {
             this.title = templateRes.data.title;
             this.description = templateRes.data.description;

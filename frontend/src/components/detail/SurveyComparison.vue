@@ -1,5 +1,5 @@
 <template>
-  <div class="chart-container">
+  <div v-if="!isDataExist" class="chart-container">
     <div class="select-div">
       <div class="select-div-text">비교 설문 선택</div>
       <el-select
@@ -28,16 +28,20 @@
       </div>
     </div>
   </div>
+  <div v-else class="empty-div">
+    <EmptyData></EmptyData>
+  </div>
 </template>
 
 <script>
 import { mapState, mapGetters, mapActions } from "vuex";
 import LineChart from "@/components/charts/LineChart";
 import axios from "@/utils/axios.js";
+import EmptyData from "@/components/detail/DataEmpty.vue";
 
 export default {
   name: "SurveyComparison",
-  components: { LineChart },
+  components: { LineChart, EmptyData },
   props: ["surveyId"],
   data() {
     return {
@@ -193,7 +197,9 @@ export default {
   height: 100%;
   width: 100%;
 }
-
+.empty-div {
+  height: 100%;
+}
 .line-chart-div {
   display: flex;
   align-items: center;

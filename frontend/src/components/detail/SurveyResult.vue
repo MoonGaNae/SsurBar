@@ -8,117 +8,122 @@
       </h5>
       <p class="survey-description" v-text="surveyDescription"></p>
     </div>
-    <div class="radar-chart-container">
-      <div class="chart-title">
-        <h2>카테고리별 데이터</h2>
-      </div>
-      <div class="chart-div">
-        <RadarChart />
-      </div>
-    </div>
-    <div class="bar-chart-container">
-      <div class="chart-title">
-        <h2>문항별 데이터</h2>
-      </div>
-      <div
-        class="bar-chart-div-parent"
-        :class="{ 'bar-chart-div-parent-center': isFlexCenter }"
-      >
-        <div class="bar-chart-div">
-          <!-- <LineChart style="width: 1000px"></LineChart> -->
-          <BarChart :style="{ width: widthTemp }" />
+    <div v-if="!isBarDataExist">
+      <div class="radar-chart-container">
+        <div class="chart-title">
+          <h2>카테고리별 데이터</h2>
+        </div>
+        <div class="chart-div">
+          <RadarChart />
         </div>
       </div>
-    </div>
-    <div class="temp-container">
-      <div class="data-div">
-        <div class="data-title">최고 평균</div>
-        <ul class="data-ul">
-          <li v-for="(data, idx) in highestAverageList" :key="idx">
-            <div class="data-title-div">
-              <div class="summary-question-number">{{ data.number }}</div>
-              <div class="summary-question-title">{{ data.title }}</div>
-            </div>
-            <div class="score-number">{{ data.averageScore }}</div>
-          </li>
-        </ul>
-      </div>
-      <div class="data-div">
-        <div class="data-title">최저 편차</div>
-        <ul class="data-ul">
-          <li v-for="(data, idx) in lowestStandardDeviationList" :key="idx">
-            <div class="data-title-div">
-              <div class="summary-question-number">{{ data.number }}</div>
-              <div class="summary-question-title">{{ data.title }}</div>
-            </div>
-            <div class="score-number">{{ data.standardDeviation }}</div>
-          </li>
-        </ul>
-      </div>
-      <div class="data-div">
-        <div class="data-title">최저 평균</div>
-        <ul class="data-ul">
-          <li v-for="(data, idx) in lowestAverageList" :key="idx">
-            <div class="data-title-div">
-              <div class="summary-question-number">{{ data.number }}</div>
-              <div class="summary-question-title">{{ data.title }}</div>
-            </div>
-            <div class="score-number">{{ data.averageScore }}</div>
-          </li>
-        </ul>
-      </div>
-      <div class="data-div">
-        <div class="data-title">최고 편차</div>
-        <ul class="data-ul">
-          <li v-for="(data, idx) in highestStandardDeviationList" :key="idx">
-            <div class="data-title-div">
-              <div class="summary-question-number">{{ data.number }}</div>
-              <div class="summary-question-title">{{ data.title }}</div>
-            </div>
-            <div class="score-number">{{ data.standardDeviation }}</div>
-          </li>
-        </ul>
-      </div>
-      <el-collapse class="category-list">
-        <el-collapse-item
-          v-for="(answerData, answerDataIdx) in answerDataList"
-          :title="answerData.categoryName"
-          :key="answerDataIdx"
-          :name="answerDataIdx"
+      <div class="bar-chart-container">
+        <div class="chart-title">
+          <h2>문항별 데이터</h2>
+        </div>
+        <div
+          class="bar-chart-div-parent"
+          :class="{ 'bar-chart-div-parent-center': isFlexCenter }"
         >
-          <div
-            class="question-div el-card is-always-shadow"
-            v-for="(
-              questionData, questionDataIdx
-            ) in answerData.questionDataList"
-            :key="questionDataIdx"
-          >
-            <div>
-              <span class="question-number">Q{{ questionData.number }}.</span
-              ><span class="question-title">{{ questionData.title }}</span>
-            </div>
-            <div
-              class="progress-div"
-              v-for="(
-                questionAnswer, questionAnswerIdx
-              ) in questionData.questionAnswerDtoList"
-              :key="questionAnswerIdx"
-            >
-              <div class="progress-bar-base">
-                <div
-                  class="progress-bar-color"
-                  :style="{ width: questionAnswer.percentage + '%' }"
-                >
-                  <div>{{ questionAnswer.sentence }}</div>
-                  <div>{{ questionAnswer.percentage }} %</div>
-                </div>
-              </div>
-              <div>{{ questionAnswer.count }} 명</div>
-            </div>
+          <div class="bar-chart-div">
+            <!-- <LineChart style="width: 1000px"></LineChart> -->
+            <BarChart :style="{ width: widthTemp }" />
           </div>
-        </el-collapse-item>
-      </el-collapse>
-      <div class="temp-div"></div>
+        </div>
+      </div>
+      <div class="temp-container">
+        <div class="data-div">
+          <div class="data-title">최고 평균</div>
+          <ul class="data-ul">
+            <li v-for="(data, idx) in highestAverageList" :key="idx">
+              <div class="data-title-div">
+                <div class="summary-question-number">{{ data.number }}</div>
+                <div class="summary-question-title">{{ data.title }}</div>
+              </div>
+              <div class="score-number">{{ data.averageScore }}</div>
+            </li>
+          </ul>
+        </div>
+        <div class="data-div">
+          <div class="data-title">최저 편차</div>
+          <ul class="data-ul">
+            <li v-for="(data, idx) in lowestStandardDeviationList" :key="idx">
+              <div class="data-title-div">
+                <div class="summary-question-number">{{ data.number }}</div>
+                <div class="summary-question-title">{{ data.title }}</div>
+              </div>
+              <div class="score-number">{{ data.standardDeviation }}</div>
+            </li>
+          </ul>
+        </div>
+        <div class="data-div">
+          <div class="data-title">최저 평균</div>
+          <ul class="data-ul">
+            <li v-for="(data, idx) in lowestAverageList" :key="idx">
+              <div class="data-title-div">
+                <div class="summary-question-number">{{ data.number }}</div>
+                <div class="summary-question-title">{{ data.title }}</div>
+              </div>
+              <div class="score-number">{{ data.averageScore }}</div>
+            </li>
+          </ul>
+        </div>
+        <div class="data-div">
+          <div class="data-title">최고 편차</div>
+          <ul class="data-ul">
+            <li v-for="(data, idx) in highestStandardDeviationList" :key="idx">
+              <div class="data-title-div">
+                <div class="summary-question-number">{{ data.number }}</div>
+                <div class="summary-question-title">{{ data.title }}</div>
+              </div>
+              <div class="score-number">{{ data.standardDeviation }}</div>
+            </li>
+          </ul>
+        </div>
+        <el-collapse class="category-list">
+          <el-collapse-item
+            v-for="(answerData, answerDataIdx) in answerDataList"
+            :title="answerData.categoryName"
+            :key="answerDataIdx"
+            :name="answerDataIdx"
+          >
+            <div
+              class="question-div el-card is-always-shadow"
+              v-for="(
+                questionData, questionDataIdx
+              ) in answerData.questionDataList"
+              :key="questionDataIdx"
+            >
+              <div>
+                <span class="question-number">Q{{ questionData.number }}.</span
+                ><span class="question-title">{{ questionData.title }}</span>
+              </div>
+              <div
+                class="progress-div"
+                v-for="(
+                  questionAnswer, questionAnswerIdx
+                ) in questionData.questionAnswerDtoList"
+                :key="questionAnswerIdx"
+              >
+                <div class="progress-bar-base">
+                  <div
+                    class="progress-bar-color"
+                    :style="{ width: questionAnswer.percentage + '%' }"
+                  >
+                    <div>{{ questionAnswer.sentence }}</div>
+                    <div>{{ questionAnswer.percentage }} %</div>
+                  </div>
+                </div>
+                <div>{{ questionAnswer.count }} 명</div>
+              </div>
+            </div>
+          </el-collapse-item>
+        </el-collapse>
+        <div class="temp-div"></div>
+      </div>
+    </div>
+    <div v-else class="empty-div">
+      <EmptyData></EmptyData>
     </div>
   </div>
 </template>
@@ -128,13 +133,14 @@ import BarChart from "../charts/BarChart.vue";
 import RadarChart from "../charts/RadarChart.vue";
 import { mapState, mapGetters, mapActions } from "vuex";
 import surveyApi from "@/api/survey.js";
+import EmptyData from "@/components/detail/DataEmpty.vue";
 
 export default {
   name: "SurveyAnalysis",
   props: ["surveyId"],
   components: {
     BarChart,
-    // LineChart,
+    EmptyData,
     RadarChart,
   },
   data() {
@@ -523,6 +529,10 @@ export default {
   padding-left: 1vh;
   display: flex;
   align-items: center;
+}
+
+.empty-div {
+  height: 80%;
 }
 
 .progress-div {
