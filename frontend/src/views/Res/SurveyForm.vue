@@ -393,11 +393,10 @@ export default {
   margin-top: 3em;
 }
 
-@media (min-width: 768px) {
+@media (max-width: 768px) {
   .surveyWrapper {
     min-height: 100vh;
   }
-
   .surveyDes h1 {
     font-weight: 800;
   }
@@ -405,12 +404,11 @@ export default {
     font-weight: 700;
   }
   .surveyForm {
-    margin-left: 25%;
-    margin-right: 25%;
-    padding: 2em;
+    width: 100%;
+    margin: 0px;
     text-align: left;
     background-color: white;
-    min-height: 100vh;
+    min-height: 80vh;
     position: relative;
   }
 }

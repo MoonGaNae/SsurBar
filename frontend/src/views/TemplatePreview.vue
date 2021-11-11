@@ -2,11 +2,9 @@
   <div id="wrapper">
     <div class="main-container">
       <div class="page-title-div row justify-content-md-center">
-        <!-- <div class="col">
-          <h1 style="padding-top: 3%; padding-left: 4%; font-size: 4rem">
-            설문서식 미리보기
-          </h1>
-        </div> -->
+        <div class="page-title-div">
+          <h1>설문서식 미리보기</h1>
+        </div>
       </div>
       <!-- <hr style="width: 100%" /> -->
       <div class="surveyForm">
@@ -303,5 +301,12 @@ export default {
   display: flex;
   min-width: 10vw;
   justify-content: flex-end;
+}
+.page-title-div > h1 {
+  font-size: 4rem;
+}
+
+.page-title-div {
+  margin-bottom: 2vh;
 }
 </style>
