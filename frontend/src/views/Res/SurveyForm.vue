@@ -1,11 +1,11 @@
 <template>
   <div class = "surveyWrapper">
     <div class="surveyForm">
-        <el-tag type="danger" effect="plain" style="border-radius:50px;">1일남음</el-tag>
+        <el-tag type="danger" effect="plain" style="border-radius:50px;">{{template.sub}}일남음</el-tag>
         <div class="surveyDes">
-            <h1 class="title">업무 만족도 조사</h1>
-            <h5 class="date">2021.10.25~2021.10.28</h5>
-            <p class="description">인사팀, 재무팀, 개발팀 여러분의 더 나은 업무를 위해 업무에 대한 자세한 의견을 듣고자 만족도 조사를 실시합니다. 잠깐의 시간을 내주어 설문을 진행해주시면 감사하겠습니다.</p>
+            <h1 class="title">{{template.title}}</h1>
+            <h5 class="date">{{template.start}}~{{template.end}}</h5>
+            <p class="description">{{template.desc}}</p>
         </div>
         <hr>
         <div class="surveyContent">
@@ -64,6 +64,8 @@
 
 <script>
 import axios from "@/utils/axios.js";
+import { mapActions, mapState } from "vuex";
+
   export default {
     data () {
       return {
@@ -86,6 +88,13 @@ import axios from "@/utils/axios.js";
         // surveyId: 'rm15zxga9lsRp',
         tempaletId : '',
         surveyId : '',
+        template:{
+            title:'',
+            desc:'',
+            start:'',
+            end:'',
+            sub:''
+        },
         category: [
             {
             categoryId: "",
@@ -103,7 +112,11 @@ import axios from "@/utils/axios.js";
         ]
       };
     },
+    computed: {
+        ...mapState("survey", ["surveyInfo"]),      
+    },
     methods:{
+        ...mapActions("survey", ["getSurveyDetailInfo"]),
         submitForm() {
             console.log(this.form)
             var questionIdAnswer = new Array();
@@ -117,9 +130,6 @@ import axios from "@/utils/axios.js";
                 questionIdAnswer.push({questionId: QId, answer:JSON.stringify(Qres)})
                 answerlist.push(JSON.stringify({questionId: QId, answer:JSON.stringify(Qres)}));
             }
-
-            
-
             for(var j=0; j<this.form.filterTitle.length; j++){
                 var Ftitle = this.form.filterTitle[j];
                 var Fres = this.form.filterRes[j];
@@ -226,6 +236,20 @@ import axios from "@/utils/axios.js";
             }
             return true;
         },
+        async setInfo(){
+            await this.getSurveyDetailInfo(this.surveyId)
+            this.template.title = this.surveyInfo.title;
+            this.template.desc = this.surveyInfo.description;
+            this.template.start = this.surveyInfo.creationTime;
+            this.template.end = this.surveyInfo.endTime;
+
+            // 시작날짜와 마감날짜 차이를 구하는 변수 선언
+            var sdt = new Date(this.template.start);
+            var edt = new Date(this.template.end);
+            var dateDiff = Math.ceil((edt-sdt)/(1000*3600*24));
+            this.template.sub = dateDiff;      
+        },
+
         async process(){
             const linkCode = this.$route.params.linkCode;
             await axios
@@ -245,9 +269,10 @@ import axios from "@/utils/axios.js";
     // 동기적으로 호출 
     created() {
         this.process()
+        this.setInfo()
+        
+        
     },
-
-    
   }
 </script>
 
@@ -255,6 +280,7 @@ import axios from "@/utils/axios.js";
 
 .surveyWrapper{
     background-color: navy;
+    height: 100vh;
 }
 
 .surveyDes h1{
@@ -269,6 +295,8 @@ import axios from "@/utils/axios.js";
     padding : 2em;
     text-align: left;
     background-color: white; 
+    height: 100vh;
+    position : relative;
 }
 .surveyContent{
     margin-top:50px;   
@@ -280,6 +308,10 @@ import axios from "@/utils/axios.js";
 }
 .logo{
     margin-top : 3em;
+    width: 20%;
+    position : absolute;
+    bottom : 3em;
+    right:40%;
 }
 .button .el-button {
   background-color: orange;

@@ -64,9 +64,9 @@ h6,
   overflow: auto;
 }
 
-#router {
+/* #router {
   overflow: auto;
-}
+} */
 
 #siderbar {
   position: fixed;

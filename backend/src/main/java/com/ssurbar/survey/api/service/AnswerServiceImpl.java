@@ -269,7 +269,7 @@ public class AnswerServiceImpl implements AnswerService{
 
 				List<QuestionData.QuestionAnswerDto> questionAnswerDtoList = new ArrayList<>();
 
-				System.out.println(questionCount);
+//				System.out.println(questionCount);
 				for (String key :countMap.keySet()){
 					int selectedCount = countMap.get(key);
 					double selectedPercentage = (double)Math.round(((double)selectedCount/questionCount)*10000)/100;
@@ -365,7 +365,10 @@ public class AnswerServiceImpl implements AnswerService{
 			highestStandardDeviationList.add(totalQuestionDataList.get(i));
 		}
 
+		System.out.println(totalQuestionDataList.size());
+
 		SurveyResultRes surveyResultRes = SurveyResultRes.builder()
+				.questionCount(totalQuestionDataList.size())
 				.answerDataList(answerDataList)
 				.highestStandardDeviationList(highestStandardDeviationList)
 				.highestAverageList(highestAverageList)

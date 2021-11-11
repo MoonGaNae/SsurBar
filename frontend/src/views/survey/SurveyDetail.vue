@@ -15,6 +15,13 @@
           <!-- <li class="tab">비교</li> -->
           <li
             class="tab"
+            :class="{ selectedTab: selectedTabNum == 1 }"
+            @click="changeTab(1)"
+          >
+            비교
+          </li>
+          <li
+            class="tab"
             :class="{ selectedTab: selectedTabNum == 2 }"
             @click="changeTab(2)"
           >
@@ -91,6 +98,9 @@
           >
             <div class="component-div" v-if="selectedTabNum == 0">
               <SurveyAnalysis :surveyId="surveyId" />
+            </div>
+            <div class="component-div" v-if="selectedTabNum == 1">
+              <SurveyComparison :surveyId="surveyId" />
             </div>
             <div class="component-div" v-if="selectedTabNum == 2">
               <SurveyRealease :surveyId="surveyId" />
@@ -169,19 +179,22 @@ import { mapActions } from "vuex";
 import SurveyRealease from "@/components/detail/SurveyRealease.vue";
 import SurveyAnalysis from "@/components/detail/SurveyAnalysis.vue";
 import SurveyResult from "@/components/detail/SurveyResult.vue";
+import SurveyComparison from "@/components/detail/SurveyComparison.vue";
 
 export default {
   name: "SurveyDetail",
+  props: ["selectedSurveyId"],
   components: {
     SurveyRealease,
     SurveyAnalysis,
     SurveyResult,
+    SurveyComparison,
   },
   data() {
     return {
       selectedTabNum: 0,
       checkedFilter: [],
-      surveyId: "samplesurvey1",
+      // surveyId: "samplesurvey1",
       filterList: [],
       isFeedbackOpened: false,
       feedbackContentBackup: "",
@@ -205,15 +218,6 @@ export default {
         surveyId: this.surveyId,
       };
       this.setAnswerData(searchData);
-      // axios
-      //   .get(`/survey/${this.surveyId}/answer`, {
-      //     params: {
-      //       filterDataStr: encodeURI(filterStr),
-      //     },
-      //   })
-      //   .then((res) => {
-      //     console.log(res);
-      //   });
     },
     clickFilterDiv(filterIdx) {
       this.filterList[filterIdx].isSelected =
@@ -261,36 +265,43 @@ export default {
   },
   computed: {
     checkFullContent() {
-      if (this.selectedTabNum == 0 || this.selectedTabNum == 1) {
+      if (this.selectedTabNum == 0) {
         return false;
       }
       return true;
     },
   },
   created() {
-    axios.get(`/survey/${this.surveyId}/filters`).then((res) => {
-      res.data.filterQuestionList.forEach((el) => {
-        let title = el.title;
-        let content = JSON.parse(el.content);
+    this.surveyId = this.$route.params.selectedSurveyId;
+    axios
+      .get(`/survey/${this.surveyId}/filters`)
+      .then((res) => {
+        res.data.filterQuestionList.forEach((el) => {
+          let title = el.title;
+          let content = JSON.parse(el.content);
 
-        let filterNames = [];
+          let filterNames = [];
 
-        Object.keys(content).forEach((key) => {
-          filterNames.push(content[key]);
+          Object.keys(content).forEach((key) => {
+            filterNames.push(content[key]);
+          });
+
+          this.checkedFilter.push({
+            filterKind: title,
+            filterValue: [],
+          });
+
+          this.filterList.push({
+            name: title,
+            isSelected: false,
+            filterNames: filterNames,
+          });
         });
-
-        this.checkedFilter.push({
-          filterKind: title,
-          filterValue: [],
-        });
-
-        this.filterList.push({
-          name: title,
-          isSelected: false,
-          filterNames: filterNames,
-        });
+      })
+      .catch((err) => {
+        console.log(err);
+        // this.$router.push("/");
       });
-    });
 
     let filterStr = JSON.stringify(this.checkedFilter);
     let searchData = {

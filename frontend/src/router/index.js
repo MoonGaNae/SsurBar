@@ -16,6 +16,8 @@ import DefaultTemplateList from "../views/DefaultTemplateList.vue";
 import RecentTemplateList from "../views/RecentTemplateList.vue";
 import Main from "../views/main/main.vue";
 import TemplatePreview from "@/views/TemplatePreview";
+import Login from "@/views/user/login.vue";
+import Result from "@/views/survey/SurveyResultLink.vue";
 
 Vue.use(VueRouter);
 
@@ -41,6 +43,21 @@ const routes = [
     component: Form,
   },
   {
+    path: "/login",
+    name: "Login",
+    component: Login,
+  },
+  // {
+  //   path: "/form",
+  //   name: "Form",
+  //   component: Form,
+  // },
+  {
+    path: "/result/:linkCode",
+    name: "ResultLink",
+    component: Result,
+  },
+  {
     path: "/survey/complete",
     name: "SurveyCreateComplete",
     component: SurveyCreateComplete,
@@ -59,6 +76,7 @@ const routes = [
     path: "/survey/detail",
     name: "SurveyDetail",
     component: SurveyDetail,
+    props: true,
   },
   {
     path: "/finish",

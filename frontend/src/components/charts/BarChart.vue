@@ -53,12 +53,6 @@ export default {
               stacked: true,
               tacked: false,
               beginAtZero: true,
-              // scaleLabel: {
-              //   labelString: "Month",
-              // },
-              // ticks: {
-              //   autoSkip: false,
-              // },
             },
           ],
         },
@@ -69,7 +63,10 @@ export default {
           callbacks: {
             label: function (tooltipItem, data) {
               return (
-                "score : " + data["datasets"][0]["data"][tooltipItem["index"]]
+                "score : " +
+                data["datasets"][tooltipItem.datasetIndex]["data"][
+                  tooltipItem["index"]
+                ]
               );
             },
           },
@@ -80,6 +77,12 @@ export default {
     };
   },
   mounted() {
+    let dataSets = this.barDataSets;
+    let labels = this.barLabels;
+
+    this.datacollection.labels = labels;
+    this.datacollection.datasets = dataSets;
+
     this.renderChart(this.datacollection, this.options);
   },
 };

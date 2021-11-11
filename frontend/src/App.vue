@@ -1,11 +1,12 @@
 <template>
   <div id="app">
     <Sidebar id="sidebar" v-if="showSide" />
-    <div id="main-frame">
+    <div v-if="showFrame" id="main-frame">
       <div id="background-frame">
         <RouterView id="router" :key="$route.fullPath" />
       </div>
     </div>
+    <RouterView v-if="!showFrame" id="router" :key="$route.fullPath" />
   </div>
 </template>
 
@@ -19,7 +20,15 @@ export default {
   },
   computed: {
     showSide() {
-      return !(this.$route.name === "Form" || this.$route.name === "Finish");
+      return !(
+        this.$route.name === "Form" ||
+        this.$route.name === "Finish" ||
+        this.$route.name == "ResultLink" ||
+        this.$route.name == "Login"
+      );
+    },
+    showFrame() {
+      return !(this.$route.name === "Form" || this.$route.name === "Finish" || this.$route.name == "Login");
     },
   },
 };

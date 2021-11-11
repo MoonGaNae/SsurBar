@@ -22,4 +22,6 @@ public class SurveyDetailRes extends BaseResponseBody{
 	private String resultUrl;
 	private String teamId;
 	private String teamName;
+	private String title;
+	private String description;
 }
