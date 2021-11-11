@@ -85,7 +85,7 @@
           </div>
         </el-form>
       </div>
-      <div style="text-align: center">
+      <div class="logo-div" style="text-align: center">
         <img class="logo" src="@/assets/smalllogo.png" />
       </div>
     </div>
@@ -216,13 +216,13 @@ export default {
           this.form.filterTitle.push(this.filters[i].title);
         }
         this.filterExample = contentAnswers;
-        console.log(this.filters);
-        console.log(this.filterExample);
+        // console.log(this.filters);
+        // console.log(this.filterExample);
       });
     },
     getQuestionList(templateId) {
       axios.get("template/" + templateId + "/questions").then((res) => {
-        console.log(res);
+        // console.log(res);
         this.questions = res.data.questionList;
 
         var contents = new Array();
@@ -240,14 +240,14 @@ export default {
             content: JSON.parse(contents[i]),
           });
           this.form.questionId.push(this.questions[i].questionId);
-          console.log(categorys);
+          // console.log(categorys);
         }
         var uniqueCategory = this.removeDuplicates(categorys, "categoryId");
-        console.log("uniqueArray is: " + JSON.stringify(uniqueCategory));
+        // console.log("uniqueArray is: " + JSON.stringify(uniqueCategory));
 
         this.category = uniqueCategory;
         this.questionExample = questionExs;
-        console.log(this.form);
+        // console.log(this.form);
       });
     },
     // 카테고리 중복값을 제거하기 위한 메소드
@@ -285,13 +285,14 @@ export default {
     },
     async setInfo() {
       await this.getSurveyDetailInfo(this.surveyId);
+      console.log(this.surveyInfo);
       this.template.title = this.surveyInfo.title;
       this.template.desc = this.surveyInfo.description;
       this.template.start = this.surveyInfo.creationTime;
       this.template.end = this.surveyInfo.endTime;
 
-      // 시작날짜와 마감날짜 차이를 구하는 변수 선언
-      var sdt = new Date(this.template.start);
+      // 시작날짜와 마감날짜 차이를 구하는 변수 선언 -> 시작날짜를 현재 시간으로 바꿨음
+      var sdt = new Date();
       var edt = new Date(this.template.end);
       var dateDiff = Math.ceil((edt - sdt) / (1000 * 3600 * 24));
       this.template.sub = dateDiff;
@@ -306,6 +307,7 @@ export default {
           this.surveyId = res.data.surveyId;
           this.getQuestionList(this.templateId);
           this.getFilterList(this.surveyId);
+          this.setInfo();
         })
         .catch((err) => {
           console.log(err);
@@ -315,7 +317,6 @@ export default {
   // 동기적으로 호출
   created() {
     this.process();
-    this.setInfo();
   },
 };
 </script>
@@ -323,7 +324,7 @@ export default {
 <style scoped>
 .surveyWrapper {
   background-color: navy;
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .surveyDes h1 {
@@ -338,10 +339,11 @@ export default {
   padding: 2em;
   text-align: left;
   background-color: white;
-  height: 100vh;
+  min-height: 100vh;
   position: relative;
 }
 .surveyContent {
+  min-height: 60vh;
   margin-top: 50px;
 }
 .surveytitle {
@@ -349,12 +351,24 @@ export default {
   margin-bottom: 1em;
   font-size: large;
 }
-.logo {
+
+.logo-div {
+  height: 10vh;
   margin-top: 3em;
+  /* width: 20%; */
+  /* position: absolute; */
+  bottom: 1em;
+  /* padding-right: 2em; */
+  /* width: 100%; */
+  /* right: 40%; */
+}
+
+.logo {
+  /* margin-top: 3em; */
   width: 20%;
-  position: absolute;
-  bottom: 3em;
-  right: 40%;
+  /* position: absolute; */
+  /* bottom: 3em; */
+  /* right: 40%; */
 }
 .button .el-button {
   background-color: orange;

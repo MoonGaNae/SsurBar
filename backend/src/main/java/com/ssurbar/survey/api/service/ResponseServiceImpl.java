@@ -75,7 +75,7 @@ public class ResponseServiceImpl implements ResponseService {
             QuestionAnswer questionAnswer = QuestionAnswer.builder()
                     .questionAnswerId(randomIdUtil.makeRandomId(13))
                     .question(questionRepository.findQuestionByQuestionId(questionId).get())
-                    .response("{\"0\":\""+answer+"\"}")
+                    .response("{\"0\":"+answer+"}")
                     .filterData(filterDataRepository.findFilterDataByFilterDataId(filterData.getFilterDataId()).get())
                     .survey(survey)
                     .build();

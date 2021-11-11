@@ -1,12 +1,12 @@
 <template>
   <div class="chart-container">
     <div class="title-div">
-      <h3 v-text="surveyId"></h3>
+      <h1 v-text="surveyTitle"></h1>
       <div class="team-name" v-text="teamName"></div>
-      <div class="survey-description" v-text="surveyDescription"></div>
-      <div class="survey-date">
+      <h5 class="survey-date">
         <span v-text="creationTime"></span> ~ <span v-text="endTime"></span>
-      </div>
+      </h5>
+      <p class="survey-description" v-text="surveyDescription"></p>
     </div>
     <div class="radar-chart-container">
       <div class="chart-title">
