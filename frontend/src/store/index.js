@@ -11,7 +11,7 @@ import analysis from "@/store/modules/analysis.js";
 
 Vue.use(Vuex);
 
-Vue.prototype.$reponseUrl = "http://k5f001.p.ssafy.io/form/";
+Vue.prototype.$responseUrl = "http://k5f001.p.ssafy.io/form/";
 Vue.prototype.$resultUrl = "http://k5f001.p.ssafy.io/result/";
 
 export default new Vuex.Store({

@@ -1,8 +1,6 @@
 <template>
   <div id="wrapper">
     <div class="main-container">
-      <!-- <div class="filter-container" v-if="!checkFullContent">sdadasdsad</div>
-          <div class="component-container" :class="{ isFullContent: checkFullContent }"> -->
       <div id="tab-div">
         <ul class="tabs">
           <li
@@ -12,7 +10,6 @@
           >
             분석
           </li>
-          <!-- <li class="tab">비교</li> -->
           <li
             class="tab"
             :class="{ selectedTab: selectedTabNum == 1 }"
@@ -43,7 +40,6 @@
         >
           <div class="name-text">필터</div>
           <div v-if="!isFilterOpened" class="filter-main-div">
-            <!-- <div class="filter-div"> -->
             <div class="filter-list">
               <div
                 class="filter-div"
@@ -75,8 +71,6 @@
                   </div>
                 </div>
               </div>
-
-              <!-- </div> -->
             </div>
             <div class="button-div">
               <button
@@ -128,14 +122,19 @@
             <div v-if="isFeedbackOpened" class="feedback-main-div">
               <div class="feedback-content-div">
                 <textarea
-                  :disabled="!isEditState"
+                  v-if="isEditState"
                   class="feedback-content"
                   type="textarea"
                   placeholder="Feedback input"
                   v-model="feedbackContent"
                 >
                 </textarea>
-                <!-- <textarea name="feedback-content"></textarea> -->
+                <textarea
+                  disabled
+                  class="feedback-content feedback-text"
+                  v-else
+                  v-model="feedbackContentBackup"
+                ></textarea>
               </div>
               <div class="feedback-button-div">
                 <button
@@ -161,13 +160,8 @@
               </div>
             </div>
           </div>
-          <!-- <div class="component-div" v-if="selectedTabNum == 3">
-                <SurveyResult :surveyId="surveyId" />
-              </div> -->
         </div>
       </div>
-      <!-- </div>
-          <div class="feedback-container" v-if="!checkFullContent">12321323</div> -->
     </div>
   </div>
 </template>
@@ -233,6 +227,7 @@ export default {
     clickEditSubmitButton() {
       //axios 추가 필요
       this.saveIntegratedFeedback();
+      this.feedbackContentBackup = this.feedbackContent;
       this.isEditState = false;
     },
     clickEditCancelButton() {
@@ -256,7 +251,8 @@ export default {
       axios
         .get(`/feedback/${this.surveyId}`)
         .then((res) => {
-          this.feedbackContent = res.data.comment;
+          console.log(res);
+          this.feedbackContent = this.feedbackContentBackup = res.data.comment;
         })
         .catch((err) => {
           console.log(err);
@@ -273,6 +269,7 @@ export default {
   },
   created() {
     this.surveyId = this.$route.params.selectedSurveyId;
+    this.getIntegratedFeedback();
     axios
       .get(`/survey/${this.surveyId}/filters`)
       .then((res) => {
@@ -557,6 +554,10 @@ ul.tabs li:hover {
   align-items: center;
   height: 100%;
   cursor: pointer;
+}
+
+.feedback-text {
+  background-color: white;
 }
 
 .feedback-title-open i {

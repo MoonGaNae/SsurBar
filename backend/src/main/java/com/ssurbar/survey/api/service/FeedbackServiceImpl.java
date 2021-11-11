@@ -2,14 +2,12 @@ package com.ssurbar.survey.api.service;
 
 import com.ssurbar.survey.api.request.FeedBackPatchReq;
 import com.ssurbar.survey.api.request.FeedBackPostReq;
-import com.ssurbar.survey.common.util.RandomIdUtil;
 import com.ssurbar.survey.db.entity.survey.IntegratedFeedback;
 import com.ssurbar.survey.db.entity.survey.Survey;
 import com.ssurbar.survey.db.repository.survey.IntegratedFeedbackRepository;
 import com.ssurbar.survey.db.repository.survey.SurveyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Optional;
 
@@ -42,7 +40,7 @@ public class FeedbackServiceImpl implements FeedbackService{
     @Override
     public IntegratedFeedback editTotalFeedback(String surveyId, FeedBackPatchReq feedBackPatchReq) {
         Optional<Survey> survey = surveyRepository.findBySurveyId(surveyId);
-        System.out.println(survey);
+
         IntegratedFeedback feedback = feedbackRepository.findIntegratedFeedbackBySurveyId(surveyId).get();
         if(feedback.getComment()!=null){
             feedbackRepository.delete(feedback);
@@ -64,12 +62,12 @@ public class FeedbackServiceImpl implements FeedbackService{
     @Override
     public IntegratedFeedback getTotalFeedback(String surveyId) {
         Optional<IntegratedFeedback> feedback = feedbackRepository.findIntegratedFeedbackBySurveyId(surveyId);
+
         if(feedback.isPresent()){
             return feedback.get();
         }
         return null;
     }
-
 
     @Override
     public void deleteTotalFeedback(String surveyId) {

@@ -3,12 +3,12 @@
     <div v-if="isLoading"></div>
     <div v-else class="release-content">
       <div class="survey-info-div">
-        <div class="team-name">{{ teamName }}</div>
-        <div class="survey-title">{{ title }}</div>
-        <div class="survey-duration">{{ startDate }} ~ {{ endDate }}</div>
-        <div class="survey-description">
-          {{ description }}
-        </div>
+        <h1 v-text="title"></h1>
+        <div class="team-name" v-text="teamName"></div>
+        <h5 class="survey-date">
+          <span v-text="startDate"></span> ~ <span v-text="endDate"></span>
+        </h5>
+        <p class="survey-description" v-text="description"></p>
       </div>
       <div class="link-list-div">
         <div class="response-link-div">

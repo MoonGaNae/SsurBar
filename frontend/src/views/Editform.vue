@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="page-title-div">
-      <h1 style="margin-left: 5%; margin-top: 1%; font-size: 3rem;">
+      <h1 style="margin-left: 5%; margin-top: 1%; font-size: 3rem">
         필터 항목 등록
       </h1>
       <!-- <button
@@ -11,14 +11,16 @@
       >
         Next
       </button> -->
-      <button 
+      <button
         @click="endEditFilter()"
         class="custom-btn btn-5"
-        style="margin-top:18%; margin-right:8%"
-      ><span>Next</span></button>
+        style="margin-top: 18%; margin-right: 8%"
+      >
+        <span>Next</span>
+      </button>
     </div>
-    <hr style="width: 88%; margin-left:6%" />
-    <div class="container">    
+    <hr style="width: 88%; margin-left: 6%" />
+    <div class="container">
       <div class="sub-title-div">
         <div>
           <h3 style="d-flex; text-align:left; font-size:2.5rem">
@@ -38,7 +40,7 @@
             @click="addCategory()"
             v-if="categoryInputState"
             class="custom-btn2 btn-5"
-            style="width:100%; margin-right:-3%"
+            style="width: 100%; margin-right: -3%"
           >
             입력 완료
           </button>
@@ -46,16 +48,16 @@
             v-if="categoryInputState"
             @click="cancelCategoryAdd()"
             class="custom-btn2 btn-5"
-            style="width:100%"
+            style="width: 100%"
           >
             취소
           </button>
-          <button 
+          <button
             class="custom-btn1 btn-5"
-            
             @click="categoryInputState = true"
             v-if="!categoryInputState"
-            ><span>필터 추가</span>
+          >
+            <span>필터 추가</span>
           </button>
           <!-- <button
             class="rounded-corner-button white-button category-add-btn"
@@ -103,11 +105,11 @@
                       <i class="el-icon-minus"></i>
                     </button>
                   </div> -->
-                  <div 
-                    class="position-fixed contact-button " 
+                  <div
+                    class="position-fixed contact-button"
                     @click="deleteCategory(categoryIndex)"
-                    style="margin-left:7.5%"
-                    >
+                    style="margin-left: 7.5%"
+                  >
                     <i class="fa fa-minus contact-button__icon"></i>
                   </div>
                 </div>
@@ -147,17 +149,16 @@
                     "
                   />
                 </div>
-                <div 
-                  class="position-fixed contact-button " 
-                  style="width:0.6%; margin-left:30%"
+                <div
+                  class="position-fixed contact-button"
+                  style="width: 0.6%; margin-left: 30%"
                   @click="
                     deleteChoice(
                       categoryList[selectedCategoryIdx].choiceList,
                       choiceIndex
                     )
                   "
-                
-                  >
+                >
                   <i class="fa fa-minus contact-button__icon"></i>
                 </div>
                 <!-- <button
@@ -181,12 +182,13 @@
                 >
                   보기 추가
                 </button> -->
-                <button 
-                  class="custom-btn2 btn-6"                
+                <button
+                  class="custom-btn2 btn-6"
                   @click="
                     addChoice(categoryList[selectedCategoryIdx].choiceList)
                   "
-                  ><span>보기 추가</span>
+                >
+                  <span>보기 추가</span>
                 </button>
               </div>
             </div>
@@ -211,10 +213,6 @@ export default {
       filterQuestionList: [],
       selectedCategoryIdx: null,
       categoryList: [
-        {
-          title: "직무",
-          choiceList: ["개발팀", "영업팀", "보안팀"],
-        },
         {
           title: "성별",
           choiceList: ["여성", "남성"],
@@ -524,7 +522,6 @@ export default {
 
 .sub-title-div-buttons button {
   width: 220%;
-  
 }
 
 .sub-title-div-buttons .el-input__inner {
@@ -775,7 +772,7 @@ button {
   color: #fff;
   border-radius: 50px;
   padding: 10px 25px;
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
   font-weight: 500;
   font-size: 16px;
   background: transparent;
@@ -783,11 +780,11 @@ button {
   transition: all 0.3s ease;
   position: relative;
   display: inline-block;
-   box-shadow: inset 2px 2px 2px 0px rgba(255,255,255,.5),
-    inset -7px -7px 10px 0px rgba(0,0,0,.1),7px 7px 20px 0px rgba(0,0,0,.1),
-   4px 4px 5px 0px rgba(0,0,0,.1);
-  text-shadow:  2px 2px 3px rgba(255,255,255,.5),
-              -4px -4px 6px rgba(116, 125, 136, .2);
+  box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 0.5),
+    inset -7px -7px 10px 0px rgba(0, 0, 0, 0.1),
+    7px 7px 20px 0px rgba(0, 0, 0, 0.1), 4px 4px 5px 0px rgba(0, 0, 0, 0.1);
+  text-shadow: 2px 2px 3px rgba(255, 255, 255, 0.5),
+    -4px -4px 6px rgba(116, 125, 136, 0.2);
   outline: none;
 }
 
@@ -797,7 +794,7 @@ button {
   color: #fff;
   border-radius: 50px;
   padding: 5px 20px;
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
   font-weight: 500;
   font-size: 10px;
   background: transparent;
@@ -805,11 +802,11 @@ button {
   transition: all 0.3s ease;
   position: relative;
   display: inline-block;
-   box-shadow: inset 2px 2px 2px 0px rgba(255,255,255,.5),
-    inset -7px -7px 10px 0px rgba(0,0,0,.1),7px 7px 20px 0px rgba(0,0,0,.1),
-   4px 4px 5px 0px rgba(0,0,0,.1);
-  text-shadow:  2px 2px 3px rgba(255,255,255,.5),
-              -4px -4px 6px rgba(116, 125, 136, .2);
+  box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 0.5),
+    inset -7px -7px 10px 0px rgba(0, 0, 0, 0.1),
+    7px 7px 20px 0px rgba(0, 0, 0, 0.1), 4px 4px 5px 0px rgba(0, 0, 0, 0.1);
+  text-shadow: 2px 2px 3px rgba(255, 255, 255, 0.5),
+    -4px -4px 6px rgba(116, 125, 136, 0.2);
   outline: none;
 }
 
@@ -819,7 +816,7 @@ button {
   color: #fff;
   border-radius: 50px;
   padding: 5px 2px;
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
   font-weight: 500;
   font-size: 10px;
   background: transparent;
@@ -827,11 +824,11 @@ button {
   transition: all 0.3s ease;
   position: relative;
   display: inline-block;
-   box-shadow: inset 2px 2px 2px 0px rgba(255,255,255,.5),
-    inset -7px -7px 10px 0px rgba(0,0,0,.1),7px 7px 20px 0px rgba(0,0,0,.1),
-   4px 4px 5px 0px rgba(0,0,0,.1);
-  text-shadow:  2px 2px 3px rgba(255,255,255,.5),
-              -4px -4px 6px rgba(116, 125, 136, .2);
+  box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 0.5),
+    inset -7px -7px 10px 0px rgba(0, 0, 0, 0.1),
+    7px 7px 20px 0px rgba(0, 0, 0, 0.1), 4px 4px 5px 0px rgba(0, 0, 0, 0.1);
+  text-shadow: 2px 2px 3px rgba(255, 255, 255, 0.5),
+    -4px -4px 6px rgba(116, 125, 136, 0.2);
   outline: none;
 }
 
@@ -843,39 +840,32 @@ button {
 .btn-5:hover {
   color: black;
   background: transparent;
-   box-shadow:none;
+  box-shadow: none;
 }
 .btn-5:before,
-.btn-5:after{
-  content:'';
-  position:absolute;
-  top:0;
-  right:0;
-  height:2px;
-  width:0;
+.btn-5:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 2px;
+  width: 0;
   background: #e39a52;
-  box-shadow:
-   -1px -1px 5px 0px #fff,
-   7px 7px 20px 0px #0003,
-   4px 4px 5px 0px #0002;
-  transition:400ms ease all;
+  box-shadow: -1px -1px 5px 0px #fff, 7px 7px 20px 0px #0003,
+    4px 4px 5px 0px #0002;
+  transition: 400ms ease all;
 }
-.btn-5:after{
-  right:inherit;
-  top:inherit;
-  left:0;
-  bottom:0;
+.btn-5:after {
+  right: inherit;
+  top: inherit;
+  left: 0;
+  bottom: 0;
 }
 .btn-5:hover:before,
-.btn-5:hover:after{
-  width:100%;
-  transition:800ms ease all;
+.btn-5:hover:after {
+  width: 100%;
+  transition: 800ms ease all;
 }
-
-
-
-
-
 
 .btn-6 {
   border: none;
@@ -885,52 +875,47 @@ button {
 .btn-6:hover {
   color: black;
   background: transparent;
-   box-shadow:none;
+  box-shadow: none;
 }
 .btn-6:before,
-.btn-6:after{
-  content:'';
-  position:absolute;
-  top:0;
-  right:0;
-  height:2px;
-  width:0;
+.btn-6:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 2px;
+  width: 0;
   background: #36a72c;
-  box-shadow:
-   -1px -1px 5px 0px #fff,
-   7px 7px 20px 0px #0003,
-   4px 4px 5px 0px #0002;
-  transition:400ms ease all;
+  box-shadow: -1px -1px 5px 0px #fff, 7px 7px 20px 0px #0003,
+    4px 4px 5px 0px #0002;
+  transition: 400ms ease all;
 }
-.btn-6:after{
-  right:inherit;
-  top:inherit;
-  left:0;
-  bottom:0;
+.btn-6:after {
+  right: inherit;
+  top: inherit;
+  left: 0;
+  bottom: 0;
 }
 .btn-6:hover:before,
-.btn-6:hover:after{
-  width:100%;
-  transition:800ms ease all;
+.btn-6:hover:after {
+  width: 100%;
+  transition: 800ms ease all;
 }
-
-
-
-
-
 
 .contact-button {
   background-color: #ec4d4d;
   color: white;
   padding: 0.3% 0.3%;
-  height: 0.6%; width: 0.6%;
+  height: 0.6%;
+  width: 0.6%;
   border-radius: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   box-shadow: 0px 0px 0px 6px #ec4d4d;
 }
-.contact-button, .contact-button__icon {
+.contact-button,
+.contact-button__icon {
   transition: all 0.5s ease-in-out;
 }
 
@@ -941,6 +926,6 @@ button {
 }
 
 .contact-button:hover .contact-button__icon {
-  transform:scale(1.7);
+  transform: scale(1.7);
 }
 </style>

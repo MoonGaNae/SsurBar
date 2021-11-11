@@ -1,10 +1,12 @@
 <template>
   <div class="chart-container">
     <div style="margin-left: 3%; margin-top: 3%">
-      <h1>설문 결과</h1>
-      <br />
-      <h3>싸피 만족도 조사</h3>
-      <h4>2021.10.11 00:00 ~ 2021.10.22 23:59</h4>
+      <h1 v-text="surveyTitle"></h1>
+      <div class="team-name" v-text="teamName"></div>
+      <h5 class="survey-date">
+        <span v-text="creationTime"></span> ~ <span v-text="endTime"></span>
+      </h5>
+      <p class="survey-description" v-text="surveyDescription"></p>
     </div>
     <div class="radar-chart-container">
       <div class="chart-title">
@@ -124,11 +126,12 @@
 <script>
 import BarChart from "../charts/BarChart.vue";
 import RadarChart from "../charts/RadarChart.vue";
-// import LineChart from "@/components/charts/LineChart";
 import { mapState, mapGetters, mapActions } from "vuex";
+import surveyApi from "@/api/survey.js";
 
 export default {
   name: "SurveyAnalysis",
+  props: ["surveyId"],
   components: {
     BarChart,
     // LineChart,
@@ -142,6 +145,11 @@ export default {
       testTitle: "testest",
       isFlexCenter: false,
       isBarDataExist: false,
+      surveyTitle: null,
+      surveyDescription: null,
+      endTime: null,
+      creationTime: null,
+      teamName: null,
     };
   },
   computed: {
@@ -159,11 +167,25 @@ export default {
       this.makeChart();
     },
     widthTemp() {
-      console.log(this.widthTemp);
       if (this.widthTemp != "") this.isBarDataExist = true;
     },
   },
   methods: {
+    getSurveyInfo() {
+      surveyApi
+        .getSurveyDetailInfo(this.surveyId)
+        .then((res) => {
+          this.surveyTitle = res.data.title;
+          this.surveyDescription = res.data.description;
+          this.endTime = res.data.endTime;
+          this.creationTime = res.data.creationTime;
+          this.teamName = res.data.teamName;
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     makeChart() {
       /* 방사형 그래프 데이터 처리 */
       let averageDataList = [];
@@ -260,6 +282,7 @@ export default {
   },
   created() {
     this.count = this.questionCount;
+    this.getSurveyInfo();
 
     if (this.count != null) {
       this.widthTemp = this.count * 5 + "vh";
@@ -506,6 +529,18 @@ export default {
   width: 100%;
   display: flex;
   justify-content: space-between;
+  margin-bottom: 1vh;
+}
+
+.team-name {
+  margin-bottom: 1vh;
+}
+
+.survey-description {
+  margin-bottom: 1vh;
+}
+
+.survey-date {
   margin-bottom: 1vh;
 }
 

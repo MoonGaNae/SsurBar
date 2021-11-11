@@ -146,7 +146,6 @@ public class SurveyController {
 
 		  SurveyResultRes res = answerService.getSurveyAnswerList(surveyId, filterDataStr);
 
-//		  SurveyResultRes res = SurveyResultRes.builder().answerDataList(answerDataList).build();
 		  res.setMessage("성공");
 
 		  return ResponseEntity.status(200).body(res);

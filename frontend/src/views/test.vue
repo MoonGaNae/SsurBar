@@ -20,15 +20,11 @@
           >
             Create
           </button> -->
-          <button 
-              class="custom-btn1 btn-5"             
-              @click="moveCreateForm()"
-            ><span>생성</span>
+          <button class="custom-btn1 btn-5" @click="moveCreateForm()">
+            <span>생성</span>
           </button>
-          <button 
-              class="custom-btn1 btn-5"             
-              @click="moveBack()"
-            ><span>나가기</span>
+          <button class="custom-btn1 btn-5" @click="moveBack()">
+            <span>나가기</span>
           </button>
 
           <!-- <button
@@ -80,7 +76,7 @@
                   v-for="(question, questionIdx) in filters"
                   :key="questionIdx"
                 >
-                  {{ question.number }}. {{ question.title }}
+                  Q. {{ question.title }}
                   <br />
                   <el-form-item>
                     <el-radio-group v-model="form.questionRes[questionIdx]">
@@ -109,7 +105,7 @@
                   v-for="(question, questionIdx) in item"
                   :key="questionIdx"
                 >
-                  {{ question.number }}. {{ question.title }}
+                  Q. {{ question.title }}
                   <br />
                   <el-form-item>
                     <el-radio-group
@@ -306,7 +302,7 @@ button {
   color: #fff;
   border-radius: 50px;
   padding: 2px 5px;
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
   font-weight: 500;
   font-size: 13px;
   background: transparent;
@@ -314,11 +310,11 @@ button {
   transition: all 0.3s ease;
   position: relative;
   display: inline-block;
-   box-shadow: inset 2px 2px 2px 0px rgba(255,255,255,.5),
-    inset -7px -7px 10px 0px rgba(0,0,0,.1),7px 7px 20px 0px rgba(0,0,0,.1),
-   4px 4px 5px 0px rgba(0,0,0,.1);
-  text-shadow:  2px 2px 3px rgba(255,255,255,.5),
-              -4px -4px 6px rgba(116, 125, 136, .2);
+  box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 0.5),
+    inset -7px -7px 10px 0px rgba(0, 0, 0, 0.1),
+    7px 7px 20px 0px rgba(0, 0, 0, 0.1), 4px 4px 5px 0px rgba(0, 0, 0, 0.1);
+  text-shadow: 2px 2px 3px rgba(255, 255, 255, 0.5),
+    -4px -4px 6px rgba(116, 125, 136, 0.2);
   outline: none;
 }
 
@@ -330,33 +326,31 @@ button {
 .btn-5:hover {
   color: black;
   background: transparent;
-   box-shadow:none;
+  box-shadow: none;
 }
 .btn-5:before,
-.btn-5:after{
-  content:'';
-  position:absolute;
-  top:0;
-  right:0;
-  height:2px;
-  width:0;
+.btn-5:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 2px;
+  width: 0;
   background: #e39a52;
-  box-shadow:
-   -1px -1px 5px 0px #fff,
-   7px 7px 20px 0px #0003,
-   4px 4px 5px 0px #0002;
-  transition:400ms ease all;
+  box-shadow: -1px -1px 5px 0px #fff, 7px 7px 20px 0px #0003,
+    4px 4px 5px 0px #0002;
+  transition: 400ms ease all;
 }
-.btn-5:after{
-  right:inherit;
-  top:inherit;
-  left:0;
-  bottom:0;
+.btn-5:after {
+  right: inherit;
+  top: inherit;
+  left: 0;
+  bottom: 0;
 }
 .btn-5:hover:before,
-.btn-5:hover:after{
-  width:100%;
-  transition:800ms ease all;
+.btn-5:hover:after {
+  width: 100%;
+  transition: 800ms ease all;
 }
 
 .page-title-div {
