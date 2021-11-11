@@ -8,12 +8,12 @@
           <h1>Login</h1>
         <div id="formDetail">
             <div class="form__group field">
-                <input type="input" class="form__field" placeholder="Name" required />
+                <input v-model="loginForm.email" type="input" class="form__field" placeholder="Name" required />
                 <label for="name" class="form__label">Name</label>
             </div>
             <br>
             <div class="form__group field">
-                <input type="input" class="form__field" placeholder="Password" required />
+                <input v-model="loginForm.password" type="input" class="form__field" placeholder="Password" required />
                 <label for="pass" class="form__label">Password</label>
             </div>
             <div class="buttonBox">
@@ -26,25 +26,22 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 export default {
     data() {
       return {
         loginForm: {
-            email: '',
-            pass: '',
+            email: 'string',
+            password: 'string',
         },
       };
     },
     methods: {
-      submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            alert('submit!');
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        });
+      ...mapActions('user', ['onLogin']),
+      submitForm() {
+        // console.log(this.loginForm);
+
+        this.onLogin(this.loginForm);
       },
     }
   }
