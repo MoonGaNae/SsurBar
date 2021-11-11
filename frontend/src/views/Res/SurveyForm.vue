@@ -392,4 +392,26 @@ export default {
   text-align: center;
   margin-top: 3em;
 }
+
+@media (min-width: 768px) {
+  .surveyWrapper {
+    min-height: 100vh;
+  }
+
+  .surveyDes h1 {
+    font-weight: 800;
+  }
+  .surveyDes h5 {
+    font-weight: 700;
+  }
+  .surveyForm {
+    margin-left: 25%;
+    margin-right: 25%;
+    padding: 2em;
+    text-align: left;
+    background-color: white;
+    min-height: 100vh;
+    position: relative;
+  }
+}
 </style>
