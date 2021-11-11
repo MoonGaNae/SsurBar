@@ -1,6 +1,6 @@
 <template>
   <div class="surveyWrapper">
-    <div class="surveyForm">
+    <div v-if="!isLoading" class="surveyForm">
       <el-tag type="danger" effect="plain" style="border-radius: 50px"
         >{{ template.sub }}일남음</el-tag
       >
@@ -19,7 +19,7 @@
                 v-for="(item, idx) in filters"
                 :key="idx"
               >
-                {{ item.questionNum }}. {{ item.title }}
+                Q. {{ item.title }}
                 <br />
                 <el-form-item>
                   <el-radio-group v-model="form.filterRes[idx]">
@@ -89,6 +89,7 @@
         <img class="logo" src="@/assets/smalllogo.png" />
       </div>
     </div>
+    <div v-else class="surveyForm"></div>
   </div>
 </template>
 
@@ -126,6 +127,7 @@ export default {
       // surveyId: 'rm15zxga9lsRp',
       tempaletId: "",
       surveyId: "",
+      isLoading: true,
       template: {
         title: "",
         desc: "",
@@ -156,7 +158,6 @@ export default {
   methods: {
     ...mapActions("survey", ["getSurveyDetailInfo"]),
     submitForm() {
-      console.log(this.form);
       var questionIdAnswer = new Array();
       var answerlist = new Array();
       //   var filterlist = new Array();
@@ -290,6 +291,14 @@ export default {
       this.template.desc = this.surveyInfo.description;
       this.template.start = this.surveyInfo.creationTime;
       this.template.end = this.surveyInfo.endTime;
+
+      let now = new Date();
+      let endTime = new Date(this.template.end);
+
+      if (now > endTime) {
+        this.$router.push({ name: "SurveyClosed" });
+      }
+      this.isLoading = false;
 
       // 시작날짜와 마감날짜 차이를 구하는 변수 선언 -> 시작날짜를 현재 시간으로 바꿨음
       var sdt = new Date();
