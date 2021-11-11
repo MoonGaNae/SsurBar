@@ -558,6 +558,7 @@ ul.tabs li:hover {
 
 .feedback-text {
   background-color: white;
+  border-style: none !important;
 }
 
 .feedback-title-open i {

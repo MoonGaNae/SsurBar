@@ -1,5 +1,5 @@
 <template>
-  <div class="chart-container">
+  <div v-if="!isAnswerEmpty" div class="chart-container">
     <div class="radar-chart-container">
       <div class="chart-title">
         <h2>카테고리별 데이터</h2>
@@ -113,11 +113,15 @@
       <div class="temp-div"></div>
     </div>
   </div>
+  <div v-else class="empty-div">
+    <EmptyData></EmptyData>
+  </div>
 </template>
 
 <script>
 import BarChart from "../charts/BarChart.vue";
 import RadarChart from "../charts/RadarChart.vue";
+import EmptyData from "@/components/detail/DataEmpty.vue";
 import { mapState, mapGetters, mapActions } from "vuex";
 
 export default {
@@ -125,6 +129,7 @@ export default {
   components: {
     BarChart,
     RadarChart,
+    EmptyData,
   },
   data() {
     return {
@@ -134,6 +139,7 @@ export default {
       testTitle: "testest",
       isFlexCenter: false,
       isBarDataExist: false,
+      isAnswerEmpty: false,
     };
   },
   computed: {
@@ -179,7 +185,15 @@ export default {
       let averageDataList = [];
       let dataLabels = [];
 
-      if (this.getAnswerDataList() == null) return;
+      if (
+        this.getAnswerDataList() == null ||
+        this.getAnswerDataList().length == 0
+      ) {
+        this.isAnswerEmpty = true;
+        return;
+      }
+
+      this.isAnswerEmpty = false;
 
       this.getAnswerDataList().forEach((el) => {
         averageDataList.push(el.averageScore);
@@ -508,6 +522,10 @@ export default {
   background-color: #9cbbff;
   /* width: 80%; */
   border-radius: 10px;
+  height: 100%;
+}
+
+.empty-div {
   height: 100%;
 }
 </style>
