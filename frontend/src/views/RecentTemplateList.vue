@@ -46,11 +46,14 @@
 </template>
 
 <script>
+import axios from "@/utils/axios.js";
 import { mapState, mapActions } from "vuex";
 export default {
   data() {
     return {
       search: "",
+      questions: [],
+      templateId : "",
     };
   },
   computed: {
@@ -58,10 +61,46 @@ export default {
   },
   methods: {
     ...mapActions("list", ["getRecentSurveyList", "setCategoryList"]),
-    RecentTemplate(index, row) {
-      console.log(row[index].surveyId);
+    ...mapActions("question", ["setQuestionList"]),
+    ...mapActions("template", ["setTemplateId"]),
+    async RecentTemplate(index, row) {
       this.setCategoryList(row[index].surveyId);
+
+      this.templateId = row[index].templateId;
+
+      await this.getQuestionList(this.templateId);
+      this.setTemplateId(this.templateId);
+      
       this.$router.push("/form/createform");
+    },
+
+    getQuestionList(templateId) {
+      axios.get("template/" + templateId + "/questions").then((res) => {
+        // console.log(res);
+        this.questions = res.data.questionList;
+
+        // JSON 직렬화 시켜서 store에 저장
+        let jsonList = new Array();
+        this.questions.forEach((el) => {
+          jsonList.push(JSON.stringify(el));
+        });
+
+        this.setQuestionList(jsonList);
+      });
+    },
+    // 카테고리 중복값을 제거하기 위한 메소드
+    removeDuplicates(originalArray, prop) {
+      var newArray = [];
+      var lookupObject = {};
+
+      for (var i in originalArray) {
+        lookupObject[originalArray[i][prop]] = originalArray[i];
+      }
+
+      for (i in lookupObject) {
+        newArray.push(lookupObject[i]);
+      }
+      return newArray;
     },
   },
   created() {
