@@ -161,27 +161,8 @@
                 >
                   <i class="fa fa-minus contact-button__icon"></i>
                 </div>
-                <!-- <button
-                  class="el-button el-button--danger is-circle el-button--mini"
-                  @click="
-                    deleteChoice(
-                      categoryList[selectedCategoryIdx].choiceList,
-                      choiceIndex
-                    )
-                  "
-                >
-                  <i class="el-icon-minus"></i>
-                </button> -->
               </div>
               <div class="choice-add-button-div">
-                <!-- <button
-                  class="rounded-corner-button green-button"
-                  @click="
-                    addChoice(categoryList[selectedCategoryIdx].choiceList)
-                  "
-                >
-                  보기 추가
-                </button> -->
                 <button
                   class="custom-btn2 btn-6"
                   @click="
@@ -252,13 +233,11 @@ export default {
       let category = {
         title: this.categoryInput,
         isSelected: false,
-        filterList: [],
+        choiceList: [],
       };
 
       let isExist = false;
       let length = this.categoryList.length;
-
-      console.log(length);
 
       for (let i = 0; i < length; i++) {
         if (this.categoryList[i].title == this.categoryInput) {
