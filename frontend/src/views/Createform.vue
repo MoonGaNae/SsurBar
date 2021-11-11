@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="page-title-div ">
-      <h1 style="margin-left: 5%; margin-top: 1%; font-size: 3rem;">
+    <div class="page-title-div">
+      <h1 style="margin-left: 5%; margin-top: 1%; font-size: 3rem">
         신규 설문 생성
       </h1>
-      
+
       <!-- <button
         @click="endEditForm()"
         class="next-button yellow-button rounded-corner-button"
@@ -13,17 +13,24 @@
         Next
       </button> -->
 
-      <button 
+      <button
         @click="endEditForm()"
         class="custom-btn btn-5"
-        style="margin-top:18%; margin-right:8%"
-      ><span>Next</span></button>
+        style="margin-top: 18%; margin-right: 8%"
+      >
+        <span>Next</span>
+      </button>
     </div>
-    <hr style="width: 88%; margin-left:6%" />
+    <hr style="width: 88%; margin-left: 6%" />
     <div class="container">
       <div
-        class="row el-card box-card is-always-shadow "
-        style="width: 50%; margin-left: 20%; margin-top: 5%; border-radius:25px"
+        class="row el-card box-card is-always-shadow"
+        style="
+          width: 50%;
+          margin-left: 20%;
+          margin-top: 5%;
+          border-radius: 25px;
+        "
       >
         <div
           class="col-xs-12 col-lg-offset-3 col-lg-6"
@@ -31,7 +38,9 @@
         >
           <form method="GET" action="" id="survey-form" name="survey-form">
             <fieldset>
-              <label for="name" id="name-label" style="margin-top:10%"> 설문 이름 * </label>
+              <label for="name" id="name-label" style="margin-top: 10%">
+                설문 이름 *
+              </label>
               <input
                 class="name"
                 type="text"
@@ -45,7 +54,7 @@
             </fieldset>
 
             <fieldset>
-              <label for="dropdown" style="margin-top:10%"> 설문대상 * </label>
+              <label for="dropdown" style="margin-top: 10%"> 설문대상 * </label>
               <select
                 name="team"
                 v-model="targetTeamId"
@@ -63,7 +72,7 @@
             </fieldset>
 
             <fieldset>
-              <label for="name" id="name-label" style="margin-top:10%">
+              <label for="name" id="name-label" style="margin-top: 10%">
                 설문 기한 *
                 <div style="margin-top: 5%">
                   <el-date-picker
@@ -81,7 +90,7 @@
               <textarea
                 id="survey-form-suggestions"
                 maxlength="194"
-                style="font-size: 1.2em; margin-bottom:10%; margin-top:-5%"
+                style="font-size: 1.2em; margin-bottom: 10%; margin-top: -5%"
                 v-model="description"
               ></textarea>
             </fieldset>
@@ -379,7 +388,7 @@ export default {
     ...mapActions("team", ["getTeams"]),
     ...mapActions("survey", ["getRecentSurveyInfo"]),
     endEditForm() {
-      console.log(this.surveyTitle)
+      console.log(this.surveyTitle);
       let endTime = this.endDate.toISOString().split("T");
       this.setEndTime(endTime[0] + " " + endTime[1].split(".")[0]);
       this.setTeamId(this.targetTeamId);
@@ -399,17 +408,17 @@ export default {
       //     this.$router.push("/filter");
       //   });
     },
-    async setRecentSurvey(){
-      if(!this.editSurveyId){
+    async setRecentSurvey() {
+      if (!this.editSurveyId) {
         console.log("null!");
-      }else{
-        console.log("not null")
+      } else {
+        console.log("not null");
         this.$fire({
-                    title: "지난 설문 불러오기",
-                    text : "선택한 설문지의 서식을 불러옵니다.",
-                    type: "success",
-                })
-        await this.getRecentSurveyInfo(this.editSurveyId)
+          title: "지난 설문 불러오기",
+          text: "선택한 설문지의 서식을 불러옵니다.",
+          type: "success",
+        });
+        await this.getRecentSurveyInfo(this.editSurveyId);
         this.description = this.recentSurvey.description;
         this.surveyTitle = this.recentSurvey.title;
         this.targetTeamId = this.recentSurvey.teamId;
@@ -453,21 +462,6 @@ export default {
   text-align: center;
   /* height: 20%; */
   width: 10%;
-}
-
-#sidebar-wrapper {
-  z-index: 1000;
-  position: absolute;
-  left: 100px;
-  width: 0;
-  height: 100%;
-  margin-left: -100px;
-  overflow-y: auto;
-  background: white;
-  -webkit-transition: all 0.5s ease;
-  -moz-transition: all 0.5s ease;
-  -o-transition: all 0.5s ease;
-  transition: all 0.5s ease;
 }
 
 .sidebar-nav {
@@ -659,10 +653,6 @@ export default {
   -webkit-appearance: none;
 }
 
-
-
-
-
 button {
   margin: 20px;
 }
@@ -672,7 +662,7 @@ button {
   color: #fff;
   border-radius: 50px;
   padding: 10px 25px;
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
   font-weight: 500;
   font-size: 16px;
   background: transparent;
@@ -680,14 +670,13 @@ button {
   transition: all 0.3s ease;
   position: relative;
   display: inline-block;
-   box-shadow: inset 2px 2px 2px 0px rgba(255,255,255,.5),
-    inset -7px -7px 10px 0px rgba(0,0,0,.1),7px 7px 20px 0px rgba(0,0,0,.1),
-   4px 4px 5px 0px rgba(0,0,0,.1);
-  text-shadow:  2px 2px 3px rgba(255,255,255,.5),
-              -4px -4px 6px rgba(116, 125, 136, .2);
+  box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 0.5),
+    inset -7px -7px 10px 0px rgba(0, 0, 0, 0.1),
+    7px 7px 20px 0px rgba(0, 0, 0, 0.1), 4px 4px 5px 0px rgba(0, 0, 0, 0.1);
+  text-shadow: 2px 2px 3px rgba(255, 255, 255, 0.5),
+    -4px -4px 6px rgba(116, 125, 136, 0.2);
   outline: none;
 }
-
 
 .btn-5 {
   border: none;
@@ -697,33 +686,30 @@ button {
 .btn-5:hover {
   color: black;
   background: transparent;
-   box-shadow:none;
+  box-shadow: none;
 }
 .btn-5:before,
-.btn-5:after{
-  content:'';
-  position:absolute;
-  top:0;
-  right:0;
-  height:2px;
-  width:0;
+.btn-5:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 2px;
+  width: 0;
   background: #e39a52;
-  box-shadow:
-   -1px -1px 5px 0px #fff,
-   7px 7px 20px 0px #0003,
-   4px 4px 5px 0px #0002;
-  transition:400ms ease all;
+  box-shadow: -1px -1px 5px 0px #fff, 7px 7px 20px 0px #0003,
+    4px 4px 5px 0px #0002;
+  transition: 400ms ease all;
 }
-.btn-5:after{
-  right:inherit;
-  top:inherit;
-  left:0;
-  bottom:0;
+.btn-5:after {
+  right: inherit;
+  top: inherit;
+  left: 0;
+  bottom: 0;
 }
 .btn-5:hover:before,
-.btn-5:hover:after{
-  width:100%;
-  transition:800ms ease all;
+.btn-5:hover:after {
+  width: 100%;
+  transition: 800ms ease all;
 }
-
 </style>
