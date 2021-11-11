@@ -150,8 +150,6 @@ export default {
     answerDataList() {
       this.count = this.questionCount;
 
-      console.log(this.count);
-
       this.widthTemp = this.count * 5 + "vh";
       if (this.count * 5 < 125) {
         this.isFlexCenter = true;
@@ -188,8 +186,12 @@ export default {
         dataLabels.push(el.categoryName);
       });
 
-      averageDataList.push(1);
-      dataLabels.push("test");
+      let count = averageDataList.length;
+
+      for (let i = count; i < 3; i++) {
+        averageDataList.push(0);
+        dataLabels.push("");
+      }
 
       let dataSets = [];
       let dataSet = {
