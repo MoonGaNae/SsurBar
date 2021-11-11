@@ -1,6 +1,6 @@
 <template>
   <div id="wrapper">
-    <div class="container">
+    <div class="main-container">
       <div class="complete-message-div">
         <div class="complete-message1">설문 생성이 완료되었습니다</div>
         <div class="complete-message2">링크를 통해 설문을 공유해보세요</div>
@@ -173,7 +173,7 @@ export default {
 </style>
 
 <style scoped>
-.container {
+.main-container {
   overflow: hidden !important;
   height: 100%;
 }
