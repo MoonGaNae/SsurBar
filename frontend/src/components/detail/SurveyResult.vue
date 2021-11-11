@@ -8,7 +8,7 @@
       </h5>
       <p class="survey-description" v-text="surveyDescription"></p>
     </div>
-    <div v-if="!isBarDataExist">
+    <div v-if="isBarDataExist">
       <div class="radar-chart-container">
         <div class="chart-title">
           <h2>카테고리별 데이터</h2>

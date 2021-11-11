@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!isDataExist" class="chart-container">
+  <div v-if="isDataExist" class="chart-container">
     <div class="select-div">
       <div class="select-div-text">비교 설문 선택</div>
       <el-select
@@ -77,7 +77,9 @@ export default {
       this.makeChart();
     },
     widthTemp() {
-      if (this.widthTemp != "") this.isDataExist = true;
+      if (this.widthTemp != "") {
+        this.isDataExist = true;
+      }
     },
   },
   methods: {
