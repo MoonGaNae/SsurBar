@@ -1,39 +1,37 @@
 <template>
   <div id="wrapper">
-    <div class="container">
+    <div class="main-container">
       <div class="page-title-div row justify-content-md-center">
-        <div class="col">
+        <!-- <div class="col">
           <h1 style="padding-top: 3%; padding-left: 4%; font-size: 4rem">
             설문서식 미리보기
           </h1>
-        </div>
-        <div class="col-md-auto align-self-end">
-          <!-- <el-input placeholder="Please input" v-model="searchTemplate" class="input-with-select">
-                <el-button slot="append" icon="el-icon-search"></el-button>
-              </el-input> -->
-          <button
-            class="next-button yellow-button rounded-button"
-            @click="moveCreateForm()"
-          >
-            Create
-          </button>
-          <button
-            class="next-button red-button rounded-button ms-3"
-            @click="moveTemplateDefault()"
-          >
-            Exit
-          </button>
-        </div>
+        </div> -->
       </div>
-      <hr style="width: 100%" />
+      <!-- <hr style="width: 100%" /> -->
       <div class="surveyForm">
-        <el-tag type="danger" effect="plain" style="border-radius: 50px"
-          >1일남음</el-tag
-        >
-        <div class="surveyDes">
-          <h1 class="title">{{ title }}</h1>
-          <h5 class="date">2021.10.25~2021.10.28</h5>
-          <p class="description">{{ description }}</p>
+        <div class="survey-des-div">
+          <div class="survey-des">
+            <h1 class="title">{{ title }}</h1>
+            <p class="description">
+              {{ description }}{{ description }}{{ description }}{{ description
+              }}{{ description }}{{ description }}
+            </p>
+          </div>
+          <div class="button-div col-md-auto align-self-end">
+            <button
+              class="next-button yellow-button rounded-button"
+              @click="moveCreateForm()"
+            >
+              Create
+            </button>
+            <button
+              class="next-button red-button rounded-button ms-3"
+              @click="moveTemplateDefault()"
+            >
+              Exit
+            </button>
+          </div>
         </div>
         <hr />
         <div class="surveyContent">
@@ -264,10 +262,10 @@ export default {
   border-radius: 12px;
 }
 
-.surveyDes h1 {
+.survey-des h1 {
   font-weight: 800;
 }
-.surveyDes h5 {
+.survey-des h5 {
   font-weight: 700;
 }
 
@@ -294,5 +292,16 @@ export default {
 .button {
   text-align: center;
   margin-top: 3em;
+}
+
+.survey-des-div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.button-div {
+  display: flex;
+  min-width: 10vw;
+  justify-content: flex-end;
 }
 </style>
