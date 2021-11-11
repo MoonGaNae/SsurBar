@@ -15,4 +15,5 @@ public class RecentSurveyInfo{
     private String surveyId;
     private String title;
     private String teamName;
+    private String templateId;
 }

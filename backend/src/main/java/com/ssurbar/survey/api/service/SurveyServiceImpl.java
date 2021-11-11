@@ -156,6 +156,7 @@ public class SurveyServiceImpl implements SurveyService {
 					.surveyId(survey.getSurveyId())
 					.title(survey.getTemplate().getTitle())
 					.teamName(survey.getTeam().getName())
+					.templateId(survey.getTemplate().getTemplateId())
 					.build());
 		}
 		return list;
