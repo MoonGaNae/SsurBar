@@ -112,7 +112,7 @@ export default {
     ...mapActions("question", ["setQuestionList", "setCategoryList"]),
     getTemplateInfo(templateId) {
       axios
-        .get("/template/" + templateId)
+        .get("/template/" + templateId + "/info")
         .then((res) => {
           this.title = res.data.title;
           this.description = res.data.description;

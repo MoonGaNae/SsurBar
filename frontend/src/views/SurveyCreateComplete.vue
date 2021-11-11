@@ -78,7 +78,7 @@ export default {
   },
   mounted() {
     axios
-      .get(`/survey/` + this.getSurveyId())
+      .get(`/survey/` + this.getSurveyId() + "/info")
       .then((res) => {
         console.log(res);
         this.responseUrl = this.$mainUrl + res.data.responseUrl;

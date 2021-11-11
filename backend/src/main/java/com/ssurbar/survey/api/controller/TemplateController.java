@@ -119,7 +119,7 @@ public class TemplateController {
         return ResponseEntity.status(200).body(TemplateDefaultGetRes.builder().templateList(templateList).build());
     }
 
-    @GetMapping("/{templateId}")
+    @GetMapping("/{templateId}/info")
     @ApiOperation(value = "서식 상세 정보 조회", notes="서식 제목, 설명 등 상세정보를 조회한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),

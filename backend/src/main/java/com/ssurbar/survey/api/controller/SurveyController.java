@@ -125,7 +125,7 @@ public class SurveyController {
 	  })
 	  public ResponseEntity<? extends BaseResponseBody> getSurveyReponseCount(@PathVariable String surveyId){
 		  int count = surveyService.getSurveyResponseCount(surveyId);
-		  
+
 		  SurveyCountRes res = SurveyCountRes.builder().count(count).build();
 		  res.setMessage("성공");
 		  
@@ -152,7 +152,7 @@ public class SurveyController {
 		  return ResponseEntity.status(200).body(res);
 	  }
 	  
-	  @GetMapping("/{surveyId}")
+	  @GetMapping("/{surveyId}/info")
 	  @ApiOperation(value = "설문 상제 정보 불러오기", notes = "선택한 설문에 대한 상세정보를 불러온다.")
 	  @ApiResponses({
 	          @ApiResponse(code = 200, message = "성공"),
