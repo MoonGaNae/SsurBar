@@ -1,14 +1,16 @@
 package com.ssurbar.survey.db.entity;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
 import java.time.LocalDateTime;
-import java.util.Random;
 
 /**
  * 유저 정보를 담을 User Entity
@@ -16,42 +18,20 @@ import java.util.Random;
 
 @Entity
 @Getter
+@Builder
 @NoArgsConstructor
-public class User extends BaseEntity {
+@AllArgsConstructor
+public class User {
 
-
+    @Id
+    private String userId;
+    private String name;
     private String password;
     private String email;
 
-    @Column(name="employee_number", insertable=false, updatable=false)
     private String employeeNumber;
 
-    @Column(name="user_type")
-    private String userType;
-
-    @Column(name="employee_number")
+    @Enumerated(EnumType.STRING)
+    private UserRole userType;
     private LocalDateTime joinDate;
-
-    @Builder
-    public User(String password, String email, String employeeNumber, String userType){
-        int leftLimit = 48; // numeral '0'
-        int rightLimit = 122; // letter 'z'
-        int targetStringLength = 13;
-        Random random = new Random();
-
-        String generatedString = random.ints(leftLimit,rightLimit + 1)
-                .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
-                .limit(targetStringLength)
-                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                .toString();
-        this.id = generatedString;
-        this.password = password;
-        this.email = email;
-        this.employeeNumber = employeeNumber;
-        this.userType = userType;
-        this.joinDate = LocalDateTime.now();
-    }
-
-    //사용자의 가입을 승인했을 때 메소드
-
 }

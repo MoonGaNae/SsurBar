@@ -20,6 +20,8 @@ import Login from "@/views/user/login.vue";
 import Result from "@/views/survey/SurveyResultLink.vue";
 import SurveyClosed from "../views/Res/SurveyClosed.vue";
 
+import store from '@/store/'
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -27,6 +29,7 @@ const routes = [
     path: "/",
     name: "main",
     component: Main,
+    meta: { requireAuth: true },
   },
   {
     path: "/survey/closed",
@@ -42,6 +45,7 @@ const routes = [
     path: "/form/createform",
     name: "FromCreateion",
     component: Createform,
+    meta: { requireAuth: true },
   },
   {
     path: "/form/:linkCode",
@@ -62,42 +66,50 @@ const routes = [
     path: "/survey/complete",
     name: "SurveyCreateComplete",
     component: SurveyCreateComplete,
+    meta: { requireAuth: true },
   },
   {
     path: "/test",
     name: "TestPage",
     component: TestPage,
+    meta: { requireAuth: true },
   },
   {
     path: "/filter",
     name: "filter",
     component: filter,
+    meta: { requireAuth: true },
   },
   {
     path: "/survey/detail",
     name: "SurveyDetail",
     component: SurveyDetail,
     props: true,
+    meta: { requireAuth: true },
   },
   {
     path: "/finish",
     name: "Finish",
     component: Finish,
+    meta: { requireAuth: true },
   },
   {
     path: "/template/default",
     name: "DefaultTemplateList",
     component: DefaultTemplateList,
+    meta: { requireAuth: true },
   },
   {
     path: "/template/:templateId/preview",
     name: "TemplatePreview",
     component: TemplatePreview,
+    meta: { requireAuth: true },
   },
   {
     path: "/template/recent",
     name: "RecentTemplateList",
     component: RecentTemplateList,
+    meta: { requireAuth: true },
   },
 ];
 
@@ -106,5 +118,22 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
 });
+
+router.beforeEach(function (to, from, next) {
+  if (to.matched.some( (routeInfo) => {
+    return routeInfo.meta.requireAuth
+  })) {
+    if(store.state.user.isLogin){
+      // console.log("로그인 됨");
+      next();
+    }else{
+      // console.log("로그인 안됨");
+      next('/login');
+    }
+  } 
+  else {
+    next();
+  }
+})
 
 export default router;
