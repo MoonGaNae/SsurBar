@@ -89,8 +89,8 @@ export default {
       .get(`/survey/` + this.surveyId)
       .then((res) => {
         console.log(res);
-        this.responseUrl = this.$mainUrl + res.data.responseUrl;
-        this.resultUrl = this.$mainUrl + res.data.resultUrl;
+        this.responseUrl = this.$responseUrl + res.data.responseUrl;
+        this.resultUrl = this.$resultUrl + res.data.resultUrl;
         this.endDate = res.data.endTime;
         this.startDate = res.data.creationTime;
         this.teamName = res.data.teamName;
