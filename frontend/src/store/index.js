@@ -11,7 +11,8 @@ import analysis from "@/store/modules/analysis.js";
 
 Vue.use(Vuex);
 
-Vue.prototype.$mainUrl = "http://localhost:8080/";
+Vue.prototype.$reponseUrl = "http://k5f001.p.ssafy.io/form/";
+Vue.prototype.$resultUrl = "http://k5f001.p.ssafy.io/result/";
 
 export default new Vuex.Store({
   modules: { question, template, survey, team, filterQuestion, list, analysis },

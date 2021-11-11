@@ -1,11 +1,5 @@
 package com.ssurbar.survey.api.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.ssurbar.survey.api.request.ResponsePostReq;
@@ -17,6 +11,11 @@ import com.ssurbar.survey.db.repository.answer.FilterDataRepository;
 import com.ssurbar.survey.db.repository.answer.QuestionAnswerRepository;
 import com.ssurbar.survey.db.repository.survey.QuestionRepository;
 import com.ssurbar.survey.db.repository.survey.SurveyRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service("responseService")
 public class ResponseServiceImpl implements ResponseService {
@@ -67,7 +66,7 @@ public class ResponseServiceImpl implements ResponseService {
             QuestionAnswer questionAnswer = QuestionAnswer.builder()
                     .questionAnswerId(randomIdUtil.makeRandomId(13))
                     .question(questionRepository.findQuestionByQuestionId(questionId).get())
-                    .response(answer)
+                    .response("{\"0\":\""+answer+"\"}")
                     .filterData(filterDataRepository.findFilterDataByFilterDataId(filterData.getFilterDataId()).get())
                     .survey(surveyRepository.findBySurveyId(surveyId).get())
                     .build();

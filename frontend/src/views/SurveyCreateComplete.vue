@@ -81,8 +81,8 @@ export default {
       .get(`/survey/` + this.getSurveyId())
       .then((res) => {
         console.log(res);
-        this.responseUrl = this.$mainUrl + res.data.responseUrl;
-        this.resultUrl = this.$mainUrl + res.data.resultUrl;
+        this.responseUrl = this.$responseUrl + res.data.responseUrl;
+        this.resultUrl = this.$resultUrl + res.data.resultUrl;
       })
       .catch((err) => {
         console.log(err);
@@ -169,5 +169,16 @@ export default {
 .el-icon-link {
   font-size: 150%;
   margin-right: 1%;
+}
+</style>
+
+<style scoped>
+.container {
+  overflow: hidden !important;
+  height: 100%;
+}
+
+#router {
+  height: 100%;
 }
 </style>

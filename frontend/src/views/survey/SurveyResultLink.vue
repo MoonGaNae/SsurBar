@@ -203,8 +203,12 @@ export default {
         dataLabels.push(el.categoryName);
       });
 
-      averageDataList.push(1);
-      dataLabels.push("test");
+      let count = averageDataList.length;
+
+      for (let i = count; i < 3; i++) {
+        averageDataList.push(0);
+        dataLabels.push("");
+      }
 
       let dataSets = [];
       let dataSet = {
