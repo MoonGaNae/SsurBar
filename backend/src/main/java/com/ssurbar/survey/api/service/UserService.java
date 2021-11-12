@@ -3,6 +3,7 @@ package com.ssurbar.survey.api.service;
 import com.ssurbar.survey.api.request.UserJoinPostReq;
 import com.ssurbar.survey.api.request.UserJoinPutReq;
 import com.ssurbar.survey.api.request.UserLoginPostReq;
+import com.ssurbar.survey.api.response.UserUncertifiedGetRes;
 import com.ssurbar.survey.common.model.common.UserInfo;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,4 +15,6 @@ public interface UserService {
     UserInfo login(UserLoginPostReq userLoginPostReq);
 
     void certified(HttpServletRequest request, UserJoinPutReq userJoinPutReq);
+
+    UserUncertifiedGetRes uncertifiedList(HttpServletRequest request);
 }

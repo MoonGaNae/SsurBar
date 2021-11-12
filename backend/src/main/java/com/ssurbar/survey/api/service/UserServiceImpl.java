@@ -6,6 +6,8 @@ import com.ssurbar.survey.api.exception.user.UserUnauthorizedException;
 import com.ssurbar.survey.api.request.UserJoinPostReq;
 import com.ssurbar.survey.api.request.UserJoinPutReq;
 import com.ssurbar.survey.api.request.UserLoginPostReq;
+import com.ssurbar.survey.api.response.UserDetail;
+import com.ssurbar.survey.api.response.UserUncertifiedGetRes;
 import com.ssurbar.survey.common.model.common.UserInfo;
 import com.ssurbar.survey.common.util.RandomIdUtil;
 import com.ssurbar.survey.db.entity.User;
@@ -15,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -80,5 +84,26 @@ public class UserServiceImpl implements UserService{
         user.changeUserType(userJoinPutReq.getUserType());
         userRepository.save(user);
 
+    }
+
+    @Override
+    public UserUncertifiedGetRes uncertifiedList(HttpServletRequest request) {
+
+        // 관리자인지 확인
+        String adminId = (String) request.getAttribute("userId");
+
+        if(adminId == null) throw new BadRequestException();
+
+        User admin = userRepository.findById(adminId).orElse(null);
+
+        if(admin == null) throw new UserNotfoundException();
+        else if(admin.getUserType() != UserRole.ADMIN) throw new UserUnauthorizedException();
+
+        List<User> users = userRepository.findUsersByUserType(UserRole.UNCERTIFIED);
+
+
+        return UserUncertifiedGetRes.builder()
+                .users(users.stream().map(UserDetail::of).collect(Collectors.toList()))
+                .build();
     }
 }
