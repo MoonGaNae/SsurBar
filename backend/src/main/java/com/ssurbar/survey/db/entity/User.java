@@ -34,4 +34,8 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRole userType;
     private LocalDateTime joinDate;
+
+    public void changeUserType(UserRole userType){
+        this.userType = userType;
+    }
 }
