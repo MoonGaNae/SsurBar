@@ -1,8 +1,11 @@
 package com.ssurbar.survey.api.controller;
 
 import com.ssurbar.survey.api.request.UserJoinPostReq;
+import com.ssurbar.survey.api.request.UserJoinPutReq;
 import com.ssurbar.survey.api.request.UserLoginPostReq;
+import com.ssurbar.survey.api.response.UserDetail;
 import com.ssurbar.survey.api.response.UserJoinPostRes;
+import com.ssurbar.survey.api.response.UserUncertifiedGetRes;
 import com.ssurbar.survey.api.service.UserService;
 import com.ssurbar.survey.common.jwt.AuthenticationToken;
 import com.ssurbar.survey.common.jwt.AuthenticationTokenProvider;
@@ -16,6 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * 사용자 관련 API 요청 처리를 위한 컨트롤러 정의.
@@ -74,6 +80,39 @@ public class UserController {
         HttpHeaders header = new HttpHeaders();
         header = authenticationTokenProvider.setTokenHeader(header, authenticationToken.getToken());
         return ResponseEntity.status(200).headers(header).body(BaseResponseBody.of(userInfo.getUserId()));
+    }
+
+    @PutMapping("/certification")
+    @ApiOperation(value="회원가입 승인", notes="서비스 관리자가 회원가입 요청한 회원의 상태를 변경함")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 404, message = "사용자 없음"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<? extends BaseResponseBody> certified(
+            HttpServletRequest request,
+            @RequestBody UserJoinPutReq userJoinPutReq
+    ){
+        userService.certified(request, userJoinPutReq);
+
+        return ResponseEntity.status(201).body(BaseResponseBody.of("요청은 성공했다 디비를 확인하라"));
+    }
+
+    @GetMapping("/uncertified")
+    @ApiOperation(value="미인증 회원조회", notes="서비스 관리자가 미인증 회원을 조회한다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 404, message = "사용자 없음"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<? extends BaseResponseBody> uncertifiedList(
+            HttpServletRequest request
+    ){
+        UserUncertifiedGetRes res = userService.uncertifiedList(request);
+        
+        return ResponseEntity.status(200).body(res);
     }
 }
 

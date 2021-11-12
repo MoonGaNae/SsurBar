@@ -1,5 +1,8 @@
 package com.ssurbar.survey.common.exception.handler;
 
+import com.ssurbar.survey.common.exception.CustomException;
+import com.ssurbar.survey.common.exception.ErrorCode;
+import com.ssurbar.survey.common.exception.ErrorResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
@@ -43,5 +46,17 @@ public class NotFoundHandler {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("There was an error completing the action.");
             }
         }
+    }
+
+    @ExceptionHandler(CustomException.class)
+    public ResponseEntity<ErrorResponse> handleCustomException(CustomException e){
+        ErrorCode errorCode = e.getErrorCode();
+
+        ErrorResponse response = ErrorResponse.builder()
+                .code(errorCode.getCode())
+                .message(errorCode.getMessage())
+                .status(errorCode.getStatus())
+                .build();
+        return ResponseEntity.status(errorCode.getStatus()).body(response);
     }
 }
