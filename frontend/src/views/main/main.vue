@@ -2,9 +2,7 @@
   <div id="wrapper">
     <div id="wrapper-div">
       <div id="container">
-        <div id="intro">
-          안녕하세요! 지금 <b>SSURBAR</b>를 통해 설문을 시작해보세요 📝
-        </div>
+        <div id="intro">안녕하세요! 지금 <b>SSURBAR</b>를 통해 설문을 시작해보세요 📝</div>
         <div id="bottonBox">
           <div class="surveyButton" @click="clickScratch">
             <img class="buttonImg" src="@/assets/newdoc.png" />
@@ -31,9 +29,7 @@
 
         <hr />
 
-        <div id="tab">
-          <span>진행중인 설문</span> | <span>완료된 설문</span>
-        </div>
+        <div id="tab"><span>진행중인 설문</span> | <span>완료된 설문</span></div>
         <ongoingList></ongoingList>
       </div>
     </div>
@@ -108,6 +104,7 @@ export default {
 }
 #bottonBox .surveyButton:hover {
   transform: scale(1.1);
+  cursor: pointer;
 }
 #tab {
   margin-top: 2.5%;
