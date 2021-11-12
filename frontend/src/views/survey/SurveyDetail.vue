@@ -3,61 +3,35 @@
     <div class="main-container">
       <div id="tab-div">
         <ul class="tabs">
-          <li
-            class="tab"
-            :class="{ selectedTab: selectedTabNum == 0 }"
-            @click="changeTab(0)"
-          >
+          <li class="tab" :class="{ selectedTab: selectedTabNum == 0 }" @click="changeTab(0)">
             분석
           </li>
-          <li
-            class="tab"
-            :class="{ selectedTab: selectedTabNum == 1 }"
-            @click="changeTab(1)"
-          >
+          <li class="tab" :class="{ selectedTab: selectedTabNum == 1 }" @click="changeTab(1)">
             비교
           </li>
-          <li
-            class="tab"
-            :class="{ selectedTab: selectedTabNum == 2 }"
-            @click="changeTab(2)"
-          >
+          <li class="tab" :class="{ selectedTab: selectedTabNum == 2 }" @click="changeTab(2)">
             배포
           </li>
-          <li
-            class="tab"
-            :class="{ selectedTab: selectedTabNum == 3 }"
-            @click="changeTab(3)"
-          >
+          <li class="tab" :class="{ selectedTab: selectedTabNum == 3 }" @click="changeTab(3)">
             결과
           </li>
         </ul>
       </div>
       <div class="detail-container">
-        <div
-          class="filter-container el-card is-always-shadow"
-          v-if="!checkFullContent"
-        >
+        <div class="filter-container el-card is-always-shadow" v-if="!checkFullContent">
           <div class="name-text">필터</div>
           <div v-if="!isFilterOpened" class="filter-main-div">
             <div class="filter-list">
-              <div
-                class="filter-div"
-                v-for="(filter, filterIdx) in filterList"
-                :key="filterIdx"
-              >
+              <div class="filter-div" v-for="(filter, filterIdx) in filterList" :key="filterIdx">
                 <div class="filter el-card is-always-shadow">
                   <div class="filter-title" @click="clickFilterDiv(filterIdx)">
                     {{ filter.name }}
 
                     <i v-if="filter.isSelected" class="el-icon-arrow-down"></i>
-                    <i v-else class="el-icon-arrow-left"></i>
+                    <i v-else class="el-icon-arrow-right"></i>
                   </div>
                   <div class="filter-content" v-if="filter.isSelected">
-                    <div
-                      v-for="(filterName, nameIdx) in filter.filterNames"
-                      :key="nameIdx"
-                    >
+                    <div v-for="(filterName, nameIdx) in filter.filterNames" :key="nameIdx">
                       <label class="filter-label" :for="filter + filterName">{{
                         filterName
                       }}</label>
@@ -82,10 +56,7 @@
             </div>
           </div>
         </div>
-        <div
-          class="content-container"
-          :class="{ isFullContent: checkFullContent }"
-        >
+        <div class="content-container" :class="{ isFullContent: checkFullContent }">
           <div
             class="component-container el-card is-always-shadow"
             :class="{ isFullContent: checkFullContent }"
@@ -117,7 +88,7 @@
             >
               <div class="feedback-name-text">피드백</div>
               <i v-if="isFeedbackOpened" class="el-icon-arrow-down"></i>
-              <i v-else class="el-icon-arrow-left"></i>
+              <i v-else class="el-icon-arrow-right"></i>
             </div>
             <div v-if="isFeedbackOpened" class="feedback-main-div">
               <div class="feedback-content-div">
@@ -214,8 +185,7 @@ export default {
       this.setAnswerData(searchData);
     },
     clickFilterDiv(filterIdx) {
-      this.filterList[filterIdx].isSelected =
-        !this.filterList[filterIdx].isSelected;
+      this.filterList[filterIdx].isSelected = !this.filterList[filterIdx].isSelected;
     },
     clickFeedbackDiv() {
       this.isFeedbackOpened = !this.isFeedbackOpened;
