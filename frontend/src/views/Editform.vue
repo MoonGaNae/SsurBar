@@ -1,23 +1,17 @@
 <template>
   <div>
     <div class="page-title-div">
-      <h1 style="margin-left: 5%; margin-top: 1%; font-size: 3rem;">
+      <h1 style="margin-left: 15%; margin-top: 15%; font-size: 3rem;width:100%">    
         필터 항목 등록
       </h1>
-      <!-- <button
-        @click="endEditFilter()"
-        class="next-button yellow-button rounded-corner-button"
-        style="margin-top:5%"
-      >
-        Next
-      </button> -->
-      <button 
-        @click="endEditFilter()"
-        class="custom-btn btn-5"
-        style="margin-top:18%; margin-right:8%"
-      ><span>Next</span></button>
+      
     </div>
-    <hr style="width: 88%; margin-left:6%" />
+    <hr style="width: 70%; margin-left:15%; margin-top:6%" />
+    <button 
+      @click="endEditFilter()"
+      class="custom-btn btn-5"
+      style="margin-left:76%"
+    ><span>Next</span></button>
     <div class="container">    
       <div class="sub-title-div">
         <div>
@@ -104,9 +98,9 @@
                     </button>
                   </div> -->
                   <div 
-                    class="position-fixed contact-button " 
+                    class="contact-button " 
                     @click="deleteCategory(categoryIndex)"
-                    style="margin-left:7.5%"
+                    style="width:15px; height:15px; margin-left:6%"
                     >
                     <i class="fa fa-minus contact-button__icon"></i>
                   </div>
@@ -148,8 +142,8 @@
                   />
                 </div>
                 <div 
-                  class="position-fixed contact-button " 
-                  style="width:0.6%; margin-left:30%"
+                  class=" contact-button " 
+                  style="width:15px; height:15px; margin-left:10%"
                   @click="
                     deleteChoice(
                       categoryList[selectedCategoryIdx].choiceList,
@@ -513,7 +507,8 @@ export default {
 .sub-title-div {
   display: flex;
   /* justify-content: space-between; */
-  align-items: center;
+ margin-left: 3%;
+ align-items: center;
 }
 
 .sub-title-div-buttons {
@@ -923,7 +918,7 @@ button {
   background-color: #ec4d4d;
   color: white;
   padding: 0.3% 0.3%;
-  height: 0.6%; width: 0.6%;
+  height: 10%; width: 10%;
   border-radius: 100%;
   display: flex;
   justify-content: center;

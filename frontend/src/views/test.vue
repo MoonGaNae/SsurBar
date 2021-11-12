@@ -1,56 +1,34 @@
 <template>
-  <div id="wrapper">
-    <div class="container">
-      <div class="page-title-div row justify-content-md-center">
-        <!-- <h1 style="margin-left: 5%; margin-top: 6%; font-size: 3rem;">
-          설문서식 미리보기
-        </h1> -->
-        <div class="col">
-          <h1 style="padding-top: 3%; padding-left: 4%; font-size: 4rem">
-            설문서식 미리보기
-          </h1>
-        </div>
-        <div class="col-md-auto align-self-end">
-          <!-- <el-input placeholder="Please input" v-model="searchTemplate" class="input-with-select">
-                <el-button slot="append" icon="el-icon-search"></el-button>
-              </el-input> -->
-          <!-- <button
-            class="next-button yellow-button rounded-button"
-            @click="moveCreateForm()"
-          >
-            Create
-          </button> -->
-          <button 
-              class="custom-btn1 btn-5"             
-              @click="moveCreateForm()"
-            ><span>생성</span>
-          </button>
-          <button 
-              class="custom-btn1 btn-5"             
-              @click="moveBack()"
-            ><span>나가기</span>
-          </button>
-
-          <!-- <button
-            class="next-button red-button rounded-button ms-3"
-            @click="moveBack()"
-          >
-            Exit
-          </button> -->
-        </div>
-      </div>
-      <hr style="width: 88%; margin-left:6%; ma" />
-
-      <div class="surveyForm">
+  <div>
+    <div class="page-title-div">
+      <h1 style="margin-left: 15%; margin-top: 15%; font-size: 3rem;width:100%">
+        설문서식 미리보기
+      </h1>
+    </div>
+    <hr style="width: 70%; margin-left:15%; margin-top:6%" />
+    <div class="col-md-auto align-self-end" style="margin-left:71%">
+      <button 
+          class="custom-btn1 btn-5"             
+          @click="moveCreateForm()"
+        ><span>생성</span>
+      </button>
+      <button 
+          class="custom-btn1 btn-5"             
+          @click="moveBack()"
+        ><span>나가기</span>
+      </button>
+    </div>
+    <div id="wrapper">
+      <div class="surveyForm" style="margin-left:15%; margin-right:15%">
         <el-tag type="danger" effect="plain" style="border-radius: 50px"
           >1일남음</el-tag
         >
-        <div class="surveyDes">
+        <div class="surveyDes" style="margin-bottom:3%; margin-top:1%"> 
           <!-- <h1 class="title">{{title}}</h1> -->
           <h5 class="date">2021.10.25~2021.10.28</h5>
           <!-- <p class="description">{{description}}</p> -->
         </div>
-        <hr />
+        
         <div class="surveyContent">
           <!-- <el-form ref="form" v-model="form">
                 <el-collapse>
@@ -132,13 +110,14 @@
             </el-collapse>
           </el-form>
         </div>
-        <div style="text-align: center">
+        <div class="footer" style="text-align: center">
           <img class="logo" src="@/assets/smalllogo.png" />
         </div>
       </div>
     </div>
-    <!-- <button @click="saveTemplate">to end</button> -->
+      <!-- <button @click="saveTemplate">to end</button> -->
   </div>
+ 
 </template>
 
 <script>
@@ -364,5 +343,18 @@ button {
   justify-content: space-between;
   align-items: center;
   height: 15vh;
+}
+
+.footer {
+    position:absolute;
+    bottom:0;
+    margin-left: 15%;
+    margin-bottom: 0.4%;
+/* 
+    width:100%;
+
+    height:70px;    */
+
+
 }
 </style>

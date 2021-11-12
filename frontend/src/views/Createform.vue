@@ -1,29 +1,20 @@
 <template>
   <div>
     <div class="page-title-div ">
-      <h1 style="margin-left: 5%; margin-top: 1%; font-size: 3rem;">
+      <h1 style="margin-left: 15%; margin-top: 15%; font-size: 3rem;width:100%">         
         신규 설문 생성
       </h1>
-      
-      <!-- <button
-        @click="endEditForm()"
-        class="next-button yellow-button rounded-corner-button"
-        style="margin-top: 5%"
-      >
-        Next
-      </button> -->
-
-      <button 
-        @click="endEditForm()"
-        class="custom-btn btn-5"
-        style="margin-top:18%; margin-right:8%"
-      ><span>Next</span></button>
     </div>
-    <hr style="width: 88%; margin-left:6%" />
+    <hr style="width: 70%; margin-left:15%; margin-top:6%" />
+    <button 
+      @click="endEditForm()"
+      class="custom-btn btn-5"
+      style="margin-left:76%"
+    ><span>Next</span></button>
     <div class="container">
       <div
         class="row el-card box-card is-always-shadow "
-        style="width: 50%; margin-left: 20%; margin-top: 5%; border-radius:25px"
+        style="width: 50%; margin-left: 23%; margin-top: 0%; border-radius:25px"
       >
         <div
           class="col-xs-12 col-lg-offset-3 col-lg-6"
@@ -724,6 +715,14 @@ button {
 .btn-5:hover:after{
   width:100%;
   transition:800ms ease all;
+}
+
+.buttonImg {
+  height: 50px;
+  width: 50px;
+  display: inline-block;
+  margin-top:-1% ;
+  margin-right: 2%;
 }
 
 </style>

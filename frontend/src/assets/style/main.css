@@ -45,12 +45,12 @@ h6,
 #background-frame {
   background-position: center;
   background-color: white;
-  /* margin-top: 3%;
-  margin-left: 4%;
+  margin-top: 6%;
+  /* margin-left: 4%;
   margin-right: 4%; */
   overflow: auto;
   /* float: left; */
-  height: 90vh;
+  height: 90%;
   width: 90%;
   border-radius: 60px 60px 0% 0%;
 }
