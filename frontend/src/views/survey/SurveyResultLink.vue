@@ -274,7 +274,7 @@ export default {
       this.setBarLabels(questionTitles);
     },
     getTemplateInfo(templateId) {
-      axios.get(`/template/${templateId}`).then((res) => {
+      axios.get(`/template/${templateId}/info`).then((res) => {
         console.log(res.data);
         this.surveyTitle = res.data.title;
         this.surveyDescription = res.data.description;
@@ -288,7 +288,7 @@ export default {
       });
     },
     getSurveyInfo(surveyId) {
-      axios.get(`/survey/${surveyId}`).then((res) => {
+      axios.get(`/survey/${surveyId}/info`).then((res) => {
         this.creationTime = res.data.creationTime;
         this.endTime = res.data.endTime;
         this.teamName = res.data.teamName;
