@@ -76,16 +76,21 @@ export default {
 
       this.makeChart();
     },
-    widthTemp() {
-      if (this.widthTemp != "") {
-        this.isDataExist = true;
-      }
-    },
   },
   methods: {
     ...mapActions("analysis", ["setComparisonDataSets", "setComparisonLabels"]),
     ...mapGetters("analysis", ["getAnswerDataList", "getComparisonDataSets"]),
     makeChart() {
+      if (
+        this.getAnswerDataList() == null ||
+        this.getAnswerDataList().length == 0
+      ) {
+        this.isDataExist = false;
+        return;
+      }
+
+      this.isDataExist = true;
+
       let questionDataList = [];
       let questionTitles = [];
 
