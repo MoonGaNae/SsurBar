@@ -25,11 +25,12 @@
         :class="{ 'bar-chart-div-parent-center': isFlexCenter }"
       >
         <div class="bar-chart-div">
-          <BarChart :style="{ width: widthTemp }" />
+          <BarChart :style="{ width: `100%` }" />
         </div>
       </div>
     </div>
-    <div class="temp-container">
+    <div class="summary-container">
+      <h3 class="summary-title">강점</h3>
       <div class="data-div">
         <div class="data-title">최고 평균</div>
         <ul class="data-ul">
@@ -54,6 +55,7 @@
           </li>
         </ul>
       </div>
+      <h3 class="summary-title">약점</h3>
       <div class="data-div">
         <div class="data-title">최저 평균</div>
         <ul class="data-ul">
@@ -78,6 +80,7 @@
           </li>
         </ul>
       </div>
+      <h3 class="summary-title">문항별 응답</h3>
       <el-collapse class="category-list">
         <el-collapse-item
           v-for="(answerData, answerDataIdx) in answerDataList"
@@ -212,7 +215,7 @@ export default {
 
       let dataSets = [];
       let dataSet = {
-        label: "Dataset",
+        label: "Score",
         pointBackgroundColor: "white",
         backgroundColor: "rgba(156,187,255,0.4)",
         borderWidth: 2,
@@ -374,8 +377,8 @@ export default {
   /* width: 3000px; */
 }
 .chart-container {
-  overflow: scroll;
-  overflow-x: hidden;
+  /* overflow: scroll;
+  overflow-x: hidden; */
   height: 100%;
 }
 
@@ -411,6 +414,7 @@ export default {
   padding-bottom: 2vh;
   padding-top: 2vh;
   justify-content: flex-start;
+  width: 100%;
   align-items: center;
 }
 
@@ -425,8 +429,6 @@ export default {
   /* height: 100%; */
   width: 96%;
   justify-content: flex-start;
-  overflow: scroll;
-  overflow-y: hidden;
 }
 
 .bar-chart-div-parent-center {
@@ -517,7 +519,7 @@ export default {
   background-color: #dde0e7;
 }
 
-.temp-container {
+.summary-container {
   margin-top: 2vh;
   border-bottom: 0px none !important;
 }

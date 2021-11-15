@@ -2,9 +2,6 @@
   <div id="wrapper">
     <div class="main-container">
       <div class="page-title-div row justify-content-md-center">
-        <!-- <h1 style="margin-left: 5%; margin-top: 6%; font-size: 3rem;">
-          설문서식 미리보기
-        </h1> -->
         <div class="page-title-div-child">
           <h1>설문서식 미리보기</h1>
         </div>

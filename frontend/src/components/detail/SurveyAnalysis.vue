@@ -18,7 +18,7 @@
         :class="{ 'bar-chart-div-parent-center': isFlexCenter }"
       >
         <div class="bar-chart-div">
-          <BarChart :style="{ width: widthTemp }" />
+          <BarChart :style="{ width: `100%` }" />
         </div>
       </div>
     </div>
@@ -73,6 +73,7 @@
           </li>
         </ul>
       </div>
+      <h3 class="summary-title">문항별 응답</h3>
       <el-collapse class="category-list">
         <el-collapse-item
           v-for="(answerData, answerDataIdx) in answerDataList"
@@ -161,15 +162,6 @@ export default {
   },
   watch: {
     answerDataList() {
-      this.count = this.questionCount;
-
-      console.log(this.answerDataList);
-
-      this.widthTemp = this.count * 5 + "vh";
-      if (this.count * 5 < 125) {
-        this.isFlexCenter = true;
-      }
-
       this.makeChart();
     },
     widthTemp() {
@@ -218,7 +210,7 @@ export default {
 
       let dataSets = [];
       let dataSet = {
-        label: "Dataset",
+        label: "Score",
         pointBackgroundColor: "white",
         backgroundColor: "rgba(156,187,255,0.4)",
         borderWidth: 2,
@@ -311,7 +303,6 @@ export default {
   justify-content: center;
   align-items: center;
   height: 100%;
-  /* width: 3000px; */
 }
 .chart-container {
   overflow: scroll;
@@ -352,6 +343,7 @@ export default {
   padding-top: 2vh;
   justify-content: flex-start;
   align-items: center;
+  width: 100%;
 }
 
 .chart-title {
@@ -365,8 +357,8 @@ export default {
   /* height: 100%; */
   width: 96%;
   justify-content: flex-start;
-  overflow: scroll;
-  overflow-y: hidden;
+  /* overflow: scroll; */
+  /* overflow-y: hidden; */
 }
 
 .bar-chart-div-parent-center {
@@ -397,18 +389,6 @@ export default {
   border-radius: 8px;
   background-color: #9cbbff;
 }
-
-/* .bar-chart-container::-webkit-scrollbar {
-  width: 1vh;
-}
-.bar-chart-container::-webkit-scrollbar-track {
-  background-color: #dde0e7;
-}
-
-.bar-chart-container::-webkit-scrollbar-thumb {
-  border-radius: 8px;
-  background-color: #9cbbff;
-} */
 
 .radar-chart-container {
   width: 100%;
@@ -472,7 +452,6 @@ export default {
 }
 
 .summary-container {
-  /* margin-top: 2vh; */
   border-bottom: 0px none !important;
 }
 

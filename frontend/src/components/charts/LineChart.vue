@@ -28,7 +28,10 @@ export default {
       options: {
         scales: {
           yAxes: [
-            { ticks: { beginAtZero: true }, gridLines: { display: true } },
+            {
+              ticks: { beginAtZero: true, min: 0, max: 5, stepSize: 0.5 },
+              gridLines: { display: true },
+            },
           ],
           xAxes: [{ gridLines: { display: false } }],
         },
