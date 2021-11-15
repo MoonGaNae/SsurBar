@@ -61,9 +61,16 @@ h6,
   overflow: auto;
 }
 
-/* #router {
-  overflow: auto;
-} */
+.page-title-div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 15vh;
+}
+
+.page-title-div-child > h1 {
+  font-size: 4rem;
+}
 
 #sidebar {
   position: sticky;
@@ -81,4 +88,13 @@ h6,
   -moz-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
   transition: all 0.5s ease;
+}
+
+.summary-container {
+  border-bottom: 0px none !important;
+}
+
+.summary-title {
+  padding-left: 3vh;
+  margin-top: 5vh;
 }

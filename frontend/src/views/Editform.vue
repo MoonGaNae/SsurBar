@@ -1,176 +1,149 @@
 <template>
   <div>
-    <div class="page-title-div">
-      <h1 style="margin-left: 5%; margin-top: 1%; font-size: 3rem">
-        필터 항목 등록
-      </h1>
-      <!-- <button
-        @click="endEditFilter()"
-        class="next-button yellow-button rounded-corner-button"
-        style="margin-top:5%"
-      >
-        Next
-      </button> -->
-      <button
-        @click="endEditFilter()"
-        class="custom-btn btn-5"
-        style="margin-top: 18%; margin-right: 8%"
-      >
-        <span>Next</span>
-      </button>
-    </div>
-    <hr style="width: 88%; margin-left: 6%" />
-    <div class="container">
-      <div class="sub-title-div">
-        <div>
-          <h3 style="d-flex; text-align:left; font-size:2.5rem">
-            업무 만족도 조사
-          </h3>
+    <div class="main-container">
+      <div class="page-title-div">
+        <div class="page-title-div-child">
+          <h1>필터 항목 등록</h1>
         </div>
-        <div class="sub-title-div-buttons">
-          <input
-            class="el-input__inner"
-            type="text"
-            v-model="categoryInput"
-            v-if="categoryInputState"
-            style="width: 260%"
-            placeholder="필터을 입력하세요."
-          />
-          <button
-            @click="addCategory()"
-            v-if="categoryInputState"
-            class="custom-btn2 btn-5"
-            style="width: 100%; margin-right: -3%"
-          >
-            입력 완료
+        <div class="button-div col-md-auto align-self-end">
+          <button @click="endEditFilter()" class="custom-btn btn-5">
+            <span>Next</span>
           </button>
-          <button
-            v-if="categoryInputState"
-            @click="cancelCategoryAdd()"
-            class="custom-btn2 btn-5"
-            style="width: 100%"
-          >
-            취소
-          </button>
-          <button
-            class="custom-btn1 btn-5"
-            @click="categoryInputState = true"
-            v-if="!categoryInputState"
-          >
-            <span>필터 추가</span>
-          </button>
-          <!-- <button
-            class="rounded-corner-button white-button category-add-btn"
-            @click="categoryInputState = true"
-            v-if="!categoryInputState"
-          >
-            필터 추가
-          </button> -->
         </div>
       </div>
-
-      <div class="category-warning" v-text="categoryInputWarning"></div>
-      <br />
-
-      <div class="content-div">
-        <div
-          class="category-list el-card box-card is-always-shadow"
-          style="width: 10vw; margin-top: 2%; padding-left: 1%"
-        >
-          <div
-            class="category-div"
-            v-for="(category, categoryIndex) in categoryList"
-            :key="categoryIndex"
-            style="width: 40vw"
-          >
-            <div
-              class="category d-flex justify-content-between"
-              :id="'category' + categoryIndex"
+      <hr style="width: 100%" />
+      <div class="container">
+        <div class="sub-title-div">
+          <div>
+            <h3 style="d-flex; text-align:left; font-size:2.5rem">
+              업무 만족도 조사
+            </h3>
+          </div>
+          <div class="sub-title-div-buttons">
+            <input
+              class="el-input__inner"
+              type="text"
+              v-model="categoryInput"
+              v-if="categoryInputState"
+              style="width: 260%"
+              placeholder="필터을 입력하세요."
+            />
+            <button
+              @click="addCategory()"
+              v-if="categoryInputState"
+              class="custom-btn2 btn-5"
+              style="width: 100%; margin-right: -3%"
             >
-              <div class="category-title-div">
-                <div class="category-title">
-                  <div
-                    style="d-flex; text-align:left; padding-left:10%; font-size:1.6rem;"
-                    @click="clickCategory(categoryIndex)"
-                  >
-                    {{ category.title }}
-                  </div>
+              입력 완료
+            </button>
+            <button
+              v-if="categoryInputState"
+              @click="cancelCategoryAdd()"
+              class="custom-btn2 btn-5"
+              style="width: 100%"
+            >
+              취소
+            </button>
+            <button
+              class="custom-btn1 btn-5"
+              @click="categoryInputState = true"
+              v-if="!categoryInputState"
+            >
+              <span>필터 추가</span>
+            </button>
+          </div>
+        </div>
 
-                  <!-- <div class="category-delete-div">
-                    <button
-                      class="el-button el-button--danger is-circle"
-                      style="width: 2vw"
+        <div class="category-warning" v-text="categoryInputWarning"></div>
+        <br />
+
+        <div class="content-div">
+          <div class="category-list el-card box-card is-always-shadow">
+            <div
+              class="category-div"
+              v-for="(category, categoryIndex) in categoryList"
+              :key="categoryIndex"
+            >
+              <div
+                class="category d-flex justify-content-between"
+                :id="'category' + categoryIndex"
+              >
+                <div class="category-title-div">
+                  <div class="category-title">
+                    <div
+                      style="font-size: 1.6rem"
+                      @click="clickCategory(categoryIndex)"
+                    >
+                      {{ category.title }}
+                    </div>
+                    <div
+                      class="contact-button"
                       @click="deleteCategory(categoryIndex)"
                     >
-                      <i class="el-icon-minus"></i>
-                    </button>
-                  </div> -->
-                  <div
-                    class="position-fixed contact-button"
-                    @click="deleteCategory(categoryIndex)"
-                    style="margin-left: 7.5%"
-                  >
-                    <i class="fa fa-minus contact-button__icon"></i>
+                      <i class="fa fa-minus contact-button__icon"></i>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div v-if="selectedCategoryIdx != null" class="question-list">
-          <div class="question el-card box-card is-always-shadow">
-            <div class="question-delete-btn-div"></div>
-            <h4
-              class="question-title"
-              style="d-flex; text-align:left; font-size:2rem"
-            >
-              <input
-                class="question-title-input el-input__inner"
-                style="d-flex; text-align:left; font-size:1.5rem"
-                type="text"
-                v-model="categoryList[selectedCategoryIdx].title"
-                placeholder="질문을 입력하세요"
-              />
-            </h4>
-            <div class="answer-choices-list">
-              <div
-                class="choice"
-                v-for="(choice, choiceIndex) in categoryList[
-                  selectedCategoryIdx
-                ].choiceList"
-                :key="choiceIndex"
+          <div v-if="selectedCategoryIdx != null" class="question-list">
+            <div class="question el-card box-card is-always-shadow">
+              <div class="question-delete-btn-div"></div>
+              <h4
+                class="question-title"
+                style="d-flex; text-align:left; font-size:2rem"
               >
-                <div>
-                  <input
-                    type="text"
-                    class="el-input__inner"
-                    v-model="
-                      categoryList[selectedCategoryIdx].choiceList[choiceIndex]
-                    "
-                  />
-                </div>
+                <input
+                  class="question-title-input el-input__inner"
+                  style="d-flex; text-align:left; font-size:1.5rem"
+                  type="text"
+                  v-model="categoryList[selectedCategoryIdx].title"
+                  placeholder="질문을 입력하세요"
+                />
+              </h4>
+              <div class="answer-choices-list">
                 <div
-                  class="position-fixed contact-button"
-                  style="width: 0.6%; margin-left: 30%"
-                  @click="
-                    deleteChoice(
-                      categoryList[selectedCategoryIdx].choiceList,
-                      choiceIndex
-                    )
-                  "
+                  class="choice"
+                  v-for="(choice, choiceIndex) in categoryList[
+                    selectedCategoryIdx
+                  ].choiceList"
+                  :key="choiceIndex"
                 >
-                  <i class="fa fa-minus contact-button__icon"></i>
+                  <div>
+                    <input
+                      type="text"
+                      class="el-input__inner"
+                      v-model="
+                        categoryList[selectedCategoryIdx].choiceList[
+                          choiceIndex
+                        ]
+                      "
+                    />
+                  </div>
+                  <div
+                    class="position-fixed contact-button"
+                    style="width: 0.6%; margin-left: 30%"
+                    @click="
+                      deleteChoice(
+                        categoryList[selectedCategoryIdx].choiceList,
+                        choiceIndex
+                      )
+                    "
+                  >
+                    <i class="fa fa-minus contact-button__icon"></i>
+                  </div>
                 </div>
-              </div>
-              <div class="choice-add-button-div">
-                <button
-                  class="custom-btn2 btn-6"
-                  @click="
-                    addChoice(categoryList[selectedCategoryIdx].choiceList)
-                  "
-                >
-                  <span>보기 추가</span>
-                </button>
+                <div class="choice-add-button-div">
+                  <button
+                    class="custom-btn2 btn-6"
+                    @click="
+                      addChoice(categoryList[selectedCategoryIdx].choiceList)
+                    "
+                  >
+                    <span>보기 추가</span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -608,13 +581,9 @@ export default {
   display: flex;
   background-color: white;
   justify-content: space-between;
-  /* padding-left: 2%; */
-  width: 50%;
-
-  /* border-radius: 12px;
-  border-color: #9cbbff;
-  border-style: solid;
-  color: #9cbbff; */
+  width: 100%;
+  padding-left: 1vw;
+  padding-right: 2vw;
 }
 
 .category-title {
@@ -654,10 +623,16 @@ button:hover {
 }
 
 .category-div {
-  width: 50%;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   margin-bottom: 2%;
+}
+
+.category-div > div {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 
 .category {
@@ -699,11 +674,6 @@ button:hover {
 }
 
 .category-arrow i {
-  /* width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center; */
   font-size: 200%;
 }
 
@@ -729,5 +699,16 @@ button:hover {
 
 button {
   margin: 20px;
+}
+
+.category-list {
+  width: 15vw;
+  margin-top: 2%;
+  /* padding-left: 1%; */
+}
+.contact-button {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
 }
 </style>
