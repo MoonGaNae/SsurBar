@@ -175,9 +175,6 @@ export default {
     answerDataList() {
       this.makeChart();
     },
-    widthTemp() {
-      if (this.widthTemp != "") this.isBarDataExist = true;
-    },
   },
   methods: {
     getSurveyInfo() {
@@ -196,6 +193,15 @@ export default {
         });
     },
     makeChart() {
+      if (
+        this.getAnswerDataList() == null ||
+        this.getAnswerDataList().length == 0
+      ) {
+        this.isBarDataExist = false;
+        return;
+      }
+
+      this.isBarDataExist = true;
       /* 방사형 그래프 데이터 처리 */
       let averageDataList = [];
       let dataLabels = [];
