@@ -55,7 +55,7 @@ export default {
     };
   },
   computed: {
-    ...mapState("list", ["recentList"]),
+    ...mapState("user", ["userInfo"]),
   },
   methods: {
     
@@ -88,6 +88,9 @@ export default {
     },
   },
   created() {
+    if(this.userInfo == null || this.userInfo.userType != "ADMIN"){
+        this.$router.push({ name: "Login" });
+    }
     this.getUsers();
   },
 };
