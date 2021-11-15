@@ -5,6 +5,7 @@ import com.ssurbar.survey.api.request.UserJoinPutReq;
 import com.ssurbar.survey.api.request.UserLoginPostReq;
 import com.ssurbar.survey.api.response.UserDetail;
 import com.ssurbar.survey.api.response.UserJoinPostRes;
+import com.ssurbar.survey.api.response.UserLoginPostRes;
 import com.ssurbar.survey.api.response.UserUncertifiedGetRes;
 import com.ssurbar.survey.api.service.UserService;
 import com.ssurbar.survey.common.jwt.AuthenticationToken;
@@ -79,7 +80,13 @@ public class UserController {
         AuthenticationToken authenticationToken = authenticationTokenProvider.issue(userInfo);
         HttpHeaders header = new HttpHeaders();
         header = authenticationTokenProvider.setTokenHeader(header, authenticationToken.getToken());
-        return ResponseEntity.status(200).headers(header).body(BaseResponseBody.of(userInfo.getUserId()));
+
+
+        return ResponseEntity.status(200).headers(header).body(UserLoginPostRes.builder()
+                .userId(userInfo.getUserId())
+                .userType(userInfo.getUserType())
+                .build()
+        );
     }
 
     @PutMapping("/certification")
