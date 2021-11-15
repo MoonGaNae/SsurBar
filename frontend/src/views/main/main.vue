@@ -75,7 +75,6 @@ export default {
     ...mapActions("template", ["initTemplateData"]),
     ...mapActions("list", ["initListData", "setSelectedTab"]),
     changeTab(tabNum) {
-      console.log(tabNum);
       this.setSelectedTab(tabNum);
     },
     clickScratch() {
@@ -90,6 +89,13 @@ export default {
       this.setCreateType(this.surveyCreateType.RECENT);
       this.$router.push("/template/recent");
     },
+  },
+  created() {
+    this.initQuestionData();
+    this.initAnalysisData();
+    this.initFilterQuestionData();
+    this.initTemplateData();
+    this.initListData();
   },
 };
 </script>
