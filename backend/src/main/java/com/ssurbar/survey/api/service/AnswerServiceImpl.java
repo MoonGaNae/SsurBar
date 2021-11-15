@@ -138,6 +138,13 @@ public class AnswerServiceImpl implements AnswerService{
 						}
 						else{
 							Map<String, Integer> countMap = new HashMap<>();
+
+							for(int i = 1; i <= contentCount; i++){
+								String idx = Integer.toString(i);
+								String contentStr = (String) questionJsonObj.get(idx);
+								countMap.put(contentStr, 0);
+							}
+
 							countMap.put(answer,1);
 
 							List<Double> questionScoreList = new ArrayList<>();
@@ -150,7 +157,6 @@ public class AnswerServiceImpl implements AnswerService{
 									.countMap(countMap)
 									.build();
 
-//							categoryAnswerInfo.getQuestionMap().put(question.getTitle(), questionAnswerInfo);
 							categoryAnswerInfo.getQuestionMap().put(question.getQuestionNum(), questionAnswerInfo);
 						}
 					}
@@ -159,9 +165,15 @@ public class AnswerServiceImpl implements AnswerService{
 						categoryScoreList.add(score);
 
 						Map<String, Integer> countMap = new HashMap<>();
+
+						for(int i = 1; i <= contentCount; i++){
+							String idx = Integer.toString(i);
+							String contentStr = (String) questionJsonObj.get(idx);
+							countMap.put(contentStr, 0);
+						}
+
 						countMap.put(answer,1);
 
-//						Map<String, QuestionAnswerInfo> questionMap = new HashMap<>();
 						Map<Integer, QuestionAnswerInfo> questionMap = new HashMap<>();
 						List<Double> questionScoreList = new ArrayList<>();
 						questionScoreList.add(score);
@@ -173,7 +185,6 @@ public class AnswerServiceImpl implements AnswerService{
 								.countMap(countMap)
 								.build();
 
-//						questionMap.put(question.getTitle(), questionAnswerInfo);
 						questionMap.put(question.getQuestionNum(), questionAnswerInfo);
 
 						CategoryAnswerInfo categoryAnswerInfo = CategoryAnswerInfo
@@ -212,44 +223,14 @@ public class AnswerServiceImpl implements AnswerService{
 
 			List<QuestionData> questionDataList = new ArrayList<QuestionData>();
 
-//			Map <String, QuestionAnswerInfo> questionMap = categoryAnswerInfo.getQuestionMap();
 			Map <Integer, QuestionAnswerInfo> questionMap = categoryAnswerInfo.getQuestionMap();
 
-//			List<String> questionTitleList = new ArrayList<>(questionMap.keySet());
 			List<Integer> questionNumberList = new ArrayList<>(questionMap.keySet());
 
-//			for (String questionTitle : questionTitleList) {
-//				QuestionAnswerInfo questionAnswerInfo = questionMap.get(questionTitle);
-//				double questionScore = questionAnswerInfo.getTotalScore();
-//				int questionCount = questionAnswerInfo.getScoreList().size();
-//				int questionNumber = questionAnswerInfo.getNumber();
-//				double questionAverageScore = Math.round((questionScore/questionCount)*100)/100.0;
-//				double questionVariance = 0;
-//
-//				for (Double score: questionAnswerInfo.getScoreList()){
-//					questionVariance += Math.pow(Math.abs(score - questionAverageScore),2);
-//				}
-//
-//				questionVariance = questionVariance/count;
-//
-//				double questionStandardDeviation = Math.round(Math.sqrt(questionVariance)*100)/100.0;
-//
-//				QuestionData questionData = QuestionData.builder()
-//						.title(questionTitle)
-//						.averageScore(questionAverageScore)
-//						.number(questionNumber)
-//						.standardDeviation(questionStandardDeviation)
-//						.build();
-//
-//				questionDataList.add(questionData);
-//
-//				totalQuestionDataList.add(questionData);
-//			}
 			for (int questionNumber : questionNumberList) {
 				QuestionAnswerInfo questionAnswerInfo = questionMap.get(questionNumber);
 				double questionScore = questionAnswerInfo.getTotalScore();
 				int questionCount = questionAnswerInfo.getScoreList().size();
-//				int questionNumber = questionAnswerInfo.getNumber();
 				String questionTitle = questionAnswerInfo.getTitle();
 				//문항 평균
 				double questionAverageScore = Math.round((questionScore/questionCount)*100)/100.0;
@@ -269,7 +250,6 @@ public class AnswerServiceImpl implements AnswerService{
 
 				List<QuestionData.QuestionAnswerDto> questionAnswerDtoList = new ArrayList<>();
 
-//				System.out.println(questionCount);
 				for (String key :countMap.keySet()){
 					int selectedCount = countMap.get(key);
 					double selectedPercentage = (double)Math.round(((double)selectedCount/questionCount)*10000)/100;
@@ -364,8 +344,6 @@ public class AnswerServiceImpl implements AnswerService{
 			hightestStandardDeviationDataLimit = questionData.getStandardDeviation();
 			highestStandardDeviationList.add(totalQuestionDataList.get(i));
 		}
-
-		System.out.println(totalQuestionDataList.size());
 
 		SurveyResultRes surveyResultRes = SurveyResultRes.builder()
 				.questionCount(totalQuestionDataList.size())
