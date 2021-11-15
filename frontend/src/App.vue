@@ -41,6 +41,8 @@ export default {
 </script>
 
 <style>
+@import "./assets/style/buttons.css";
+
 #app {
   display: flex;
 }

@@ -292,7 +292,7 @@ export default {
       this.setQuestionList(this.questionList);
 
       this.$router.push({
-        path: `/test`,
+        name: `CreatePreview`,
       });
     },
   },
