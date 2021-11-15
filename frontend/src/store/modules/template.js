@@ -1,4 +1,4 @@
-import templateApi from '@/api/template.js';
+import templateApi from "@/api/template.js";
 const state = {
   templateId: null,
   createTime: null,
@@ -35,6 +35,14 @@ const mutations = {
 };
 
 const actions = {
+  initTemplateData({ commit }) {
+    commit("SET_TEMPLATE_ID", null);
+    commit("SET_CREATE_TIME", null);
+    commit("SET_END_TIME", null);
+    commit("SET_TEAM_ID", null);
+    commit("SET_DESCRIPTION", null);
+    commit("SET_TITLE", null);
+  },
   setTemplateId({ commit }, templateId) {
     commit("SET_TEMPLATE_ID", templateId);
   },
@@ -54,13 +62,14 @@ const actions = {
     commit("SET_TITLE", title);
   },
 
-  async getDefaultTemplates ({commit}) {
-    await templateApi.getDefaultTemplates()
-      .then((res) =>{
-        commit('SET_DEFAULT_TEMPLATE_LIST', res.data.templateList)
+  async getDefaultTemplates({ commit }) {
+    await templateApi
+      .getDefaultTemplates()
+      .then((res) => {
+        commit("SET_DEFAULT_TEMPLATE_LIST", res.data.templateList);
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err);
       });
   },
 };
@@ -82,7 +91,7 @@ const getters = {
     return state.description;
   },
   getTitle(state) {
-    console.log(state)
+    console.log(state);
     return state.title;
   },
 };
