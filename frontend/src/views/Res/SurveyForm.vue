@@ -25,9 +25,7 @@
                   <el-radio-group v-model="form.filterRes[idx]">
                     <div
                       class="surveytitle"
-                      v-for="(example, exampleIdx) in filterExample[
-                        item.questionNum - 1
-                      ]"
+                      v-for="(example, exampleIdx) in filterExample[idx]"
                       :key="exampleIdx"
                     >
                       <el-radio
@@ -208,6 +206,8 @@ export default {
       axios.get("survey/" + surveyId + "/filters").then((res) => {
         this.filters = res.data.filterQuestionList;
 
+        console.log(this.filters);
+
         var contents = new Array();
         var contentAnswers = new Array();
 
@@ -218,7 +218,7 @@ export default {
         }
         this.filterExample = contentAnswers;
         // console.log(this.filters);
-        // console.log(this.filterExample);
+        console.log(this.filterExample);
       });
     },
     getQuestionList(templateId) {

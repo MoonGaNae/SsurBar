@@ -158,6 +158,8 @@ export default {
     answerDataList() {
       this.count = this.questionCount;
 
+      console.log(this.answerDataList);
+
       this.widthTemp = this.count * 5 + "vh";
       if (this.count * 5 < 125) {
         this.isFlexCenter = true;
@@ -251,7 +253,10 @@ export default {
               questionDataList[i].push(null);
             }
           }
-          questionTitles.push(el.number + " " + el.title);
+          let title = el.number + " " + el.title;
+          let length = title.length;
+          let label = length > 10 ? title.substring(0, 10) + "..." : title;
+          questionTitles.push(label);
         });
       });
 
