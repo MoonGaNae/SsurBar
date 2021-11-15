@@ -389,24 +389,28 @@ export default {
     ...mapActions("survey", ["getRecentSurveyInfo"]),
     endEditForm() {
       console.log(this.surveyTitle);
-      let endTime = this.endDate.toISOString().split("T");
-      this.setEndTime(endTime[0] + " " + endTime[1].split(".")[0]);
-      this.setTeamId(this.targetTeamId);
-      this.setTitle(this.surveyTitle);
-      this.setDescription(this.description);
+      if(!this.checkForm()){
+        this.$fire({
+          title: "응답실패",
+          text: "아직 설정하지 않은 항목이 존재합니다!",
+          type: "error",
+        });
+      }else{
+        let endTime = this.endDate.toISOString().split("T");
+        this.setEndTime(endTime[0] + " " + endTime[1].split(".")[0]);
+        this.setTeamId(this.targetTeamId);
+        this.setTitle(this.surveyTitle);
+        this.setDescription(this.description);
 
-      this.$router.push("/filter");
+        this.$router.push("/filter");
 
-      // axios
-      //   .post("/template", {
-      //     title: this.surveyTitle,
-      //     description: this.description,
-      //   })
-      //   .then((res) => {
-      //     this.setTemplateId(res.data.templateId);
-
-      //     this.$router.push("/filter");
-      //   });
+      }
+    },
+    checkForm(){
+      if(!this.description || !this.surveyTitle || !this.targetTeamId || !this.endDate){
+        return false;
+      }
+      return true;
     },
     async setRecentSurvey() {
       if (!this.editSurveyId) {
@@ -655,61 +659,5 @@ export default {
 
 button {
   margin: 20px;
-}
-.custom-btn {
-  width: 130px;
-  height: 40px;
-  color: #fff;
-  border-radius: 50px;
-  padding: 10px 25px;
-  font-family: "Lato", sans-serif;
-  font-weight: 500;
-  font-size: 16px;
-  background: transparent;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  position: relative;
-  display: inline-block;
-  box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 0.5),
-    inset -7px -7px 10px 0px rgba(0, 0, 0, 0.1),
-    7px 7px 20px 0px rgba(0, 0, 0, 0.1), 4px 4px 5px 0px rgba(0, 0, 0, 0.1);
-  text-shadow: 2px 2px 3px rgba(255, 255, 255, 0.5),
-    -4px -4px 6px rgba(116, 125, 136, 0.2);
-  outline: none;
-}
-
-.btn-5 {
-  border: none;
-  color: white;
-  background-color: #e39a52;
-}
-.btn-5:hover {
-  color: black;
-  background: transparent;
-  box-shadow: none;
-}
-.btn-5:before,
-.btn-5:after {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  height: 2px;
-  width: 0;
-  background: #e39a52;
-  box-shadow: -1px -1px 5px 0px #fff, 7px 7px 20px 0px #0003,
-    4px 4px 5px 0px #0002;
-  transition: 400ms ease all;
-}
-.btn-5:after {
-  right: inherit;
-  top: inherit;
-  left: 0;
-  bottom: 0;
-}
-.btn-5:hover:before,
-.btn-5:hover:after {
-  width: 100%;
-  transition: 800ms ease all;
 }
 </style>

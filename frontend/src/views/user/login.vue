@@ -2,7 +2,19 @@
   <div>
     <div id="loginWrapper">
       <div id="logo">
-        <!-- 혜원이가 로고 작살내는 걸로 넣을거임....-->
+        <div
+          v-for="(t, index) in text"
+          :key="index"
+          class="item"
+          :style="{animationDelay: index*150+'ms'}"
+          v-text="t"
+          />
+          <div><img class="indexImage" src="@/assets/online-survey.png" /></div>
+          <br>
+          
+          <div><p class="etc">SSURBAR로 새로운 설문지를 만들어보세요.</p></div>
+
+          
       </div>
       <div id="container">
         <h1>Login</h1>
@@ -48,6 +60,7 @@ export default {
         email: "string",
         password: "string",
       },
+      text: 'Welcome To SSURBAR!'
     };
   },
   methods: {
@@ -201,4 +214,34 @@ $gray: #9b9b9b;
     box-shadow: none;
   }
 }
+
+@keyframes text-in {
+  0% {
+    transform: translate(0, -20px);
+    opacity: 0;
+  }
+}
+
+#logo{
+  text-align: center;
+  width:40%;
+}
+.item {
+  margin-top:30%;
+  display: inline-block;
+  min-width: 0.3em;
+  font-size: 4rem;
+  animation: text-in .8s cubic-bezier(0.22, 0.15, 0.25, 1.43) 0s backwards;
+  color:white;
+  
+}
+
+.indexImage{
+  display: inline-block;
+}
+.etc{
+  color:lightgray;
+}
+
+
 </style>

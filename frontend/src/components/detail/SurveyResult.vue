@@ -253,7 +253,10 @@ export default {
               questionDataList[i].push(null);
             }
           }
-          questionTitles.push(el.number + " " + el.title);
+          let title = el.number + " " + el.title;
+          let length = title.length;
+          let label = length > 10 ? title.substring(0, 10) + "..." : title;
+          questionTitles.push(label);
         });
       });
 

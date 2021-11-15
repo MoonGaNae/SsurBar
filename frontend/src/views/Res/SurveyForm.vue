@@ -25,9 +25,7 @@
                   <el-radio-group v-model="form.filterRes[idx]">
                     <div
                       class="surveytitle"
-                      v-for="(example, exampleIdx) in filterExample[
-                        item.questionNum - 1
-                      ]"
+                      v-for="(example, exampleIdx) in filterExample[idx]"
                       :key="exampleIdx"
                     >
                       <el-radio
@@ -86,7 +84,7 @@
         </el-form>
       </div>
       <div class="logo-div" style="text-align: center">
-        <img class="logo" src="@/assets/smalllogo.png" />
+        <img class="logo" src="@/assets/biglogo1.png" />
       </div>
     </div>
     <div v-else class="surveyForm"></div>
@@ -208,6 +206,8 @@ export default {
       axios.get("survey/" + surveyId + "/filters").then((res) => {
         this.filters = res.data.filterQuestionList;
 
+        console.log(this.filters);
+
         var contents = new Array();
         var contentAnswers = new Array();
 
@@ -218,7 +218,7 @@ export default {
         }
         this.filterExample = contentAnswers;
         // console.log(this.filters);
-        // console.log(this.filterExample);
+        console.log(this.filterExample);
       });
     },
     getQuestionList(templateId) {
@@ -363,7 +363,6 @@ export default {
 
 .logo-div {
   height: 10vh;
-  margin-top: 3em;
   /* width: 20%; */
   /* position: absolute; */
   bottom: 1em;
@@ -375,9 +374,9 @@ export default {
 .logo {
   /* margin-top: 3em; */
   width: 20%;
-  /* position: absolute; */
-  /* bottom: 3em; */
-  /* right: 40%; */
+  position: absolute;
+  bottom: 3em;
+  right: 40%;
 }
 .button .el-button {
   background-color: orange;

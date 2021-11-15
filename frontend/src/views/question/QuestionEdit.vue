@@ -179,22 +179,7 @@ export default {
       categoryInputWarning: "",
       categoryNameList: [],
       questionList: [],
-      categoryList: [
-        {
-          title: "카테고리1",
-          isSelected: false,
-          questionList: [
-            {
-              title: "귀하의 직무 만족도는 얼마입니까?",
-              choiceList: ["매우 불만족", "보통", "매우 만족"],
-            },
-            {
-              title: "귀하의 급여에 만족합니까?",
-              choiceList: ["매우 불만족", "불만족", "조금 불만족"],
-            },
-          ],
-        },
-      ],
+      categoryList: [],
     };
   },
   methods: {
@@ -292,7 +277,7 @@ export default {
       this.setQuestionList(this.questionList);
 
       this.$router.push({
-        path: `/test`,
+        name: `CreatePreview`,
       });
     },
   },

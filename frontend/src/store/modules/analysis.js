@@ -57,6 +57,19 @@ const mutations = {
   },
 };
 const actions = {
+  initAnalysisData({ commit }) {
+    commit("SET_ANSWER_DATA_LIST", null);
+    commit("SET_HIGHEST_AVERAGE_LIST", null);
+    commit("SET_HIGHEST_STANDARD_DEVIATION_LIST", null);
+    commit("SET_LOWEST_AVERAGE_LIST", null);
+    commit("SET_LOWEST_STANDARD_DEVIATION_LIST", null);
+    commit("SET_RADAR_DATA_SETS", null);
+    commit("SET_BAR_DATA_SETS", null);
+    commit("SET_BAR_LABELS", null);
+    commit("SET_QUESTION_COUNT", null);
+    commit("SET_COMPARISON_DATA_SETS", null);
+    commit("SET_COMPARISON_LABELS", null);
+  },
   setAnswerData({ commit }, searchData) {
     mainApi
       .getAnswerData(searchData.surveyId, searchData.filterStr)

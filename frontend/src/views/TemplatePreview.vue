@@ -12,8 +12,7 @@
           <div class="survey-des">
             <h1 class="title">{{ title }}</h1>
             <p class="description">
-              {{ description }}{{ description }}{{ description }}{{ description
-              }}{{ description }}{{ description }}
+              {{ description }}
             </p>
           </div>
           <div class="button-div col-md-auto align-self-end">
