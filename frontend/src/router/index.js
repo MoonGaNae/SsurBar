@@ -19,6 +19,7 @@ import TemplatePreview from "@/views/TemplatePreview";
 import Login from "@/views/user/login.vue";
 import Result from "@/views/survey/SurveyResultLink.vue";
 import SurveyClosed from "../views/Res/SurveyClosed.vue";
+import Certification from "../views/user/Certification.vue";
 
 import store from "@/store/";
 
@@ -109,6 +110,12 @@ const routes = [
     name: "RecentTemplateList",
     component: RecentTemplateList,
     meta: { requireAuth: true },
+  },
+  {
+    path: "/certification",
+    name: "Certification",
+    component : Certification,
+    // meta: { requireAuth: true},
   },
 ];
 
