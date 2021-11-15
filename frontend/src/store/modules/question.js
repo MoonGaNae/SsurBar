@@ -13,6 +13,10 @@ const mutations = {
 };
 
 const actions = {
+  initQuestionData({ commit }) {
+    commit("SET_QUESTION_LIST", null);
+    commit("SET_CATEGORY_LIST", null);
+  },
   setQuestionList({ commit }, questionList) {
     commit("SET_QUESTION_LIST", questionList);
   },

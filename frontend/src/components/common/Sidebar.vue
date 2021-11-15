@@ -3,16 +3,16 @@
     <div id="sidebar-wrapper">
       <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
         <li style="margin-left: 5%">
-          <router-link to="/">
-            <a href="#"
+          <router-link to="#">
+            <a @click="movePage(`main`)"
               ><i class="fas fa-home fa-2x" style="margin-top: 1vh"></i
             ></a>
           </router-link>
         </li>
 
         <li style="margin-left: 10%">
-          <router-link to="/form/createform">
-            <a href="#"
+          <router-link to="#">
+            <a @click="movePage(`FromCreateion`)"
               ><i class="fas fa-plus-square fa-2x" style="margin-top: 1vh"></i
             ></a>
           </router-link>
@@ -27,8 +27,8 @@
         </li> -->
 
         <li style="margin-left: 10%">
-          <router-link to="/">
-            <a href="#"
+          <router-link to="#">
+            <a @click="movePage(`main`)"
               ><i class="fas fa-cog fa-2x" style="margin-top: 1vh"></i
             ></a>
           </router-link>
@@ -53,8 +53,26 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   name: "Sidebar",
+  methods: {
+    ...mapActions("question", ["initQuestionData"]),
+    ...mapActions("analysis", ["initAnalysisData"]),
+    ...mapActions("filterQuestion", ["initFilterQuestionData"]),
+    ...mapActions("template", ["initTemplateData"]),
+    ...mapActions("list", ["initListData"]),
+    movePage(pageName) {
+      this.initQuestionData();
+      this.initAnalysisData();
+      this.initFilterQuestionData();
+      this.initTemplateData();
+      this.initListData();
+
+      this.$router.push({ name: pageName });
+    },
+  },
 };
 </script>
 

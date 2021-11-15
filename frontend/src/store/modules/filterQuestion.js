@@ -9,6 +9,9 @@ const mutations = {
 };
 
 const actions = {
+  initFilterQuestionData({ commit }) {
+    commit("SET_FILTER_QUESTION_LIST", null);
+  },
   setFilterQuestionList({ commit }, filterQuestionList) {
     commit("SET_FILTER_QUESTION_LIST", filterQuestionList);
   },

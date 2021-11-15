@@ -51,6 +51,16 @@ const mutations = {
 };
 
 const actions = {
+  initSurveyData({ commit }) {
+    commit("SET_RECENT_SURVEY_INFO", {
+      templateId: "",
+      title: "",
+      teamName: "",
+      teamId: "",
+      description: "",
+    });
+    commit("SET_SURVEY_ID", null);
+  },
   setSurveyId({ commit }, surveyId) {
     commit("SET_SURVEY_ID", surveyId);
   },
