@@ -63,6 +63,7 @@ export default {
     ...mapActions("filterQuestion", ["initFilterQuestionData"]),
     ...mapActions("template", ["initTemplateData"]),
     ...mapActions("list", ["initListData"]),
+
     movePage(pageName) {
       this.initQuestionData();
       this.initAnalysisData();

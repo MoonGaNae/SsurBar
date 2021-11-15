@@ -100,9 +100,14 @@
             >
               <div class="progress-bar-base">
                 <div
+                  v-if="questionAnswer.percentage != 0"
                   class="progress-bar-color"
                   :style="{ width: questionAnswer.percentage + '%' }"
                 >
+                  <div>{{ questionAnswer.sentence }}</div>
+                  <div>{{ questionAnswer.percentage }} %</div>
+                </div>
+                <div v-else class="zero-percent-bar">
                   <div>{{ questionAnswer.sentence }}</div>
                   <div>{{ questionAnswer.percentage }} %</div>
                 </div>
@@ -447,6 +452,14 @@ export default {
 
 .score-number {
   width: 10vh;
+}
+
+.zero-percent-bar {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 1vh;
+  padding-right: 1vh;
+  color: white;
 }
 
 .data-title {

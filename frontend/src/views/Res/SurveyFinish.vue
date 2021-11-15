@@ -1,9 +1,11 @@
 <template>
   <div class="surveyWrapper">
     <div class="description">
-      <div style="margin-bottom:5vh;"><img class="desImage" src="@/assets/happy.png" /></div>
-      <h1>설문이 완료되었습니다.</h1> 
-      <h1> 감사합니다.</h1>
+      <div style="margin-bottom: 5vh">
+        <img class="desImage" src="@/assets/happy.png" />
+      </div>
+      <h1>설문이 완료되었습니다.</h1>
+      <h1>감사합니다.</h1>
       <div class="logo-div" style="text-align: center">
         <img class="logo" src="@/assets/biglogo1.png" />
       </div>
@@ -43,8 +45,8 @@
   bottom: 3em;
   right: 45%;
 }
-.desImage{
-  width :4vw;
+.desImage {
+  width: 4vw;
 }
 @media (max-width: 768px) {
   .surveyWrapper {
@@ -57,14 +59,14 @@
     background-color: white;
     position: relative;
   }
-  .logo{
-    width :30%;
+  .logo {
+    width: 30%;
     position: absolute;
     bottom: 3em;
     right: 35%;
   }
-  .desImage{
-    width :15vw;
+  .desImage {
+    width: 15vw;
   }
 }
 </style>
