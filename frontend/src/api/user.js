@@ -10,5 +10,23 @@ export default {
         })
     },
 
+    getUncertificateUsers(){
+        return _axios({
+            url: `/users/uncertified`,
+            method: `get`
+        })
+    },
+
+    certificateUser(userId){
+        return _axios({
+            url: `/users/certification`,
+            method: `put`,
+            data: {
+                userId: userId,
+                userType: 'CERTIFIED'
+            }
+        })
+    }
+
 
 }
