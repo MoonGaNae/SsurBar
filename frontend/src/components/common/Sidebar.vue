@@ -2,7 +2,7 @@
   <div id="sidebar">
     <div id="sidebar-wrapper">
       <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
-        <li style="margin-top: 25vh; margin-left: 5%">
+        <li style="margin-left: 5%">
           <router-link to="/">
             <a href="#"
               ><i class="fas fa-home fa-2x" style="margin-top: 1vh"></i
@@ -10,7 +10,7 @@
           </router-link>
         </li>
 
-        <li style="margin-top: 10vh; margin-left: 10%">
+        <li style="margin-left: 10%">
           <router-link to="/form/createform">
             <a href="#"
               ><i class="fas fa-plus-square fa-2x" style="margin-top: 1vh"></i
@@ -18,15 +18,15 @@
           </router-link>
         </li>
 
-        <li style="margin-top: 10vh; margin-left: 10%">
+        <!-- <li style="margin-top: 10vh; margin-left: 10%">
           <router-link to="/">
             <a href="#"
               ><i class="fas fa-chart-bar fa-2x" style="margin-top: 1vh"></i
             ></a>
           </router-link>
-        </li>
+        </li> -->
 
-        <li style="margin-top: 10vh; margin-left: 10%">
+        <li style="margin-left: 10%">
           <router-link to="/">
             <a href="#"
               ><i class="fas fa-cog fa-2x" style="margin-top: 1vh"></i
@@ -112,5 +112,19 @@ export default {
   #sidebar-wrapper {
     width: 100px;
   }
+}
+</style>
+
+<style scoped>
+#menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+}
+
+#menu li {
+  margin-top: 5vh;
+  margin-bottom: 5vh;
 }
 </style>
