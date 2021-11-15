@@ -51,12 +51,9 @@ const actions = {
   setCategoryList({ commit }, surveyId) {
     commit("SET_RECENT_TEMPLATE_ID", surveyId);
   },
-<<<<<<< HEAD
   setSelectedTab({ commit }, selectedTab) {
     commit("SET_SELECTED_TAB", selectedTab);
   },
-=======
->>>>>>> 13be0f7746bd332baa390ab4e59fe6fa64fd2b99
 };
 
 const getters = {

@@ -6,7 +6,7 @@ import Createform from "@/views/Createform.vue";
 import SurveyCreateComplete from "@/views/SurveyCreateComplete.vue";
 import QuestionEdit from "@/views/question/QuestionEdit.vue";
 import filter from "@/views/Editform.vue";
-import TestPage from "@/views/test.vue";
+import CreatePreview from "@/views/CreatePreview.vue";
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Form from "../views/Res/SurveyForm.vue";
@@ -20,7 +20,7 @@ import Login from "@/views/user/login.vue";
 import Result from "@/views/survey/SurveyResultLink.vue";
 import SurveyClosed from "../views/Res/SurveyClosed.vue";
 
-import store from '@/store/'
+import store from "@/store/";
 
 Vue.use(VueRouter);
 
@@ -69,9 +69,9 @@ const routes = [
     meta: { requireAuth: true },
   },
   {
-    path: "/test",
-    name: "TestPage",
-    component: TestPage,
+    path: "/survey/preview",
+    name: "CreatePreview",
+    component: CreatePreview,
     meta: { requireAuth: true },
   },
   {
@@ -120,20 +120,21 @@ const router = new VueRouter({
 });
 
 router.beforeEach(function (to, from, next) {
-  if (to.matched.some( (routeInfo) => {
-    return routeInfo.meta.requireAuth
-  })) {
-    if(store.state.user.isLogin){
+  if (
+    to.matched.some((routeInfo) => {
+      return routeInfo.meta.requireAuth;
+    })
+  ) {
+    if (store.state.user.isLogin) {
       // console.log("로그인 됨");
       next();
-    }else{
+    } else {
       // console.log("로그인 안됨");
-      next('/login');
+      next("/login");
     }
-  } 
-  else {
+  } else {
     next();
   }
-})
+});
 
 export default router;
