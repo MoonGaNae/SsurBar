@@ -2,7 +2,9 @@
   <div id="wrapper">
     <div id="wrapper-div">
       <div id="container">
-        <div id="intro">안녕하세요! 지금 <b>SSURBAR</b>를 통해 설문을 시작해보세요 📝</div>
+        <div id="intro">
+          안녕하세요! 지금 <b>SSURBAR</b>를 통해 설문을 시작해보세요 📝
+        </div>
         <div id="bottonBox">
           <div class="surveyButton" @click="clickScratch">
             <img class="buttonImg" src="@/assets/newdoc.png" />
@@ -29,7 +31,24 @@
 
         <hr />
 
-        <div id="tab"><span>진행중인 설문</span> | <span>완료된 설문</span></div>
+        <div id="tab-div">
+          <ul class="tabs">
+            <li
+              class="tab"
+              :class="{ selectedTab: selectedTab == 0 }"
+              @click="changeTab(0)"
+            >
+              진행중인 설문
+            </li>
+            <li
+              class="tab"
+              :class="{ selectedTab: selectedTab == 1 }"
+              @click="changeTab(1)"
+            >
+              완료된 설문
+            </li>
+          </ul>
+        </div>
         <ongoingList></ongoingList>
       </div>
     </div>
@@ -46,9 +65,19 @@ export default {
   },
   computed: {
     ...mapState("survey", ["surveyCreateType"]),
+    ...mapState("list", ["selectedTab"]),
   },
   methods: {
     ...mapActions("survey", ["setCreateType"]),
+    ...mapActions("question", ["initQuestionData"]),
+    ...mapActions("analysis", ["initAnalysisData"]),
+    ...mapActions("filterQuestion", ["initFilterQuestionData"]),
+    ...mapActions("template", ["initTemplateData"]),
+    ...mapActions("list", ["initListData", "setSelectedTab"]),
+    changeTab(tabNum) {
+      console.log(tabNum);
+      this.setSelectedTab(tabNum);
+    },
     clickScratch() {
       this.setCreateType(this.surveyCreateType.NEW);
       this.$router.push("/form/createform");
@@ -106,8 +135,9 @@ export default {
   transform: scale(1.1);
   cursor: pointer;
 }
-#tab {
+#tab-div {
   margin-top: 2.5%;
+  margin-bottom: 0px;
 }
 .surveyButton {
   display: flex;
