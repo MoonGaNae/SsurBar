@@ -91,7 +91,6 @@ const routes = [
     path: "/finish",
     name: "Finish",
     component: Finish,
-    meta: { requireAuth: true },
   },
   {
     path: "/template/default",
