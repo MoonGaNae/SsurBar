@@ -3,26 +3,49 @@
     <div class="main-container">
       <div id="tab-div">
         <ul class="tabs">
-          <li class="tab" :class="{ selectedTab: selectedTabNum == 0 }" @click="changeTab(0)">
+          <li
+            class="tab"
+            :class="{ selectedTab: selectedTabNum == 0 }"
+            @click="changeTab(0)"
+          >
             분석
           </li>
-          <li class="tab" :class="{ selectedTab: selectedTabNum == 1 }" @click="changeTab(1)">
+          <li
+            class="tab"
+            :class="{ selectedTab: selectedTabNum == 1 }"
+            @click="changeTab(1)"
+          >
             비교
           </li>
-          <li class="tab" :class="{ selectedTab: selectedTabNum == 2 }" @click="changeTab(2)">
+          <li
+            class="tab"
+            :class="{ selectedTab: selectedTabNum == 2 }"
+            @click="changeTab(2)"
+          >
             배포
           </li>
-          <li class="tab" :class="{ selectedTab: selectedTabNum == 3 }" @click="changeTab(3)">
+          <li
+            class="tab"
+            :class="{ selectedTab: selectedTabNum == 3 }"
+            @click="changeTab(3)"
+          >
             결과
           </li>
         </ul>
       </div>
       <div class="detail-container">
-        <div class="filter-container el-card is-always-shadow" v-if="!checkFullContent">
+        <div
+          class="filter-container el-card is-always-shadow"
+          v-if="!checkFullContent"
+        >
           <div class="name-text">필터</div>
           <div v-if="!isFilterOpened" class="filter-main-div">
             <div class="filter-list">
-              <div class="filter-div" v-for="(filter, filterIdx) in filterList" :key="filterIdx">
+              <div
+                class="filter-div"
+                v-for="(filter, filterIdx) in filterList"
+                :key="filterIdx"
+              >
                 <div class="filter el-card is-always-shadow">
                   <div class="filter-title" @click="clickFilterDiv(filterIdx)">
                     {{ filter.name }}
@@ -31,7 +54,10 @@
                     <i v-else class="el-icon-arrow-right"></i>
                   </div>
                   <div class="filter-content" v-if="filter.isSelected">
-                    <div v-for="(filterName, nameIdx) in filter.filterNames" :key="nameIdx">
+                    <div
+                      v-for="(filterName, nameIdx) in filter.filterNames"
+                      :key="nameIdx"
+                    >
                       <label class="filter-label" :for="filter + filterName">{{
                         filterName
                       }}</label>
@@ -47,16 +73,16 @@
               </div>
             </div>
             <div class="button-div">
-              <button
-                @click="applyFilter()"
-                class="yellow-button rounded-corner-button apply-button"
-              >
+              <button @click="applyFilter()" class="custom-btn2 btn-6">
                 적용하기
               </button>
             </div>
           </div>
         </div>
-        <div class="content-container" :class="{ isFullContent: checkFullContent }">
+        <div
+          class="content-container"
+          :class="{ isFullContent: checkFullContent }"
+        >
           <div
             class="component-container el-card is-always-shadow"
             :class="{ isFullContent: checkFullContent }"
@@ -111,20 +137,20 @@
                 <button
                   @click="clickEditButton"
                   v-if="!isEditState"
-                  class="blue-button rounded-corner-button"
+                  class="custom-btn2 btn-6"
                 >
                   수정</button
                 ><button
                   @click="clickEditSubmitButton"
                   v-if="isEditState"
-                  class="green-button rounded-corner-button"
+                  class="custom-btn2 btn-6"
                 >
                   완료
                 </button>
                 <button
                   @click="clickEditCancelButton"
                   v-if="isEditState"
-                  class="red-button rounded-corner-button"
+                  class="custom-btn1 btn-5"
                 >
                   취소
                 </button>
@@ -139,7 +165,6 @@
 
 <script>
 import axios from "@/utils/axios.js";
-// import { mapActions, mapGetters } from "vuex";
 import { mapActions } from "vuex";
 import SurveyRealease from "@/components/detail/SurveyRealease.vue";
 import SurveyAnalysis from "@/components/detail/SurveyAnalysis.vue";
@@ -159,7 +184,6 @@ export default {
     return {
       selectedTabNum: 0,
       checkedFilter: [],
-      // surveyId: "samplesurvey1",
       filterList: [],
       isFeedbackOpened: false,
       feedbackContentBackup: "",
@@ -185,7 +209,8 @@ export default {
       this.setAnswerData(searchData);
     },
     clickFilterDiv(filterIdx) {
-      this.filterList[filterIdx].isSelected = !this.filterList[filterIdx].isSelected;
+      this.filterList[filterIdx].isSelected =
+        !this.filterList[filterIdx].isSelected;
     },
     clickFeedbackDiv() {
       this.isFeedbackOpened = !this.isFeedbackOpened;
@@ -195,7 +220,6 @@ export default {
       this.isEditState = true;
     },
     clickEditSubmitButton() {
-      //axios 추가 필요
       this.saveIntegratedFeedback();
       this.feedbackContentBackup = this.feedbackContent;
       this.isEditState = false;
@@ -267,7 +291,6 @@ export default {
       })
       .catch((err) => {
         console.log(err);
-        // this.$router.push("/");
       });
 
     let filterStr = JSON.stringify(this.checkedFilter);
@@ -284,7 +307,6 @@ export default {
 @import "../../assets/style/buttons.css";
 
 .component-div {
-  /* overflow: scroll; */
   height: 100%;
 }
 
@@ -300,7 +322,6 @@ ul.tabs li {
   display: inline-block;
   padding: 10px 15px;
   cursor: pointer;
-  /* background-color: #dde0e7; */
 }
 
 ul.tabs li:hover {
@@ -314,8 +335,6 @@ ul.tabs li:hover {
 .main-container {
   padding: 3%;
   width: 100%;
-  /* display: flex;
-  justify-content: space-between; */
 }
 
 .detail-container {
@@ -326,20 +345,13 @@ ul.tabs li:hover {
 
 .feedback-container {
   width: 100%;
-  /* height: 50%; */
-  /* border-style: solid; */
 }
 .component-container {
-  /* overflow: scroll; */
   width: 100%;
   height: 100%;
-  /* border-style: solid; */
 }
 .filter-container {
   width: 13%;
-  height: 75vh;
-  /* overflow: hidden; */
-  /* border-style: solid; */
 }
 
 .isFullContent {
@@ -348,29 +360,13 @@ ul.tabs li:hover {
 
 .selectedTab {
   color: #0e4194 !important;
-  /* font-size: 120%; */
   font-weight: 700;
-  /* background-color: white !important; */
-  /* border-style: solid;
-  border-color: #0e4194 !important;
-  border-width: 2px !important;
-  border-bottom: 0; */
-}
-
-.tab {
-  /* border-style: solid; */
-  /* border-width: 1px;
-  border-color: #dde0e7;
-  border-bottom: 0; */
 }
 
 .teste {
-  /* border-style: solid; */
 }
 
 #tab-div {
-  /* border-style: solid;
-  border-width: 0px 0px 1px 0px; */
   margin-bottom: 1%;
 }
 
@@ -380,6 +376,10 @@ ul.tabs li:hover {
 </style>
 
 <style scoped>
+button {
+  font-size: 15px;
+}
+
 .filter-div {
   display: flex;
   justify-content: center;

@@ -22,7 +22,8 @@
         </div>
       </div>
     </div>
-    <div class="temp-container">
+    <div class="summary-container">
+      <h3 class="summary-title">강점</h3>
       <div class="data-div">
         <div class="data-title">최고 평균</div>
         <ul class="data-ul">
@@ -47,6 +48,7 @@
           </li>
         </ul>
       </div>
+      <h3 class="summary-title">약점</h3>
       <div class="data-div">
         <div class="data-title">최저 평균</div>
         <ul class="data-ul">
@@ -365,7 +367,7 @@ export default {
   width: 100%;
   padding-left: 2%;
   margin-top: 2%;
-  margin-bottom: 2%;
+  /* margin-bottom: 2%; */
   /* overflow: scroll;
   overflow-y: hidden; */
   display: inline-block;
@@ -431,7 +433,7 @@ export default {
   border-radius: 4px;
 }
 .data-ul li:hover {
-  background-color: #9cbbff;
+  background-color: rgba(156, 187, 255, 0.2);
 }
 
 .data-ul li div {
@@ -451,14 +453,12 @@ export default {
   background-color: #dde0e7;
 }
 
-.temp-container {
-  margin-top: 2vh;
+.summary-container {
+  /* margin-top: 2vh; */
   border-bottom: 0px none !important;
-  /* height: 70%; */
 }
 
 .data-div {
-  /* border-bottom: 1px solid; */
   padding-left: 3vh;
   padding-right: 3vh;
 }
@@ -485,6 +485,11 @@ export default {
 
 .question-title {
   font-size: 150%;
+}
+
+.summary-title {
+  padding-left: 3vh;
+  margin-top: 5vh;
 }
 
 .summary-question-number {
