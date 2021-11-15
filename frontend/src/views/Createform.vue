@@ -389,24 +389,28 @@ export default {
     ...mapActions("survey", ["getRecentSurveyInfo"]),
     endEditForm() {
       console.log(this.surveyTitle);
-      let endTime = this.endDate.toISOString().split("T");
-      this.setEndTime(endTime[0] + " " + endTime[1].split(".")[0]);
-      this.setTeamId(this.targetTeamId);
-      this.setTitle(this.surveyTitle);
-      this.setDescription(this.description);
+      if(!this.checkForm()){
+        this.$fire({
+          title: "응답실패",
+          text: "아직 설정하지 않은 항목이 존재합니다!",
+          type: "error",
+        });
+      }else{
+        let endTime = this.endDate.toISOString().split("T");
+        this.setEndTime(endTime[0] + " " + endTime[1].split(".")[0]);
+        this.setTeamId(this.targetTeamId);
+        this.setTitle(this.surveyTitle);
+        this.setDescription(this.description);
 
-      this.$router.push("/filter");
+        this.$router.push("/filter");
 
-      // axios
-      //   .post("/template", {
-      //     title: this.surveyTitle,
-      //     description: this.description,
-      //   })
-      //   .then((res) => {
-      //     this.setTemplateId(res.data.templateId);
-
-      //     this.$router.push("/filter");
-      //   });
+      }
+    },
+    checkForm(){
+      if(!this.description || !this.surveyTitle || !this.targetTeamId || !this.endDate){
+        return false;
+      }
+      return true;
     },
     async setRecentSurvey() {
       if (!this.editSurveyId) {

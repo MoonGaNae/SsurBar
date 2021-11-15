@@ -52,6 +52,7 @@ export default {
     return {
       tableList: [],
       search: "",
+      num:"1",
     };
   },
   computed: {
