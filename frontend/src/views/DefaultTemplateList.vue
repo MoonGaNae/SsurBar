@@ -1,24 +1,20 @@
-te
 <template>
-  <div id="wrapper">
-    <div class="container">
-      <div class="row justify-content-md-center">
-        <div class="col">
-          <h1 style="padding-top: 3%; padding-left: 4%; font-size: 4rem">
-            기본 서식 조회
-          </h1>
-        </div>
-        <div class="col-md-auto align-self-end">
-          <el-input
-            placeholder="Please input"
-            v-model="searchTemplate"
-            class="input-with-select"
-          >
-            <el-button slot="append" icon="el-icon-search"></el-button>
-          </el-input>
-        </div>
+  <div>
+    <div class="page-title-div" style="padding-top:9%; padding-left:5%">
+      <div class="page-title-div-child" >
+        <h1>기본 서식 조회</h1>
       </div>
-      <hr class="mb-5" style="width: 100%" />
+    </div>
+    <hr style="width: 90%; margin-top:3%; margin-left:5%;" />
+    <el-input
+      placeholder="Please input"
+      v-model="searchTemplate"
+      class="input-with-select"
+      style="margin-left:80%; margin-bottom:4%;width:15%"
+    >
+      <el-button slot="append" icon="el-icon-search"></el-button>
+    </el-input>
+    <div class="container">
       <div class="row row-cols-2" style="height: 50%">
         <default-template-item
           v-on:click.native="moveTemplatePreview(template.templateId)"
@@ -60,3 +56,16 @@ export default {
   },
 };
 </script>
+ 
+<style scoped>
+.page-title-div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 15vh;
+}
+
+.page-title-div-child > h1 {
+  font-size: 4rem;
+}
+</style>

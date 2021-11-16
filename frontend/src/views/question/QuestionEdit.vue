@@ -1,165 +1,169 @@
 <template>
-  <div id="wrapper">
-    <div class="container">
+  
+    <div>
       
-      <div class="page-title-div">
-        <h1 style="padding-top: 3%; padding-left: 4%; font-size: 4rem">
-          문항 편집
-        </h1>
-        <button
-          @click="endEditSurvey()"
-          class="next-button yellow-button rounded-corner-button"
-        >
-          Next
-        </button>
-      </div>
-      <hr style="width: 100%" />
-      <div class="sub-title-div">
-        <div>
-          <h3 style="d-flex; text-align:left; font-size:2.5rem">
-            설문 제목 : <span style="background: linear-gradient(to top, #ffe400 40%, transparent 40%);"> {{this.title}} </span>
-          </h3>
-        </div>
-        <div class="sub-title-div-buttons">
-          <input
-            class="el-input__inner"
-            type="text"
-            v-model="categoryInput"
-            v-if="categoryInputState"
-          />
-          <button
-            @click="addCategory()"
-            v-if="categoryInputState"
-            class="rounded-corner-button white-button category-input-btn"
-          >
-            추가
-          </button>
-          <button
-            v-if="categoryInputState"
-            @click="cancelCategoryAdd()"
-            class="rounded-corner-button white-button category-cancel-btn"
-          >
-            취소
-          </button>
-          <button
-            class="rounded-corner-button white-button category-add-btn"
-            @click="categoryInputState = true"
-            v-if="!categoryInputState"
-          >
-            category
-          </button>
+      <div class="page-title-div" style="padding-top:9%; padding-left:5%">
+        <div class="page-title-div-child">
+          <h1>문항 편집</h1>
         </div>
       </div>
-      <div class="category-warning" v-text="categoryInputWarning"></div>
+      <hr style="width: 90%; margin-top:3%; margin-left:5%;" />  
+      <button
+        @click="endEditSurvey()"
+        class="custom-btn btn-5"
+        style="margin-left:86%;margin-top:1%"
+      >
+        Next
+      </button>
+      <div class="container">
 
-      <div class="category-list">
-        <div
-          class="category-div"
-          v-for="(category, categoryIndex) in categoryList"
-          :key="categoryIndex"
-        >
-          <div class="category" :id="'category' + categoryIndex">
-            <div class="category-title-div" @click="clickCategory(category)">
-              <div class="category-title">
-                <div style="d-flex; text-align:left; margin-left:3%; font-size:2rem">
-                  카테고리명: {{ category.title }}
+        <div class="sub-title-div">
+          <div>
+            <h3 style="d-flex; text-align:left; font-size:2.5rem">
+              설문 제목 : <span style="background: linear-gradient(to top, #ffe400 40%, transparent 40%);"> {{this.title}} </span>
+            </h3>
+          </div>
+          <div class="sub-title-div-buttons">
+            <input
+              class="el-input__inner"
+              type="text"
+              v-model="categoryInput"
+              v-if="categoryInputState"
+            />
+            <button
+              @click="addCategory()"
+              v-if="categoryInputState"
+              class="rounded-corner-button white-button category-input-btn"
+            >
+              추가
+            </button>
+            <button
+              v-if="categoryInputState"
+              @click="cancelCategoryAdd()"
+              class="rounded-corner-button white-button category-cancel-btn"
+            >
+              취소
+            </button>
+            <button
+              class="rounded-corner-button white-button category-add-btn"
+              @click="categoryInputState = true"
+              v-if="!categoryInputState"
+            >
+              category
+            </button>
+          </div>
+        </div>
+        <div class="category-warning" v-text="categoryInputWarning"></div>
+
+        <div class="category-list">
+          <div
+            class="category-div"
+            v-for="(category, categoryIndex) in categoryList"
+            :key="categoryIndex"
+          >
+            <div class="category" :id="'category' + categoryIndex">
+              <div class="category-title-div" @click="clickCategory(category)">
+                <div class="category-title">
+                  <div style="d-flex; text-align:left; margin-left:3%; font-size:2rem">
+                    카테고리명: {{ category.title }}
+                  </div>
+                  <div class="category-arrow">
+                    <i v-if="category.isSelected" class="el-icon-arrow-down"></i>
+                    <i v-else class="el-icon-arrow-left"></i>
+                  </div>
                 </div>
-                <div class="category-arrow">
-                  <i v-if="category.isSelected" class="el-icon-arrow-down"></i>
-                  <i v-else class="el-icon-arrow-left"></i>
-                </div>
-              </div>
-              <div class="category-delete-div">
-                <el-button
-                  type="danger"
-                  @click="deleteCategory(categoryIndex)"
-                  icon="el-icon-delete" circle
-                >
-                   
-                </el-button>
-              </div>
-            </div>
-            <div class="question-list" v-if="category.isSelected">
-              <div
-                class="question el-card box-card is-always-shadow"
-                v-for="(question, questionIndex) in category.questionList"
-                :key="questionIndex"
-              >
-                <div class="question-delete-btn-div">
-                  <el-button circle
-                    icon="el-icon-close"
-                    @click="
-                      deleteQuestion(category.questionList, questionIndex)
-                    "
+                <div class="category-delete-div">
+                  <el-button
+                    type="danger"
+                    @click="deleteCategory(categoryIndex)"
+                    icon="el-icon-delete" circle
                   >
+                    
                   </el-button>
                 </div>
-                <h4
-                  class="question-title"
-                  style="d-flex; text-align:left; font-size:2rem"
+              </div>
+              <div class="question-list" v-if="category.isSelected">
+                <div
+                  class="question el-card box-card is-always-shadow"
+                  v-for="(question, questionIndex) in category.questionList"
+                  :key="questionIndex"
                 >
-                  Q{{ questionIndex + 1 }}.
-                  <input
-                    class="question-title-input el-input__inner"
-                    style="d-flex; text-align:left; font-size:1.5rem"
-                    type="text"
-                    v-model="
-                      categoryList[categoryIndex].questionList[questionIndex]
-                        .title
-                    "
-                  />
-                </h4>
-                <div class="answer-choices-list">
-                  <div
-                    class="choice"
-                    v-for="(choice, choiceIndex) in question.choiceList"
-                    :key="choiceIndex"
-                  >
-                    <div>
-                      {{ choiceIndex + 1 }}.
-                      <input
-                        type="text"
-                        class="el-input__inner"
-                        v-model="
-                          categoryList[categoryIndex].questionList[
-                            questionIndex
-                          ].choiceList[choiceIndex]
-                        "
-                      />
-                    </div>
-                    <button
-                      class="
-                        el-button el-button--danger
-                        is-circle
-                        el-button--mini
+                  <div class="question-delete-btn-div">
+                    <el-button circle
+                      icon="el-icon-close"
+                      @click="
+                        deleteQuestion(category.questionList, questionIndex)
                       "
-                      @click="deleteChoice(question.choiceList, choiceIndex)"
-                    >
-                      <i class="el-icon-minus"></i>
-                    </button>
-                  </div>
-                  <div class="choice-add-button-div">
-                    <el-button
-                    type="success" plain circle
-                    icon="el-icon-plus"
-                      @click="addChoice(question.choiceList)"
                     >
                     </el-button>
                   </div>
+                  <h4
+                    class="question-title"
+                    style="d-flex; text-align:left; font-size:2rem"
+                  >
+                    Q{{ questionIndex + 1 }}.
+                    <input
+                      class="question-title-input el-input__inner"
+                      style="d-flex; text-align:left; font-size:1.5rem"
+                      type="text"
+                      v-model="
+                        categoryList[categoryIndex].questionList[questionIndex]
+                          .title
+                      "
+                    />
+                  </h4>
+                  <div class="answer-choices-list">
+                    <div
+                      class="choice"
+                      v-for="(choice, choiceIndex) in question.choiceList"
+                      :key="choiceIndex"
+                    >
+                      <div>
+                        {{ choiceIndex + 1 }}.
+                        <input
+                          type="text"
+                          class="el-input__inner"
+                          v-model="
+                            categoryList[categoryIndex].questionList[
+                              questionIndex
+                            ].choiceList[choiceIndex]
+                          "
+                        />
+                      </div>
+                      <button
+                        class="
+                          el-button el-button--danger
+                          is-circle
+                          el-button--mini
+                        "
+                        @click="deleteChoice(question.choiceList, choiceIndex)"
+                      >
+                        <i class="el-icon-minus"></i>
+                      </button>
+                    </div>
+                    <div class="choice-add-button-div">
+                      <el-button
+                      type="success" plain circle
+                      icon="el-icon-plus"
+                        @click="addChoice(question.choiceList)"
+                      >
+                      </el-button>
+                    </div>
+                  </div>
                 </div>
+                <el-button type="success" plain
+                  icon="el-icon-document-add"
+                  @click="addQuestion(category.questionList)"
+                >
+                  문제 추가
+                </el-button>
               </div>
-              <el-button type="success" plain
-                icon="el-icon-document-add"
-                @click="addQuestion(category.questionList)"
-              >
-                문제 추가
-              </el-button>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+ 
 </template>
 
 <script>
@@ -287,6 +291,10 @@ export default {
   border-radius: 0;
 }
 
+.page-title-div-child > h1 {
+  font-size: 4rem;
+}
+/* 
 #wrapper {
   padding-left: 0;
   -webkit-transition: all 0.5s ease;
@@ -294,7 +302,7 @@ export default {
   -o-transition: all 0.5s ease;
   transition: all 0.5s ease;
   overflow: hidden;
-}
+} */
 
 .sidebar-nav {
   position: absolute;
@@ -453,14 +461,16 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 15vh;
 }
 
-.page-title-div h1 {
+
+/* .page-title-div h1 {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 0;
-}
+} */
 
 .next-button {
   margin-top: 10%;
@@ -503,10 +513,10 @@ export default {
   min-width: 40px;
 }
 
-.container {
+/* .container {
   padding: 4%;
   padding-right: 4%;
-}
+} */
 
 .question-list {
   padding-top: 2%;

@@ -62,7 +62,7 @@ h6,
   overflow: auto;
 }
 
-.page-title-div {
+/* .page-title-div {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -71,7 +71,7 @@ h6,
 
 .page-title-div-child > h1 {
   font-size: 4rem;
-}
+} */
 
 #sidebar {
   position: sticky;
