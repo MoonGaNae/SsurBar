@@ -13,6 +13,7 @@ const state = {
   questionCount: null,
   comparisonLabels: null,
   comparisonDataSets: null,
+  isLoading: true,
 };
 
 const mutations = {
@@ -55,6 +56,9 @@ const mutations = {
   SET_COMPARISON_LABELS: (state, comparisonLabels) => {
     state.comparisonLabels = comparisonLabels;
   },
+  SET_IS_LOADING: (state, isLoading) => {
+    state.isLoading = isLoading;
+  },
 };
 const actions = {
   initAnalysisData({ commit }) {
@@ -69,6 +73,7 @@ const actions = {
     commit("SET_QUESTION_COUNT", null);
     commit("SET_COMPARISON_DATA_SETS", null);
     commit("SET_COMPARISON_LABELS", null);
+    commit("SET_IS_LOADING", true);
   },
   setAnswerData({ commit }, searchData) {
     mainApi
@@ -109,6 +114,9 @@ const actions = {
   },
   setComparisonLabels({ commit }, comparisonDataSets) {
     commit("SET_COMPARISON_LABELS", comparisonDataSets);
+  },
+  setIsLoading({ commit }, isLoading) {
+    commit("SET_IS_LOADING", isLoading);
   },
 };
 
