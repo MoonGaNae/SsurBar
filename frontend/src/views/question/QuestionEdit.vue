@@ -1,6 +1,7 @@
 <template>
   <div id="wrapper">
     <div class="container">
+      
       <div class="page-title-div">
         <h1 style="padding-top: 3%; padding-left: 4%; font-size: 4rem">
           문항 편집
@@ -16,7 +17,7 @@
       <div class="sub-title-div">
         <div>
           <h3 style="d-flex; text-align:left; font-size:2.5rem">
-            업무 만족도 조사
+            설문 제목 : <span style="background: linear-gradient(to top, #ffe400 40%, transparent 40%);"> {{this.title}} </span>
           </h3>
         </div>
         <div class="sub-title-div-buttons">
@@ -31,7 +32,7 @@
             v-if="categoryInputState"
             class="rounded-corner-button white-button category-input-btn"
           >
-            입력 완료
+            추가
           </button>
           <button
             v-if="categoryInputState"
@@ -45,9 +46,8 @@
             @click="categoryInputState = true"
             v-if="!categoryInputState"
           >
-            카테고리 추가
+            category
           </button>
-          <!-- <button class="rounded-corner-button while-button">질문 은행</button> -->
         </div>
       </div>
       <div class="category-warning" v-text="categoryInputWarning"></div>
@@ -61,8 +61,8 @@
           <div class="category" :id="'category' + categoryIndex">
             <div class="category-title-div" @click="clickCategory(category)">
               <div class="category-title">
-                <div style="d-flex; text-align:left; font-size:2.5rem">
-                  {{ category.title }}
+                <div style="d-flex; text-align:left; margin-left:3%; font-size:2rem">
+                  카테고리명: {{ category.title }}
                 </div>
                 <div class="category-arrow">
                   <i v-if="category.isSelected" class="el-icon-arrow-down"></i>
@@ -70,17 +70,13 @@
                 </div>
               </div>
               <div class="category-delete-div">
-                <button
-                  class="
-                    category-delete-btn
-                    rounded-corner-button
-                    red-button
-                    el-button--danger
-                  "
+                <el-button
+                  type="danger"
                   @click="deleteCategory(categoryIndex)"
+                  icon="el-icon-delete" circle
                 >
-                  카테고리 삭제
-                </button>
+                   
+                </el-button>
               </div>
             </div>
             <div class="question-list" v-if="category.isSelected">
@@ -90,14 +86,13 @@
                 :key="questionIndex"
               >
                 <div class="question-delete-btn-div">
-                  <button
-                    class="rounded-corner-button red-button el-button--danger"
+                  <el-button circle
+                    icon="el-icon-close"
                     @click="
                       deleteQuestion(category.questionList, questionIndex)
                     "
                   >
-                    문제 삭제
-                  </button>
+                  </el-button>
                 </div>
                 <h4
                   class="question-title"
@@ -144,21 +139,21 @@
                     </button>
                   </div>
                   <div class="choice-add-button-div">
-                    <button
-                      class="rounded-corner-button green-button"
+                    <el-button
+                    type="success" plain circle
+                    icon="el-icon-plus"
                       @click="addChoice(question.choiceList)"
                     >
-                      보기 추가
-                    </button>
+                    </el-button>
                   </div>
                 </div>
               </div>
-              <button
-                class="rounded-corner-button green-button"
+              <el-button type="success" plain
+                icon="el-icon-document-add"
                 @click="addQuestion(category.questionList)"
               >
                 문제 추가
-              </button>
+              </el-button>
             </div>
           </div>
         </div>
@@ -168,7 +163,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 export default {
   name: "QuestionEdit",
@@ -181,6 +176,9 @@ export default {
       questionList: [],
       categoryList: [],
     };
+  },
+  computed: {
+    ...mapState("template", ["title"]),
   },
   methods: {
     ...mapActions("question", ["setQuestionList", "setCategoryList"]),
@@ -515,6 +513,9 @@ export default {
   padding-right: 0;
 }
 
+.question-list div{
+  border-radius: 12px;
+}
 .question-title {
   display: flex;
   align-items: center;
@@ -606,6 +607,7 @@ export default {
   display: flex;
   background-color: white;
   justify-content: space-between;
+  margin-top: 5%;
   /* padding-left: 2%; */
   width: 100%;
   /* border-radius: 12px;
@@ -620,18 +622,18 @@ export default {
 
 .category-title {
   display: flex;
-  width: 85%;
+  width: 95%;
   justify-content: space-between;
   align-items: center;
-  border-color: #9cbbff;
-  border-style: solid;
-  color: #9cbbff;
-  border-radius: 12px;
+  border-radius: 50px;
+  background-color: rgb(50, 50, 168);
+  color:white;
+  /* background: linear-gradient(to left,rgb(144, 114, 179), rgb(120, 134, 170)); */
 }
 
 .category-title:hover {
-  background-color: white;
-  filter: brightness(90%);
+  background: linear-gradient(to left,rgb(128, 150, 248),rgb(55, 72, 116)); 
+  /* filter: brightness(90%); */
 }
 
 .category-warning {
@@ -713,7 +715,6 @@ button:hover {
 }
 
 .category-delete-div {
-  width: 10%;
   display: flex;
   justify-content: center;
   align-items: center;

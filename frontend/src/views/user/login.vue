@@ -1,6 +1,7 @@
 <template>
   <div>
     <div id="loginWrapper">
+
       <div id="logo">
         <div
           v-for="(t, index) in text"
@@ -9,7 +10,7 @@
           :style="{animationDelay: index*150+'ms'}"
           v-text="t"
           />
-          <div><img class="indexImage" src="@/assets/online-survey.png" /></div>
+          <div><img class="indexImage" src="@/assets/index.png" /></div>
           <br>
           
           <div><p class="etc">SSURBAR로 새로운 설문지를 만들어보세요.</p></div>
@@ -57,7 +58,7 @@ export default {
   data() {
     return {
       loginForm: {
-        email: "string",
+        email: "ssafy@ssafy.com",
         password: "string",
       },
       text: 'Welcome To SSURBAR!'
@@ -233,11 +234,15 @@ $gray: #9b9b9b;
   font-size: 4rem;
   animation: text-in .8s cubic-bezier(0.22, 0.15, 0.25, 1.43) 0s backwards;
   color:white;
-  
+  font-weight: 700;
+  text-shadow: 2px 2px 0px #3e4743, 
+                  4px 4px 0px #000000, 
+
 }
 
 .indexImage{
   display: inline-block;
+  width:50%;
 }
 .etc{
   color:lightgray;

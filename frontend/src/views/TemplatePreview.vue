@@ -70,7 +70,7 @@
           </el-form>
         </div>
         <div style="text-align: center">
-          <img class="logo" src="@/assets/smalllogo.png" />
+          <img class="logo" src="@/assets/biglogo1.png" />
         </div>
       </div>
     </div>

@@ -66,7 +66,6 @@ const routes = [
     path: "/survey/complete",
     name: "SurveyCreateComplete",
     component: SurveyCreateComplete,
-    meta: { requireAuth: true },
   },
   {
     path: "/survey/preview",

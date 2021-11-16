@@ -1,6 +1,7 @@
 <template>
   <div id="sidebar">
     <div id="sidebar-wrapper">
+      <img class="logo" src="@/assets/biglogo1.png" />
       <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
         <li style="margin-left: 5%">
           <router-link to="#">
@@ -116,6 +117,11 @@ export default {
   color: rgb(5, 25, 58);
   background: black;
   width: 8%;
+}
+.logo{
+  margin-top:15%;
+  margin-left:5%;
+  width: 85px;
 }
 
 @media (min-width: 768px) {

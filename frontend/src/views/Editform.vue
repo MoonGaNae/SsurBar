@@ -1,9 +1,11 @@
 <template>
   <div>
     <div class="page-title-div">
-      <h1 style="margin-left: 5%; margin-top: 1%; font-size: 3rem">
+      <div class="page-title-div">
+        <h1 style="font-size: 3rem">
         필터 항목 등록
       </h1>
+      </div>
       <!-- <button
         @click="endEditFilter()"
         class="next-button yellow-button rounded-corner-button"
@@ -24,7 +26,7 @@
       <div class="sub-title-div">
         <div>
           <h3 style="d-flex; text-align:left; font-size:2.5rem">
-            업무 만족도 조사
+            설문 제목 : <span style="background: linear-gradient(to top, #ffe400 40%, transparent 40%);"> {{this.title}} </span>
           </h3>
         </div>
         <div class="sub-title-div-buttons">
@@ -34,7 +36,7 @@
             v-model="categoryInput"
             v-if="categoryInputState"
             style="width: 260%"
-            placeholder="필터을 입력하세요."
+            placeholder="필터를 입력하세요."
           />
           <button
             @click="addCategory()"
@@ -59,13 +61,6 @@
           >
             <span>필터 추가</span>
           </button>
-          <!-- <button
-            class="rounded-corner-button white-button category-add-btn"
-            @click="categoryInputState = true"
-            v-if="!categoryInputState"
-          >
-            필터 추가
-          </button> -->
         </div>
       </div>
 
@@ -75,8 +70,10 @@
       <div class="content-div">
         <div
           class="category-list el-card box-card is-always-shadow"
-          style="width: 10vw; margin-top: 2%; padding-left: 1%"
+          style="width:10vw; position:relative;"
         >
+        <h3 style="margin-top:5%; margin-left:10%;">필터 목록</h3>
+        <hr>
           <div
             class="category-div"
             v-for="(category, categoryIndex) in categoryList"
@@ -90,48 +87,39 @@
               <div class="category-title-div">
                 <div class="category-title">
                   <div
-                    style="d-flex; text-align:left; padding-left:10%; font-size:1.6rem;"
+                    style="font-size:1.6rem; margin-left:20%;"
                     @click="clickCategory(categoryIndex)"
                   >
                     {{ category.title }}
                   </div>
 
-                  <!-- <div class="category-delete-div">
-                    <button
-                      class="el-button el-button--danger is-circle"
-                      style="width: 2vw"
-                      @click="deleteCategory(categoryIndex)"
-                    >
-                      <i class="el-icon-minus"></i>
-                    </button>
-                  </div> -->
                   <div
-                    class="position-fixed contact-button"
+                    style="position:absolute; right:-25px;"
                     @click="deleteCategory(categoryIndex)"
-                    style="margin-left: 7.5%"
                   >
-                    <i class="fa fa-minus contact-button__icon"></i>
+                    <i class="el-icon-close"></i>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div v-if="selectedCategoryIdx != null" class="question-list">
-          <div class="question el-card box-card is-always-shadow">
-            <div class="question-delete-btn-div"></div>
+        <div v-if="selectedCategoryIdx != null" class="question-list" >
+          <div class="question el-card box-card is-always-shadow" style="margin-bottom:0px;" >
             <h4
               class="question-title"
-              style="d-flex; text-align:left; font-size:2rem"
+              style="d-flex; text-align:left; font-size:1.5rem; margin-top:3%;"
             >
+              <label style="margin-right:2%; margin-left:1%;">필터 항목</label>
               <input
                 class="question-title-input el-input__inner"
-                style="d-flex; text-align:left; font-size:1.5rem"
+                style="d-flex; text-align:left; font-size:1.5rem;"
                 type="text"
                 v-model="categoryList[selectedCategoryIdx].title"
                 placeholder="질문을 입력하세요"
               />
             </h4>
+            <hr>
             <div class="answer-choices-list">
               <div
                 class="choice"
@@ -144,14 +132,14 @@
                   <input
                     type="text"
                     class="el-input__inner"
+                    style="width:90%;"
                     v-model="
                       categoryList[selectedCategoryIdx].choiceList[choiceIndex]
                     "
                   />
                 </div>
-                <div
-                  class="position-fixed contact-button"
-                  style="width: 0.6%; margin-left: 30%"
+                <span
+                  style="width:10%; width: 0.6%; position:absolute; right:40px;"
                   @click="
                     deleteChoice(
                       categoryList[selectedCategoryIdx].choiceList,
@@ -159,8 +147,8 @@
                     )
                   "
                 >
-                  <i class="fa fa-minus contact-button__icon"></i>
-                </div>
+                  <i class="el-icon-close"></i>
+                </span>
               </div>
               <div class="choice-add-button-div">
                 <button
@@ -207,6 +195,7 @@ export default {
   },
   computed: {
     ...mapState("survey", ["surveyCreateType", "curCreateType"]),
+    ...mapState("template", ["title"]),
   },
   methods: {
     ...mapActions("filterQuestion", ["setFilterQuestionList"]),
@@ -474,6 +463,7 @@ export default {
 
 .sub-title-div {
   display: flex;
+  padding-left:3%;
   /* justify-content: space-between; */
   align-items: center;
 }
@@ -504,15 +494,14 @@ export default {
   min-width: 40px;
 }
 
-.container {
-  padding: 4%;
-  padding-right: 4%;
+.container{
+  margin-top:5%;
 }
 
 .question-list {
   width: 35vw;
-  padding-top: 2%;
   padding-right: 0;
+  position:relative;
 }
 
 .question-title {
@@ -575,12 +564,7 @@ export default {
   filter: brightness(90%);
 }
 
-.red-button {
-  background-color: #f56c6c;
-  border-style: solid;
-  border-color: #f56c6c;
-  color: white;
-}
+
 
 .rounded-corner-button {
   border-radius: 12px;
@@ -620,15 +604,16 @@ export default {
 .category-title {
   display: flex;
   width: 100%;
-  height: 8vh;
+  /*height 고정*/ 
+  height: 70px;
   justify-content: space-between;
   align-items: center;
-  color: #9cbbff;
   border-radius: 12px;
+  position: relative;
 }
 
 .category-title div:hover {
-  color: rgb(5, 25, 58);
+  font-weight: 900;
   cursor: pointer;
   filter: brightness(90%);
 }
@@ -657,7 +642,7 @@ button:hover {
   width: 50%;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 2%;
+
 }
 
 .category {
@@ -676,7 +661,7 @@ button:hover {
 }
 
 .choice div {
-  width: 70%;
+  width: 100%;
   display: flex;
   align-items: center;
 }
@@ -725,9 +710,15 @@ button:hover {
 .content-div {
   display: flex;
   justify-content: space-between;
+  width:100%;
+  padding : 3%;
 }
 
 button {
   margin: 20px;
+}
+
+.answer-choices-list{
+  margin-top:5%;
 }
 </style>
