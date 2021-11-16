@@ -118,7 +118,8 @@
     </div>
   </div>
   <div v-else class="empty-div">
-    <EmptyData></EmptyData>
+    <div class="loading-div" v-if="isLoading" v-loading="true"></div>
+    <EmptyData v-else></EmptyData>
   </div>
 </template>
 
@@ -144,6 +145,7 @@ export default {
       isFlexCenter: false,
       isBarDataExist: false,
       isAnswerEmpty: false,
+      isLoading: true,
     };
   },
   computed: {
@@ -159,6 +161,7 @@ export default {
   },
   watch: {
     answerDataList() {
+      this.isLoading = false;
       this.makeChart();
     },
     barDataSets() {
@@ -190,7 +193,6 @@ export default {
         this.isAnswerEmpty = true;
         return;
       }
-
       this.isAnswerEmpty = false;
 
       this.getAnswerDataList().forEach((el) => {
@@ -526,6 +528,10 @@ export default {
 }
 
 .empty-div {
+  height: 100%;
+}
+
+.loading-div {
   height: 100%;
 }
 </style>
