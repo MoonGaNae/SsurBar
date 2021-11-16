@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="chart-container">
+    <div v-if="!isAnswerEmpty" class="chart-container">
       <div class="title-div">
         <h1 v-text="surveyTitle"></h1>
         <div class="team-name" v-text="teamName"></div>
@@ -121,11 +121,11 @@
             </div>
           </el-collapse-item>
         </el-collapse>
-        <div class="temp-div"></div>
       </div>
     </div>
-    <div>
-      <EmptyData></EmptyData>
+    <div v-else class="empty-div">
+      <div class="loading-div" v-if="isLoading" v-loading="true"></div>
+      <EmptyData v-else></EmptyData>
     </div>
   </div>
 </template>
@@ -158,6 +158,8 @@ export default {
       creationTime: null,
       endTime: null,
       teamName: null,
+      isLoading: true,
+      isAnswerEmpty: true,
     };
   },
   computed: {
@@ -174,12 +176,12 @@ export default {
     answerDataList() {
       this.count = this.questionCount;
 
-      console.log(this.count);
-
       this.widthTemp = this.count * 5 + "vh";
       if (this.count * 5 < 125) {
         this.isFlexCenter = true;
       }
+
+      this.isLoading = false;
 
       this.makeChart();
     },
@@ -206,7 +208,17 @@ export default {
       let averageDataList = [];
       let dataLabels = [];
 
-      if (this.getAnswerDataList() == null) return;
+      console.log(this.getAnswerDataList().length);
+
+      if (
+        this.getAnswerDataList() == null ||
+        this.getAnswerDataList().length == 0
+      ) {
+        this.isAnswerEmpty = true;
+
+        return;
+      }
+      this.isAnswerEmpty = false;
 
       this.getAnswerDataList().forEach((el) => {
         averageDataList.push(el.averageScore);
@@ -312,6 +324,8 @@ export default {
 
       this.count = this.questionCount;
 
+      console.log(this.isLoading);
+
       axios
         .get(`/survey/decode-link`, {
           params: {
@@ -352,6 +366,7 @@ export default {
 }
 
 .chart-container {
+  min-height: 100vh;
   height: 120%;
   width: 100%;
 }
@@ -604,5 +619,16 @@ export default {
   background-color: #9cbbff;
   border-radius: 10px;
   height: 100%;
+}
+
+.empty-div {
+  display: flex;
+  align-items: center;
+  height: 90vh;
+  justify-content: center;
+}
+
+.loading-div {
+  height: 90vh;
 }
 </style>

@@ -32,9 +32,6 @@ public class SurveyServiceImpl implements SurveyService {
     SurveyRepository surveyRepository;
     
     @Autowired
-    SurveyTargetRepository surveyTargetRepository;
-    
-    @Autowired
     SurveyResponseLogRepository surveyResponseLogRepository;
     
     @Autowired
