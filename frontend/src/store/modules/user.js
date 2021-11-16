@@ -19,7 +19,13 @@ const mutations = {
   },
   SET_USER_INFO: (state, userInfo) => {
     state.userInfo = userInfo;
+  },
+  SET_LOGOUT:(state) =>{
+    state.isLogin = null;
+    state.userInfo.userId=null;
+    state.userInfo.userType=null;
   }
+  
 };
 
 const actions = {
@@ -40,9 +46,9 @@ const actions = {
     },
     onLogout( {commit, dispatch}) {
         commit("SET_TOKEN", null);
-        commit("SET_IS_LOGIN", null);
+        commit("SET_LOGOUT");
         dispatch('moveLogin');
-    }
+    },
 };
 
 const getters = {
