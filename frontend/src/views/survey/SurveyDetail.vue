@@ -38,8 +38,12 @@
           class="filter-container el-card is-always-shadow"
           v-if="!checkFullContent"
         >
-          <div class="name-text">필터</div>
-          <div v-if="!isFilterOpened" class="filter-main-div">
+          <div class="filter-title-div" @click="clickFilterOpen()">
+            <div class="name-text">필터</div>
+            <i v-if="isFilterOpened" class="el-icon-arrow-down"></i>
+            <i v-else class="el-icon-arrow-right"></i>
+          </div>
+          <div v-if="isFilterOpened" class="filter-main-div">
             <div class="filter-list">
               <div
                 class="filter-div"
@@ -72,6 +76,7 @@
                 </div>
               </div>
             </div>
+
             <div class="button-div">
               <button @click="applyFilter()" class="custom-btn2 btn-6">
                 적용하기
@@ -252,6 +257,9 @@ export default {
           console.log(err);
         });
     },
+    clickFilterOpen() {
+      this.isFilterOpened = !this.isFilterOpened;
+    },
   },
   computed: {
     checkFullContent() {
@@ -340,6 +348,7 @@ ul.tabs li:hover {
 .detail-container {
   min-height: 75vh;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
 }
 
@@ -351,7 +360,8 @@ ul.tabs li:hover {
   height: 100%;
 }
 .filter-container {
-  width: 13%;
+  width: 100%;
+  margin-bottom: 10px;
 }
 
 .isFullContent {
@@ -383,7 +393,7 @@ button {
 .filter-div {
   display: flex;
   justify-content: center;
-  width: 90%;
+  width: 20%;
   margin-bottom: 1vh;
 }
 .filter-title {
@@ -415,7 +425,7 @@ button {
 }
 
 .content-container {
-  width: 86%;
+  width: 100%;
   height: 75vh;
   display: flex;
   flex-direction: column;
@@ -443,12 +453,13 @@ button {
   overflow: auto;
   overflow-x: hidden;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-wrap: wrap;
+  /* flex-direction: column; */
+  align-items: flex-start;
 
   /* padding-top: 10%; */
   /* scrollbar-width: 3%; */
-  /* justify-content: center; */
+  justify-content: flex-start;
 }
 
 .filter-list::-webkit-scrollbar {
@@ -481,7 +492,7 @@ button {
   height: 15%;
   justify-content: flex-end;
   align-items: flex-end;
-  padding: 10%;
+  padding: 10px;
   /* margin-bottom: 10%; */
 }
 
@@ -593,5 +604,20 @@ button {
 .feedback-content::-webkit-scrollbar-thumb {
   border-radius: 8px;
   background-color: #9cbbff;
+}
+
+.filter-title-div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.filter-title-div:hover {
+  cursor: pointer;
+}
+
+.filter-title-div > i {
+  font-weight: 600;
+  padding-right: 2vh;
 }
 </style>

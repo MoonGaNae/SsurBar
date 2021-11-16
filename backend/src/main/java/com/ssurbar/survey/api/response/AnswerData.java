@@ -11,6 +11,7 @@ import java.util.List;
 @Builder
 public class AnswerData {
     private String categoryName;
+    private int categoryNum;
     private List<QuestionData> questionDataList;
     private double averageScore;
     private double standardDeviation;
