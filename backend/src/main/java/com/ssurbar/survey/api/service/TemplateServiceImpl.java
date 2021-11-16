@@ -1,7 +1,6 @@
 package com.ssurbar.survey.api.service;
 
 import com.google.gson.Gson;
-import com.ssurbar.survey.api.request.SurveyFilterListPostReq;
 import com.ssurbar.survey.api.request.TemplatePostReq;
 import com.ssurbar.survey.api.request.TemplateQuestionListPostReq;
 import com.ssurbar.survey.api.response.QuestionDetail;
@@ -10,12 +9,10 @@ import com.ssurbar.survey.common.model.common.QuestionCreateResult;
 import com.ssurbar.survey.common.util.RandomIdUtil;
 import com.ssurbar.survey.db.entity.Code;
 import com.ssurbar.survey.db.entity.survey.Category;
-import com.ssurbar.survey.db.entity.survey.FilterQuestion;
 import com.ssurbar.survey.db.entity.survey.Question;
 import com.ssurbar.survey.db.entity.survey.Template;
 import com.ssurbar.survey.db.repository.CodeRepository;
 import com.ssurbar.survey.db.repository.survey.CategoryRepository;
-import com.ssurbar.survey.db.repository.survey.FilterQuestionRepository;
 import com.ssurbar.survey.db.repository.survey.QuestionRepository;
 import com.ssurbar.survey.db.repository.survey.TemplateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,12 +70,14 @@ public class TemplateServiceImpl implements TemplateService{
 
         // 카테고리 생성 및 저장
         List<Category> categorySaveList = new ArrayList<Category>();
+        int categoryNum = 1;
         for(String categoryName : templateQuestionListPostReq.getCategoryList()){
             String categoryId = randomIdUtil.makeRandomId(13);
             categorySaveList.add(Category.builder()
                             .categoryId(categoryId)
                             .template(template)
                             .name(categoryName)
+                            .number(categoryNum++)
                     .build());
         }
 

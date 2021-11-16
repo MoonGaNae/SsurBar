@@ -26,26 +26,6 @@
         </div>
 
         <div class="surveyContent">
-          <!-- <el-form ref="form" v-model="form">
-                <el-collapse>
-                    <el-collapse-item v-for="(item, idx) in category" :key="idx" :title="item.categoryName">
-                        <div class="surveytitle" v-for="(question, questionIdx) in questions" :key="questionIdx">
-                            <div v-if="item.categoryId==question.categoryId">
-                                {{question.questionNum}}. {{question.title}} 
-                                <br>
-                                <el-form-item>
-                                    <el-radio-group v-model="form.questionRes[questionIdx]">
-                                        <div class="surveytitle" v-for="(example, exampleIdx) in questionExample[questionIdx].content" :key="exampleIdx">
-                                            <el-radio :label="example" style="display: block; margin-top:1.5em;"></el-radio>
-                                        </div> 
-                                    </el-radio-group>
-                                </el-form-item>
-                                </div> 
-                            </div>
-                    </el-collapse-item>
-                </el-collapse>
-            </el-form> -->
-
           <el-form ref="form">
             <el-collapse>
               <el-collapse-item title="Filters" name="1">
@@ -111,7 +91,6 @@
         </div>
       </div>
     </div>
-    <!-- <button @click="saveTemplate">to end</button> -->
   </div>
 </template>
 

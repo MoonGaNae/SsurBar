@@ -43,6 +43,7 @@ public class AnswerServiceImpl implements AnswerService{
 		List<FilterDataReq> filterDataList = Arrays.asList(new ObjectMapper().readValue(filterStr, FilterDataReq[].class));
 
 		List<String> categoryList = new ArrayList<>();
+		List<Integer> categoryNumberList = new ArrayList<>();
 		//필터로 걸러진 후 해당 카테고리 정보
 		Map<String, CategoryAnswerInfo> categoryMap = new HashMap<>();
 
@@ -79,6 +80,7 @@ public class AnswerServiceImpl implements AnswerService{
 				//선택한 데이터인 경우
 				if(isCorrect){
 					String categoryName = questionAnswer.getQuestion().getCategory().getName();
+					int categoryNum = questionAnswer.getQuestion().getCategory().getNumber();
 
 					//해당 문제의 content데이터
 					Question question = questionAnswer.getQuestion();
@@ -110,7 +112,10 @@ public class AnswerServiceImpl implements AnswerService{
 
 					score = Math.round(score*100)/100.0;
 
-					if(!categoryList.contains(categoryName))	categoryList.add(categoryName);
+					if(!categoryList.contains(categoryName)) {
+						categoryNumberList.add(categoryNum);
+						categoryList.add(categoryName);
+					}
 
 					//있는 카테고리인 경우
 					if (categoryMap.containsKey(categoryName)) {
@@ -204,9 +209,11 @@ public class AnswerServiceImpl implements AnswerService{
 
 		List<QuestionData> totalQuestionDataList = new ArrayList<>();
 
+		int idx = 0;
 		//문항, 카테고리별 평균 계산
 		for (String categoryName : categoryList) {
 			CategoryAnswerInfo categoryAnswerInfo = categoryMap.get(categoryName);
+			int categoryNum = categoryNumberList.get(idx++);
 			double categoryTotalScore = categoryAnswerInfo.getTotalScore();
 			int count = categoryAnswerInfo.getScoreList().size();
 			double caregoryVariance = 0;
@@ -285,6 +292,7 @@ public class AnswerServiceImpl implements AnswerService{
 					.averageScore(categoryAverageScore)
 					.questionDataList(questionDataList)
 					.standardDeviation(categoryStandardDeviation)
+					.categoryNum(categoryNum)
 					.build();
 
 			answerDataList.add(answerData);
@@ -343,6 +351,15 @@ public class AnswerServiceImpl implements AnswerService{
 			}
 			hightestStandardDeviationDataLimit = questionData.getStandardDeviation();
 			highestStandardDeviationList.add(totalQuestionDataList.get(i));
+		}
+
+		Collections.sort(answerDataList, ((o1, o2) -> {
+			return Integer.compare(o1.getCategoryNum(), o2.getCategoryNum());
+		}));
+
+		for (AnswerData ad:
+		answerDataList) {
+			System.out.println(ad.getCategoryNum());
 		}
 
 		SurveyResultRes surveyResultRes = SurveyResultRes.builder()
