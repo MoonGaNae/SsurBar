@@ -28,13 +28,13 @@
               placeholder="Name"
               required
             />
-            <label for="name" class="form__label">Name</label>
+            <label for="name" class="form__label">Email</label>
           </div>
           <br />
           <div class="form__group field">
             <input
               v-model="loginForm.password"
-              type="input"
+              type="password"
               class="form__field"
               placeholder="Password"
               required
