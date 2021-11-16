@@ -13,7 +13,8 @@
           <div><img class="indexImage" src="@/assets/index.png" /></div>
           <br>
           
-          <div><p class="etc">SSURBAR로 새로운 설문지를 만들어보세요.</p></div>
+          <div><p class="etc">임직원들의 설문진단을 위한 플랫폼.<br>
+          지금 SSURBAR로 새로운 설문지를 만들어보세요.</p></div>
 
           
       </div>
@@ -99,7 +100,8 @@ export default {
   text-align: center;
 }
 .buttonBox {
-  margin-top: 40%;
+  margin-top: 30%;
+  margin-bottom:10%;
 }
 
 * {
@@ -231,7 +233,7 @@ $gray: #9b9b9b;
   margin-top:30%;
   display: inline-block;
   min-width: 0.3em;
-  font-size: 4rem;
+  font-size: 3rem;
   animation: text-in .8s cubic-bezier(0.22, 0.15, 0.25, 1.43) 0s backwards;
   color:white;
   font-weight: 700;
