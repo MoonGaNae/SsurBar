@@ -39,6 +39,9 @@ export default {
             suggestedMin: 0,
             suggestedMax: 5,
           },
+          pointLabels: {
+            fontSize: 18,
+          },
         },
       },
     };

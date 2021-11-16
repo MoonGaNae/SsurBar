@@ -5,9 +5,8 @@ import { mapState } from "vuex";
 export default {
   extends: Bar,
   name: "BarChart",
-  props: ["chartData"],
   watch: {
-    barLabels() {
+    barDataSets() {
       let dataSets = this.barDataSets;
       let labels = this.barLabels;
 
@@ -82,6 +81,8 @@ export default {
 
     this.datacollection.labels = labels;
     this.datacollection.datasets = dataSets;
+
+    console.log(this.datacollection);
 
     this.renderChart(this.datacollection, this.options);
   },
