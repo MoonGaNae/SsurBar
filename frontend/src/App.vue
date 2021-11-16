@@ -2,6 +2,12 @@
   <div id="app">
     <Sidebar id="sidebar" v-if="showSide" />
     <div v-if="showFrame" id="main-frame">
+      <!-- <button>로그아웃</button> -->
+      <div class="logout">
+        <a @click="onLogout">
+          <i class="fas fa-sign-out-alt fa-2x"></i>
+        </a>
+      </div>
       <div id="background-frame">
         <RouterView id="router" :key="$route.fullPath" />
       </div>
@@ -12,6 +18,7 @@
 
 <script>
 import Sidebar from "@/components/common/Sidebar.vue";
+import { mapActions } from 'vuex';
 
 export default {
   name: "App",
@@ -37,6 +44,9 @@ export default {
       );
     },
   },
+  methods: {
+    ...mapActions('user', ['onLogout']),
+  }
 };
 </script>
 
