@@ -30,7 +30,7 @@
             </button>
           </div>
         </div>
-        <hr />
+        <hr style="width: 90%; margin-top:3%; margin-left:5%;" />
         <div class="surveyContent">
           <el-form ref="form" v-model="form">
             <el-collapse>

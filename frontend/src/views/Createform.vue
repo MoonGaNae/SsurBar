@@ -1,97 +1,98 @@
 <template>
-  <div>
-    <div class="main-container">
-      <div class="page-title-div">
-        <div class="page-title-div-child">
-          <h1>신규 설문 생성</h1>
-        </div>
-        <div class="button-div col-md-auto align-self-end">
-          <button @click="endEditForm()" class="custom-btn btn-5">
-            <span>Next</span>
-          </button>
-        </div>
+  <div> 
+    <div class="page-title-div" style="padding-top:9%; padding-left:5%">
+      <div class="page-title-div-child" >
+        <h1>신규 설문 생성</h1>
       </div>
-      <hr style="width: 100%" />
-      <div class="container">
+    </div>
+    <hr style="width: 90%; margin-top:3%; margin-left:5%;" />
+    
+    <button 
+      @click="endEditForm()" 
+      class="custom-btn btn-5" 
+      style="margin-left:86%" >
+      <span>Next</span></button>
+    
+    <div class="container">
+      <div
+        class="row el-card box-card is-always-shadow"
+        style="
+          width: 50%;
+          margin-left: 20%;
+          margin-top: 5%;
+          border-radius: 25px;
+        "
+      >
         <div
-          class="row el-card box-card is-always-shadow"
-          style="
-            width: 50%;
-            margin-left: 20%;
-            margin-top: 5%;
-            border-radius: 25px;
-          "
+          class="col-xs-12 col-lg-offset-3 col-lg-6"
+          style="margin-left: 25%"
         >
-          <div
-            class="col-xs-12 col-lg-offset-3 col-lg-6"
-            style="margin-left: 25%"
-          >
-            <form method="GET" action="" id="survey-form" name="survey-form">
-              <fieldset>
-                <label for="name" id="name-label" style="margin-top: 10%">
-                  설문 이름 *
-                </label>
-                <input
-                  class="name"
-                  type="text"
-                  id="name"
-                  name="name"
-                  style="font-size: 1.1em"
-                  v-model="surveyTitle"
-                  placeholder="Enter your name (required)"
-                  required
-                />
-              </fieldset>
+          <form method="GET" action="" id="survey-form" name="survey-form">
+            <fieldset>
+              <label for="name" id="name-label" style="margin-top: 10%">
+                설문 이름 *
+              </label>
+              <input
+                class="name"
+                type="text"
+                id="name"
+                name="name"
+                style="font-size: 1.1em"
+                v-model="surveyTitle"
+                placeholder="Enter your name (required)"
+                required
+              />
+            </fieldset>
 
-              <fieldset>
-                <label for="dropdown" style="margin-top: 10%">
-                  설문대상 *
-                </label>
-                <select
-                  name="team"
-                  v-model="targetTeamId"
-                  style="font-size: 1.1em"
-                  class="m-t-xs"
+            <fieldset>
+              <label for="dropdown" style="margin-top: 10%">
+                설문대상 *
+              </label>
+              <select
+                name="team"
+                v-model="targetTeamId"
+                style="font-size: 1.1em"
+                class="m-t-xs"
+              >
+                <option
+                  v-for="(team, teamIdx) in teamList"
+                  :key="teamIdx"
+                  :value="team.teamId"
                 >
-                  <option
-                    v-for="(team, teamIdx) in teamList"
-                    :key="teamIdx"
-                    :value="team.teamId"
-                  >
-                    {{ team.teamName }}
-                  </option>
-                </select>
-              </fieldset>
+                  {{ team.teamName }}
+                </option>
+              </select>
+            </fieldset>
 
-              <fieldset>
-                <label for="name" id="name-label" style="margin-top: 10%">
-                  설문 기한 *
-                  <div style="margin-top: 5%">
-                    <el-date-picker
-                      v-model="endDate"
-                      type="date"
-                      placeholder="종료 날짜를 선택하세요"
-                      default-value="2021-11-01"
-                    >
-                    </el-date-picker>
-                  </div>
-                </label>
-              </fieldset>
-              <fieldset>
-                <label for="survey-form-suggestions"> 설명 </label>
-                <textarea
-                  id="survey-form-suggestions"
-                  maxlength="194"
-                  style="font-size: 1.2em; margin-bottom: 10%; margin-top: -5%"
-                  v-model="description"
-                ></textarea>
-              </fieldset>
-            </form>
-          </div>
+            <fieldset>
+              <label for="name" id="name-label" style="margin-top: 10%">
+                설문 기한 *
+                <div style="margin-top: 5%">
+                  <el-date-picker
+                    v-model="endDate"
+                    type="date"
+                    placeholder="종료 날짜를 선택하세요"
+                    default-value="2021-11-01"
+                  >
+                  </el-date-picker>
+                </div>
+              </label>
+            </fieldset>
+            <fieldset>
+              <label for="survey-form-suggestions"> 설명 </label>
+              <textarea
+                id="survey-form-suggestions"
+                maxlength="194"
+                style="font-size: 1.2em; margin-bottom: 10%; margin-top: -5%"
+                v-model="description"
+              ></textarea>
+            </fieldset>
+          </form>
         </div>
       </div>
     </div>
   </div>
+  
 </template>
 
 <style lang="scss" scoped>

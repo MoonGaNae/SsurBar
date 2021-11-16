@@ -1,19 +1,17 @@
 <template>
   <div id="wrapper">
+    <div class="page-title-div" style="padding-top:9%; padding-left:5%">
+      <div class="page-title-div-child" >
+        <h1>최근 사용 서식 조회</h1>
+      </div>
+    </div>
+    <hr style="width: 90%; margin-top:3%; margin-left:5%;" />
+    <el-input v-model="search" size="mini" placeholder="Title to search" style="margin-left:80%;width:15%">
+      <el-button slot="append" icon="el-icon-search"></el-button>
+    </el-input>
     <div id="wrapper-div">
-      <div id="container">
-        <div class="page-title-div">
-          <h1 style="padding-top: 3%; padding-bottom: 2%; font-size: 4rem">
-            최근 사용 서식 조회
-          </h1>
-          <p>최근에 만들어진 서식순으로 보여드립니다.</p>
-        </div>
-
-        <hr />
+      <div id="container">    
         <div style="float: right; margin-bottom: 1%">
-          <el-input v-model="search" size="mini" placeholder="Title to search">
-            <el-button slot="append" icon="el-icon-search"></el-button>
-          </el-input>
         </div>
         <el-table
           :data="
@@ -110,6 +108,19 @@ export default {
 </script>
 
 <style scoped>
+
+.page-title-div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 15vh;
+}
+
+.page-title-div-child > h1 {
+  font-size: 4rem;
+}
+
+
 .nav-pills > li > a {
   border-radius: 0;
 }
@@ -125,7 +136,7 @@ export default {
 #wrapper-div {
   background-position: center;
   background-color: white;
-  margin-top: 3%;
+  margin-top: 0%;
   margin-left: 4%;
   margin-right: 4%;
   border-radius: 60px 60px 0% 0%;

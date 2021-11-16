@@ -1,11 +1,12 @@
 <template>
-  <div id="wrapper">
-    <div class="main-container">
-      <div class="page-title-div row justify-content-md-center">
-        <div class="page-title-div-child">
-          <h1>설문서식 미리보기</h1>
-        </div>
+  <div >
+    <div class="page-title-div" style="padding-top:9%; padding-left:5%">
+      <div class="page-title-div-child">
+        <h1>설문서식 미리보기</h1>
       </div>
+    </div>
+    <hr style="width: 90%; margin-top:3%; margin-left:5%;" />   
+    <div class="container">
 
       <div class="surveyForm">
         <div class="survey-des-div">
