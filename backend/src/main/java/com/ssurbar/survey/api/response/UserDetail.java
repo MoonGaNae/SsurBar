@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Getter
 @Setter
 @Builder
@@ -15,6 +17,7 @@ public class UserDetail {
     private String employeeNumber;
     private String name;
     private UserRole userType;
+    private Date joinDate;
 
     public static UserDetail of(User user){
 
@@ -24,6 +27,7 @@ public class UserDetail {
                 .employeeNumber(user.getEmployeeNumber())
                 .name(user.getName())
                 .userType(user.getUserType())
+                .joinDate(user.getJoinDate())
                 .build();
     }
 }

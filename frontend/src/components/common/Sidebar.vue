@@ -27,9 +27,9 @@
           </router-link>
         </li> -->
 
-        <li style="margin-left: 10%">
+        <li style="margin-left: 10%" v-if="showCertificate">
           <router-link to="#">
-            <a @click="movePage(`main`)"
+            <a @click="movePage(`Certification`)"
               ><i class="fas fa-cog fa-2x" style="margin-top: 1vh"></i
             ></a>
           </router-link>
@@ -54,10 +54,16 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 export default {
   name: "Sidebar",
+  computed: {
+    ...mapState("user", ["userInfo"]),
+    showCertificate() {
+      return this.userInfo.userType=="ADMIN";
+    }
+  },
   methods: {
     ...mapActions("question", ["initQuestionData"]),
     ...mapActions("analysis", ["initAnalysisData"]),

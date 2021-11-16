@@ -1,100 +1,93 @@
 <template>
   <div>
-    <div class="page-title-div">
-      <h1 style="margin-left: 5%; margin-top: 1%; font-size: 3rem">
-        신규 설문 생성
-      </h1>
-
-      <!-- <button
-        @click="endEditForm()"
-        class="next-button yellow-button rounded-corner-button"
-        style="margin-top: 5%"
-      >
-        Next
-      </button> -->
-
-      <button
-        @click="endEditForm()"
-        class="custom-btn btn-5"
-        style="margin-top: 18%; margin-right: 8%"
-      >
-        <span>Next</span>
-      </button>
-    </div>
-    <hr style="width: 88%; margin-left: 6%" />
-    <div class="container">
-      <div
-        class="row el-card box-card is-always-shadow"
-        style="
-          width: 50%;
-          margin-left: 20%;
-          margin-top: 5%;
-          border-radius: 25px;
-        "
-      >
+    <div class="main-container">
+      <div class="page-title-div">
+        <div class="page-title-div-child">
+          <h1>신규 설문 생성</h1>
+        </div>
+        <div class="button-div col-md-auto align-self-end">
+          <button @click="endEditForm()" class="custom-btn btn-5">
+            <span>Next</span>
+          </button>
+        </div>
+      </div>
+      <hr style="width: 100%" />
+      <div class="container">
         <div
-          class="col-xs-12 col-lg-offset-3 col-lg-6"
-          style="margin-left: 25%"
+          class="row el-card box-card is-always-shadow"
+          style="
+            width: 50%;
+            margin-left: 20%;
+            margin-top: 5%;
+            border-radius: 25px;
+          "
         >
-          <form method="GET" action="" id="survey-form" name="survey-form">
-            <fieldset>
-              <label for="name" id="name-label" style="margin-top: 10%">
-                설문 이름 *
-              </label>
-              <input
-                class="name"
-                type="text"
-                id="name"
-                name="name"
-                style="font-size: 1.1em"
-                v-model="surveyTitle"
-                placeholder="Enter your name (required)"
-                required
-              />
-            </fieldset>
+          <div
+            class="col-xs-12 col-lg-offset-3 col-lg-6"
+            style="margin-left: 25%"
+          >
+            <form method="GET" action="" id="survey-form" name="survey-form">
+              <fieldset>
+                <label for="name" id="name-label" style="margin-top: 10%">
+                  설문 이름 *
+                </label>
+                <input
+                  class="name"
+                  type="text"
+                  id="name"
+                  name="name"
+                  style="font-size: 1.1em"
+                  v-model="surveyTitle"
+                  placeholder="Enter your name (required)"
+                  required
+                />
+              </fieldset>
 
-            <fieldset>
-              <label for="dropdown" style="margin-top: 10%"> 설문대상 * </label>
-              <select
-                name="team"
-                v-model="targetTeamId"
-                style="font-size: 1.1em"
-                class="m-t-xs"
-              >
-                <option
-                  v-for="(team, teamIdx) in teamList"
-                  :key="teamIdx"
-                  :value="team.teamId"
+              <fieldset>
+                <label for="dropdown" style="margin-top: 10%">
+                  설문대상 *
+                </label>
+                <select
+                  name="team"
+                  v-model="targetTeamId"
+                  style="font-size: 1.1em"
+                  class="m-t-xs"
                 >
-                  {{ team.teamName }}
-                </option>
-              </select>
-            </fieldset>
-
-            <fieldset>
-              <label for="name" id="name-label" style="margin-top: 10%">
-                설문 기한 *
-                <div style="margin-top: 5%">
-                  <el-date-picker
-                    v-model="endDate"
-                    type="date"
-                    placeholder="종료 날짜를 선택하세요"
-                    default-value="2021-11-01"
+                  <option
+                    v-for="(team, teamIdx) in teamList"
+                    :key="teamIdx"
+                    :value="team.teamId"
                   >
-                  </el-date-picker>
-                </div>
-              </label>
-            </fieldset>
-            <fieldset>
-              <label for="survey-form-suggestions"> 설명 </label>
-              <textarea
-                id="survey-form-suggestions"
-                maxlength="194"
-                style="font-size: 1.2em; margin-bottom: 10%; margin-top: -5%"
-                v-model="description"
-              ></textarea>
-            </fieldset>
-          </form>
+                    {{ team.teamName }}
+                  </option>
+                </select>
+              </fieldset>
+
+              <fieldset>
+                <label for="name" id="name-label" style="margin-top: 10%">
+                  설문 기한 *
+                  <div style="margin-top: 5%">
+                    <el-date-picker
+                      v-model="endDate"
+                      type="date"
+                      placeholder="종료 날짜를 선택하세요"
+                      default-value="2021-11-01"
+                    >
+                    </el-date-picker>
+                  </div>
+                </label>
+              </fieldset>
+              <fieldset>
+                <label for="survey-form-suggestions"> 설명 </label>
+                <textarea
+                  id="survey-form-suggestions"
+                  maxlength="194"
+                  style="font-size: 1.2em; margin-bottom: 10%; margin-top: -5%"
+                  v-model="description"
+                ></textarea>
+              </fieldset>
+            </form>
+          </div>
         </div>
       </div>
     </div>
@@ -389,13 +382,13 @@ export default {
     ...mapActions("survey", ["getRecentSurveyInfo"]),
     endEditForm() {
       console.log(this.surveyTitle);
-      if(!this.checkForm()){
+      if (!this.checkForm()) {
         this.$fire({
           title: "응답실패",
           text: "아직 설정하지 않은 항목이 존재합니다!",
           type: "error",
         });
-      }else{
+      } else {
         let endTime = this.endDate.toISOString().split("T");
         this.setEndTime(endTime[0] + " " + endTime[1].split(".")[0]);
         this.setTeamId(this.targetTeamId);
@@ -403,11 +396,15 @@ export default {
         this.setDescription(this.description);
 
         this.$router.push("/filter");
-
       }
     },
-    checkForm(){
-      if(!this.description || !this.surveyTitle || !this.targetTeamId || !this.endDate){
+    checkForm() {
+      if (
+        !this.description ||
+        !this.surveyTitle ||
+        !this.targetTeamId ||
+        !this.endDate
+      ) {
         return false;
       }
       return true;
@@ -572,6 +569,10 @@ export default {
   border-radius: 0.0625rem;
   transition: color 0.28s ease;
   will-change: color;
+}
+
+.page-title-div-child > h1 {
+  font-size: 4rem;
 }
 
 .form-checkbox-button::before,

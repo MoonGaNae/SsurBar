@@ -1,123 +1,131 @@
 <template>
-  <div class="chart-container">
-    <div class="title-div">
-      <h1 v-text="surveyTitle"></h1>
-      <div class="team-name" v-text="teamName"></div>
-      <h5 class="survey-date">
-        <span v-text="creationTime"></span> ~ <span v-text="endTime"></span>
-      </h5>
-      <p class="survey-description" v-text="surveyDescription"></p>
-    </div>
-    <div class="radar-chart-container">
-      <div class="chart-title">
-        <h2>카테고리별 데이터</h2>
+  <div>
+    <div class="chart-container">
+      <div class="title-div">
+        <h1 v-text="surveyTitle"></h1>
+        <div class="team-name" v-text="teamName"></div>
+        <h5 class="survey-date">
+          <span v-text="creationTime"></span> ~ <span v-text="endTime"></span>
+        </h5>
+        <p class="survey-description" v-text="surveyDescription"></p>
       </div>
-      <div class="chart-div">
-        <RadarChart />
-      </div>
-    </div>
-    <div class="bar-chart-container">
-      <div class="chart-title">
-        <h2>문항별 데이터</h2>
-      </div>
-      <div
-        class="bar-chart-div-parent"
-        :class="{ 'bar-chart-div-parent-center': isFlexCenter }"
-      >
-        <div class="bar-chart-div">
-          <BarChart :style="{ width: widthTemp }" />
+      <div class="radar-chart-container">
+        <div class="chart-title">
+          <h2>카테고리별 데이터</h2>
+        </div>
+        <div class="chart-div">
+          <RadarChart />
         </div>
       </div>
-    </div>
-    <div class="temp-container">
-      <div class="data-div">
-        <div class="data-title">최고 평균</div>
-        <ul class="data-ul">
-          <li v-for="(data, idx) in highestAverageList" :key="idx">
-            <div class="data-title-div">
-              <div class="summary-question-number">{{ data.number }}</div>
-              <div class="summary-question-title">{{ data.title }}</div>
-            </div>
-            <div class="score-number">{{ data.averageScore }}</div>
-          </li>
-        </ul>
-      </div>
-      <div class="data-div">
-        <div class="data-title">최저 편차</div>
-        <ul class="data-ul">
-          <li v-for="(data, idx) in lowestStandardDeviationList" :key="idx">
-            <div class="data-title-div">
-              <div class="summary-question-number">{{ data.number }}</div>
-              <div class="summary-question-title">{{ data.title }}</div>
-            </div>
-            <div class="score-number">{{ data.standardDeviation }}</div>
-          </li>
-        </ul>
-      </div>
-      <div class="data-div">
-        <div class="data-title">최저 평균</div>
-        <ul class="data-ul">
-          <li v-for="(data, idx) in lowestAverageList" :key="idx">
-            <div class="data-title-div">
-              <div class="summary-question-number">{{ data.number }}</div>
-              <div class="summary-question-title">{{ data.title }}</div>
-            </div>
-            <div class="score-number">{{ data.averageScore }}</div>
-          </li>
-        </ul>
-      </div>
-      <div class="data-div">
-        <div class="data-title">최고 편차</div>
-        <ul class="data-ul">
-          <li v-for="(data, idx) in highestStandardDeviationList" :key="idx">
-            <div class="data-title-div">
-              <div class="summary-question-number">{{ data.number }}</div>
-              <div class="summary-question-title">{{ data.title }}</div>
-            </div>
-            <div class="score-number">{{ data.standardDeviation }}</div>
-          </li>
-        </ul>
-      </div>
-      <el-collapse class="category-list">
-        <el-collapse-item
-          v-for="(answerData, answerDataIdx) in answerDataList"
-          :title="answerData.categoryName"
-          :key="answerDataIdx"
-          :name="answerDataIdx"
+      <div class="bar-chart-container">
+        <div class="chart-title">
+          <h2>문항별 데이터</h2>
+        </div>
+        <div
+          class="bar-chart-div-parent"
+          :class="{ 'bar-chart-div-parent-center': isFlexCenter }"
         >
-          <div
-            class="question-div el-card is-always-shadow"
-            v-for="(
-              questionData, questionDataIdx
-            ) in answerData.questionDataList"
-            :key="questionDataIdx"
-          >
-            <div>
-              <span class="question-number">Q{{ questionData.number }}.</span
-              ><span class="question-title">{{ questionData.title }}</span>
-            </div>
-            <div
-              class="progress-div"
-              v-for="(
-                questionAnswer, questionAnswerIdx
-              ) in questionData.questionAnswerDtoList"
-              :key="questionAnswerIdx"
-            >
-              <div class="progress-bar-base">
-                <div
-                  class="progress-bar-color"
-                  :style="{ width: questionAnswer.percentage + '%' }"
-                >
-                  <div>{{ questionAnswer.sentence }}</div>
-                  <div>{{ questionAnswer.percentage }} %</div>
-                </div>
-              </div>
-              <div>{{ questionAnswer.count }} 명</div>
-            </div>
+          <div class="bar-chart-div">
+            <BarChart :style="{ width: `100%` }" />
           </div>
-        </el-collapse-item>
-      </el-collapse>
-      <div class="temp-div"></div>
+        </div>
+      </div>
+      <div class="summary-container">
+        <h3 class="summary-title">강점</h3>
+        <div class="data-div">
+          <div class="data-title">최고 평균</div>
+          <ul class="data-ul">
+            <li v-for="(data, idx) in highestAverageList" :key="idx">
+              <div class="data-title-div">
+                <div class="summary-question-number">{{ data.number }}</div>
+                <div class="summary-question-title">{{ data.title }}</div>
+              </div>
+              <div class="score-number">{{ data.averageScore }}</div>
+            </li>
+          </ul>
+        </div>
+        <div class="data-div">
+          <div class="data-title">최저 편차</div>
+          <ul class="data-ul">
+            <li v-for="(data, idx) in lowestStandardDeviationList" :key="idx">
+              <div class="data-title-div">
+                <div class="summary-question-number">{{ data.number }}</div>
+                <div class="summary-question-title">{{ data.title }}</div>
+              </div>
+              <div class="score-number">{{ data.standardDeviation }}</div>
+            </li>
+          </ul>
+        </div>
+        <h3 class="summary-title">약점</h3>
+        <div class="data-div">
+          <div class="data-title">최저 평균</div>
+          <ul class="data-ul">
+            <li v-for="(data, idx) in lowestAverageList" :key="idx">
+              <div class="data-title-div">
+                <div class="summary-question-number">{{ data.number }}</div>
+                <div class="summary-question-title">{{ data.title }}</div>
+              </div>
+              <div class="score-number">{{ data.averageScore }}</div>
+            </li>
+          </ul>
+        </div>
+        <div class="data-div">
+          <div class="data-title">최고 편차</div>
+          <ul class="data-ul">
+            <li v-for="(data, idx) in highestStandardDeviationList" :key="idx">
+              <div class="data-title-div">
+                <div class="summary-question-number">{{ data.number }}</div>
+                <div class="summary-question-title">{{ data.title }}</div>
+              </div>
+              <div class="score-number">{{ data.standardDeviation }}</div>
+            </li>
+          </ul>
+        </div>
+        <h3 class="summary-title">문항별 응답</h3>
+        <el-collapse class="category-list">
+          <el-collapse-item
+            v-for="(answerData, answerDataIdx) in answerDataList"
+            :title="answerData.categoryName"
+            :key="answerDataIdx"
+            :name="answerDataIdx"
+          >
+            <div
+              class="question-div el-card is-always-shadow"
+              v-for="(
+                questionData, questionDataIdx
+              ) in answerData.questionDataList"
+              :key="questionDataIdx"
+            >
+              <div>
+                <span class="question-number">Q{{ questionData.number }}.</span
+                ><span class="question-title">{{ questionData.title }}</span>
+              </div>
+              <div
+                class="progress-div"
+                v-for="(
+                  questionAnswer, questionAnswerIdx
+                ) in questionData.questionAnswerDtoList"
+                :key="questionAnswerIdx"
+              >
+                <div class="progress-bar-base">
+                  <div
+                    class="progress-bar-color"
+                    :style="{ width: questionAnswer.percentage + '%' }"
+                  >
+                    <div>{{ questionAnswer.sentence }}</div>
+                    <div>{{ questionAnswer.percentage }} %</div>
+                  </div>
+                </div>
+                <div>{{ questionAnswer.count }} 명</div>
+              </div>
+            </div>
+          </el-collapse-item>
+        </el-collapse>
+        <div class="temp-div"></div>
+      </div>
+    </div>
+    <div>
+      <EmptyData></EmptyData>
     </div>
   </div>
 </template>
@@ -125,6 +133,7 @@
 <script>
 import BarChart from "@/components/charts/BarChart.vue";
 import RadarChart from "@/components/charts/RadarChart.vue";
+import EmptyData from "@/components/detail/DataEmpty.vue";
 import { mapState, mapGetters, mapActions } from "vuex";
 import axios from "@/utils/axios.js";
 
@@ -133,6 +142,7 @@ export default {
   components: {
     BarChart,
     RadarChart,
+    EmptyData,
   },
   data() {
     return {
@@ -212,7 +222,7 @@ export default {
 
       let dataSets = [];
       let dataSet = {
-        label: "Dataset",
+        label: "Score",
         pointBackgroundColor: "white",
         backgroundColor: "rgba(156,187,255,0.4)",
         borderWidth: 2,
@@ -374,8 +384,8 @@ export default {
   /* width: 3000px; */
 }
 .chart-container {
-  overflow: scroll;
-  overflow-x: hidden;
+  /* overflow: scroll;
+  overflow-x: hidden; */
   height: 100%;
 }
 
@@ -411,6 +421,7 @@ export default {
   padding-bottom: 2vh;
   padding-top: 2vh;
   justify-content: flex-start;
+  width: 100%;
   align-items: center;
 }
 
@@ -425,8 +436,6 @@ export default {
   /* height: 100%; */
   width: 96%;
   justify-content: flex-start;
-  overflow: scroll;
-  overflow-y: hidden;
 }
 
 .bar-chart-div-parent-center {
@@ -517,7 +526,7 @@ export default {
   background-color: #dde0e7;
 }
 
-.temp-container {
+.summary-container {
   margin-top: 2vh;
   border-bottom: 0px none !important;
 }

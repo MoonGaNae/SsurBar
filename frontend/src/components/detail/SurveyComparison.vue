@@ -24,7 +24,7 @@
       :class="{ 'line-chart-div-flex-start': isFlexStart }"
     >
       <div>
-        <LineChart :style="{ width: widthTemp }"></LineChart>
+        <LineChart :style="{ width: '100%' }"></LineChart>
       </div>
     </div>
   </div>
@@ -76,16 +76,21 @@ export default {
 
       this.makeChart();
     },
-    widthTemp() {
-      if (this.widthTemp != "") {
-        this.isDataExist = true;
-      }
-    },
   },
   methods: {
     ...mapActions("analysis", ["setComparisonDataSets", "setComparisonLabels"]),
     ...mapGetters("analysis", ["getAnswerDataList", "getComparisonDataSets"]),
     makeChart() {
+      if (
+        this.getAnswerDataList() == null ||
+        this.getAnswerDataList().length == 0
+      ) {
+        this.isDataExist = false;
+        return;
+      }
+
+      this.isDataExist = true;
+
       let questionDataList = [];
       let questionTitles = [];
 
@@ -95,7 +100,11 @@ export default {
         category.questionDataList.forEach((el) => {
           questionDataList.push(el.averageScore);
 
-          questionTitles.push(el.number + " " + el.title);
+          let title = el.number + " " + el.title;
+          let length = title.length;
+          let label = length > 10 ? title.substring(0, 10) + "..." : title;
+
+          questionTitles.push(label);
         });
       });
       let dataSet = {
@@ -218,6 +227,7 @@ export default {
 .line-chart-div > div {
   height: 100%;
   padding-top: 3%;
+  width: 100%;
 }
 
 .line-chart-div > div > div {

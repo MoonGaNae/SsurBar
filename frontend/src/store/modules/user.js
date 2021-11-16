@@ -4,6 +4,10 @@ import userApi from '@/api/user';
 const state = {
   token : null,
   isLogin: null,
+  userInfo : {
+    userId : null,
+    userType : null,
+  }
 };
 
 const mutations = {
@@ -12,6 +16,9 @@ const mutations = {
   },
   SET_IS_LOGIN: (state, isLogin) => {
     state.isLogin = isLogin;
+  },
+  SET_USER_INFO: (state, userInfo) => {
+    state.userInfo = userInfo;
   }
 };
 
@@ -21,8 +28,9 @@ const actions = {
     },
     async onLogin( {commit}, userData) {
       await userApi.login(userData)
-        .then( () => {
+        .then( (res) => {
           commit('SET_IS_LOGIN', true);
+          commit('SET_USER_INFO', res.data);
 
           router.push("/");
         })

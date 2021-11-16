@@ -13,6 +13,8 @@ export default {
       this.datacollection.datasets = dataSets;
 
       this.renderChart(this.datacollection, this.options);
+
+      console.log(this.datacollection);
     },
   },
   computed: {
@@ -37,6 +39,9 @@ export default {
             suggestedMin: 0,
             suggestedMax: 5,
           },
+          pointLabels: {
+            fontSize: 18,
+          },
         },
       },
     };
@@ -48,6 +53,8 @@ export default {
     this.datacollection.labels = labels;
     this.datacollection.datasets = dataSets;
     this.renderChart(this.datacollection, this.options);
+
+    console.log(this.datacollection);
   },
 };
 </script>

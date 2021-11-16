@@ -5,12 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * 유저 정보를 담을 User Entity
@@ -27,13 +26,18 @@ public class User {
     private String userId;
     private String name;
     private String password;
+    @Column(unique = true)
     private String email;
 
     private String employeeNumber;
 
     @Enumerated(EnumType.STRING)
     private UserRole userType;
-    private LocalDateTime joinDate;
+
+
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date joinDate;
 
     public void changeUserType(UserRole userType){
         this.userType = userType;
