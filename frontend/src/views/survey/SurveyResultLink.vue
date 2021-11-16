@@ -341,11 +341,9 @@ export default {
           this.getFilters(this.surveyId);
           this.getSurveyInfo(this.surveyId);
 
-          console.log(this.filterNameList);
-
           this.setAnswerData({
             surveyId: this.surveyId,
-            filterStr: JSON.stringify(this.filterNameList),
+            filterStr: "[]",
           });
         });
     },

@@ -145,7 +145,7 @@ export default {
       isFlexCenter: false,
       isBarDataExist: false,
       isAnswerEmpty: false,
-      isLoading: true,
+      // isLoading: true,
     };
   },
   computed: {
@@ -157,11 +157,12 @@ export default {
       "lowestStandardDeviationList",
       "questionCount",
       "barDataSets",
+      "isLoading",
     ]),
   },
   watch: {
     answerDataList() {
-      this.isLoading = false;
+      this.setIsLoading(false);
       this.makeChart();
     },
     barDataSets() {
@@ -175,6 +176,7 @@ export default {
       "setRadarLabels",
       "setBarDataSets",
       "setBarLabels",
+      "setIsLoading",
     ]),
     ...mapGetters("analysis", [
       "getAnswerDataList",
