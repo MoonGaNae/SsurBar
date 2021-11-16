@@ -12,11 +12,7 @@
       <div class="chart-title">
         <h2>문항별 데이터</h2>
       </div>
-      <div
-        v-if="isBarDataExist"
-        class="bar-chart-div-parent"
-        :class="{ 'bar-chart-div-parent-center': isFlexCenter }"
-      >
+      <div v-if="isBarDataExist" class="bar-chart-div-parent">
         <div class="bar-chart-div">
           <BarChart :style="{ width: `100%` }" />
         </div>
@@ -158,15 +154,16 @@ export default {
       "lowestAverageList",
       "lowestStandardDeviationList",
       "questionCount",
+      "barDataSets",
     ]),
   },
   watch: {
     answerDataList() {
       this.makeChart();
     },
-    widthTemp() {
-      console.log(this.widthTemp);
-      if (this.widthTemp != "") this.isBarDataExist = true;
+    barDataSets() {
+      console.log(this.setBarDataSets);
+      if (this.setBarDataSets != "") this.isBarDataExist = true;
     },
   },
   methods: {
@@ -331,6 +328,7 @@ export default {
   width: 100%;
   height: 90%;
   padding: 3%;
+  padding-top: 0px;
   justify-content: center;
   align-items: center;
   /* overflow: scroll; */
