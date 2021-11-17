@@ -11,7 +11,7 @@
       </div>
       <div class="radar-chart-container">
         <div class="chart-title">
-          <h2>카테고리별 데이터</h2>
+          <h2><i class="fas fa-poll"></i> 카테고리별 데이터</h2>
         </div>
         <div class="chart-div">
           <RadarChart />
@@ -19,19 +19,16 @@
       </div>
       <div class="bar-chart-container">
         <div class="chart-title">
-          <h2>문항별 데이터</h2>
+          <h2><i class="fas fa-poll"></i> 문항별 데이터</h2>
         </div>
-        <div
-          class="bar-chart-div-parent"
-          :class="{ 'bar-chart-div-parent-center': isFlexCenter }"
-        >
+        <div class="bar-chart-div-parent" :class="{ 'bar-chart-div-parent-center': isFlexCenter }">
           <div class="bar-chart-div">
             <BarChart :style="{ width: `100%` }" />
           </div>
         </div>
       </div>
       <div class="summary-container">
-        <h3 class="summary-title">강점</h3>
+        <h3 class="summary-title"><i class="far fa-thumbs-up"></i> 강점</h3>
         <div class="data-div">
           <div class="data-title">최고 평균</div>
           <ul class="data-ul">
@@ -56,7 +53,7 @@
             </li>
           </ul>
         </div>
-        <h3 class="summary-title">약점</h3>
+        <h3 class="summary-title none-border"><i class="far fa-thumbs-down"></i> 약점</h3>
         <div class="data-div">
           <div class="data-title">최저 평균</div>
           <ul class="data-ul">
@@ -81,7 +78,7 @@
             </li>
           </ul>
         </div>
-        <h3 class="summary-title">문항별 응답</h3>
+        <h3 class="summary-title"><i class="far fa-list-alt"></i> 문항별 응답</h3>
         <el-collapse class="category-list">
           <el-collapse-item
             v-for="(answerData, answerDataIdx) in answerDataList"
@@ -91,9 +88,7 @@
           >
             <div
               class="question-div el-card is-always-shadow"
-              v-for="(
-                questionData, questionDataIdx
-              ) in answerData.questionDataList"
+              v-for="(questionData, questionDataIdx) in answerData.questionDataList"
               :key="questionDataIdx"
             >
               <div>
@@ -102,9 +97,7 @@
               </div>
               <div
                 class="progress-div"
-                v-for="(
-                  questionAnswer, questionAnswerIdx
-                ) in questionData.questionAnswerDtoList"
+                v-for="(questionAnswer, questionAnswerIdx) in questionData.questionAnswerDtoList"
                 :key="questionAnswerIdx"
               >
                 <div class="progress-bar-base">
@@ -121,6 +114,8 @@
             </div>
           </el-collapse-item>
         </el-collapse>
+        <h3 class="summary-title"><i class="far fa-comments"></i> 피드백</h3>
+        <div class="feedback-div">{{ feedbackText }}</div>
       </div>
     </div>
     <div v-else class="empty-div">
@@ -160,6 +155,7 @@ export default {
       teamName: null,
       isLoading: true,
       isAnswerEmpty: true,
+      feedbackText: "피드백이 존재하지 않습니다",
     };
   },
   computed: {
@@ -198,11 +194,7 @@ export default {
       "setBarDataSets",
       "setBarLabels",
     ]),
-    ...mapGetters("analysis", [
-      "getAnswerDataList",
-      "getRadarLabels",
-      "getRadarDataSets",
-    ]),
+    ...mapGetters("analysis", ["getAnswerDataList", "getRadarLabels", "getRadarDataSets"]),
     makeChart() {
       /* 방사형 그래프 데이터 처리 */
       let averageDataList = [];
@@ -210,10 +202,7 @@ export default {
 
       console.log(this.getAnswerDataList().length);
 
-      if (
-        this.getAnswerDataList() == null ||
-        this.getAnswerDataList().length == 0
-      ) {
+      if (this.getAnswerDataList() == null || this.getAnswerDataList().length == 0) {
         this.isAnswerEmpty = true;
 
         return;
@@ -273,9 +262,7 @@ export default {
         let r = 156;
         let g = 187;
         let b = 255;
-        backgroundColorList.push(
-          `rgba(${r + i * 10},${g - i * 20},${b - i * 20},0.6)`
-        );
+        backgroundColorList.push(`rgba(${r + i * 10},${g - i * 20},${b - i * 20},0.6)`);
       }
 
       this.getAnswerDataList().forEach((category, idx) => {
@@ -333,6 +320,20 @@ export default {
         this.teamName = res.data.teamName;
       });
     },
+    getFeedback(surveyId) {
+      axios
+        .get(`/feedback/${surveyId}`)
+        .then((res) => {
+          if (res.data.comment == null || res.data.comment == "") {
+            this.feedbackText = "피드백이 존재하지 않습니다";
+          } else {
+            this.feedbackText = res.data.comment;
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     getIds() {
       const linkCode = this.$route.params.linkCode;
 
@@ -354,6 +355,7 @@ export default {
           this.getTemplateInfo(this.templateId);
           this.getFilters(this.surveyId);
           this.getSurveyInfo(this.surveyId);
+          this.getFeedback(this.surveyId);
 
           this.setAnswerData({
             surveyId: this.surveyId,
@@ -499,7 +501,7 @@ export default {
   width: 100%;
   padding-left: 2%;
   margin-top: 3%;
-  margin-bottom: 2%;
+  /* margin-bottom: 2%; */
   height: 70vh;
 }
 
@@ -533,7 +535,7 @@ export default {
   border-radius: 4px;
 }
 .data-ul li:hover {
-  background-color: #9cbbff;
+  background-color: rgba(156, 187, 255, 0.2);
 }
 
 .data-ul li div {
@@ -553,12 +555,19 @@ export default {
   background-color: #dde0e7;
 }
 
+.feedback-div {
+  margin: 3vh;
+  margin-bottom: 10vh;
+}
+
 .summary-container {
   margin-top: 2vh;
+  margin-bottom: 2vh;
   border-bottom: 0px none !important;
 }
 
 .data-div {
+  padding-top: 3vh;
   padding-left: 3vh;
   padding-right: 3vh;
 }
@@ -642,5 +651,14 @@ export default {
 
 .loading-div {
   height: 90vh;
+}
+
+.summary-title {
+  padding-top: 5vh;
+  border-top: 1px solid #dde0e7;
+}
+
+.none-border {
+  border-top: 0px;
 }
 </style>

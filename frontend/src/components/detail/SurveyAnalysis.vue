@@ -2,7 +2,7 @@
   <div v-if="!isAnswerEmpty" div class="chart-container">
     <div class="radar-chart-container">
       <div class="chart-title">
-        <h2>카테고리별 데이터</h2>
+        <h2><i class="fas fa-poll"></i> 카테고리별 데이터</h2>
       </div>
       <div class="chart-div">
         <RadarChart />
@@ -10,7 +10,7 @@
     </div>
     <div class="bar-chart-container">
       <div class="chart-title">
-        <h2>문항별 데이터</h2>
+        <h2><i class="fas fa-poll"></i> 문항별 데이터</h2>
       </div>
       <div v-if="isBarDataExist" class="bar-chart-div-parent">
         <div class="bar-chart-div">
@@ -19,7 +19,7 @@
       </div>
     </div>
     <div class="summary-container">
-      <h3 class="summary-title">강점</h3>
+      <h3 class="summary-title"><i class="far fa-thumbs-up"></i> 강점</h3>
       <div class="data-div">
         <div class="data-title">최고 평균</div>
         <ul class="data-ul">
@@ -44,7 +44,7 @@
           </li>
         </ul>
       </div>
-      <h3 class="summary-title">약점</h3>
+      <h3 class="summary-title"><i class="far fa-thumbs-down"></i> 약점</h3>
       <div class="data-div">
         <div class="data-title">최저 평균</div>
         <ul class="data-ul">
@@ -69,7 +69,7 @@
           </li>
         </ul>
       </div>
-      <h3 class="summary-title">문항별 응답</h3>
+      <h3 class="summary-title"><i class="far fa-list-alt"></i> 문항별 응답</h3>
       <el-collapse class="category-list">
         <el-collapse-item
           v-for="(answerData, answerDataIdx) in answerDataList"
@@ -79,9 +79,7 @@
         >
           <div
             class="question-div el-card is-always-shadow"
-            v-for="(
-              questionData, questionDataIdx
-            ) in answerData.questionDataList"
+            v-for="(questionData, questionDataIdx) in answerData.questionDataList"
             :key="questionDataIdx"
           >
             <div>
@@ -90,9 +88,7 @@
             </div>
             <div
               class="progress-div"
-              v-for="(
-                questionAnswer, questionAnswerIdx
-              ) in questionData.questionAnswerDtoList"
+              v-for="(questionAnswer, questionAnswerIdx) in questionData.questionAnswerDtoList"
               :key="questionAnswerIdx"
             >
               <div class="progress-bar-base">
@@ -178,20 +174,13 @@ export default {
       "setBarLabels",
       "setIsLoading",
     ]),
-    ...mapGetters("analysis", [
-      "getAnswerDataList",
-      "getRadarLabels",
-      "getRadarDataSets",
-    ]),
+    ...mapGetters("analysis", ["getAnswerDataList", "getRadarLabels", "getRadarDataSets"]),
     makeChart() {
       /* 방사형 그래프 데이터 처리 */
       let averageDataList = [];
       let dataLabels = [];
 
-      if (
-        this.getAnswerDataList() == null ||
-        this.getAnswerDataList().length == 0
-      ) {
+      if (this.getAnswerDataList() == null || this.getAnswerDataList().length == 0) {
         this.isAnswerEmpty = true;
         return;
       }
@@ -250,9 +239,7 @@ export default {
         let r = 156;
         let g = 187;
         let b = 255;
-        backgroundColorList.push(
-          `rgba(${r + i * 10},${g - i * 20},${b - i * 20},0.6)`
-        );
+        backgroundColorList.push(`rgba(${r + i * 10},${g - i * 20},${b - i * 20},0.6)`);
       }
 
       this.getAnswerDataList().forEach((category, idx) => {
