@@ -27,6 +27,11 @@
         <LineChart :style="{ width: '100%' }"></LineChart>
       </div>
     </div>
+    <div class="group-bar-chart-div">
+      <div>
+        <GroupBarChart :style="{ width: '100%' }"></GroupBarChart>
+      </div>
+    </div>
   </div>
   <div v-else class="empty-div">
     <EmptyData></EmptyData>
@@ -36,12 +41,13 @@
 <script>
 import { mapState, mapGetters, mapActions } from "vuex";
 import LineChart from "@/components/charts/LineChart";
+import GroupBarChart from "@/components/charts/GroupBarChart";
 import axios from "@/utils/axios.js";
 import EmptyData from "@/components/detail/DataEmpty.vue";
 
 export default {
   name: "SurveyComparison",
-  components: { LineChart, EmptyData },
+  components: { LineChart, EmptyData, GroupBarChart },
   props: ["surveyId"],
   data() {
     return {
@@ -69,7 +75,7 @@ export default {
     answerDataList() {
       this.count = this.questionCount;
 
-      this.widthTemp = this.count * 6 + "vw";
+      this.widthTemp = this.count * 1 + "vh";
       if (this.count * 6 > 60) {
         this.isFlexStart = true;
       }
@@ -113,7 +119,7 @@ export default {
         backgroundColor: color,
         borderWidth: 2,
         borderColor: color,
-        fill: false,
+        fill: true,
         pointBorderColor: color,
         data: questionDataList,
       };
@@ -143,8 +149,16 @@ export default {
       });
     },
     selectSurvey() {
+      console.log("sss");
+      console.log(this.value);
       let dataSets = [];
+      console.log(dataSets);
       dataSets.push(this.myDataSet);
+      if (this.value.length == 0) {
+        this.setComparisonDataSets(dataSets);
+        return;
+      }
+
       this.value.forEach((optionIdx, idx) => {
         axios
           .get(`/survey/${this.options[optionIdx].id}/answer`, {
@@ -201,9 +215,11 @@ export default {
 
 <style scoped>
 .chart-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  /* display: flex; */
+  /* flex-direction: column;
+  align-items: center; */
+  overflow: scroll;
+  /* overflow-x: hidden; */
   height: 100%;
   width: 100%;
 }
@@ -214,13 +230,14 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 80%;
+  height: 70vh;
   margin-left: 5%;
   margin-right: 5%;
   margin-top: 3vh;
   width: 90%;
   overflow: auto;
   overflow-y: hidden;
+  overflow-x: hidden;
 }
 
 .line-chart-div > div {
@@ -234,7 +251,6 @@ export default {
 }
 
 .line-chart-div-flex-start {
-  justify-content: flex-start !important;
 }
 
 .select-div {
@@ -269,5 +285,16 @@ export default {
 .line-chart-div::-webkit-scrollbar-thumb {
   border-radius: 8px;
   background-color: #9cbbff;
+}
+
+.group-bar-chart-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.group-bar-chart-div > div {
+  width: 70%;
 }
 </style>

@@ -20,6 +20,7 @@ import Login from "@/views/user/login.vue";
 import Result from "@/views/survey/SurveyResultLink.vue";
 import SurveyClosed from "../views/Res/SurveyClosed.vue";
 import Certification from "../views/user/Certification.vue";
+import SignUp from "../views/user/SignUp.vue";
 
 import store from "@/store/";
 
@@ -62,6 +63,11 @@ const routes = [
     path: "/result/:linkCode",
     name: "ResultLink",
     component: Result,
+  },
+  {
+    path: "/signup",
+    name: "SignUp",
+    component: SignUp,
   },
   {
     path: "/survey/complete",
@@ -113,7 +119,7 @@ const routes = [
   {
     path: "/certification",
     name: "Certification",
-    component : Certification,
+    component: Certification,
     // meta: { requireAuth: true},
   },
 ];

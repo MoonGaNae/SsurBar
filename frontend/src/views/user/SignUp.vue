@@ -20,36 +20,70 @@
         </div>
       </div>
       <div id="container">
-        <h1>Login</h1>
+        <h1>Sign Up</h1>
         <div id="formDetail">
           <div class="form__group field">
             <input
-              v-model="loginForm.email"
+              v-model="signUpForm.name"
               type="input"
               class="form__field"
               placeholder="Name"
               required
             />
-            <label for="name" class="form__label">Email</label>
+            <label for="name" class="form__label">Name</label>
           </div>
-          <br />
           <div class="form__group field">
             <input
-              v-model="loginForm.password"
+              v-model="signUpForm.email"
+              type="input"
+              class="form__field"
+              placeholder="Email"
+              required
+            />
+            <label for="Email" class="form__label">Email</label>
+          </div>
+          <div class="form__group field">
+            <input
+              v-model="signUpForm.password"
               type="password"
               class="form__field"
               placeholder="Password"
               required
             />
-            <label for="pass" class="form__label">Password</label>
+            <label for="Password" class="form__label">Password</label>
           </div>
+          <div class="form__group field">
+            <input
+              v-model="signUpForm.passwordCheck"
+              type="password"
+              class="form__field"
+              placeholder="PasswordCheck"
+              required
+            />
+            <label for="PasswordCheck" class="form__label"
+              >Password Check</label
+            >
+          </div>
+          <div class="form__group field">
+            <input
+              v-model="signUpForm.employeeNumber"
+              type="input"
+              class="form__field"
+              placeholder="EmployeeNumber"
+              required
+            />
+            <label for="EmployeeNumber" class="form__label"
+              >Employee Number</label
+            >
+          </div>
+          <div v-if="isWarning" v-text="warningText" class="warning-text"></div>
           <div class="buttonBox">
-            <button class="btn-hover color-1" @click="submitForm()">
-              Login
+            <button class="btn-hover color-1" @click="submitSignUp()">
+              Sign Up
             </button>
           </div>
-          <div class="sign-up-div">
-            <span @click="moveToSignUp()">sign up</span>
+          <div class="login-div">
+            <span @click="moveToLogin()">login</span>
           </div>
         </div>
       </div>
@@ -58,26 +92,79 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import userApi from "@/api/user.js";
+
 export default {
   data() {
     return {
-      loginForm: {
-        email: "ssafy@ssafy.com",
-        password: "string",
+      signUpForm: {
+        name: "",
+        employeeNumber: "",
+        email: "",
+        password: "",
+        passwordCheck: "",
       },
+      isWarning: false,
+      warningText: "",
+      isPossible: false,
       text: "Welcome To SSURBAR!",
     };
   },
   methods: {
-    ...mapActions("user", ["onLogin"]),
-    submitForm() {
-      // console.log(this.loginForm);
+    submitSignUp() {
+      if (
+        this.signUpForm.name.length == 0 ||
+        this.signUpForm.employeeNumber.length == 0 ||
+        this.signUpForm.email.length == 0 ||
+        this.signUpForm.password.length == 0 ||
+        this.signUpForm.passwordCheck.length == 0
+      ) {
+        this.warningText = "모든 값을 입력해주세요";
+        this.isWarning = true;
+        return;
+      }
 
-      this.onLogin(this.loginForm);
+      let nameReg = /[~!@#$%^&*()_+|<>?:{}ㄱ-ㅎㅏ-ㅣ]/;
+      if (nameReg.test(this.signUpForm.name)) {
+        this.warningText = "이름에 특수문자를 사용할 수 없습니다";
+        this.isWarning = true;
+        return;
+      }
+
+      if (this.signUpForm.password.length < 8) {
+        this.warningText = "8자리 이상의 비밀번호를 입력해주세요";
+        this.isWarning = true;
+        return;
+      }
+
+      if (this.signUpForm.password != this.signUpForm.passwordCheck) {
+        this.warningText = "비밀번호가 일치하지 않습니다";
+        this.isWarning = true;
+        return;
+      }
+
+      let emailReg = /^[a-z0-9_+.-]+@([a-z0-9-]+\.)+[a-z0-9]{2,4}$/;
+
+      if (!emailReg.test(this.signUpForm.email)) {
+        this.warningText = "이메일 형식을 확인해주세요";
+        this.isWarning = true;
+        return;
+      }
+
+      if (nameReg.test(this.signUpForm.employeeNumber)) {
+        this.warningText = "사원 번호에 특수문자를 사용할 수 없습니다";
+        this.isWarning = true;
+        return;
+      }
+
+      this.isWarning = false;
+
+      userApi.signUp(this.signUpForm).then(() => {
+        this.$router.push({ name: "Login" });
+      });
     },
-    moveToSignUp() {
-      this.$router.push({ name: "SignUp" });
+    moveToLogin() {
+      this.$router.push({ name: "Login" });
     },
   },
 };
@@ -103,14 +190,11 @@ export default {
 }
 #formDetail {
   width: 95%;
-  margin: 20% 0 0 0;
+  padding-top: 2vh;
   text-align: center;
 }
 .buttonBox {
-  margin-top: 20%;
-  margin-bottom: 10%;
-  display: flex;
-  justify-content: center;
+  margin-top: 10%;
 }
 
 * {
@@ -125,7 +209,6 @@ export default {
   font-weight: 600;
   color: #fff;
   cursor: pointer;
-  margin: 20px;
   height: 55px;
   text-align: center;
   border: none;
@@ -257,14 +340,20 @@ $gray: #9b9b9b;
   color: lightgray;
 }
 
-.sign-up-div {
+.warning-text {
+  color: red;
+  padding-top: 30px;
+}
+
+.login-div {
   display: flex;
   justify-content: center;
   width: 100%;
   color: #9b9b9b;
+  padding-top: 30px;
 }
 
-.sign-up-div > span:hover {
+.login-div > span:hover {
   cursor: pointer;
   font-weight: 600;
   color: #000000;

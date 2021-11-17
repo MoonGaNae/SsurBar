@@ -14,13 +14,7 @@ export default {
   },
   watch: {
     comparisonDataSets() {
-      let dataSets = this.comparisonDataSets;
-      let labels = this.comparisonLabels;
-
-      this.datacollection.labels = labels;
-      this.datacollection.datasets = dataSets;
-
-      this.renderChart(this.datacollection, this.options);
+      this.makeLineChart();
     },
   },
   data() {
@@ -29,7 +23,7 @@ export default {
         scales: {
           yAxes: [
             {
-              ticks: { beginAtZero: true, min: 0, max: 5, stepSize: 0.5 },
+              ticks: { beginAtZero: true, min: -5, max: 5, stepSize: 0.5 },
               gridLines: { display: true },
             },
           ],
@@ -45,14 +39,48 @@ export default {
       },
     };
   },
+  methods: {
+    makeLineChart() {
+      let labels = this.comparisonLabels;
+      let dataSets = [];
+
+      if (this.comparisonDataSets.length > 1) {
+        let mainDataSet = this.comparisonDataSets[0].data;
+
+        for (let idx = 1; idx < this.comparisonDataSets.length; idx++) {
+          let scoreList = [];
+
+          this.comparisonDataSets[idx].data.forEach((el, scoreIdx) => {
+            scoreList.push(mainDataSet[scoreIdx] - el);
+          });
+
+          let dataSet = {
+            backgroundColor: this.comparisonDataSets[idx].backgroundColor,
+            borderColor: this.comparisonDataSets[idx].borderColor,
+            borderWidth: this.comparisonDataSets[idx].borderWidth,
+            data: scoreList,
+            fill: this.comparisonDataSets[idx].fill,
+            label: this.comparisonDataSets[idx].label,
+            pointBackgroundColor:
+              this.comparisonDataSets[idx].pointBackgroundColor,
+            pointBorderColorthis:
+              this.comparisonDataSets[idx].pointBackgroundColor,
+          };
+
+          dataSets.push(dataSet);
+        }
+        this.datacollection.datasets = dataSets;
+      } else {
+        this.datacollection.datasets = [];
+      }
+
+      this.datacollection.labels = labels;
+
+      this.renderChart(this.datacollection, this.options);
+    },
+  },
   mounted() {
-    let dataSets = this.comparisonDataSets;
-    let labels = this.comparisonLabels;
-
-    this.datacollection.labels = labels;
-    this.datacollection.datasets = dataSets;
-
-    this.renderChart(this.datacollection, this.options);
+    this.makeLineChart();
   },
 };
 </script>

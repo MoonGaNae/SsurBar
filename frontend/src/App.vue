@@ -25,7 +25,8 @@ export default {
         this.$route.name === "Finish" ||
         this.$route.name == "ResultLink" ||
         this.$route.name == "Login" ||
-        this.$route.name == "SurveyClosed"
+        this.$route.name == "SurveyClosed" ||
+        this.$route.name == "SignUp"
       );
     },
     showFrame() {
@@ -33,7 +34,8 @@ export default {
         this.$route.name === "Form" ||
         this.$route.name === "Finish" ||
         this.$route.name == "Login" ||
-        this.$route.name == "SurveyClosed"
+        this.$route.name == "SurveyClosed" ||
+        this.$route.name == "SignUp"
       );
     },
   },
