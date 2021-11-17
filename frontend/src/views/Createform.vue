@@ -18,12 +18,7 @@
     <div class="container">
       <div
         class="row el-card box-card is-always-shadow"
-        style="
-          width: 50%;
-          margin-top: 5%;
-          margin-bottom: 5%;
-          border-radius: 25px;
-        "
+        style="width: 60%; border-radius: 25px; margin-bottom: 5%"
       >
         <div
           class="col-xs-12 col-lg-offset-3 col-lg-6"
