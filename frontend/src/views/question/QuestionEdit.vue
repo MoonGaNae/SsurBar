@@ -245,43 +245,69 @@ export default {
       this.categoryList.splice(categoryIndex, 1);
     },
     endEditSurvey: function () {
-      this.questionList = [];
+      if(this.isValid()){
+        this.questionList = [];
 
-      this.categoryList.forEach((el) => {
-        this.categoryNameList.push(el.title);
+        this.categoryList.forEach((el) => {
+          this.categoryNameList.push(el.title);
 
-        el.questionList.forEach((question, index) => {
-          let content = "{ ";
+          el.questionList.forEach((question, index) => {
+            let content = "{ ";
 
-          question.choiceList.forEach((choice, index) => {
-            content += `"${index + 1}":"${choice}",`;
-            // content += '"' + index + '":' + choice + ",";
+            question.choiceList.forEach((choice, index) => {
+              content += `"${index + 1}":"${choice}",`;
+              // content += '"' + index + '":' + choice + ",";
+            });
+
+            content = content.slice(0, content.length - 1) + "}";
+
+            // console.log(content);
+
+            let questionInfo = {
+              title: question.title,
+              isEssential: false,
+              number: index + 1,
+              questionType: 201,
+              content: content,
+              categoryName: el.title,
+            };
+
+            this.questionList.push(JSON.stringify(questionInfo));
           });
-
-          content = content.slice(0, content.length - 1) + "}";
-
-          // console.log(content);
-
-          let questionInfo = {
-            title: question.title,
-            isEssential: false,
-            number: index + 1,
-            questionType: 201,
-            content: content,
-            categoryName: el.title,
-          };
-
-          this.questionList.push(JSON.stringify(questionInfo));
         });
-      });
 
-      this.setCategoryList(this.categoryNameList);
-      this.setQuestionList(this.questionList);
+        this.setCategoryList(this.categoryNameList);
+        this.setQuestionList(this.questionList);
 
-      this.$router.push({
-        name: `CreatePreview`,
-      });
+        this.$router.push({
+          name: `CreatePreview`,
+        });
+      }else{
+        this.$fire({
+          title: "응답 실패",
+          text: "카테고리 및 문제항목 입력은 필수입니다.",
+          type: "error",
+        });
+      }
     },
+    isValid(){
+      if(this.categoryList.length==0){
+        return false;
+      }else{
+        for(var i=0; i<this.categoryList.length; i++){
+          if(this.categoryList[i].questionList.length==0){
+            return false;
+          }else{
+            for(var j=0; j<this.categoryList[i].questionList.length; j++){
+              if(this.categoryList[i].questionList[j].choiceList.length==0){
+                return false;
+              }
+            }
+          }
+        }
+        return true;
+      }
+    }
   },
 };
 </script>
