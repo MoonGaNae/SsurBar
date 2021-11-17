@@ -17,8 +17,9 @@ public interface QuestionAnswerRepository extends JpaRepository<QuestionAnswer, 
     @Query(value =
         "SELECT " + "qa.filter_data_id " +
                 "FROM Question_Answer qa " +
+                "WHERE qa.survey_id = :surveyId " +
                 "GROUP BY qa.filter_data_id", nativeQuery = true
     )
-    List<String> findGroupByQuestionAnswerWithJPQL();
+    List<String> findGroupByQuestionAnswerWithJPQL(String surveyId);
 }
 
