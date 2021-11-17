@@ -219,10 +219,23 @@ export default {
   /* flex-direction: column;
   align-items: center; */
   overflow: scroll;
-  /* overflow-x: hidden; */
+  overflow-x: hidden;
   height: 100%;
   width: 100%;
 }
+
+.chart-container::-webkit-scrollbar {
+  width: 1vh;
+}
+.chart-container::-webkit-scrollbar-track {
+  background-color: #dde0e7;
+}
+
+.chart-container::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background-color: #9cbbff;
+}
+
 .empty-div {
   height: 100%;
 }

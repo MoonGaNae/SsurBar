@@ -55,7 +55,7 @@ export default {
             },
           ],
         },
-        responsive: true,
+        // responsive: true,
         maintainAspectRatio: true,
       },
     };
