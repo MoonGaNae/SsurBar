@@ -16,6 +16,7 @@ export default {
       "answerDataList",
       "comparisonLabels",
       "comparisonDataSets",
+      "surveyTitleList",
     ]),
   },
   data() {
@@ -67,7 +68,7 @@ export default {
 
       this.comparisonDataSets.forEach((el, idx) => {
         let dataSet = {
-          label: this.comparisonLabels[idx],
+          label: this.surveyTitleList[idx],
           data: el.data,
           borderColor: el.backgroundColor,
           backgroundColor: el.backgroundColor,
