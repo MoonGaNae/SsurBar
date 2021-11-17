@@ -39,7 +39,7 @@
             v-model="categoryInput"
             v-if="categoryInputState"
             style="width: 260%"
-            placeholder="필터를 입력하세요."
+            placeholder="필터을 입력하세요."
           />
           <button
             @click="addCategory()"
@@ -98,7 +98,7 @@
               <div class="category-title-div">
                 <div class="category-title">
                   <div
-                    style="d-flex; text-align:left; padding-left:20%; font-size:1.3rem;"
+                    style="d-flex; text-align:left; padding-left:20%; font-size:1.6rem;"
                     @click="clickCategory(categoryIndex)"
                   >
                     {{ category.title }}
@@ -106,7 +106,7 @@
 
                   <div
                     @click="deleteCategory(categoryIndex)"
-                    style="position: absolute; right: -60px"
+                    style="marign-left:10%"
                   >
                     <i class="el-icon-close"></i>
                   </div>
@@ -151,6 +151,7 @@
                     v-model="
                       categoryList[selectedCategoryIdx].choiceList[choiceIndex]
                     "
+                    placeholder="새 항목"
                   />
                 </div>
                 <span
@@ -227,7 +228,7 @@ export default {
       choiceList.splice(index, 1);
     },
     addChoice: function (choiceList) {
-      choiceList.push("새 항목");
+      choiceList.push("");
     },
     addQuestion: function (filterList) {
       let question = {
@@ -280,50 +281,29 @@ export default {
       this.categoryList.splice(categoryIndex, 1);
     },
     endEditFilter: function () {
-      if(this.isValid()){
-        this.categoryList.forEach((category, idx) => {
-          let content = {};
-          category.choiceList.forEach((choice, choiceIdx) => {
-            content[choiceIdx + 1] = choice;
-          });
-
-          let jsonData = {
-            content: JSON.stringify(content),
-            number: idx + 1,
-            title: category.title,
-          };
-
-          this.filterQuestionList.push(JSON.stringify(jsonData));
+      this.categoryList.forEach((category, idx) => {
+        let content = {};
+        category.choiceList.forEach((choice, choiceIdx) => {
+          content[choiceIdx + 1] = choice;
         });
 
-        this.setFilterQuestionList(this.filterQuestionList);
+        let jsonData = {
+          content: JSON.stringify(content),
+          number: idx + 1,
+          title: category.title,
+        };
 
-        if (this.curCreateType == this.surveyCreateType.NEW) {
-          this.$router.push({ path: "/question/questionedit" });
-        } else {
-          this.$router.push({ path: "/survey/preview" });
-        }
-      }else{
-        this.$fire({
-          title: "응답 실패",
-          text: "필터 항목 입력은 필수입니다.",
-          type: "error",
-        });
+        this.filterQuestionList.push(JSON.stringify(jsonData));
+      });
+
+      this.setFilterQuestionList(this.filterQuestionList);
+
+      if (this.curCreateType == this.surveyCreateType.NEW) {
+        this.$router.push({ path: "/question/questionedit" });
+      } else {
+        this.$router.push({ path: "/test" });
       }
-      
     },
-    isValid(){
-      if(this.categoryList.length==0){
-        return false;
-      }else{
-        for(var i=0; i<this.categoryList.length; i++){
-          if(this.categoryList[i].choiceList.length==0){
-            return false;
-          }
-        }
-        return true;
-      }
-    }
   },
 };
 </script>
@@ -392,7 +372,6 @@ export default {
 
 .container {
   padding-bottom: 3%;
-  margin: 0;
 }
 .form-checkbox {
   position: relative;
