@@ -238,7 +238,21 @@ export default {
       /* 막대 그래프 데이터 처리 */
       let questionDataList = [];
       let questionTitles = [];
-      let backgroundColorList = [];
+      let backgroundColorList = [
+        `rgba(10,20,30,0.6)`,
+        `rgba(80,20,30,0.6)`,
+        `rgba(10,200,30,0.6)`,
+        `rgba(120,200,155,0.6)`,
+        `rgba(160,20,30,0.6)`,
+        `rgba(200,120,30,0.6)`,
+        `rgba(40,20,155,0.6)`,
+        `rgba(240,20,30,0.6)`,
+        `rgba(10,120,30,0.6)`,
+        `rgba(10,240,30,0.6)`,
+        `rgba(100,120,30,0.6)`,
+        `rgba(100,200,30,0.6)`,
+        `rgba(100,20,130,0.6)`,
+      ];
       let categoryCount = this.getAnswerDataList().length;
       let categoryNameList = [];
 

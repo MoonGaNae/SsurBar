@@ -54,11 +54,11 @@ export default {
       myDataSet: null,
       options: [],
       colorList: [
-        `rgba(166,167,235,0.6)`,
-        `rgba(176,147,215,0.6)`,
-        `rgba(186,127,195,0.6)`,
-        `rgba(196,107,175,0.6)`,
-        `rgba(206,807,155,0.6)`,
+        `rgba(66,57,55,0.6)`,
+        `rgba(196,107,65,0.6)`,
+        `rgba(86,57,195,0.6)`,
+        `rgba(26,147,200,0.6)`,
+        `rgba(166,25,235,0.6)`,
       ],
     };
   },
@@ -132,7 +132,6 @@ export default {
           let endTime = el.endTime;
           let id = el.surveyId;
           let teamName = el.teamName;
-          // let title = el.title;
           let option = {
             id: id,
             value: idx,
