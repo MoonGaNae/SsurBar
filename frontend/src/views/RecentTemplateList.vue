@@ -1,18 +1,22 @@
 <template>
   <div id="wrapper">
-    <div class="page-title-div" style="padding-top:9%; padding-left:5%">
-      <div class="page-title-div-child" >
+    <div class="page-title-div" style="padding-top: 9%; padding-left: 5%">
+      <div class="page-title-div-child">
         <h1>최근 사용 서식 조회</h1>
       </div>
     </div>
-    <hr style="width: 90%; margin-top:3%; margin-left:5%;" />
-    <el-input v-model="search" size="mini" placeholder="Title to search" style="margin-left:80%;width:15%">
+    <hr style="width: 90%; margin-top: 3%; margin-left: 5%" />
+    <el-input
+      v-model="search"
+      size="mini"
+      placeholder="Title to search"
+      style="margin-left: 80%; width: 15%"
+    >
       <el-button slot="append" icon="el-icon-search"></el-button>
     </el-input>
     <div id="wrapper-div">
-      <div id="container">    
-        <div style="float: right; margin-bottom: 1%">
-        </div>
+      <div id="container">
+        <div style="float: right; margin-bottom: 1%"></div>
         <el-table
           :data="
             recentList.filter((data) => !search || data.title.includes(search))
@@ -51,7 +55,7 @@ export default {
     return {
       search: "",
       questions: [],
-      templateId : "",
+      templateId: "",
     };
   },
   computed: {
@@ -68,7 +72,7 @@ export default {
 
       await this.getQuestionList(this.templateId);
       this.setTemplateId(this.templateId);
-      
+
       this.$router.push("/form/createform");
     },
 
@@ -108,7 +112,6 @@ export default {
 </script>
 
 <style scoped>
-
 .page-title-div {
   display: flex;
   justify-content: space-between;
@@ -119,7 +122,6 @@ export default {
 .page-title-div-child > h1 {
   font-size: 4rem;
 }
-
 
 .nav-pills > li > a {
   border-radius: 0;

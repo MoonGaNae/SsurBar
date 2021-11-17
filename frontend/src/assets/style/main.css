@@ -41,7 +41,7 @@ h6,
   justify-content: center;
   align-items: center;
   overflow: auto;
-  padding: 1vh 5vh 5vh 5vh;
+  padding: 5vh 5vh 5vh 5vh;
 }
 
 #background-frame {
@@ -104,12 +104,12 @@ h6,
   filter: brightness(0) invert(1);
 }
 
-.logout{
+.logout {
   display: flex;
   width: 100%;
   justify-content: end;
 }
-.logout :hover{
+.logout :hover {
   transform: scale(1.1);
   cursor: pointer;
 }
