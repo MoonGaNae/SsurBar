@@ -92,7 +92,7 @@ export default {
   bottom: 0;
   border-radius: 10% 10% 0 0;
   text-align: center;
-  padding: 10%;
+  padding: 7% 10% 10% 10%;
 }
 #formDetail {
   width: 95%;
@@ -100,7 +100,7 @@ export default {
   text-align: center;
 }
 .buttonBox {
-  margin-top: 30%;
+  margin-top: 20%;
   margin-bottom:10%;
 }
 

@@ -17,10 +17,10 @@
       <div
         class="row el-card box-card is-always-shadow"
         style="
-          width: 50%;
+          width: 60%;
           margin-left: 20%;
-          margin-top: 5%;
           border-radius: 25px;
+          margin-bottom:5%;
         "
       >
         <div
