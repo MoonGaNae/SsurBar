@@ -30,7 +30,7 @@
             </button>
           </div>
         </div>
-        <hr style="width: 90%; margin-top:3%; margin-left:5%;" />
+        <hr style="width: 90%; margin-top: 3%; margin-left: 5%" />
         <div class="surveyContent">
           <el-form ref="form" v-model="form">
             <el-collapse>
@@ -118,7 +118,6 @@ export default {
     },
     getQuestionList(templateId) {
       axios.get("template/" + templateId + "/questions").then((res) => {
-        console.log(res);
         this.questions = res.data.questionList;
 
         var contents = new Array();
@@ -136,14 +135,11 @@ export default {
             content: JSON.parse(contents[i]),
           });
           this.form.questionId.push(this.questions[i].questionId);
-          console.log(categorys);
         }
         var uniqueCategory = this.removeDuplicates(categorys, "categoryId");
-        console.log("uniqueArray is: " + JSON.stringify(uniqueCategory));
 
         this.category = uniqueCategory;
         this.questionExample = questionExs;
-        console.log(this.form);
       });
     },
     // 카테고리 중복값을 제거하기 위한 메소드
