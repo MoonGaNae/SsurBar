@@ -13,7 +13,9 @@ import com.ssurbar.survey.common.util.RandomIdUtil;
 import com.ssurbar.survey.db.entity.User;
 import com.ssurbar.survey.db.entity.UserRole;
 import com.ssurbar.survey.db.repository.UserRepository;
+import io.swagger.annotations.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,18 +31,23 @@ public class UserServiceImpl implements UserService{
     @Autowired
     RandomIdUtil randomIdUtil;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
     @Override
     public String join(UserJoinPostReq req) {
 
         String userId = randomIdUtil.makeRandomId(13);
         System.out.println(req.getEmployeeNumber());
+
+        String encodePassword = passwordEncoder.encode(req.getPassword());
         User newUser = userRepository.save(User.builder()
                         .userId(userId)
                         .name(req.getName())
                         .email(req.getEmail())
                         .employeeNumber(req.getEmployeeNumber())
                         .userType(UserRole.UNCERTIFIED)
-                        .password(req.getPassword())
+                        .password(encodePassword)
                 .build());
 
 
@@ -52,11 +59,8 @@ public class UserServiceImpl implements UserService{
 
         User user = userRepository.findByEmail(userLoginPostReq.getEmail()).orElse(null);
 
-//        if (user == null) return null;
-
-        if (!user.getPassword().equals(userLoginPostReq.getPassword())){
-            System.out.println("비번틀림");
-            return null;
+        if(user == null || !passwordEncoder.matches(userLoginPostReq.getPassword(), user.getPassword())){
+            throw new UserUnauthorizedException();
         }
 
         return UserInfo.builder().userId(user.getUserId()).userType(user.getUserType()).build();
