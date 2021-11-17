@@ -1,25 +1,27 @@
 <template>
-  <div> 
-    <div class="page-title-div" style="padding-top:9%; padding-left:5%">
-      <div class="page-title-div-child" >
+  <div>
+    <div class="page-title-div" style="padding-top: 9%; padding-left: 5%">
+      <div class="page-title-div-child">
         <h1>신규 설문 생성</h1>
       </div>
     </div>
-    <hr style="width: 90%; margin-top:3%; margin-left:5%;" />
-    
-    <button 
-      @click="endEditForm()" 
-      class="custom-btn btn-5" 
-      style="margin-left:86%" >
-      <span>Next</span></button>
-    
+    <hr style="width: 90%; margin-top: 3%; margin-left: 5%" />
+
+    <button
+      @click="endEditForm()"
+      class="custom-btn btn-5"
+      style="margin-left: 86%"
+    >
+      <span>Next</span>
+    </button>
+
     <div class="container">
       <div
         class="row el-card box-card is-always-shadow"
         style="
           width: 50%;
-          margin-left: 20%;
           margin-top: 5%;
+          margin-bottom: 5%;
           border-radius: 25px;
         "
       >
@@ -45,9 +47,7 @@
             </fieldset>
 
             <fieldset>
-              <label for="dropdown" style="margin-top: 10%">
-                설문대상 *
-              </label>
+              <label for="dropdown" style="margin-top: 10%"> 설문대상 * </label>
               <select
                 name="team"
                 v-model="targetTeamId"
@@ -92,7 +92,6 @@
       </div>
     </div>
   </div>
-  
 </template>
 
 <style lang="scss" scoped>
@@ -657,6 +656,11 @@ export default {
 .custom-select > select:focus > option {
   padding: 10px 0 !important;
   -webkit-appearance: none;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
 }
 
 button {
