@@ -8,21 +8,39 @@
         <div id="bottonBox">
           <div class="surveyButton" @click="clickScratch">
             <img class="buttonImg" src="@/assets/newdoc.png" />
-            <span style="display: inline-block; vertical-align: middle; margin-top:5%;">
+            <span
+              style="
+                display: inline-block;
+                vertical-align: middle;
+                margin-top: 5%;
+              "
+            >
               Start from scratch
               <h5>신규 설문 생성</h5>
             </span>
           </div>
           <div class="surveyButton" @click="clickTemplate">
             <img class="buttonImg" src="@/assets/edit.png" />
-            <span style="display: inline-block; vertical-align: middle; margin-top:5%;">
+            <span
+              style="
+                display: inline-block;
+                vertical-align: middle;
+                margin-top: 5%;
+              "
+            >
               Start from a template
               <h5>기본 서식에서 시작</h5>
             </span>
           </div>
           <div class="surveyButton" @click="clickPastSurvey">
             <img class="buttonImg" src="@/assets/copy.png" />
-            <span style="display: inline-block; vertical-align: middle; margin-top:5%;">
+            <span
+              style="
+                display: inline-block;
+                vertical-align: middle;
+                margin-top: 5%;
+              "
+            >
               Copy a past survey
               <h5>지난 설문조사 복사</h5>
             </span>
