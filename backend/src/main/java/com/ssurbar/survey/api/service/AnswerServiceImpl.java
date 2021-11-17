@@ -3,15 +3,14 @@ package com.ssurbar.survey.api.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssurbar.survey.api.request.FilterDataReq;
-import com.ssurbar.survey.api.response.AnswerData;
-import com.ssurbar.survey.api.response.QuestionData;
-import com.ssurbar.survey.api.response.SurveyResultRes;
+import com.ssurbar.survey.api.response.*;
 import com.ssurbar.survey.common.model.common.CategoryAnswerInfo;
 import com.ssurbar.survey.common.model.common.QuestionAnswerInfo;
 import com.ssurbar.survey.db.entity.answer.FilterData;
 import com.ssurbar.survey.db.entity.answer.QuestionAnswer;
 import com.ssurbar.survey.db.entity.survey.Question;
 import com.ssurbar.survey.db.entity.survey.Survey;
+import com.ssurbar.survey.db.repository.answer.FilterDataRepository;
 import com.ssurbar.survey.db.repository.answer.QuestionAnswerRepository;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -22,12 +21,16 @@ import org.springframework.stereotype.Service;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service("answerService")
 public class AnswerServiceImpl implements AnswerService{
 
 	@Autowired
 	QuestionAnswerRepository questionAnswerRepository;
+
+	@Autowired
+	FilterDataRepository filterDataRepository;
 
 	@Override
 	public SurveyResultRes getSurveyAnswerList(String surveyId, String filterDataStr) throws JsonProcessingException, UnsupportedEncodingException {
@@ -373,5 +376,40 @@ public class AnswerServiceImpl implements AnswerService{
 
 		return surveyResultRes;
 	}
+
+	@Override
+	public SurveyAnswerRawGetRes getSurveyAnswerRaw(String surveyId) {
+		List<String> filterDataIdList = questionAnswerRepository.findGroupByQuestionAnswerWithJPQL();
+
+//		for(String id : filterDataIdList){
+//			System.out.println(id);
+//		}
+
+		List<FilterData> filterDataList = filterDataRepository.findByFilterDataIdIn(filterDataIdList);
+
+		List<FilterDataDto> filterDataDtoList = new ArrayList<>();
+		for(FilterData data : filterDataList){
+			System.out.println("사람" + data.getFilterDataId());
+			List<QuestionAnswer> questionAnswerList = data.getQuestionAnswers();
+
+			filterDataDtoList.add(
+					FilterDataDto.builder()
+							.response(data.getResponse())
+							.questionAnswers(
+									questionAnswerList.stream()
+											.map(FilterDataDto.QuestionAnswerDto::of)
+											.collect(Collectors.toList())
+							)
+							.build()
+			);
+		}
+
+		System.out.println(filterDataDtoList);
+
+		return SurveyAnswerRawGetRes.builder()
+				.filterDatas(filterDataDtoList)
+				.build();
+	}
+
 
 }

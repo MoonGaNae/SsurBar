@@ -15,4 +15,11 @@ export default {
       method: "get",
     });
   },
+  // 설문 필터항목정보 조회하기
+  getSurveyFilterInfo(surveyId) {
+    return axios({
+      url: `/survey/${surveyId}/filters`,
+      method: `get`,
+    })
+  }
 };

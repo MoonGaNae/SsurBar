@@ -31,6 +31,9 @@
           >
             결과
           </li>
+          <li @click="exportExcel">
+            <i class="fas fa-file-excel fa-lg"></i>
+          </li>
         </ul>
       </div>
       <div class="detail-container">
@@ -175,7 +178,7 @@ import SurveyRealease from "@/components/detail/SurveyRealease.vue";
 import SurveyAnalysis from "@/components/detail/SurveyAnalysis.vue";
 import SurveyResult from "@/components/detail/SurveyResult.vue";
 import SurveyComparison from "@/components/detail/SurveyComparison.vue";
-
+import excel from "@/utils/excel.js";
 export default {
   name: "SurveyDetail",
   props: ["selectedSurveyId"],
@@ -260,6 +263,9 @@ export default {
     clickFilterOpen() {
       this.isFilterOpened = !this.isFilterOpened;
     },
+    exportExcel(){
+      excel.downloadSurvey(this.surveyId);
+    }
   },
   computed: {
     checkFullContent() {
@@ -619,5 +625,9 @@ button {
 .filter-title-div > i {
   font-weight: 600;
   padding-right: 2vh;
+}
+
+.fa-file-excel{
+  color: green;
 }
 </style>
