@@ -379,7 +379,7 @@ public class AnswerServiceImpl implements AnswerService{
 
 	@Override
 	public SurveyAnswerRawGetRes getSurveyAnswerRaw(String surveyId) {
-		List<String> filterDataIdList = questionAnswerRepository.findGroupByQuestionAnswerWithJPQL();
+		List<String> filterDataIdList = questionAnswerRepository.findGroupByQuestionAnswerWithJPQL(surveyId);
 
 //		for(String id : filterDataIdList){
 //			System.out.println(id);
