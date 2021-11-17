@@ -19,10 +19,7 @@
         </el-option>
       </el-select>
     </div>
-    <div
-      class="line-chart-div"
-      :class="{ 'line-chart-div-flex-start': isFlexStart }"
-    >
+    <div class="line-chart-div" :class="{ 'line-chart-div-flex-start': isFlexStart }">
       <div>
         <LineChart :style="{ width: '100%' }"></LineChart>
       </div>
@@ -84,13 +81,14 @@ export default {
     },
   },
   methods: {
-    ...mapActions("analysis", ["setComparisonDataSets", "setComparisonLabels"]),
+    ...mapActions("analysis", [
+      "setComparisonDataSets",
+      "setComparisonLabels",
+      "setSurveyTitleList",
+    ]),
     ...mapGetters("analysis", ["getAnswerDataList", "getComparisonDataSets"]),
     makeChart() {
-      if (
-        this.getAnswerDataList() == null ||
-        this.getAnswerDataList().length == 0
-      ) {
+      if (this.getAnswerDataList() == null || this.getAnswerDataList().length == 0) {
         this.isDataExist = false;
         return;
       }
@@ -149,17 +147,16 @@ export default {
       });
     },
     selectSurvey() {
-      console.log("sss");
-      console.log(this.value);
       let dataSets = [];
-      console.log(dataSets);
       dataSets.push(this.myDataSet);
       if (this.value.length == 0) {
         this.setComparisonDataSets(dataSets);
         return;
       }
 
+      let surveyTitleList = ["현재 설문"];
       this.value.forEach((optionIdx, idx) => {
+        surveyTitleList.push(this.options[optionIdx].label);
         axios
           .get(`/survey/${this.options[optionIdx].id}/answer`, {
             params: { filterDataStr: encodeURI("[]") },
@@ -189,6 +186,8 @@ export default {
             dataSets.push(dataSet);
           });
       });
+
+      this.setSurveyTitleList(surveyTitleList);
 
       this.setComparisonDataSets(dataSets);
     },

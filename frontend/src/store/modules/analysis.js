@@ -14,6 +14,7 @@ const state = {
   comparisonLabels: null,
   comparisonDataSets: null,
   isLoading: true,
+  surveyTitleList: ["현재 설문"],
 };
 
 const mutations = {
@@ -23,10 +24,7 @@ const mutations = {
   SET_HIGHEST_AVERAGE_LIST: (state, highestAverageList) => {
     state.highestAverageList = highestAverageList;
   },
-  SET_HIGHEST_STANDARD_DEVIATION_LIST: (
-    state,
-    highestStandardDeviationList
-  ) => {
+  SET_HIGHEST_STANDARD_DEVIATION_LIST: (state, highestStandardDeviationList) => {
     state.highestStandardDeviationList = highestStandardDeviationList;
   },
   SET_LOWEST_AVERAGE_LIST: (state, lowestAverageList) => {
@@ -59,6 +57,9 @@ const mutations = {
   SET_IS_LOADING: (state, isLoading) => {
     state.isLoading = isLoading;
   },
+  SET_SURVEY_TITLE_LIST: (state, surveyTitleList) => {
+    state.surveyTitleList = surveyTitleList;
+  },
 };
 const actions = {
   initAnalysisData({ commit }) {
@@ -82,15 +83,9 @@ const actions = {
         console.log(res);
         commit("SET_ANSWER_DATA_LIST", res.data.answerDataList);
         commit("SET_HIGHEST_AVERAGE_LIST", res.data.highestAverageList);
-        commit(
-          "SET_HIGHEST_STANDARD_DEVIATION_LIST",
-          res.data.highestStandardDeviationList
-        );
+        commit("SET_HIGHEST_STANDARD_DEVIATION_LIST", res.data.highestStandardDeviationList);
         commit("SET_LOWEST_AVERAGE_LIST", res.data.lowestAverageList);
-        commit(
-          "SET_LOWEST_STANDARD_DEVIATION_LIST",
-          res.data.lowestStandardDeviationList
-        );
+        commit("SET_LOWEST_STANDARD_DEVIATION_LIST", res.data.lowestStandardDeviationList);
         commit("SET_QUESTION_COUNT", res.data.questionCount);
       })
       .catch((err) => {
@@ -117,6 +112,9 @@ const actions = {
   },
   setIsLoading({ commit }, isLoading) {
     commit("SET_IS_LOADING", isLoading);
+  },
+  setSurveyTitleList({ commit }, surveyTitleList) {
+    commit("SET_SURVEY_TITLE_LIST", surveyTitleList);
   },
 };
 
