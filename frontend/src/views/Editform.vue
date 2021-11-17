@@ -39,7 +39,7 @@
             v-model="categoryInput"
             v-if="categoryInputState"
             style="width: 260%"
-            placeholder="필터을 입력하세요."
+            placeholder="필터를 입력하세요."
           />
           <button
             @click="addCategory()"
@@ -280,29 +280,50 @@ export default {
       this.categoryList.splice(categoryIndex, 1);
     },
     endEditFilter: function () {
-      this.categoryList.forEach((category, idx) => {
-        let content = {};
-        category.choiceList.forEach((choice, choiceIdx) => {
-          content[choiceIdx + 1] = choice;
+      if(this.isValid()){
+        this.categoryList.forEach((category, idx) => {
+          let content = {};
+          category.choiceList.forEach((choice, choiceIdx) => {
+            content[choiceIdx + 1] = choice;
+          });
+
+          let jsonData = {
+            content: JSON.stringify(content),
+            number: idx + 1,
+            title: category.title,
+          };
+
+          this.filterQuestionList.push(JSON.stringify(jsonData));
         });
 
-        let jsonData = {
-          content: JSON.stringify(content),
-          number: idx + 1,
-          title: category.title,
-        };
+        this.setFilterQuestionList(this.filterQuestionList);
 
-        this.filterQuestionList.push(JSON.stringify(jsonData));
-      });
-
-      this.setFilterQuestionList(this.filterQuestionList);
-
-      if (this.curCreateType == this.surveyCreateType.NEW) {
-        this.$router.push({ path: "/question/questionedit" });
-      } else {
-        this.$router.push({ name: "CreatePreview" });
+        if (this.curCreateType == this.surveyCreateType.NEW) {
+          this.$router.push({ path: "/question/questionedit" });
+        } else {
+          this.$router.push({ path: "/survey/preview" });
+        }
+      }else{
+        this.$fire({
+          title: "응답 실패",
+          text: "필터 항목 입력은 필수입니다.",
+          type: "error",
+        });
       }
+      
     },
+    isValid(){
+      if(this.categoryList.length==0){
+        return false;
+      }else{
+        for(var i=0; i<this.categoryList.length; i++){
+          if(this.categoryList[i].choiceList.length==0){
+            return false;
+          }
+        }
+        return true;
+      }
+    }
   },
 };
 </script>

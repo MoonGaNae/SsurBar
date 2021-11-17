@@ -16,7 +16,6 @@
         Next
       </button>
       <div class="container">
-
         <div class="sub-title-div">
           <div>
             <h3 style="d-flex; text-align:left; font-size:2.5rem">
@@ -105,6 +104,7 @@
                     <input
                       class="question-title-input el-input__inner"
                       style="d-flex; text-align:left; font-size:1.5rem"
+                      placeholder="새 문제"
                       type="text"
                       v-model="
                         categoryList[categoryIndex].questionList[questionIndex]
@@ -122,6 +122,7 @@
                         {{ choiceIndex + 1 }}.
                         <input
                           type="text"
+                          placeholder="새 문항"
                           class="el-input__inner"
                           v-model="
                             categoryList[categoryIndex].questionList[
@@ -141,10 +142,10 @@
                         <i class="el-icon-minus"></i>
                       </button>
                     </div>
-                    <div class="choice-add-button-div">
-                      <el-button
-                      type="success" plain circle
+                    <div class="choice-add-button-div ">
+                      <el-button 
                       icon="el-icon-plus"
+                      style="margin-left:2.3vw; width:65%;  font-size: 1rem;"
                         @click="addChoice(question.choiceList)"
                       >
                       </el-button>
@@ -190,11 +191,10 @@ export default {
       choiceList.splice(index, 1);
     },
     addChoice: function (choiceList) {
-      choiceList.push("새 항목");
+      choiceList.push("");
     },
     addQuestion: function (questionList) {
       let question = {
-        title: "새 문제",
         choiceList: [],
       };
       questionList.push(question);
@@ -245,43 +245,69 @@ export default {
       this.categoryList.splice(categoryIndex, 1);
     },
     endEditSurvey: function () {
-      this.questionList = [];
+      if(this.isValid()){
+        this.questionList = [];
 
-      this.categoryList.forEach((el) => {
-        this.categoryNameList.push(el.title);
+        this.categoryList.forEach((el) => {
+          this.categoryNameList.push(el.title);
 
-        el.questionList.forEach((question, index) => {
-          let content = "{ ";
+          el.questionList.forEach((question, index) => {
+            let content = "{ ";
 
-          question.choiceList.forEach((choice, index) => {
-            content += `"${index + 1}":"${choice}",`;
-            // content += '"' + index + '":' + choice + ",";
+            question.choiceList.forEach((choice, index) => {
+              content += `"${index + 1}":"${choice}",`;
+              // content += '"' + index + '":' + choice + ",";
+            });
+
+            content = content.slice(0, content.length - 1) + "}";
+
+            // console.log(content);
+
+            let questionInfo = {
+              title: question.title,
+              isEssential: false,
+              number: index + 1,
+              questionType: 201,
+              content: content,
+              categoryName: el.title,
+            };
+
+            this.questionList.push(JSON.stringify(questionInfo));
           });
-
-          content = content.slice(0, content.length - 1) + "}";
-
-          // console.log(content);
-
-          let questionInfo = {
-            title: question.title,
-            isEssential: false,
-            number: index + 1,
-            questionType: 201,
-            content: content,
-            categoryName: el.title,
-          };
-
-          this.questionList.push(JSON.stringify(questionInfo));
         });
-      });
 
-      this.setCategoryList(this.categoryNameList);
-      this.setQuestionList(this.questionList);
+        this.setCategoryList(this.categoryNameList);
+        this.setQuestionList(this.questionList);
 
-      this.$router.push({
-        name: `CreatePreview`,
-      });
+        this.$router.push({
+          name: `CreatePreview`,
+        });
+      }else{
+        this.$fire({
+          title: "응답 실패",
+          text: "카테고리 및 문제항목 입력은 필수입니다.",
+          type: "error",
+        });
+      }
     },
+    isValid(){
+      if(this.categoryList.length==0){
+        return false;
+      }else{
+        for(var i=0; i<this.categoryList.length; i++){
+          if(this.categoryList[i].questionList.length==0){
+            return false;
+          }else{
+            for(var j=0; j<this.categoryList[i].questionList.length; j++){
+              if(this.categoryList[i].questionList[j].choiceList.length==0){
+                return false;
+              }
+            }
+          }
+        }
+        return true;
+      }
+    }
   },
 };
 </script>
@@ -294,15 +320,6 @@ export default {
 .page-title-div-child > h1 {
   font-size: 4rem;
 }
-/* 
-#wrapper {
-  padding-left: 0;
-  -webkit-transition: all 0.5s ease;
-  -moz-transition: all 0.5s ease;
-  -o-transition: all 0.5s ease;
-  transition: all 0.5s ease;
-  overflow: hidden;
-} */
 
 .sidebar-nav {
   position: absolute;
@@ -474,6 +491,7 @@ export default {
 
 .next-button {
   margin-top: 10%;
+  margin-bottom: 4%;
   padding-top: 1%;
   padding-bottom: 1%;
   text-align: center;
@@ -490,6 +508,7 @@ export default {
 .sub-title-div-buttons {
   display: flex;
   align-items: center;
+  margin-top:2%;
 }
 
 .sub-title-div-buttons button {
@@ -699,9 +718,9 @@ button:hover {
 }
 
 .choice-add-button-div {
-  display: flex;
-  justify-content: right;
+  
   margin: 1%;
+  width: 100%;
 }
 
 .category-arrow {
