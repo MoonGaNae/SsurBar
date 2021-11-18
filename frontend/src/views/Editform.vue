@@ -18,7 +18,7 @@
         <div>
           <h3 style="font-size:2.5rem">
             설문 제목 :
-            <span>
+            <span style="background: linear-gradient(to top, rgb(255, 228, 0) 40%, transparent 40%);">
               {{ this.title }}
             </span>
           </h3>
