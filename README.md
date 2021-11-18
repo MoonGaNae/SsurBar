@@ -52,20 +52,20 @@
 
 <br><br>
 
-1. 설문 작성  
+#### 1. 설문 작성  
 ![KakaoTalk_Snapshot_20211118_153851](/uploads/d746086dd3455fdfcb47130e1a804de4/KakaoTalk_Snapshot_20211118_153851.png)
 - 익명성이 보장되고 응답에 제한이 없는 설문 생성  
 - 기본 템플릿 제공  
 - 지난 설문조사 템플릿 복사 기능 제공  
 
 
-2. 설문 결과 분석  
+#### 2. 설문 결과 분석  
 ![KakaoTalk_Snapshot_20211118_154007](/uploads/4bf551e43fd982063ca122ad93e4403d/KakaoTalk_Snapshot_20211118_154007.png)
 ![KakaoTalk_Snapshot_20211118_153934](/uploads/24d1912e1cae29c5be8b609ff8cb3436/KakaoTalk_Snapshot_20211118_153934.png)
 - 한눈에 들어오는 그래프  
 - 항목별 설문 결과 수치화  
 
-3. 동일 설문 비교  
+#### 3. 동일 설문 비교  
 ![비교1](/uploads/5eefdd0589a37b51baa4d3ecaefff35a/비교1.png)
 ![비교2](/uploads/8017e3a983c2f9064d1d4d756aa462da/비교2.png)
 - 그래프를 통한 비교  
