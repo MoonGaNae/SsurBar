@@ -4,32 +4,62 @@
       <div class="page-title-div-child">
         <h1>문항 편집</h1>
       </div>
-    </div>
-    <hr style="width: 90%; margin-top: 3%; margin-left: 5%" />
-    <button
-      @click="endEditSurvey()"
-      class="custom-btn btn-5"
-      style="margin-left: 86%; margin-top: 1%"
-    >
-      Next
-    </button>
-    <div class="container">
-      <div class="sub-title-div">
-        <div>
-          <h3 style="d-flex; text-align:left; font-size:2.5rem">
-            설문 제목 :
-            <span
-              style="
-                background: linear-gradient(
-                  to top,
-                  #ffe400 40%,
-                  transparent 40%
-                );
-              "
+      <hr style="width: 90%; margin-top: 3%; margin-left: 5%" />
+      <button
+        @click="endEditSurvey()"
+        class="custom-btn btn-5"
+        style="margin-left: 86%; margin-top: 1%"
+      >
+        <i class="fas fa-arrow-right"></i>
+      </button>
+      <div class="container">
+        <div class="sub-title-div">
+          <div>
+            <h3 style="d-flex; text-align:left; font-size:2.5rem">
+              설문 제목 :
+              <span
+                style="
+                  background: linear-gradient(
+                    to top,
+                    #ffe400 40%,
+                    transparent 40%
+                  );
+                "
+              >
+                {{ this.title }}
+              </span>
+            </h3>
+          </div>
+          <div class="sub-title-div-buttons">
+            <input
+              class="el-input__inner"
+              type="text"
+              v-model="categoryInput"
+              v-if="categoryInputState"
+            />
+            <button
+              @click="addCategory()"
+              v-if="categoryInputState"
+              class="custom-btn2 btn-5"
             >
-              {{ this.title }}
-            </span>
-          </h3>
+              추가
+            </button>
+            <button
+              v-if="categoryInputState"
+              @click="cancelCategoryAdd()"
+              class="custom-btn2 btn-1"
+              style="margin-left: 2%"
+            >
+              취소
+            </button>
+            <button
+              class="custom-btn2 btn-5"
+              @click="categoryInputState = true"
+              v-if="!categoryInputState"
+            >
+              카테고리 생성
+            </button>
+          </div>
         </div>
         <div class="sub-title-div-buttons">
           <input
