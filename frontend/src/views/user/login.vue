@@ -108,7 +108,7 @@ export default {
 }
 .buttonBox {
   margin-top: 20%;
-  margin-bottom: 10%;
+  margin-bottom: 3%;
   display: flex;
   justify-content: center;
 }
