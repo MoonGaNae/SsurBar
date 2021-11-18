@@ -11,7 +11,7 @@
       class="custom-btn btn-5"
       style="margin-left: 86%"
     >
-      <span>Next</span>
+      <span><i class="fas fa-arrow-right"></i></span>
     </button>
     <div class="container">
       <div class="sub-title-div">
@@ -39,7 +39,7 @@
             class="custom-btn2 btn-5"
             style="width: 100%; margin-right: -3%"
           >
-            입력 완료
+            생성
           </button>
           <button
             v-if="categoryInputState"

@@ -24,10 +24,10 @@
             style="margin-right: 4%"
             @click="moveCreateForm()"
           >
-            Create
+            생성
           </button>
           <button class="custom-btn2 btn-1" @click="moveTemplateDefault()">
-            Exit
+            뒤로가기
           </button>
         </div>
       </div>

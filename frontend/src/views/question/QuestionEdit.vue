@@ -13,7 +13,7 @@
         class="custom-btn btn-5"
         style="margin-left:86%;margin-top:1%"
       >
-        Next
+        <i class="fas fa-arrow-right"></i>
       </button>
       <div class="container">
         <div class="sub-title-div">
@@ -49,7 +49,7 @@
               @click="categoryInputState = true"
               v-if="!categoryInputState"
             >
-              Category
+              카테고리 생성
             </button>
           </div>
         </div>

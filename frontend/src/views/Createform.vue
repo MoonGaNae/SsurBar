@@ -12,7 +12,7 @@
       class="custom-btn btn-5"
       style="margin-left: 86%"
     >
-      <span>Next</span>
+      <span><i class="fas fa-arrow-right"></i></span>
     </button>
 
     <div class="container">
