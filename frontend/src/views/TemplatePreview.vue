@@ -1,81 +1,79 @@
 <template>
   <div id="wrapper">
-   
-      <div class="page-title-div"  style="padding-top: 9%; padding-left: 5%">
-        <div class="page-title-div-child">
-          <h1>설문서식 미리보기</h1>
+    <div class="page-title-div" style="padding-top: 9%; padding-left: 5%">
+      <div class="page-title-div-child">
+        <h1>설문서식 미리보기</h1>
+      </div>
+    </div>
+    <hr style="width: 90%; margin-top: 3%; margin-left: 5%" />
+    <!-- <hr style="width: 100%" /> -->
+    <div class="surveyForm" style="margin-left: 5%; margin-top: 2%">
+      <div class="survey-des-div">
+        <div class="survey-des">
+          <h1 class="title">{{ title }}</h1>
+          <p class="description">
+            {{ description }}
+          </p>
+        </div>
+        <div
+          class="button-div col-md-auto align-self-end"
+          style="margin-right: 5%; margin-bottom: 1%"
+        >
+          <button
+            class="custom-btn2 btn-5"
+            style="margin-right: 4%"
+            @click="moveCreateForm()"
+          >
+            Create
+          </button>
+          <button class="custom-btn2 btn-1" @click="moveTemplateDefault()">
+            Exit
+          </button>
         </div>
       </div>
-      <hr style="width: 90%; margin-top: 3%; margin-left: 5%" />
-      <!-- <hr style="width: 100%" /> -->
-      <div class="surveyForm"  style="margin-left:5%; margin-top: 2%">
-        <div class="survey-des-div" >
-          <div class="survey-des" >
-            <h1 class="title">{{ title }}</h1>
-            <p class="description">
-              {{ description }}
-            </p>
-          </div>
-          <div class="button-div col-md-auto align-self-end" style="margin-right: 5%; margin-bottom: 1%">
-            <button
-              class="custom-btn2 btn-5"
-              style="margin-right:4%"
-              @click="moveCreateForm()"
+
+      <div class="surveyContent">
+        <el-form ref="form" v-model="form" style="margin-right: 7%">
+          <el-collapse>
+            <el-collapse-item
+              v-for="(item, idx) in category"
+              :key="idx"
+              :title="item.categoryName"
             >
-              Create
-            </button>
-            <button
-              class="custom-btn2 btn-1"
-              @click="moveTemplateDefault()"
-            >
-              Exit
-            </button>
-          </div>
-        </div>
-        
-        <div class="surveyContent">
-          <el-form ref="form" v-model="form"  style="margin-right:7%">
-            <el-collapse>
-              <el-collapse-item
-                v-for="(item, idx) in category"
-                :key="idx"
-                :title="item.categoryName"
+              <div
+                class="surveytitle"
+                v-for="(question, questionIdx) in questions"
+                :key="questionIdx"
               >
-                <div
-                  class="surveytitle"
-                  v-for="(question, questionIdx) in questions"
-                  :key="questionIdx"
-                >
-                  <div v-if="item.categoryId == question.categoryId">
-                    Q. {{ question.title }}
-                    <br />
-                    <el-form-item>
-                      <el-radio-group v-model="form.questionRes[questionIdx]">
-                        <div
-                          class="surveytitle"
-                          v-for="(example, exampleIdx) in questionExample[
-                            questionIdx
-                          ].content"
-                          :key="exampleIdx"
-                        >
-                          <el-radio
-                            :label="example"
-                            style="display: block; margin-top: 1.5em"
-                          ></el-radio>
-                        </div>
-                      </el-radio-group>
-                    </el-form-item>
-                  </div>
+                <div v-if="item.categoryId == question.categoryId">
+                  Q. {{ question.title }}
+                  <br />
+                  <el-form-item>
+                    <el-radio-group v-model="form.questionRes[questionIdx]">
+                      <div
+                        class="surveytitle"
+                        v-for="(example, exampleIdx) in questionExample[
+                          questionIdx
+                        ].content"
+                        :key="exampleIdx"
+                      >
+                        <el-radio
+                          :label="example"
+                          style="display: block; margin-top: 1.5em"
+                        ></el-radio>
+                      </div>
+                    </el-radio-group>
+                  </el-form-item>
                 </div>
-              </el-collapse-item>
-            </el-collapse>
-          </el-form>
-        </div>
-        <div style="text-align: center; margin-left:-15%">
-          <img class="logo" src="@/assets/biglogo1.png" />
-        </div>
+              </div>
+            </el-collapse-item>
+          </el-collapse>
+        </el-form>
       </div>
-    
+      <div style="text-align: center; margin-left: -15%">
+        <img class="logo" src="@/assets/biglogo1.png" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -274,6 +272,7 @@ export default {
 }
 .logo {
   margin-top: 3em;
+  margin-bottom: 3vh;
 }
 .button .el-button {
   background-color: orange;
@@ -299,7 +298,6 @@ export default {
   min-width: 10vw;
   justify-content: flex-end;
 }
-
 
 .page-title-div {
   display: flex;
