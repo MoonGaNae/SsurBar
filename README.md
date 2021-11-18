@@ -3,7 +3,7 @@
 강현구 문성욱 조현민 최혜원  
 
 
-![image](/uploads/b8b0636ef2004a361e8a9de3af7c1f66/image.png)
+![SSURBAR](/uploads/13263a163823599e64e2287afd315635/SSURBAR.png)
 
 ## 📌URL : [SSURBAR 바로가기](http://k5f001.p.ssafy.io/login)
 
