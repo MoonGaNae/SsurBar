@@ -32,23 +32,24 @@
             <button
               @click="addCategory()"
               v-if="categoryInputState"
-              class="rounded-corner-button white-button category-input-btn"
+              class="custom-btn2 btn-5"
             >
               추가
             </button>
             <button
               v-if="categoryInputState"
               @click="cancelCategoryAdd()"
-              class="rounded-corner-button white-button category-cancel-btn"
+              class="custom-btn2 btn-1"
+              style="margin-left:2%"
             >
               취소
             </button>
             <button
-              class="rounded-corner-button white-button category-add-btn"
+              class="custom-btn2 btn-5"
               @click="categoryInputState = true"
               v-if="!categoryInputState"
             >
-              category
+              Category
             </button>
           </div>
         </div>
@@ -509,6 +510,8 @@ export default {
   display: flex;
   align-items: center;
   margin-top:2%;
+  width: 30%;
+  height: 120%;
 }
 
 .sub-title-div-buttons button {
@@ -752,4 +755,99 @@ button:hover {
 .category-delete-div button {
   width: 100%;
 }
+
+
+.custom-btn2 {
+  width: 100px;
+  height: 30px;
+  color: #fff;
+  border-radius: 50px;
+  padding: 5px 2px;
+  font-family: "Lato", sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+  box-shadow: inset 1px 1px 1px 0px rgba(255, 255, 255, 0.5);
+    /* inset -7px -7px 10px 0px rgba(0, 0, 0, 0.1), */
+    /* 7px 7px 20px 0px rgba(0, 0, 0, 0.1), 4px 4px 5px 0px rgba(0, 0, 0, 0.1); */
+  text-shadow: 2px 2px 3px rgba(255, 255, 255, 0.5),
+    -4px -4px 6px rgba(116, 125, 136, 0.2);
+  outline: none;
+}
+
+.btn-5 {
+  border: none;
+  color: white;
+  background-color: #e39a52;
+}
+.btn-5:hover {
+  color: black;
+  background: transparent;
+  box-shadow: none;
+}
+.btn-5:before,
+.btn-5:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 2px;
+  width: 0;
+  background: #e39a52;
+  box-shadow: -1px -1px 5px 0px #fff, 7px 7px 20px 0px #0003,
+    4px 4px 5px 0px #0002;
+  transition: 400ms ease all;
+}
+.btn-5:after {
+  right: inherit;
+  top: inherit;
+  left: 0;
+  bottom: 0;
+}
+.btn-5:hover:before,
+.btn-5:hover:after {
+  width: 100%;
+  transition: 800ms ease all;
+}
+
+
+.btn-1 {
+  border: none;
+  color: white;
+  background-color: #c73030;
+}
+.btn-1:hover {
+  color: black;
+  background: transparent;
+  box-shadow: none;
+}
+.btn-1:before,
+.btn-1:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 2px;
+  width: 0;
+  background: #c73030;
+  box-shadow: -1px -1px 5px 0px #fff, 7px 7px 20px 0px #0003,
+    4px 4px 5px 0px #0002;
+  transition: 400ms ease all;
+}
+.btn-1:after {
+  right: inherit;
+  top: inherit;
+  left: 0;
+  bottom: 0;
+}
+.btn-1:hover:before,
+.btn-1:hover:after {
+  width: 100%;
+  transition: 800ms ease all;
+}
+
 </style>
