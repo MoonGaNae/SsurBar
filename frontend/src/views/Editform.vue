@@ -106,7 +106,7 @@
 
                   <div
                     @click="deleteCategory(categoryIndex)"
-                    style="marign-left:10%"
+                    style="marign-left: 10%"
                   >
                     <i class="el-icon-close"></i>
                   </div>
@@ -204,16 +204,12 @@ export default {
       selectedCategoryIdx: null,
       categoryList: [
         {
-          title: "직무",
-          choiceList: ["개발팀", "영업팀", "보안팀"],
-        },
-        {
           title: "성별",
           choiceList: ["여성", "남성"],
         },
         {
           title: "나이대",
-          choiceList: ["20대", "30대", "40대", "50대"],
+          choiceList: ["20대", "30대", "40대", "50대 이상"],
         },
       ],
     };
