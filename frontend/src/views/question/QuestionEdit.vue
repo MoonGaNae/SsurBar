@@ -1,171 +1,184 @@
 <template>
-  
-    <div>
-      
-      <div class="page-title-div" style="padding-top:9%; padding-left:5%">
-        <div class="page-title-div-child">
-          <h1>문항 편집</h1>
+  <div>
+    <div class="page-title-div" style="padding-top: 9%; padding-left: 5%">
+      <div class="page-title-div-child">
+        <h1>문항 편집</h1>
+      </div>
+    </div>
+    <hr style="width: 90%; margin-top: 3%; margin-left: 5%" />
+    <button
+      @click="endEditSurvey()"
+      class="custom-btn btn-5"
+      style="margin-left: 86%; margin-top: 1%"
+    >
+      Next
+    </button>
+    <div class="container">
+      <div class="sub-title-div">
+        <div>
+          <h3 style="d-flex; text-align:left; font-size:2.5rem">
+            설문 제목 :
+            <span
+              style="
+                background: linear-gradient(
+                  to top,
+                  #ffe400 40%,
+                  transparent 40%
+                );
+              "
+            >
+              {{ this.title }}
+            </span>
+          </h3>
+        </div>
+        <div class="sub-title-div-buttons">
+          <input
+            class="el-input__inner"
+            type="text"
+            v-model="categoryInput"
+            v-if="categoryInputState"
+          />
+          <button
+            @click="addCategory()"
+            v-if="categoryInputState"
+            class="custom-btn2 btn-5"
+          >
+            추가
+          </button>
+          <button
+            v-if="categoryInputState"
+            @click="cancelCategoryAdd()"
+            class="custom-btn2 btn-1"
+            style="margin-left: 2%"
+          >
+            취소
+          </button>
+          <button
+            class="custom-btn2 btn-5"
+            @click="categoryInputState = true"
+            v-if="!categoryInputState"
+          >
+            Category
+          </button>
         </div>
       </div>
-      <hr style="width: 90%; margin-top:3%; margin-left:5%;" />  
-      <button
-        @click="endEditSurvey()"
-        class="custom-btn btn-5"
-        style="margin-left:86%;margin-top:1%"
-      >
-        Next
-      </button>
-      <div class="container">
-        <div class="sub-title-div">
-          <div>
-            <h3 style="d-flex; text-align:left; font-size:2.5rem">
-              설문 제목 : <span style="background: linear-gradient(to top, #ffe400 40%, transparent 40%);"> {{this.title}} </span>
-            </h3>
-          </div>
-          <div class="sub-title-div-buttons">
-            <input
-              class="el-input__inner"
-              type="text"
-              v-model="categoryInput"
-              v-if="categoryInputState"
-            />
-            <button
-              @click="addCategory()"
-              v-if="categoryInputState"
-              class="custom-btn2 btn-5"
-            >
-              추가
-            </button>
-            <button
-              v-if="categoryInputState"
-              @click="cancelCategoryAdd()"
-              class="custom-btn2 btn-1"
-              style="margin-left:2%"
-            >
-              취소
-            </button>
-            <button
-              class="custom-btn2 btn-5"
-              @click="categoryInputState = true"
-              v-if="!categoryInputState"
-            >
-              Category
-            </button>
-          </div>
-        </div>
-        <div class="category-warning" v-text="categoryInputWarning"></div>
+      <div class="category-warning" v-text="categoryInputWarning"></div>
 
-        <div class="category-list">
-          <div
-            class="category-div"
-            v-for="(category, categoryIndex) in categoryList"
-            :key="categoryIndex"
-          >
-            <div class="category" :id="'category' + categoryIndex">
-              <div class="category-title-div" @click="clickCategory(category)">
-                <div class="category-title">
-                  <div style="d-flex; text-align:left; margin-left:3%; font-size:2rem">
-                    카테고리명: {{ category.title }}
-                  </div>
-                  <div class="category-arrow">
-                    <i v-if="category.isSelected" class="el-icon-arrow-down"></i>
-                    <i v-else class="el-icon-arrow-left"></i>
-                  </div>
+      <div class="category-list">
+        <div
+          class="category-div"
+          v-for="(category, categoryIndex) in categoryList"
+          :key="categoryIndex"
+        >
+          <div class="category" :id="'category' + categoryIndex">
+            <div class="category-title-div" @click="clickCategory(category)">
+              <div class="category-title">
+                <div
+                  style="d-flex; text-align:left; margin-left:3%; font-size:2rem"
+                >
+                  카테고리명: {{ category.title }}
                 </div>
-                <div class="category-delete-div">
-                  <el-button
-                    type="danger"
-                    @click="deleteCategory(categoryIndex)"
-                    icon="el-icon-delete" circle
-                  >
-                    
-                  </el-button>
+                <div class="category-arrow">
+                  <i v-if="category.isSelected" class="el-icon-arrow-down"></i>
+                  <i v-else class="el-icon-arrow-left"></i>
                 </div>
               </div>
-              <div class="question-list" v-if="category.isSelected">
-                <div
-                  class="question el-card box-card is-always-shadow"
-                  v-for="(question, questionIndex) in category.questionList"
-                  :key="questionIndex"
+              <div class="category-delete-div">
+                <el-button
+                  type="danger"
+                  @click="deleteCategory(categoryIndex)"
+                  icon="el-icon-delete"
+                  circle
                 >
-                  <div class="question-delete-btn-div">
-                    <el-button circle
-                      icon="el-icon-close"
-                      @click="
-                        deleteQuestion(category.questionList, questionIndex)
+                </el-button>
+              </div>
+            </div>
+            <div class="question-list" v-if="category.isSelected">
+              <div
+                class="question el-card box-card is-always-shadow"
+                v-for="(question, questionIndex) in category.questionList"
+                :key="questionIndex"
+              >
+                <div class="question-delete-btn-div">
+                  <el-button
+                    circle
+                    icon="el-icon-close"
+                    @click="
+                      deleteQuestion(category.questionList, questionIndex)
+                    "
+                  >
+                  </el-button>
+                </div>
+                <h4
+                  class="question-title"
+                  style="d-flex; text-align:left; font-size:2rem"
+                >
+                  <div class="question-q">Q{{ questionIndex + 1 }}.</div>
+                  <input
+                    class="question-title-input el-input__inner"
+                    style="d-flex; text-align:left; font-size:1.5rem"
+                    placeholder="새 문제"
+                    type="text"
+                    v-model="
+                      categoryList[categoryIndex].questionList[questionIndex]
+                        .title
+                    "
+                  />
+                </h4>
+                <div class="answer-choices-list">
+                  <div
+                    class="choice"
+                    v-for="(choice, choiceIndex) in question.choiceList"
+                    :key="choiceIndex"
+                  >
+                    <!-- <div> -->
+                    <div class="choice-number">{{ choiceIndex + 1 }}.</div>
+                    <input
+                      type="text"
+                      placeholder="새 문항"
+                      class="el-input__inner"
+                      v-model="
+                        categoryList[categoryIndex].questionList[questionIndex]
+                          .choiceList[choiceIndex]
                       "
+                    />
+                    <!-- </div> -->
+                    <button
+                      class="
+                        el-button el-button--danger
+                        is-circle
+                        el-button--mini
+                      "
+                      @click="deleteChoice(question.choiceList, choiceIndex)"
+                    >
+                      <i class="el-icon-minus"></i>
+                    </button>
+                  </div>
+                  <div class="choice-add-button-div">
+                    <el-button
+                      class="choice-add-btn"
+                      icon="el-icon-plus"
+                      style="width: 100%; font-size: 1rem"
+                      @click="addChoice(question.choiceList)"
                     >
                     </el-button>
                   </div>
-                  <h4
-                    class="question-title"
-                    style="d-flex; text-align:left; font-size:2rem"
-                  >
-                    Q{{ questionIndex + 1 }}.
-                    <input
-                      class="question-title-input el-input__inner"
-                      style="d-flex; text-align:left; font-size:1.5rem"
-                      placeholder="새 문제"
-                      type="text"
-                      v-model="
-                        categoryList[categoryIndex].questionList[questionIndex]
-                          .title
-                      "
-                    />
-                  </h4>
-                  <div class="answer-choices-list">
-                    <div
-                      class="choice"
-                      v-for="(choice, choiceIndex) in question.choiceList"
-                      :key="choiceIndex"
-                    >
-                      <div>
-                        {{ choiceIndex + 1 }}.
-                        <input
-                          type="text"
-                          placeholder="새 문항"
-                          class="el-input__inner"
-                          v-model="
-                            categoryList[categoryIndex].questionList[
-                              questionIndex
-                            ].choiceList[choiceIndex]
-                          "
-                        />
-                      </div>
-                      <button
-                        class="
-                          el-button el-button--danger
-                          is-circle
-                          el-button--mini
-                        "
-                        @click="deleteChoice(question.choiceList, choiceIndex)"
-                      >
-                        <i class="el-icon-minus"></i>
-                      </button>
-                    </div>
-                    <div class="choice-add-button-div ">
-                      <el-button 
-                      icon="el-icon-plus"
-                      style="margin-left:2.3vw; width:65%;  font-size: 1rem;"
-                        @click="addChoice(question.choiceList)"
-                      >
-                      </el-button>
-                    </div>
-                  </div>
                 </div>
-                <el-button type="success" plain
-                  icon="el-icon-document-add"
-                  @click="addQuestion(category.questionList)"
-                >
-                  문제 추가
-                </el-button>
               </div>
+              <el-button
+                type="success"
+                plain
+                icon="el-icon-document-add"
+                @click="addQuestion(category.questionList)"
+              >
+                문제 추가
+              </el-button>
             </div>
           </div>
         </div>
       </div>
     </div>
- 
+  </div>
 </template>
 
 <script>
@@ -246,7 +259,7 @@ export default {
       this.categoryList.splice(categoryIndex, 1);
     },
     endEditSurvey: function () {
-      if(this.isValid()){
+      if (this.isValid()) {
         this.questionList = [];
 
         this.categoryList.forEach((el) => {
@@ -283,7 +296,7 @@ export default {
         this.$router.push({
           name: `CreatePreview`,
         });
-      }else{
+      } else {
         this.$fire({
           title: "응답 실패",
           text: "카테고리 및 문제항목 입력은 필수입니다.",
@@ -291,16 +304,16 @@ export default {
         });
       }
     },
-    isValid(){
-      if(this.categoryList.length==0){
+    isValid() {
+      if (this.categoryList.length == 0) {
         return false;
-      }else{
-        for(var i=0; i<this.categoryList.length; i++){
-          if(this.categoryList[i].questionList.length==0){
+      } else {
+        for (var i = 0; i < this.categoryList.length; i++) {
+          if (this.categoryList[i].questionList.length == 0) {
             return false;
-          }else{
-            for(var j=0; j<this.categoryList[i].questionList.length; j++){
-              if(this.categoryList[i].questionList[j].choiceList.length==0){
+          } else {
+            for (var j = 0; j < this.categoryList[i].questionList.length; j++) {
+              if (this.categoryList[i].questionList[j].choiceList.length == 0) {
                 return false;
               }
             }
@@ -308,7 +321,7 @@ export default {
         }
         return true;
       }
-    }
+    },
   },
 };
 </script>
@@ -482,7 +495,6 @@ export default {
   height: 15vh;
 }
 
-
 /* .page-title-div h1 {
   display: flex;
   justify-content: space-between;
@@ -509,7 +521,7 @@ export default {
 .sub-title-div-buttons {
   display: flex;
   align-items: center;
-  margin-top:2%;
+  margin-top: 2%;
   width: 30%;
   height: 120%;
 }
@@ -545,13 +557,14 @@ export default {
   padding-right: 0;
 }
 
-.question-list div{
+.question-list div {
   border-radius: 12px;
 }
 .question-title {
   display: flex;
   align-items: center;
   margin: 0;
+  margin-bottom: 2vh;
 }
 
 .question-title input {
@@ -568,13 +581,16 @@ export default {
 
 .choice {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
-  margin: 2%;
+  margin-bottom: 1vh;
+  /* margin: 2%; */
+  /* padding-left: 10%; */
 }
 
 .question-title {
-  margin-left: 1%;
+  padding-left: 3%;
+  padding-right: 3%;
 }
 
 .yellow-button {
@@ -605,6 +621,11 @@ export default {
   border-color: #ffa724;
   color: white; */
   filter: brightness(90%);
+}
+
+.answer-choices-list {
+  padding-left: 3%;
+  padding-right: 3%;
 }
 
 .red-button {
@@ -659,12 +680,12 @@ export default {
   align-items: center;
   border-radius: 50px;
   background-color: rgb(50, 50, 168);
-  color:white;
+  color: white;
   /* background: linear-gradient(to left,rgb(144, 114, 179), rgb(120, 134, 170)); */
 }
 
 .category-title:hover {
-  background: linear-gradient(to left,rgb(128, 150, 248),rgb(55, 72, 116)); 
+  background: linear-gradient(to left, rgb(128, 150, 248), rgb(55, 72, 116));
   /* filter: brightness(90%); */
 }
 
@@ -707,7 +728,11 @@ button:hover {
 }
 
 .question-title-input {
-  width: 70%;
+  width: 84% !important;
+}
+
+.question-q {
+  width: 10%;
 }
 
 .choice div {
@@ -721,8 +746,15 @@ button:hover {
 }
 
 .choice-add-button-div {
-  
-  margin: 1%;
+  margin-bottom: 4vh;
+}
+
+.choice-add-button-div > button {
+  margin-left: 14%;
+  width: 80% !important;
+}
+
+.choice-add-btn {
   width: 100%;
 }
 
@@ -755,7 +787,6 @@ button:hover {
 .category-delete-div button {
   width: 100%;
 }
-
 
 .custom-btn2 {
   width: 100px;
@@ -814,7 +845,6 @@ button:hover {
   transition: 800ms ease all;
 }
 
-
 .btn-1 {
   border: none;
   color: white;
@@ -850,4 +880,22 @@ button:hover {
   transition: 800ms ease all;
 }
 
+.choice-number {
+  width: 12% !important;
+  justify-content: right;
+  /* margin-right: 2%; */
+}
+/* 
+.choice > div {
+  width: 100%;
+} */
+
+.choice > input {
+  margin-left: 2%;
+  width: 80%;
+}
+
+.choice > button {
+  margin-left: 2%;
+}
 </style>
