@@ -16,17 +16,9 @@
     <div class="container">
       <div class="sub-title-div">
         <div>
-          <h3 style="d-flex; text-align:left; font-size:2.5rem">
+          <h3 style="font-size:2.5rem">
             설문 제목 :
-            <span
-              style="
-                background: linear-gradient(
-                  to top,
-                  #ffe400 40%,
-                  transparent 40%
-                );
-              "
-            >
+            <span>
               {{ this.title }}
             </span>
           </h3>

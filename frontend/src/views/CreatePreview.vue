@@ -10,11 +10,16 @@
 
       <div class="surveyForm">
         <div class="survey-des-div">
-          <div class="survey-des">
-            <h1 class="title">{{ getTitle() }}</h1>
-            <p class="description">
+          <div class="survey-des" style="margin-bottom:1%">
+            <h1 class="title">설문 제목:
+              <span style="background: linear-gradient(to top, rgb(255, 228, 0) 40%, transparent 40%);">
+                {{ getTitle() }}
+              </span>
+            </h1>
+              
+            <!-- <p class="description">
               {{ getDescription() }}
-            </p>
+            </p> -->
           </div>
           <div class="button-div col-md-auto align-self-end">
             <button class="custom-btn1 btn-5" @click="moveCreateForm()">
@@ -26,7 +31,7 @@
           </div>
         </div>
 
-        <div class="surveyContent">
+        <div class="surveyContent" style="margin-top:3%">
           <el-form ref="form">
             <el-collapse>
               <el-collapse-item title="Filters" name="1">
@@ -269,6 +274,8 @@ button {
 .survey-des-div {
   display: flex;
   justify-content: space-between;
+  margin-top:3%
+  
 }
 
 .page-title-div {
