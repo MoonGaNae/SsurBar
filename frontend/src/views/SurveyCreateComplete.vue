@@ -122,7 +122,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 20%;
+
 }
 
 .result-link-div {
@@ -185,10 +185,10 @@ export default {
 
 .custom-btn2 {
   width: 60px;
-  height: 26px;
+  height: 30px;
   color: #fff;
   border-radius: 50px;
-  padding-bottom:2.4%;
+  padding: 5px 2px;
   margin-left: 2%;
   font-family: "Lato", sans-serif;
   font-weight: 500;
@@ -196,8 +196,7 @@ export default {
   background: transparent;
   cursor: pointer;
   transition: all 0.3s ease;
-  position: relative;
-  display: inline-block;
+
   box-shadow: inset 1px 1px 1px 0px rgba(255, 255, 255, 0.5),
     inset -7px -7px 10px 0px rgba(0, 0, 0, 0.1),
     7px 7px 20px 0px rgba(0, 0, 0, 0.1), 4px 4px 5px 0px rgba(0, 0, 0, 0.1);
