@@ -79,7 +79,9 @@
         >
           <div
             class="question-div el-card is-always-shadow"
-            v-for="(questionData, questionDataIdx) in answerData.questionDataList"
+            v-for="(
+              questionData, questionDataIdx
+            ) in answerData.questionDataList"
             :key="questionDataIdx"
           >
             <div>
@@ -88,7 +90,9 @@
             </div>
             <div
               class="progress-div"
-              v-for="(questionAnswer, questionAnswerIdx) in questionData.questionAnswerDtoList"
+              v-for="(
+                questionAnswer, questionAnswerIdx
+              ) in questionData.questionAnswerDtoList"
               :key="questionAnswerIdx"
             >
               <div class="progress-bar-base">
@@ -174,13 +178,20 @@ export default {
       "setBarLabels",
       "setIsLoading",
     ]),
-    ...mapGetters("analysis", ["getAnswerDataList", "getRadarLabels", "getRadarDataSets"]),
+    ...mapGetters("analysis", [
+      "getAnswerDataList",
+      "getRadarLabels",
+      "getRadarDataSets",
+    ]),
     makeChart() {
       /* 방사형 그래프 데이터 처리 */
       let averageDataList = [];
       let dataLabels = [];
 
-      if (this.getAnswerDataList() == null || this.getAnswerDataList().length == 0) {
+      if (
+        this.getAnswerDataList() == null ||
+        this.getAnswerDataList().length == 0
+      ) {
         this.isAnswerEmpty = true;
         return;
       }
@@ -239,7 +250,9 @@ export default {
         let r = 156;
         let g = 187;
         let b = 255;
-        backgroundColorList.push(`rgba(${r + i * 10},${g - i * 20},${b - i * 20},0.6)`);
+        backgroundColorList.push(
+          `rgba(${r + i * 10},${g - i * 20},${b - i * 20},0.6)`
+        );
       }
 
       this.getAnswerDataList().forEach((category, idx) => {
@@ -332,8 +345,8 @@ export default {
   display: flex;
   width: 100%;
   height: 90%;
-  padding: 3%;
-  padding-top: 0px;
+  padding-bottom: 3%;
+  padding-top: 3%;
   justify-content: center;
   align-items: center;
   /* overflow: scroll; */
@@ -398,7 +411,7 @@ export default {
   padding-left: 2%;
   margin-top: 3%;
   margin-bottom: 2%;
-  height: 70vh;
+  min-height: 70vh;
 }
 
 .data-title-div {
