@@ -21,7 +21,10 @@
         <div class="chart-title">
           <h2><i class="fas fa-poll"></i> 문항별 데이터</h2>
         </div>
-        <div class="bar-chart-div-parent" :class="{ 'bar-chart-div-parent-center': isFlexCenter }">
+        <div
+          class="bar-chart-div-parent"
+          :class="{ 'bar-chart-div-parent-center': isFlexCenter }"
+        >
           <div class="bar-chart-div">
             <BarChart :style="{ width: `100%` }" />
           </div>
@@ -53,7 +56,9 @@
             </li>
           </ul>
         </div>
-        <h3 class="summary-title none-border"><i class="far fa-thumbs-down"></i> 약점</h3>
+        <h3 class="summary-title none-border">
+          <i class="far fa-thumbs-down"></i> 약점
+        </h3>
         <div class="data-div">
           <div class="data-title">최저 평균</div>
           <ul class="data-ul">
@@ -78,7 +83,9 @@
             </li>
           </ul>
         </div>
-        <h3 class="summary-title"><i class="far fa-list-alt"></i> 문항별 응답</h3>
+        <h3 class="summary-title">
+          <i class="far fa-list-alt"></i> 문항별 응답
+        </h3>
         <el-collapse class="category-list">
           <el-collapse-item
             v-for="(answerData, answerDataIdx) in answerDataList"
@@ -88,7 +95,9 @@
           >
             <div
               class="question-div el-card is-always-shadow"
-              v-for="(questionData, questionDataIdx) in answerData.questionDataList"
+              v-for="(
+                questionData, questionDataIdx
+              ) in answerData.questionDataList"
               :key="questionDataIdx"
             >
               <div>
@@ -97,14 +106,21 @@
               </div>
               <div
                 class="progress-div"
-                v-for="(questionAnswer, questionAnswerIdx) in questionData.questionAnswerDtoList"
+                v-for="(
+                  questionAnswer, questionAnswerIdx
+                ) in questionData.questionAnswerDtoList"
                 :key="questionAnswerIdx"
               >
                 <div class="progress-bar-base">
                   <div
+                    v-if="questionAnswer.percentage != 0"
                     class="progress-bar-color"
                     :style="{ width: questionAnswer.percentage + '%' }"
                   >
+                    <div>{{ questionAnswer.sentence }}</div>
+                    <div>{{ questionAnswer.percentage }} %</div>
+                  </div>
+                  <div v-else class="zero-percent-bar">
                     <div>{{ questionAnswer.sentence }}</div>
                     <div>{{ questionAnswer.percentage }} %</div>
                   </div>
@@ -194,7 +210,11 @@ export default {
       "setBarDataSets",
       "setBarLabels",
     ]),
-    ...mapGetters("analysis", ["getAnswerDataList", "getRadarLabels", "getRadarDataSets"]),
+    ...mapGetters("analysis", [
+      "getAnswerDataList",
+      "getRadarLabels",
+      "getRadarDataSets",
+    ]),
     makeChart() {
       /* 방사형 그래프 데이터 처리 */
       let averageDataList = [];
@@ -202,7 +222,10 @@ export default {
 
       console.log(this.getAnswerDataList().length);
 
-      if (this.getAnswerDataList() == null || this.getAnswerDataList().length == 0) {
+      if (
+        this.getAnswerDataList() == null ||
+        this.getAnswerDataList().length == 0
+      ) {
         this.isAnswerEmpty = true;
 
         return;
@@ -262,7 +285,9 @@ export default {
         let r = 156;
         let g = 187;
         let b = 255;
-        backgroundColorList.push(`rgba(${r + i * 10},${g - i * 20},${b - i * 20},0.6)`);
+        backgroundColorList.push(
+          `rgba(${r + i * 10},${g - i * 20},${b - i * 20},0.6)`
+        );
       }
 
       this.getAnswerDataList().forEach((category, idx) => {
@@ -624,6 +649,14 @@ export default {
 }
 .team-name {
   margin-bottom: 1vh;
+}
+
+.zero-percent-bar {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 1vh;
+  padding-right: 1vh;
+  color: white;
 }
 
 .survey-description {

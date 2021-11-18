@@ -3,25 +3,40 @@
     <div class="main-container">
       <div id="tab-div">
         <ul class="tabs">
-          <li class="tab" :class="{ selectedTab: selectedTabNum == 0 }" @click="changeTab(0)">
+          <li
+            class="tab"
+            :class="{ selectedTab: selectedTabNum == 0 }"
+            @click="changeTab(0)"
+          >
             분석
           </li>
-          <li class="tab" :class="{ selectedTab: selectedTabNum == 1 }" @click="changeTab(1)">
+          <li
+            class="tab"
+            :class="{ selectedTab: selectedTabNum == 1 }"
+            @click="changeTab(1)"
+          >
             비교
           </li>
-          <li class="tab" :class="{ selectedTab: selectedTabNum == 2 }" @click="changeTab(2)">
+          <li
+            class="tab"
+            :class="{ selectedTab: selectedTabNum == 2 }"
+            @click="changeTab(2)"
+          >
             배포
           </li>
-          <li class="tab" :class="{ selectedTab: selectedTabNum == 3 }" @click="changeTab(3)">
+          <!-- <li class="tab" :class="{ selectedTab: selectedTabNum == 3 }" @click="changeTab(3)">
             결과
-          </li>
+          </li> -->
           <li @click="exportExcel">
             <i class="fas fa-file-excel fa-lg"></i>
           </li>
         </ul>
       </div>
       <div class="detail-container">
-        <div class="filter-container el-card is-always-shadow" v-if="!checkFullContent">
+        <div
+          class="filter-container el-card is-always-shadow"
+          v-if="!checkFullContent"
+        >
           <div class="filter-title-div" @click="clickFilterOpen()">
             <div class="name-text"><i class="fas fa-filter"></i> 필터</div>
             <i v-if="isFilterOpened" class="el-icon-arrow-down"></i>
@@ -29,7 +44,11 @@
           </div>
           <div v-if="isFilterOpened" class="filter-main-div">
             <div class="filter-list">
-              <div class="filter-div" v-for="(filter, filterIdx) in filterList" :key="filterIdx">
+              <div
+                class="filter-div"
+                v-for="(filter, filterIdx) in filterList"
+                :key="filterIdx"
+              >
                 <div class="filter el-card is-always-shadow">
                   <div class="filter-title" @click="clickFilterDiv(filterIdx)">
                     {{ filter.name }}
@@ -38,7 +57,10 @@
                     <i v-else class="el-icon-arrow-right"></i>
                   </div>
                   <div class="filter-content" v-if="filter.isSelected">
-                    <div v-for="(filterName, nameIdx) in filter.filterNames" :key="nameIdx">
+                    <div
+                      v-for="(filterName, nameIdx) in filter.filterNames"
+                      :key="nameIdx"
+                    >
                       <label class="filter-label" :for="filter + filterName">{{
                         filterName
                       }}</label>
@@ -55,11 +77,16 @@
             </div>
 
             <div class="button-div">
-              <button @click="applyFilter()" class="custom-btn2 btn-6">적용하기</button>
+              <button @click="applyFilter()" class="custom-btn2 btn-6">
+                적용하기
+              </button>
             </div>
           </div>
         </div>
-        <div class="content-container" :class="{ isFullContent: checkFullContent }">
+        <div
+          class="content-container"
+          :class="{ isFullContent: checkFullContent }"
+        >
           <div
             class="component-container el-card is-always-shadow"
             :class="{ isFullContent: checkFullContent }"
@@ -89,7 +116,9 @@
               ]"
               @click="clickFeedbackDiv()"
             >
-              <div class="feedback-name-text"><i class="far fa-comments"></i> 피드백</div>
+              <div class="feedback-name-text">
+                <i class="far fa-comments"></i> 피드백
+              </div>
               <i v-if="isFeedbackOpened" class="el-icon-arrow-down"></i>
               <i v-else class="el-icon-arrow-right"></i>
             </div>
@@ -111,7 +140,11 @@
                 ></textarea>
               </div>
               <div class="feedback-button-div">
-                <button @click="clickEditButton" v-if="!isEditState" class="custom-btn2 btn-6">
+                <button
+                  @click="clickEditButton"
+                  v-if="!isEditState"
+                  class="custom-btn2 btn-6"
+                >
                   수정</button
                 ><button
                   @click="clickEditSubmitButton"
@@ -120,7 +153,11 @@
                 >
                   완료
                 </button>
-                <button @click="clickEditCancelButton" v-if="isEditState" class="custom-btn1 btn-5">
+                <button
+                  @click="clickEditCancelButton"
+                  v-if="isEditState"
+                  class="custom-btn1 btn-5"
+                >
                   취소
                 </button>
               </div>
@@ -178,7 +215,8 @@ export default {
       this.setAnswerData(searchData);
     },
     clickFilterDiv(filterIdx) {
-      this.filterList[filterIdx].isSelected = !this.filterList[filterIdx].isSelected;
+      this.filterList[filterIdx].isSelected =
+        !this.filterList[filterIdx].isSelected;
     },
     clickFeedbackDiv() {
       this.isFeedbackOpened = !this.isFeedbackOpened;
