@@ -25,7 +25,7 @@
               Create
             </button>
             <button
-              class="custom-btn2 btn-5"
+              class="custom-btn2 btn-1"
               @click="moveTemplateDefault()"
             >
               Exit
@@ -367,5 +367,38 @@ export default {
   width: 100%;
   transition: 800ms ease all;
 }
-
+.btn-1 {
+  border: none;
+  color: white;
+  background-color: #c73030;
+}
+.btn-1:hover {
+  color: black;
+  background: transparent;
+  box-shadow: none;
+}
+.btn-1:before,
+.btn-1:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 2px;
+  width: 0;
+  background: #c73030;
+  box-shadow: -1px -1px 5px 0px #fff, 7px 7px 20px 0px #0003,
+    4px 4px 5px 0px #0002;
+  transition: 400ms ease all;
+}
+.btn-1:after {
+  right: inherit;
+  top: inherit;
+  left: 0;
+  bottom: 0;
+}
+.btn-1:hover:before,
+.btn-1:hover:after {
+  width: 100%;
+  transition: 800ms ease all;
+}
 </style>
