@@ -289,7 +289,7 @@ export default {
       if (this.curCreateType == this.surveyCreateType.NEW) {
         this.$router.push({ path: "/question/questionedit" });
       } else {
-        this.$router.push({ path: "/test" });
+        this.$router.push({ path: "/survey/preview" });
       }
     },
   },
