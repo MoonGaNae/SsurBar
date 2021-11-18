@@ -1,38 +1,40 @@
 <template>
   <div id="wrapper">
-    <div class="main-container">
-      <div class="page-title-div row justify-content-md-center">
-        <div class="page-title-div">
+   
+      <div class="page-title-div"  style="padding-top: 9%; padding-left: 5%">
+        <div class="page-title-div-child">
           <h1>설문서식 미리보기</h1>
         </div>
       </div>
+      <hr style="width: 90%; margin-top: 3%; margin-left: 5%" />
       <!-- <hr style="width: 100%" /> -->
-      <div class="surveyForm">
-        <div class="survey-des-div">
-          <div class="survey-des">
+      <div class="surveyForm"  style="margin-left:5%; margin-top: 2%">
+        <div class="survey-des-div" >
+          <div class="survey-des" >
             <h1 class="title">{{ title }}</h1>
             <p class="description">
               {{ description }}
             </p>
           </div>
-          <div class="button-div col-md-auto align-self-end">
+          <div class="button-div col-md-auto align-self-end" style="margin-right: 5%; margin-bottom: 1%">
             <button
-              class="next-button yellow-button rounded-button"
+              class="custom-btn2 btn-5"
+              style="margin-right:4%"
               @click="moveCreateForm()"
             >
               Create
             </button>
             <button
-              class="next-button red-button rounded-button ms-3"
+              class="custom-btn2 btn-5"
               @click="moveTemplateDefault()"
             >
               Exit
             </button>
           </div>
         </div>
-        <hr style="width: 90%; margin-top: 3%; margin-left: 5%" />
+        
         <div class="surveyContent">
-          <el-form ref="form" v-model="form">
+          <el-form ref="form" v-model="form"  style="margin-right:7%">
             <el-collapse>
               <el-collapse-item
                 v-for="(item, idx) in category"
@@ -69,11 +71,11 @@
             </el-collapse>
           </el-form>
         </div>
-        <div style="text-align: center">
+        <div style="text-align: center; margin-left:-15%">
           <img class="logo" src="@/assets/biglogo1.png" />
         </div>
       </div>
-    </div>
+    
   </div>
 </template>
 
@@ -297,11 +299,73 @@ export default {
   min-width: 10vw;
   justify-content: flex-end;
 }
-.page-title-div > h1 {
+
+
+.page-title-div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 15vh;
+}
+.page-title-div-child > h1 {
   font-size: 4rem;
 }
 
-.page-title-div {
-  margin-bottom: 2vh;
+.custom-btn2 {
+  width: 90px;
+  height: 30px;
+  color: #fff;
+  border-radius: 50px;
+  padding: 5px 2px;
+  font-family: "Lato", sans-serif;
+  font-weight: 500;
+  font-size: 10px;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+  box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 0.5),
+    inset -7px -7px 10px 0px rgba(0, 0, 0, 0.1),
+    7px 7px 20px 0px rgba(0, 0, 0, 0.1), 4px 4px 5px 0px rgba(0, 0, 0, 0.1);
+  text-shadow: 2px 2px 3px rgba(255, 255, 255, 0.5),
+    -4px -4px 6px rgba(116, 125, 136, 0.2);
+  outline: none;
 }
+
+.btn-5 {
+  border: none;
+  color: white;
+  background-color: #e39a52;
+}
+.btn-5:hover {
+  color: black;
+  background: transparent;
+  box-shadow: none;
+}
+.btn-5:before,
+.btn-5:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 2px;
+  width: 0;
+  background: #e39a52;
+  box-shadow: -1px -1px 5px 0px #fff, 7px 7px 20px 0px #0003,
+    4px 4px 5px 0px #0002;
+  transition: 400ms ease all;
+}
+.btn-5:after {
+  right: inherit;
+  top: inherit;
+  left: 0;
+  bottom: 0;
+}
+.btn-5:hover:before,
+.btn-5:hover:after {
+  width: 100%;
+  transition: 800ms ease all;
+}
+
 </style>
