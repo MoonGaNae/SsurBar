@@ -1,32 +1,57 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <Sidebar id="sidebar" v-if="showSide" />
+    <div v-if="showFrame" id="main-frame">
+      <div id="background-frame">
+        <RouterView id="router" :key="$route.fullPath" />
+      </div>
     </div>
-    <router-view />
+    <RouterView v-if="!showFrame" id="router" :key="$route.fullPath" />
   </div>
 </template>
 
+<script>
+import Sidebar from "@/components/common/Sidebar.vue";
+
+export default {
+  name: "App",
+  components: {
+    Sidebar,
+  },
+  computed: {
+    showSide() {
+      return !(
+        this.$route.name === "Form" ||
+        this.$route.name === "Finish" ||
+        this.$route.name == "ResultLink" ||
+        this.$route.name == "Login" ||
+        this.$route.name == "SurveyClosed" ||
+        this.$route.name == "SignUp"
+      );
+    },
+    showFrame() {
+      return !(
+        this.$route.name === "Form" ||
+        this.$route.name === "Finish" ||
+        this.$route.name == "Login" ||
+        this.$route.name == "SurveyClosed" ||
+        this.$route.name == "SignUp"
+      );
+    },
+  },
+};
+</script>
+
 <style>
+@import "./assets/style/buttons.css";
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+  display: flex;
 }
 
-#nav {
-  padding: 30px;
+#router {
+  width: 100%;
 }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
+@import "./assets/style/main.css";
 </style>
