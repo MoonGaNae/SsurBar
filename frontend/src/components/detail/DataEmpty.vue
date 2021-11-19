@@ -4,7 +4,7 @@
       <img class="desImage" src="@/assets/sad.png" />
     </div>
     <div>
-      <h1>아직 응답 데이터가 없습니다</h1>
+      <h1>응답 데이터가 없습니다</h1>
     </div>
   </div>
 </template>
