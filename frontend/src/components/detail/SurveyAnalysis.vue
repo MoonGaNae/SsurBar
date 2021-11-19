@@ -95,21 +95,24 @@
               ) in questionData.questionAnswerDtoList"
               :key="questionAnswerIdx"
             >
-              <div class="progress-bar-base">
-                <div
-                  v-if="questionAnswer.percentage != 0"
-                  class="progress-bar-color"
-                  :style="{ width: questionAnswer.percentage + '%' }"
-                >
-                  <div>{{ questionAnswer.sentence }}</div>
-                  <div>{{ questionAnswer.percentage }} %</div>
-                </div>
-                <div v-else class="zero-percent-bar">
-                  <div>{{ questionAnswer.sentence }}</div>
-                  <div>{{ questionAnswer.percentage }} %</div>
-                </div>
+              <div class="percentage-text">
+                <div>{{ questionAnswer.sentence }}</div>
+                <div>{{ questionAnswer.percentage }} %</div>
               </div>
-              <div>{{ questionAnswer.count }} 명</div>
+              <div class="bar-div">
+                <div class="progress-bar-base">
+                  <div
+                    v-if="questionAnswer.percentage != 0"
+                    class="progress-bar-color"
+                    :style="{ width: questionAnswer.percentage + '%' }"
+                  ></div>
+                  <div v-else class="zero-percent-bar">
+                    <!-- <div>{{ questionAnswer.sentence }}</div>
+                    <div>{{ questionAnswer.percentage }} %</div> -->
+                  </div>
+                </div>
+                <div class="count-div">{{ questionAnswer.count }} 명</div>
+              </div>
             </div>
           </div>
         </el-collapse-item>
@@ -489,7 +492,7 @@ export default {
 .progress-bar-base {
   background-color: #dde0e7;
   border-radius: 10px;
-  width: 95%;
+  width: 100%;
 }
 
 .question-div > div {
@@ -526,8 +529,13 @@ export default {
 .progress-div {
   width: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   margin-bottom: 1vh;
+}
+
+.progress-div > div {
+  width: 100%;
 }
 
 .progress-bar-color {
@@ -538,7 +546,7 @@ export default {
   align-items: center;
   justify-content: space-between;
   background-color: #9cbbff;
-  /* width: 80%; */
+
   border-radius: 10px;
   height: 100%;
 }
@@ -547,7 +555,26 @@ export default {
   height: 100%;
 }
 
+.bar-div {
+  display: flex;
+}
+
 .loading-div {
   height: 100%;
+}
+
+.count-div {
+  padding-left: 2%;
+  width: 10%;
+}
+
+.percentage-text {
+  display: flex;
+  justify-content: flex-start;
+  padding-right: 1vh;
+}
+
+.percentage-text > div {
+  padding-right: 1vw;
 }
 </style>
