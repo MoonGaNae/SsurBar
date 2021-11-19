@@ -18,7 +18,15 @@
         <div>
           <h3 style="d-flex; text-align:left; font-size:2.5rem">
             설문 제목 :
-            <span style="background: linear-gradient(to top, rgb(255, 228, 0) 40%, transparent 40%);">
+            <span
+              style="
+                background: linear-gradient(
+                  to top,
+                  rgb(255, 228, 0) 40%,
+                  transparent 40%
+                );
+              "
+            >
               {{ this.title }}
             </span>
           </h3>
@@ -254,10 +262,12 @@ export default {
       if (this.isValid()) {
         this.questionList = [];
 
+        let count = 1;
+
         this.categoryList.forEach((el) => {
           this.categoryNameList.push(el.title);
 
-          el.questionList.forEach((question, index) => {
+          el.questionList.forEach((question) => {
             let content = "{ ";
 
             question.choiceList.forEach((choice, index) => {
@@ -272,11 +282,13 @@ export default {
             let questionInfo = {
               title: question.title,
               isEssential: false,
-              number: index + 1,
+              number: count,
               questionType: 201,
               content: content,
               categoryName: el.title,
             };
+
+            count++;
 
             this.questionList.push(JSON.stringify(questionInfo));
           });
