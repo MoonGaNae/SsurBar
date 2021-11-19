@@ -111,21 +111,24 @@
                 ) in questionData.questionAnswerDtoList"
                 :key="questionAnswerIdx"
               >
-                <div class="progress-bar-base">
-                  <div
-                    v-if="questionAnswer.percentage != 0"
-                    class="progress-bar-color"
-                    :style="{ width: questionAnswer.percentage + '%' }"
-                  >
-                    <div>{{ questionAnswer.sentence }}</div>
-                    <div>{{ questionAnswer.percentage }} %</div>
-                  </div>
-                  <div v-else class="zero-percent-bar">
-                    <div>{{ questionAnswer.sentence }}</div>
-                    <div>{{ questionAnswer.percentage }} %</div>
-                  </div>
+                <div class="percentage-text">
+                  <div>{{ questionAnswer.sentence }}</div>
+                  <div>{{ questionAnswer.percentage }} %</div>
                 </div>
-                <div>{{ questionAnswer.count }} 명</div>
+                <div class="bar-div">
+                  <div class="progress-bar-base">
+                    <div
+                      v-if="questionAnswer.percentage != 0"
+                      class="progress-bar-color"
+                      :style="{ width: questionAnswer.percentage + '%' }"
+                    ></div>
+                    <div v-else class="zero-percent-bar">
+                      <!-- <div>{{ questionAnswer.sentence }}</div>
+                      <div>{{ questionAnswer.percentage }} %</div> -->
+                    </div>
+                  </div>
+                  <div class="count-div">{{ questionAnswer.count }} 명</div>
+                </div>
               </div>
             </div>
           </el-collapse-item>
@@ -606,10 +609,14 @@ export default {
   padding: 3%;
 }
 
+.progress-div > div {
+  width: 100%;
+}
+
 .progress-bar-base {
   background-color: #dde0e7;
   border-radius: 10px;
-  width: 95%;
+  width: 100%;
 }
 
 .survey-date {
@@ -645,6 +652,7 @@ export default {
   width: 100%;
   display: flex;
   justify-content: space-between;
+  flex-direction: column;
   margin-bottom: 1vh;
 }
 .team-name {
@@ -693,5 +701,25 @@ export default {
 
 .none-border {
   border-top: 0px;
+}
+
+.count-div {
+  padding-left: 2%;
+  width: 10%;
+}
+
+.bar-div {
+  height: 2vh;
+  display: flex;
+}
+
+.percentage-text {
+  display: flex;
+  justify-content: flex-start;
+  padding-right: 1vh;
+}
+
+.percentage-text > div {
+  padding-right: 1vw;
 }
 </style>
