@@ -2,10 +2,8 @@
 > 서울 기업연계 F101팀✨  
 강현구 문성욱 조현민 최혜원  
 
+![SSURBAR](https://user-images.githubusercontent.com/62040737/148211134-29d2b0ab-f229-4487-b35d-97cdd95b53cf.png)
 
-![SSURBAR](/uploads/13263a163823599e64e2287afd315635/SSURBAR.png)
-
-## 📌URL : [SSURBAR 바로가기](http://k5f001.p.ssafy.io/login)
 
 <br>
 
@@ -177,6 +175,3 @@
 
 <br><br>
 
-### 🎀 테스트 계정 정보
-- ID : ssafy@ssafy.com
-- PASSWORD : string
