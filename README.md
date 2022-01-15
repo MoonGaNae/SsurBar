@@ -46,26 +46,32 @@
 <br>
 
 ### 📌 핵심 기능
-![image](/uploads/5e302770cd1d9e61edc4c54938591bc2/image.png)
+
+![ssurbar1](https://user-images.githubusercontent.com/62040737/149624532-f2a27675-f55b-4a26-a58d-2363e9824eaf.png)
 
 <br><br>
 
 #### 1. 설문 작성  
-![KakaoTalk_Snapshot_20211118_153851](/uploads/d746086dd3455fdfcb47130e1a804de4/KakaoTalk_Snapshot_20211118_153851.png)
+
+![ssurbar2](https://user-images.githubusercontent.com/62040737/149624543-2c5afd9a-fef7-4cfd-9b80-a0a6ab3c7768.png)
+
 - 익명성이 보장되고 응답에 제한이 없는 설문 생성  
 - 기본 템플릿 제공  
 - 지난 설문조사 템플릿 복사 기능 제공  
 
 
 #### 2. 설문 결과 분석  
-![KakaoTalk_Snapshot_20211118_154007](/uploads/4bf551e43fd982063ca122ad93e4403d/KakaoTalk_Snapshot_20211118_154007.png)
-![KakaoTalk_Snapshot_20211118_153934](/uploads/24d1912e1cae29c5be8b609ff8cb3436/KakaoTalk_Snapshot_20211118_153934.png)
+
+![ssurbar3](https://user-images.githubusercontent.com/62040737/149624549-368e8fdb-23b1-4bef-839c-bdb9e044ced7.png)
+![ssurbar4](https://user-images.githubusercontent.com/62040737/149624548-b48459e1-49ec-4e4f-9b58-ccdc7dddc03f.png)
+
 - 한눈에 들어오는 그래프  
 - 항목별 설문 결과 수치화  
 
-#### 3. 동일 설문 비교  
-![비교1](/uploads/5eefdd0589a37b51baa4d3ecaefff35a/비교1.png)
-![비교2](/uploads/8017e3a983c2f9064d1d4d756aa462da/비교2.png)
+#### 3. 동일 설문 비교 
+![ssurbar5](https://user-images.githubusercontent.com/62040737/149624560-9352fa64-35e8-4342-8fc3-a9e6ce679d15.png)
+![ssurbar6](https://user-images.githubusercontent.com/62040737/149624564-9065cf44-70da-45bf-bcfd-a8e6b1e7947a.png)
+
 - 그래프를 통한 비교  
 
 <br>
@@ -120,13 +126,14 @@
 
 
 ### 🔨 시스템 아키텍쳐
-![삼성SDS_기업연계_프로젝트_최종발표](/uploads/a7d07aa203a7cba242e74849cbbbc13f/삼성SDS_기업연계_프로젝트_최종발표.png)
+![ssurbar7](https://user-images.githubusercontent.com/62040737/149624570-a92c5f83-d05d-4a41-826e-76bd4a9fab87.png)
 
 <br><br>
 
 ### 💎 기능명세서
 
-![image](/uploads/d41601b5e31513dd76196101dc468239/image.png)
+
+![image (1)](https://user-images.githubusercontent.com/62040737/149624593-77967f57-46b7-4c92-9ffd-79d004fca07a.png)
 
 🔗 자세히 보기 : https://docs.google.com/spreadsheets/d/1EWhW19g2spP30Q2yUSbq1GYBjWtOHhR2NHKgYrmg_Yk/edit#gid=0
 
@@ -134,7 +141,8 @@
 
 ### 📖 와이어프레임
 
-![image](/uploads/f3445d1c9c257ee95c316f404c5ce56f/image.png)
+![image (2)](https://user-images.githubusercontent.com/62040737/149624594-d6b8a3e3-0d63-48c5-8692-93e24d70435a.png)
+
 
 🔗 자세히 보기 : https://www.figma.com/file/K6bO4JZOLAtoZkXMrfGnvI/%EA%B8%B0%EC%97%85%EC%97%B0%EA%B3%84?node-id=0%3A1
 
@@ -142,7 +150,7 @@
 
 ### 📌 ERD Diagram
 
-![image](/uploads/35682ee09500fb45003f92485c07495e/image.png)
+![ssurbar8](https://user-images.githubusercontent.com/62040737/149624573-73d8858b-a600-4eaf-bc85-2504e6390ee1.png)
 
 🔗 자세히 보기 : https://www.erdcloud.com/d/pWYeAFyPAHfEf5vTu
 
@@ -151,7 +159,8 @@
 
 ### 🎨 목업
 
-![image](/uploads/c8c21da3f4c2ce471175d5547f6a91e7/image.png)
+![image (3)](https://user-images.githubusercontent.com/62040737/149624597-0ceac336-1738-4e1b-99d9-957cd009b95d.png)
+
 
 🔗 자세히 보기 : https://www.figma.com/file/K6bO4JZOLAtoZkXMrfGnvI/%EA%B8%B0%EC%97%85%EC%97%B0%EA%B3%84?node-id=3%3A2
 
@@ -170,7 +179,8 @@
 <br><br>
 
 ### 📢 팀 소개
-![image](/uploads/77f563d7f0e551b1078d479663820ffc/image.png)
+![image (4)](https://user-images.githubusercontent.com/62040737/149624602-c9347999-f17e-4951-b783-75035b7422c9.png)
+
 [🔗 노션 링크](https://www.notion.so/7ca9c079a57c44acb4a2926fd1ea218b)
 
 <br><br>
